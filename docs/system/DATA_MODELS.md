@@ -26,7 +26,7 @@ The overall structure of the model documents at any point in the system is as fo
 
 ```
 
-Depending on the context, any of "admin", "record" and "index" could be omitted.
+Depending on the context, any of **admin**, **record** and **index** could be omitted.
 
 ## Core Record Model
 
@@ -133,7 +133,8 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
     ],
 
     "jm:apc" : [
-        { 
+        {
+            "ref" : "<system generated reference for this payment>",
             "date_applied" : "<date APC was initially applied for by author (iso format)>",
             "submitted_by" : {
                 "name" : "<submitter's name>",
@@ -215,7 +216,7 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
 ## Manifestation: Institutional CRUD API - Create/Update
 
 When an institution provides data to the aggregation via the API, they need only supply the apc data record, as 
-defined above.  They may optionally provide the JSON-LD @context element.
+defined above.  They may optionally provide the JSON-LD **@context** element.
 
 ```json
 {
@@ -230,6 +231,9 @@ defined above.  They may optionally provide the JSON-LD @context element.
     <the apc data record itself>
 }
 ```
+
+Note that **record.jm:apc.ref** cannot be provided by institutions - if it is, it will be overwritten by a system generated
+value.
 
 ## Manifestation: Institution/Public Search API - Retrieve
 
@@ -263,7 +267,7 @@ which may be present).
 ## Manifestation: Request Register - Create/Update
 
 The data that is stored in the request register on submission of a create or update.  In the case of an update
-where the public id is provided via the URL space, this is recorded as the public_id.
+where the public id is provided via the URL space, this is recorded as the **admin.public_id**.
 
 ```json
 {
@@ -286,7 +290,7 @@ where the public id is provided via the URL space, this is recorded as the publi
 ## Manifestation: Request Register - Delete
 
 The data that is stored in the request register on submission of a delete.  In the case of a delete
-where the public id is provided via the URL space, this is recorded as the public_id.  Otherwise, the
+where the public id is provided via the URL space, this is recorded as the **admin.public_id**.  Otherwise, the
 record will only need to contain the article identifiers from which to delete.
 
 ```json
@@ -315,6 +319,12 @@ record will only need to contain the article identifiers from which to delete.
 
 ## Manifestation: Public Data Core
 
+The data that is stored in the public data core, which forms the definitive record of an APC.
+
+The **admin.apc_owners** field is created based on which apc entries in the record are provided by which user accounts.  
+This allows a single user account to supply and control apc data from multiple institutions, while the system maintains a 
+consistent update/delete cycle.
+
 ```json
 {
     "id" : "<opaque public identifier for the record>",
@@ -326,7 +336,9 @@ record will only need to contain the article identifiers from which to delete.
     },
     
     "admin" : {
-        "owners" : ["<user account id of source organisations>"]
+        "apc_owners" : [
+            {"owner" : "<user account id of organisation>", "ref" : "<reference of apc payment record>"}
+        ]
     },
     
     "index" : {
