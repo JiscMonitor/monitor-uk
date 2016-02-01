@@ -227,7 +227,7 @@ Where possible top-level keys in the model have been taken from the following me
 When an institution provides data to the aggregation via the API, they need only supply the apc data record, as 
 defined above.  They may optionally provide the JSON-LD **@context** element.
 
-```json
+```
 {
     "@context": {
         "jm": "http://jiscmonitor.jiscinvolve.org/",
@@ -249,7 +249,7 @@ value.
 When an institution retrieves one or more records from the public search API (ignoring all the other search API meta-fields
 which may be present).
 
-```json
+```
 {
     "@context": {
         "jm": "http://jiscmonitor.jiscinvolve.org/",
@@ -278,7 +278,7 @@ which may be present).
 The data that is stored in the request register on submission of a create or update.  In the case of an update
 where the public id is provided via the URL space, this is recorded as the **admin.public_id**.
 
-```json
+```
 {
     "id" : "<opaque request identifier for the record>",
     "created_date" : "<date the record was created>",
@@ -302,7 +302,7 @@ The data that is stored in the request register on submission of a delete.  In t
 where the public id is provided via the URL space, this is recorded as the **admin.public_id**.  Otherwise, the
 record will only need to contain the article identifiers from which to delete.
 
-```json
+```
 {
     "id" : "<opaque request identifier for the record>",
     "created_date" : "<date the record was created>",
@@ -334,7 +334,7 @@ The **admin.apc_owners** field is created based on which apc entries in the reco
 This allows a single user account to supply and control apc data from multiple institutions, while the system maintains a 
 consistent update/delete cycle.
 
-```json
+```
 {
     "id" : "<opaque public identifier for the record>",
     "created_date" : "<date the record was created>",
