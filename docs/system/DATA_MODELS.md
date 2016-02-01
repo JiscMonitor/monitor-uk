@@ -4,8 +4,7 @@
 
 The overall structure of the model documents at any point in the system is as follows:
 
-```json
-
+```
 {
     "id" : "<opaque system id for the record>",
     "created_date" : "<date the record was created>",
@@ -13,7 +12,7 @@ The overall structure of the model documents at any point in the system is as fo
     
     "record" : {
         <the apc data record itself>
-    }
+    },
     
     "admin" : {
         <any internal administrative or state information for the record>
@@ -31,12 +30,18 @@ Depending on the context, any of **admin**, **record** and **index** could be om
 ## Core Record Model
 
 This is the data-structure of the core information held about an APC, its related article, and other OA 
-compliance information.
+compliance information.  It has been expressed using the syntax of [JSON-LD](http://json-ld.org/).
 
 Bibliographic metadata supported is a minimal set for the purposes of identification of the work, and some basic
 reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
 
-```json
+Where possible top-level keys in the model have been taken from the following metadata schemas/profiles:
+
+* [The DCMI Terms](http://dublincore.org/documents/dcmi-terms/)
+* [RIOXX](http://rioxx.net/v2-0-beta-1/)
+* [NISO Access and Licence Indicators (ALI)](http://www.niso.org/workrooms/ali/)
+
+```
 
 {
     "dcterms:dateSubmitted" : "<date article was submitted for publication (iso format)>",
@@ -66,7 +71,9 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
             "affiliation" : [
                 {
                     "name" : "<name of organisation>",
-                    {"type" : "<identifier type>", "id" : "<organisation identifier>"}
+                    "identifier" : [
+                        {"type" : "<identifier type>", "id" : "<organisation identifier>"}
+                    ]
                 }
             ]
         }
@@ -82,7 +89,9 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
             "affiliation" : [
                 {
                     "name" : "<name of organisation>",
-                    {"type" : "<identifier type>", "id" : "<organisation identifier>"}
+                    "identifier" : [
+                        {"type" : "<identifier type>", "id" : "<organisation identifier>"}
+                    ]
                 }
             ]
         }
@@ -127,7 +136,7 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
             "funder_identifier" : [
                 {"type" : "isni", "id" : "<funder isni>"}
                 {"type" : "<identifier type>", "id" : "<funder identifier>"}
-            ]
+            ],
             "grant_number" : "<funder's grant number>"
         }
     ],
@@ -143,17 +152,17 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
                     {"type" : "email", "id" : "<submitter's email address>"},
                     {"type" : "<identifier type>", "id" : "<submitter identifier>"}
                 ]
-            }
+            },
             
             "organisation_name" : "<name of organisation>",
             "organisation_identifier" : [
                 {"type" : "<identifier type>", "id" : "<organisation identifier>"}
-            ]
+            ],
             "organisation_department" : "<name of department>",
             
             "date_paid" : "<date apc paid (iso format)>",
             "amount" : <amount paid in native currency, excluding vat (float)>,
-            "vat" : <vat paid in native currency (float)>
+            "vat" : <vat paid in native currency (float)>,
             "currency" : "<currency paid in - from iso currency code list>",
             "amount_gbp" : <amount paid in equivalent GBP, excluding vat (float)>,
             "vat_gbp" : <vat paid in equivalent GBP (float)>,
@@ -185,7 +194,7 @@ reporting capabilities.  Monitor UK is NOT a bibliographic aggregation.
     ],
     
     "ali:free_to_read" : {
-        "free_to_read" : true|false
+        "free_to_read" : true|false,
         "start_date" : "<date free to read started>",
         "end_date" : "<date free to read ended>",
     },
@@ -250,7 +259,7 @@ which may be present).
         "ali" : "http://www.niso.org/schemas/ali/1.0/jsonld.json"
     },
     
-    results: [
+    "results": [
         {
             "id" : "<opaque public identifier for the record>",
             "created_date" : "<date the record was created>",
