@@ -12,7 +12,7 @@ THREADED = True
 # elasticsearch back-end connection settings
 ELASTIC_SEARCH_HOST = "http://localhost:9200"
 ELASTIC_SEARCH_INDEX = "db"
-ELASTIC_SEARCH_VERSION = "1.4.4"
+ELASTIC_SEARCH_VERSION = "1.7.5"
 
 # Classes from which to retrieve ES mappings to be used in this application
 # (note that if ELASTIC_SEARCH_DEFAULT_MAPPINGS is sufficient, you don't need to
