@@ -351,18 +351,17 @@ consistent update/delete cycle.
     },
     
     "index" : {
-        "apc_total_amount_gbp" : <sum of jm:apc.amount_gbp (float)>,
-        "apc_total_vat_gbp" : <sum of jm:apc.vat_gbp (float)>,
-        "apc_total_gbp" : <sum of apc_total_amount_gbp and apc_total_vat_gbp (float)>,
-        "sum_total_gbp" : <sum of apc_total_gbp and jm:apc.additional_costs (float)>,
+        "apc_total_amount_gbp" : [<sum of jm:apc.amount_gbp (float)>],
+        "apc_total_vat_gbp" : [<sum of jm:apc.vat_gbp (float)>],
+        "apc_total_gbp" : [<sum of apc_total_amount_gbp and apc_total_vat_gbp (float)>],
+        "sum_total_gbp" : [<sum of apc_total_gbp and jm:apc.additional_costs (float)>],
         
-        "doi" : "<article doi>",
-        "pmcid" : "<article pmcid>",
-        "pmid" : "<article pmid>",
-        "url" : "<article url>",
+        "doi" : ["<article doi>"],
+        "pmcid" : ["<article pmcid>"],
+        "pmid" : ["<article pmid>"],
+        "url" : ["<article url>"],
         "issn" : ["<journal issn>"],
-        "funds" : ["<funds apcs paid from>"],
-        "ascii_unpunc_title" : "<normalised title string for searching>"
+        "ascii_unpunc_title" : ["<normalised title string for searching>"]
     }
 }
 ```
