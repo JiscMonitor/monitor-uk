@@ -16,6 +16,10 @@ class PublicAPCFixtureFactory(object):
     def example(cls):
         return deepcopy(EXAMPLE_PUBLIC)
 
+    @classmethod
+    def apc_record(cls):
+        return deepcopy(EXAMPLE_PUBLIC["record"]["jm:apc"][0])
+
 EXAMPLE_RECORD = {
     "dcterms:dateSubmitted" : "2003-01-01T00:00:00Z",
     "dcterms:dateAccepted" : "2004-01-01T00:00:00Z",
@@ -205,13 +209,13 @@ EXAMPLE_REQUEST = {
 }
 
 REFFED_EXAMPLE_RECORD = deepcopy(EXAMPLE_RECORD)
-EXAMPLE_RECORD["jm:apc"][0]["ref"] = "1111111111"
+REFFED_EXAMPLE_RECORD["jm:apc"][0]["ref"] = "1111111111"
 EXAMPLE_PUBLIC = {
     "id" : "123456789",
     "created_date" : "2001-01-01T00:00:00Z",
     "last_updated" : "2002-01-01T00:00:00Z",
 
-    "record" : EXAMPLE_RECORD,
+    "record" : REFFED_EXAMPLE_RECORD,
 
     "admin" : {
         "apc_owners" : [

@@ -1,8 +1,23 @@
 from octopus.modules.infosys.models import InfoSysModel
 from octopus.lib import dataobj
 from service import queries
+import uuid
 
 class RecordMethods(dataobj.DataObj):
+
+    @property
+    def apc_records(self):
+        return self._get_list("record.jm:apc")
+
+    @apc_records.setter
+    def apc_records(self, val):
+        self._set_with_struct("record.jm:apc", val)
+
+    def remove_apc_by_ref(self, ref):
+        self._delete_from_list("record.jm:apc", matchsub={"ref" : ref})
+
+    def add_apc_record(self, apc_record):
+        self._add_to_list_with_struct("record.jm:apc", apc_record)
 
     @property
     def doi(self):
@@ -54,19 +69,74 @@ class Request(InfoSysModel, RecordMethods):
     def public_id(self, val):
         self._set_with_struct("admin.public_id", val)
 
+    def make_public_apc(self):
+        # make a new record which just contains the record data
+        pub = PublicAPC()
+        pub.record = self.record
+
+        # go through all the apc records and assign references.
+        # We do this by reading and then completely re-setting to ensure
+        # that we go through full struct validation, so there's no chance
+        # of us introducing badly formatted data
+        refs = []
+        updated_apcs = []
+        for apc in pub.apc_records:
+            ref = uuid.uuid4()
+            refs.append(ref)
+            apc["ref"] = ref
+            updated_apcs.append(apc)
+        pub.apc_records = updated_apcs
+
+        # now add the admin data, linking the account to the reference(s)
+        for ref in refs:
+            pub.set_apc_ref(self.owner, ref)
+
+        return pub
+
 class PublicAPC(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
         super(PublicAPC, self).__init__(type="public", record_struct=CORE_STRUCT, admin_struct=PUBLIC_ADMIN_STRUCT, index_rules=PUBLIC_INDEX_RULES, full=full)
 
-    def set_apc_ref(self, account_id, ref):
-        ro = {"owner" : account_id, "ref" : ref}
-        self._add_to_list_with_struct("admin.apc_owners", ro)
+    #####################################################
+    ## Methods for working with apc ref admin data
 
     def get_apc_refs(self, account_id):
         owners = self._get_single("admin.apc_owners")
         if owners is None:
             return []
-        return [x.get("ref") for x in owners]
+        return [x.get("ref") for x in owners if x.get("owner") == account_id]
+
+    def set_apc_ref(self, account_id, ref):
+        ro = {"owner" : account_id, "ref" : ref}
+        self._add_to_list_with_struct("admin.apc_owners", ro)
+
+    def remove_apc_refs(self, account_id):
+        self._delete_from_list("admin.apc_owners", matchsub={"owner" : account_id})
+
+    def list_owners(self):
+        return list(set([x.get("owner") for x in self._get_list("admin.apc_owners")]))
+
+    ######################################################
+    ## Methods for working with apc records
+
+    def get_apcs_by_owner(self, owner):
+        refs = self.get_apc_refs(owner)
+        return [x for x in self.apc_records if x.get("ref") in refs]
+
+    def add_apc_for_owner(self, owner, apc_record):
+        if "ref" not in apc_record:
+            apc_record["ref"] = uuid.uuid4()
+        self.add_apc_record(apc_record)
+        self.set_apc_ref(owner, apc_record.get("ref"))
+
+    def remove_apcs_by_owner(self, owner):
+        refs = self.get_apc_refs(owner)
+        for r in refs:
+            self.remove_apc_by_ref(r)
+        self.remove_apc_refs(owner)
+
+    #####################################################
+    ## Data access methods
 
     def find_by_doi(self, val):
         q = queries.IndexedIdentifierQuery("doi", val)
