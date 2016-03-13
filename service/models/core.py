@@ -540,3 +540,215 @@ CORE_STRUCT = {
         }
     }
 }
+
+RECORD_MERGE_RULES = {
+    "copy_if_missing" : [
+        "dcterms:dateSubmitted",
+        "dcterms:dateAccepted",
+        "rioxxterms:publication_date",
+        "dc:identifier",
+        "rioxxterms:type",
+        "dc:title",
+        "dc:subject",
+        "rioxxterms:author",
+        "rioxxterms:contributor",
+        "dcterms:publisher",
+        "dc:source",
+        "rioxxterms:project",
+        "ali:license_ref",
+        "jm:license_received",
+        "jm:repository",
+        "jm:provenance"
+    ],
+    "override" : [
+        "rioxxterms:version",
+        "ali:free_to_read"
+    ],
+    "list_append" : {
+        "dc:identifier" : {
+            "dedupe" : True,
+            "match" : [
+                { "must" : ["$.type", "$.id"]}
+            ]
+        },
+        "dc:subject" : {"dedupe" : True},
+        "rioxxterms:author" : {
+            "dedupe" : True,
+            "match" : [
+                {
+                    "object_selector" : "$.identifier",
+                    "must" : ["$.type", "$.id"]
+                },
+                {
+                    "must" : "$.name"
+                }
+            ]
+        },
+        "rioxxterms:contributor" : {
+            "dedupe" : True,
+            "match" : [
+                {
+                    "object_selector" : "$.identifier",
+                    "must" : ["$.type", "$.id"]
+                },
+                {
+                    "must" : "$.name"
+                }
+            ]
+        },
+        "rioxxterms:project" : {
+            "dedupe" : True,
+            "match" : [
+                {
+                    "object_selector" : "$.identifier",
+                    "must" : ["$.type", "$.id"]
+                },
+                {
+                    "must" : "$.funder_name"
+                }
+            ]
+        },
+        "ali:license_ref" : {
+            "dedupe" : True,
+            "match" : [
+                {
+                    "must" : ["$.type", "$.version", "$.url", "$.start_date", "$.source"]
+                }
+            ]
+        },
+        "jm:license_received" : {
+            "dedupe" : True,
+            "match" : [
+                {
+                    "must" : ["$.date", "$.result"]
+                }
+            ]
+        },
+        "jm:repository" : {
+            "dedupe" : True,
+            "match" : {
+                "must" : ["$.repo_url"]
+            }
+        },
+        "jm:provenance" : { "dedupe" : True }
+    },
+    "merge" : {
+        "rioxxterms:author" : {
+            "copy_if_missing" : [
+                "name",
+                "identifier",
+                "affiliation"
+            ],
+            "list_append" : {
+                "identifier" : {
+                    "dedupe" : True,
+                    "match" : [
+                        { "must" : ["$.type", "$.id"]}
+                    ]
+                },
+                "affiliation" : {
+                    "dedupe" : True,
+                    "match" : [
+                        {
+                            "object_selector" : "$.identifier",
+                            "must" : ["$.type", "$.id"]
+                        },
+                        {
+                            "must" : "$.name"
+                        }
+                    ]
+                }
+            },
+            "merge" : {
+                "affiliation" : {
+                    "copy_if_missing" : [
+                        "name",
+                        "identifier"
+                    ],
+                    "list_append" : {
+                        "identifier" : {
+                            "dedupe" : True,
+                            "match" : [
+                                { "must" : ["$.type", "$.id"]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "rioxxterms:contributor" : {
+            "copy_if_missing" : [
+                "name",
+                "identifier",
+                "affiliation"
+            ],
+            "list_append" : {
+                "identifier" : {
+                    "dedupe" : True,
+                    "match" : [
+                        { "must" : ["$.type", "$.id"]}
+                    ]
+                },
+                "affiliation" : {
+                    "dedupe" : True,
+                    "match" : [
+                        {
+                            "object_selector" : "$.identifier",
+                            "must" : ["$.type", "$.id"]
+                        },
+                        {
+                            "must" : "$.name"
+                        }
+                    ]
+                }
+            },
+            "merge" : {
+                "affiliation" : {
+                    "copy_if_missing" : [
+                        "name",
+                        "identifier"
+                    ],
+                    "list_append" : {
+                        "identifier" : {
+                            "dedupe" : True,
+                            "match" : [
+                                { "must" : ["$.type", "$.id"]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "dcterms:publisher" : {
+            "copy_if_missing" : [
+                "name",
+                "identifier"
+            ],
+            "list_append" : {
+                "identifier" : {
+                    "dedupe" : True,
+                    "match" : [
+                        { "must" : ["$.type", "$.id"]}
+                    ]
+                }
+            }
+        },
+        "dc:source" : {
+            "copy_if_missing" : {
+                "name",
+                "identifier",
+                "oa_type",
+                "self_archiving"
+            },
+            "merge" : {
+                "self_archiving" : {
+                    "copy_if_missing" : [
+                        "preprint",
+                        "postprint",
+                        "publisher"
+                    ]
+                }
+            }
+        }
+    }
+}
