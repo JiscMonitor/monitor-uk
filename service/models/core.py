@@ -16,6 +16,9 @@ class RecordMethods(dataobj.DataObj):
     def apc_records(self, val):
         self._set_with_struct("record.jm:apc", val)
 
+    def has_apcs(self):
+        return len(self.apc_records) > 0
+
     def remove_apc_by_ref(self, ref):
         self._delete_from_list("record.jm:apc", matchsub={"ref" : ref})
 

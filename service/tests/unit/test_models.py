@@ -109,6 +109,10 @@ class TestModels(ESTestCase):
             for apc in inst.apc_records:
                 assert "ref" not in apc
 
+            assert inst.has_apcs() is True
+            inst.apc_records = []
+            assert inst.has_apcs() is False
+
     def test_05_request_dao(self):
         dao = Request()
 

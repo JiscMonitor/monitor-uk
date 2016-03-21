@@ -43,6 +43,8 @@ class RequestApi(object):
 
 class PublicApi(object):
 
+    ####################################################
+    ## primary entry points to the Public APC API
     @classmethod
     def publish(cls, req):
         pub = PublicApi.find_public_record(req)
@@ -55,6 +57,24 @@ class PublicApi(object):
             pub.save()
 
         return pub
+
+    @classmethod
+    def remove(cls, req):
+        pub = PublicApi.find_public_record(req)
+
+        # if this is a request to remove something that doesn't exist, there's no more to do
+        if pub is None:
+            return
+
+        PublicApi.separate_records(req, pub)
+
+        if pub.has_apcs():
+            pub.save()
+        else:
+            pub.delete()
+
+    ####################################################
+    ## supporting methods for the Public APC API
 
     @classmethod
     def find_public_record(cls, req):
@@ -142,17 +162,17 @@ class PublicApi(object):
 
     @classmethod
     def separate_records(cls, source, target):
-        pass
-
-    @classmethod
-    def remove(cls, pub):
-        pass
+        # ok, this method turned out to be a lot easier than expected!
+        # we're not currently attempting to roll-back any metadata contributions,
+        # but if we were, this is the place to do it.
+        target.remove_apcs_by_owner(source.owner)
 
     @classmethod
     def enhance_metadata(cls, source, target):
         target.merge_records(source)
         return target
 
+# FIXME: I think this will probably go away, as all content will be delivered fully enhanced, or not enhanced at all
 class EnhancementsApi(object):
 
     @classmethod

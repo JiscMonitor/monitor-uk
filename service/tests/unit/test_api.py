@@ -6,6 +6,7 @@ from service.models import Request, PublicAPC
 from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory
 
 from copy import deepcopy
+import time
 
 class TestModels(ESTestCase):
     def setUp(self):
@@ -49,6 +50,9 @@ class TestModels(ESTestCase):
 
         r1 = r.pull(r.id)
         assert r1 is not None
+        assert r1.owner == acc.id
+        assert r1.action == "delete"
+        assert r1.public_id == "01010101"
 
     def test_02_find_public_record(self):
         source = PublicAPCFixtureFactory.example()
@@ -257,5 +261,70 @@ class TestModels(ESTestCase):
         record = pub2.record
         del record["jm:apc"]
         assert record == result
+
+    def test_07_separate_records(self):
+        apc_record = PublicAPCFixtureFactory.apc_record()
+
+        req = Request()
+        req.owner = "test"
+
+        pub = PublicAPC()
+        pub.add_apc_for_owner("test", apc_record)
+        pub.add_apc_for_owner("test", apc_record)
+
+        assert len(pub.apc_records) == 2
+
+        PublicApi.separate_records(req, pub)
+
+        assert not pub.has_apcs()
+
+    def test_08_remove_separate(self):
+        source = RequestFixtureFactory.example()
+        req = Request(source)
+        req.owner = "test"
+
+        # create a record with 2 distinct apcs from different owners
+        source2 = PublicAPCFixtureFactory.example()
+        apc_record = PublicAPCFixtureFactory.apc_record()
+        del apc_record["ref"]   # do this so that the ref gets created correctly later
+        pub = PublicAPC(source2)
+        pub.add_apc_for_owner("test", apc_record)
+        pub.save(blocking=True)
+
+        # now request the removal
+        PublicApi.remove(req)
+        time.sleep(2)
+
+        dao = PublicAPC()
+        pub2 = dao.pull(pub.id)
+
+        assert len(pub2.get_apcs_by_owner("test")) == 0
+        assert len(pub2.get_apcs_by_owner("abcdefg")) == 1
+
+    def test_09_remove_permanent(self):
+        source = RequestFixtureFactory.example()
+        req = Request(source)
+        req.owner = "test"
+
+        # create a record with 2 distinct apcs from different owners
+        source2 = PublicAPCFixtureFactory.example()
+        pub = PublicAPC(source2)
+        pub.remove_apcs_by_owner("abcdefg")     # clear the existing apc record
+
+        apc_record = PublicAPCFixtureFactory.apc_record()
+        del apc_record["ref"]   # do this so that the ref gets created correctly later
+        pub.add_apc_for_owner("test", apc_record)   # add a new, known one
+
+        pub.save(blocking=True)
+
+        # now request the removal
+        PublicApi.remove(req)
+        time.sleep(2)
+
+        dao = PublicAPC()
+        pub2 = dao.pull(pub.id)
+        assert pub2 is None
+
+
 
 
