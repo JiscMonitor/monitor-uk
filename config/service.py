@@ -36,7 +36,8 @@ SECRET_KEY = "super-secret-key"
 
 ACCOUNT_LIST_USERS = True
 
-ACCOUNT_MODEL = "octopus.modules.account.models.BasicAccount"
+ACCOUNT_MODEL = "service.models.MonitorUKAccount"
+ACCOUNT_USER_FORM_CONTEXT = "service.forms.account.MonitorUKUserFormContext"
 
 CLIENTJS_ACCOUNT_LIST_ENDPOINT = "/account_query/account"
 
@@ -49,7 +50,7 @@ QUERY_ROUTE = {
             "filters" : [
                  "octopus.modules.account.dao.query_filter"
              ],
-            "dao" : "octopus.modules.account.dao.BasicAccountDAO"
+            "dao" : "service.models.MonitorUKAccount"
         }
     }
 }
