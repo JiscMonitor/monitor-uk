@@ -39,22 +39,13 @@ def static(filename):
 from octopus.modules.clientjs.configjs import blueprint as configjs
 app.register_blueprint(configjs)
 
-# Autocomplete endpoint
-from octopus.modules.es.autocomplete import blueprint as autocomplete
-app.register_blueprint(autocomplete, url_prefix='/autocomplete')
-
 from octopus.modules.crud.api import blueprint as crud
 app.register_blueprint(crud, url_prefix="/api")
 
 from octopus.modules.es.query import blueprint as query
+app.register_blueprint(query, url_prefix="/account_query")
 app.register_blueprint(query, url_prefix="/query")
 
-# Sherpa Fact integration endpoint
-from octopus.modules.sherpafact.proxy import blueprint as fact
-app.register_blueprint(fact, url_prefix="/fact")
-
-from octopus.modules.clientjs.fragments import blueprint as fragments
-app.register_blueprint(fragments, url_prefix="/frag")
 
 # adding account management, which enables the login functionality
 from octopus.modules.account.account import blueprint as account

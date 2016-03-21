@@ -18,7 +18,7 @@ ELASTIC_SEARCH_VERSION = "1.7.5"
 # (note that if ELASTIC_SEARCH_DEFAULT_MAPPINGS is sufficient, you don't need to
 # add anything here
 ELASTIC_SEARCH_MAPPINGS = [
-    # "service.dao.MyDAO"
+    "octopus.modules.account.dao.BasicAccountDAO",
 ]
 
 # initialise the index with example documents from each of the types
@@ -31,8 +31,28 @@ ELASTIC_SEARCH_EXAMPLE_DOCS = [
 ############################################
 # important overrides for account module
 
-ACCOUNT_ENABLE = False
+ACCOUNT_ENABLE = True
 SECRET_KEY = "super-secret-key"
+
+ACCOUNT_LIST_USERS = True
+
+ACCOUNT_MODEL = "octopus.modules.account.models.BasicAccount"
+
+CLIENTJS_ACCOUNT_LIST_ENDPOINT = "/account_query/account"
+
+# You will also need to specify the query route as follows
+QUERY_ROUTE = {
+    "account_query" : {
+        "account" : {
+            "auth" : True,
+            "role" : "list-users",
+            "filters" : [
+                 "octopus.modules.account.dao.query_filter"
+             ],
+            "dao" : "octopus.modules.account.dao.BasicAccountDAO"
+        }
+    }
+}
 
 #############################################
 # important overrides for storage module
