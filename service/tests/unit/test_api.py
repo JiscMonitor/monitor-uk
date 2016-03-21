@@ -188,3 +188,74 @@ class TestModels(ESTestCase):
         assert "ccccc" not in refs
         assert "ddddd" in refs
 
+    def test_05_enhance_metadata(self):
+        merge_source = PublicAPCFixtureFactory.record_merge_source()
+        merge_target = PublicAPCFixtureFactory.record_merge_target()
+        result = PublicAPCFixtureFactory.record_merge_result()
+
+        source = PublicAPC()
+        source.record = merge_source
+        source.set_apc_ref("22222", "bbbbb")
+
+        target = PublicAPC()
+        target.record = merge_target
+        target.set_apc_ref("11111", "aaaaa")
+
+        PublicApi.enhance_metadata(source, target)
+
+        assert target.record == result
+        assert target.get_apc_refs("11111") == ["aaaaa"]
+        assert target.get_apc_refs("22222") == []
+
+    def test_06_publish_update(self):
+        merge_source = PublicAPCFixtureFactory.record_merge_source()
+        merge_target = PublicAPCFixtureFactory.record_merge_target()
+        apc_record = PublicAPCFixtureFactory.apc_record()
+        result = PublicAPCFixtureFactory.record_merge_result()
+
+        del merge_source["jm:apc"]
+        del merge_target["jm:apc"]
+        del result["jm:apc"]
+
+        first = deepcopy(apc_record)
+        second = deepcopy(apc_record)
+        third = deepcopy(apc_record)
+
+        first["organisation_name"] = "First"
+        del first["ref"]
+        second["organisation_name"] = "Second"
+        del second["ref"]
+        third["organisation_name"] = "Third"
+        del third["ref"]
+
+        req = Request()
+        req.record = merge_source
+        req.add_apc_record(first)
+        req.owner = "11111"
+
+        pub = PublicAPC()
+        pub.record = merge_target
+        pub.add_apc_for_owner("22222", second)
+        pub.add_apc_for_owner("11111", third)
+        pub.save(blocking=True)
+
+        PublicApi.publish(req)
+
+        dao = PublicAPC()
+        pub2 = dao.pull(pub.id)
+
+        # first check that the apcs are as we would expect
+        one = pub2.get_apcs_by_owner("11111")
+        two = pub2.get_apcs_by_owner("22222")
+
+        assert len(one) == 1
+        assert len(two) == 1
+        assert one[0]["organisation_name"] == "First"
+        assert two[0]["organisation_name"] == "Second"
+
+        # now check that the metadata merge proceeded correctly
+        record = pub2.record
+        del record["jm:apc"]
+        assert record == result
+
+

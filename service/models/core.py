@@ -1,7 +1,10 @@
 from octopus.modules.infosys.models import InfoSysModel
-from octopus.lib import dataobj
+from octopus.lib import dataobj, dictmerge
 from service import queries
 import uuid
+
+class ModelException(Exception):
+    pass
 
 class RecordMethods(dataobj.DataObj):
 
@@ -134,6 +137,14 @@ class PublicAPC(InfoSysModel, RecordMethods):
         for r in refs:
             self.remove_apc_by_ref(r)
         self.remove_apc_refs(owner)
+
+    #####################################################
+    ## Merge capability
+
+    def merge_records(self, source):
+        if not isinstance(source, PublicAPC):
+            raise ModelException("Attempt to merge a PublicAPC with another kind of record")
+        self.record = dictmerge.merge(source.record, self.record, RECORD_MERGE_RULES)
 
     #####################################################
     ## Data access methods
@@ -558,12 +569,11 @@ RECORD_MERGE_RULES = {
         "ali:license_ref",
         "jm:license_received",
         "jm:repository",
-        "jm:provenance"
-    ],
-    "override" : [
+        "jm:provenance",
         "rioxxterms:version",
         "ali:free_to_read"
     ],
+    "override" : [],
     "list_append" : {
         "dc:identifier" : {
             "dedupe" : True,
@@ -580,7 +590,7 @@ RECORD_MERGE_RULES = {
                     "must" : ["$.type", "$.id"]
                 },
                 {
-                    "must" : "$.name"
+                    "must" : ["$.name"]
                 }
             ]
         },
@@ -592,7 +602,7 @@ RECORD_MERGE_RULES = {
                     "must" : ["$.type", "$.id"]
                 },
                 {
-                    "must" : "$.name"
+                    "must" : ["$.name"]
                 }
             ]
         },
@@ -604,7 +614,7 @@ RECORD_MERGE_RULES = {
                     "must" : ["$.type", "$.id"]
                 },
                 {
-                    "must" : "$.funder_name"
+                    "must" : ["$.funder_name"]
                 }
             ]
         },
@@ -626,9 +636,11 @@ RECORD_MERGE_RULES = {
         },
         "jm:repository" : {
             "dedupe" : True,
-            "match" : {
-                "must" : ["$.repo_url"]
-            }
+            "match" : [
+                {
+                    "must" : ["$.repo_url"]
+                }
+            ]
         },
         "jm:provenance" : { "dedupe" : True }
     },
@@ -654,7 +666,7 @@ RECORD_MERGE_RULES = {
                             "must" : ["$.type", "$.id"]
                         },
                         {
-                            "must" : "$.name"
+                            "must" : ["$.name"]
                         }
                     ]
                 }
@@ -697,7 +709,7 @@ RECORD_MERGE_RULES = {
                             "must" : ["$.type", "$.id"]
                         },
                         {
-                            "must" : "$.name"
+                            "must" : ["$.name"]
                         }
                     ]
                 }
@@ -734,11 +746,19 @@ RECORD_MERGE_RULES = {
             }
         },
         "dc:source" : {
-            "copy_if_missing" : {
+            "copy_if_missing" : [
                 "name",
                 "identifier",
                 "oa_type",
                 "self_archiving"
+            ],
+            "list_append" : {
+                "identifier" : {
+                    "dedupe" : True,
+                    "match" : [
+                        { "must" : ["$.type", "$.id"]}
+                    ]
+                }
             },
             "merge" : {
                 "self_archiving" : {

@@ -1,7 +1,7 @@
 from octopus.modules.es.testindex import ESTestCase
 
-from octopus.lib import dataobj
-from service.models import core, Request, PublicAPC
+from octopus.lib import dataobj, dictmerge
+from service.models import core, Request, PublicAPC, ModelException
 from service.models.core import RecordMethods
 from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory
 
@@ -18,6 +18,7 @@ class TestModels(ESTestCase):
         dataobj.construct_validate(core.CORE_STRUCT)
         dataobj.construct_validate(core.REQUEST_ADMIN_STRUCT)
         dataobj.construct_validate(core.PUBLIC_ADMIN_STRUCT)
+        dictmerge.validate_rules(core.RECORD_MERGE_RULES)
 
     def test_02_request(self):
         # first make a blank one
@@ -235,3 +236,25 @@ class TestModels(ESTestCase):
         assert len(pub.get_apc_refs("11111")) == 0
         assert len(pub.get_apc_refs("22222")) == 0
 
+    def test_09_merge_records(self):
+        merge_source = PublicAPCFixtureFactory.record_merge_source()
+        merge_target = PublicAPCFixtureFactory.record_merge_target()
+        result = PublicAPCFixtureFactory.record_merge_result()
+
+        source = PublicAPC()
+        source.record = merge_source
+        source.set_apc_ref("22222", "bbbbb")
+
+        target = PublicAPC()
+        target.record = merge_target
+        target.set_apc_ref("11111", "aaaaa")
+
+        target.merge_records(source)
+
+        assert target.record == result
+        assert target.get_apc_refs("11111") == ["aaaaa"]
+        assert target.get_apc_refs("22222") == []
+
+        # now just try some basic error cases
+        with self.assertRaises(ModelException):
+            target.merge_records({"random" : "data"})

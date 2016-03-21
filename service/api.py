@@ -49,7 +49,6 @@ class PublicApi(object):
 
         if pub is not None:
             PublicApi.merge_records(req.make_public_apc(), pub)
-            # anything else need to happen?
             pub.save()
         else:
             pub = req.make_public_apc()
@@ -151,6 +150,7 @@ class PublicApi(object):
 
     @classmethod
     def enhance_metadata(cls, source, target):
+        target.merge_records(source)
         return target
 
 class EnhancementsApi(object):

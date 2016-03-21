@@ -1,1 +1,1 @@
-from service.models.core import Request, PublicAPC
+from service.models.core import Request, PublicAPC, ModelException

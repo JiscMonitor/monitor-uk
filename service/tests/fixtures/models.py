@@ -17,8 +17,395 @@ class PublicAPCFixtureFactory(object):
         return deepcopy(EXAMPLE_PUBLIC)
 
     @classmethod
+    def record_merge_source(cls):
+        return deepcopy(MERGE_SOURCE)
+
+    @classmethod
+    def record_merge_target(cls):
+        return deepcopy(MERGE_TARGET)
+
+    @classmethod
+    def record_merge_result(cls):
+        return deepcopy(MERGE_RESULT)
+
+    @classmethod
     def apc_record(cls):
         return deepcopy(EXAMPLE_PUBLIC["record"]["jm:apc"][0])
+
+MERGE_SOURCE = {
+    "dcterms:dateSubmitted" : "2003-01-01T00:00:00Z",
+    "dcterms:dateAccepted" : "2004-01-01T00:00:00Z",
+    "rioxxterms:publication_date" : "2005-01-01T00:00:00Z",
+
+    "dc:identifier" : [
+        {"type" : "pmcid", "id" : "PMC1234"},
+        {"type" : "url", "id" : "http://example.com/whatever"}
+    ],
+
+    "dc:title" : "A Source record object",
+    "dc:subject" : ["maths", "physics"],
+
+    "rioxxterms:author" : [
+        {
+            "name" : "Richard Jones",
+            "identifier" : [
+                {"type" : "orcid", "id" : "1111-1111-1111-1111"},
+            ],
+            "affiliation" : [
+                {
+                    "name" : "Cottage Labs",
+                    "identifier" : [
+                        {"type" : "url", "id" : "http://cottagelabs.com"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "AN Other"
+        }
+    ],
+    "rioxxterms:contributor" : [
+        {
+            "name" : "A.N. Other",
+            "identifier" : [
+                {"type" : "orcid", "id" : "2222-2222-2222-2222"},
+                {"type" : "email", "id" : "another@example.com"}
+            ]
+        },
+        {
+            "name" : "Wilfred"
+        }
+    ],
+
+    "dcterms:publisher" : {
+        "name" : "Publishing Warehouse",
+        "identifier" : [
+            {"type" : "url", "id" : "http://publisher.example.com"}
+        ]
+    },
+
+    "dc:source" : {
+        "name" : "Journal of Important Things",
+        "identifier" : [
+            {"type" : "issn", "id" : "1234-5678" },
+            {"type" : "e-issn", "id" : "1234-5678" },
+            {"type" : "p-issn", "id" : "9876-5432" },
+        ],
+        "oa_type" : "oa",
+        "self_archiving" : {
+            "preprint" : {
+                "policy" : "cannot",
+                "embargo" : 24
+            },
+            "publisher" : {
+                "policy" : "can",
+                "embargo" : 6
+            }
+        }
+    },
+
+    "jm:apc" : [{"organisation_name" : "University 1"}],
+
+    "ali:license_ref" : [
+        {
+            "type" : "CC BY",
+            "version" : "3.0",
+            "url" : "http://creativecommons.org/licenses/by/3.0/",
+            "start_date" : "2008-01-01T00:00:00Z",
+            "source" : "http://publisher.example.com/thisone"
+        }
+    ],
+
+    "ali:free_to_read" : {
+        "free_to_read" : True,
+        "start_date" : "2009-01-01T00:00:00Z",
+        "end_date" : "2010-01-01T00:00:00Z",
+    },
+
+    "jm:license_received" : [
+        {"date" : "2010-01-01T00:00:00Z", "received" : True}
+    ],
+
+    "jm:repository" : [
+        {
+            "repo_name" : "CORE",
+            "repo_url" : "http://core.ac.uk",
+            "record_url" : "http://core.ac.uk/12345678790",
+            "metadata" : "True",
+            "fulltext" : "True",
+            "machine_readable_fulltext" : "Unknown",
+            "version" : "AAM"
+        }
+    ],
+
+    "jm:provenance" : [
+        "Richard typed all this data in for a test"
+    ]
+}
+
+MERGE_TARGET = {
+    "rioxxterms:publication_date" : "2005-02-01T00:00:00Z",
+
+    "dc:identifier" : [
+        {"type" : "pmcid", "id" : "PMC1234"},
+        {"type" : "pmid", "id" : "87654321"},
+        {"type" : "doi", "id" : "10.1234/me"},
+    ],
+
+    "rioxxterms:type" : "article",
+    "dc:title" : "An example Request Object",
+    "dc:subject" : ["maths"],
+    "rioxxterms:version" : "AAM",
+
+    "rioxxterms:author" : [
+        {
+            "name" : "Richard Jones",
+            "identifier" : [
+                {"type" : "orcid", "id" : "1111-1111-1111-1111"},
+                {"type" : "email", "id" : "richard@example.com"},
+            ]
+        },
+        {
+            "name" : "Bobzilla"
+        }
+    ],
+    "rioxxterms:contributor" : [
+        {
+            "name" : "A.N. Other",
+            "identifier" : [
+                {"type" : "orcid", "id" : "2222-2222-2222-2222"},
+            ],
+            "affiliation" : [
+                {
+                    "name" : "Jisc",
+                    "identifier" : [
+                        {"type" : "url", "id" : "http://www.jisc.ac.uk"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "Harold"
+        }
+    ],
+
+    "dcterms:publisher" : {
+        "name" : "Publishing Warehouse"
+    },
+
+    "dc:source" : {
+        "name" : "Journal of Important Things",
+        "identifier" : [
+            {"type" : "issn-l", "id" : "2222-1111" },
+            {"type" : "doi", "id" : "10.1234" }
+        ],
+        "self_archiving" : {
+            "preprint" : {
+                "policy" : "cannot",
+                "embargo" : 24
+            },
+            "postprint" : {
+                "policy" : "restricted",
+                "embargo" : 12
+            }
+        }
+    },
+
+    "jm:apc" : [{"organisation_name" : "University 2"}],
+
+    "ali:license_ref" : [
+        {
+            "type" : "CC BY",
+            "version" : "2.0",
+            "url" : "http://creativecommons.org/licenses/by/2.0/",
+            "start_date" : "2008-01-01T00:00:00Z",
+            "source" : "http://publisher.example.com/thisone"
+        }
+    ],
+
+    "ali:free_to_read" : {
+        "free_to_read" : False,
+        "start_date" : "2009-01-01T00:00:00Z",
+        "end_date" : "2010-01-01T00:00:00Z",
+    },
+
+    "jm:license_received" : [
+        {"date" : "2011-01-01T00:00:00Z", "received" : True}
+    ],
+
+    "jm:repository" : [
+        {
+            "repo_name" : "EPMC",
+            "repo_url" : "http://europepmc.org",
+            "record_url" : "http://europepmc.org/12345678790",
+            "metadata" : "True",
+            "fulltext" : "True",
+            "machine_readable_fulltext" : "Unknown",
+            "version" : "AAM"
+        }
+    ],
+
+    "jm:provenance" : [
+        "Richard copied and pasted some of this"
+    ]
+}
+
+MERGE_RESULT = {
+    "dcterms:dateSubmitted" : "2003-01-01T00:00:00Z",
+    "dcterms:dateAccepted" : "2004-01-01T00:00:00Z",
+    "rioxxterms:publication_date" : "2005-02-01T00:00:00Z",
+
+    "dc:identifier" : [
+        {"type" : "pmcid", "id" : "PMC1234"},
+        {"type" : "pmid", "id" : "87654321"},
+        {"type" : "doi", "id" : "10.1234/me"},
+        {"type" : "url", "id" : "http://example.com/whatever"}
+    ],
+
+    "rioxxterms:type" : "article",
+    "dc:title" : "An example Request Object",
+    "dc:subject" : ["maths", "physics"],
+    "rioxxterms:version" : "AAM",
+
+    "rioxxterms:author" : [
+        {
+            "name" : "Richard Jones",
+            "identifier" : [
+                {"type" : "orcid", "id" : "1111-1111-1111-1111"},
+                {"type" : "email", "id" : "richard@example.com"},
+            ],
+            "affiliation" : [
+                {
+                    "name" : "Cottage Labs",
+                    "identifier" : [
+                        {"type" : "url", "id" : "http://cottagelabs.com"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "Bobzilla"
+        },
+        {
+            "name" : "AN Other"
+        }
+    ],
+    "rioxxterms:contributor" : [
+        {
+            "name" : "A.N. Other",
+            "identifier" : [
+                {"type" : "orcid", "id" : "2222-2222-2222-2222"},
+                {"type" : "email", "id" : "another@example.com"}
+            ],
+            "affiliation" : [
+                {
+                    "name" : "Jisc",
+                    "identifier" : [
+                        {"type" : "url", "id" : "http://www.jisc.ac.uk"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "Harold"
+        },
+        {
+            "name" : "Wilfred"
+        }
+    ],
+
+    "dcterms:publisher" : {
+        "name" : "Publishing Warehouse",
+        "identifier" : [
+            {"type" : "url", "id" : "http://publisher.example.com"}
+        ]
+    },
+
+    "dc:source" : {
+        "name" : "Journal of Important Things",
+        "identifier" : [
+            {"type" : "issn-l", "id" : "2222-1111" },
+            {"type" : "doi", "id" : "10.1234" },
+            {"type" : "issn", "id" : "1234-5678" },
+            {"type" : "e-issn", "id" : "1234-5678" },
+            {"type" : "p-issn", "id" : "9876-5432" }
+        ],
+        "oa_type" : "oa",
+        "self_archiving" : {
+            "preprint" : {
+                "policy" : "cannot",
+                "embargo" : 24
+            },
+            "postprint" : {
+                "policy" : "restricted",
+                "embargo" : 12
+            },
+            "publisher" : {
+                "policy" : "can",
+                "embargo" : 6
+            }
+        }
+    },
+
+    "jm:apc" : [{"organisation_name" : "University 2"}],
+
+    "ali:license_ref" : [
+        {
+            "type" : "CC BY",
+            "version" : "2.0",
+            "url" : "http://creativecommons.org/licenses/by/2.0/",
+            "start_date" : "2008-01-01T00:00:00Z",
+            "source" : "http://publisher.example.com/thisone"
+        },
+        {
+            "type" : "CC BY",
+            "version" : "3.0",
+            "url" : "http://creativecommons.org/licenses/by/3.0/",
+            "start_date" : "2008-01-01T00:00:00Z",
+            "source" : "http://publisher.example.com/thisone"
+        }
+    ],
+
+    "ali:free_to_read" : {
+        "free_to_read" : False,
+        "start_date" : "2009-01-01T00:00:00Z",
+        "end_date" : "2010-01-01T00:00:00Z",
+    },
+
+    "jm:license_received" : [
+        {"date" : "2011-01-01T00:00:00Z", "received" : True},
+        {"date" : "2010-01-01T00:00:00Z", "received" : True}
+    ],
+
+    "jm:repository" : [
+        {
+            "repo_name" : "EPMC",
+            "repo_url" : "http://europepmc.org",
+            "record_url" : "http://europepmc.org/12345678790",
+            "metadata" : "True",
+            "fulltext" : "True",
+            "machine_readable_fulltext" : "Unknown",
+            "version" : "AAM"
+        },
+        {
+            "repo_name" : "CORE",
+            "repo_url" : "http://core.ac.uk",
+            "record_url" : "http://core.ac.uk/12345678790",
+            "metadata" : "True",
+            "fulltext" : "True",
+            "machine_readable_fulltext" : "Unknown",
+            "version" : "AAM"
+        }
+    ],
+
+    "jm:provenance" : [
+        "Richard copied and pasted some of this",
+        "Richard typed all this data in for a test"
+    ]
+}
+
+
+#######################################################################
 
 EXAMPLE_RECORD = {
     "dcterms:dateSubmitted" : "2003-01-01T00:00:00Z",
