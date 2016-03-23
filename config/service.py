@@ -39,6 +39,8 @@ ACCOUNT_LIST_USERS = True
 ACCOUNT_MODEL = "service.models.MonitorUKAccount"
 ACCOUNT_USER_FORM_CONTEXT = "service.forms.account.MonitorUKUserFormContext"
 
+ACCOUNT_DEFAULT_ROLES = ["write_apc"]
+
 CLIENTJS_ACCOUNT_LIST_ENDPOINT = "/account_query/account"
 
 # You will also need to specify the query route as follows
@@ -51,6 +53,35 @@ QUERY_ROUTE = {
                  "octopus.modules.account.dao.query_filter"
              ],
             "dao" : "service.models.MonitorUKAccount"
+        }
+    }
+}
+
+###############################################
+# CRUD API configuration
+
+CRUD = {
+    "apc" : {
+        "model" : "service.models.ApiRequest",
+        "create" : {
+            "enable" : True,
+            "auth" : True,
+            "roles" : ["write_apc"]
+        },
+        "retrieve" : {
+            "enable" : True,
+            "auth" : True,
+            "roles" : ["write_apc"]
+        },
+        "update" : {
+            "enable" : True,
+            "auth" : True,
+            "roles" : ["write_apc"]
+        },
+        "delete" : {
+            "enable" : True,
+            "auth" : True,
+            "roles" : ["write_apc"]
         }
     }
 }

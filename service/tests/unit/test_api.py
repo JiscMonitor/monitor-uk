@@ -62,7 +62,8 @@ class TestModels(ESTestCase):
         # document to form the basis of the queries
         source2 = RequestFixtureFactory.example()
 
-        # create sources with one of each kind of identifier
+        # create sources with one of each kind of identifier, then look them up using the
+        # find_public_record and find_public_record_by_identifier methods
         pid = deepcopy(source2)
         del pid["record"]["dc:identifier"]
         req = Request(pid)
@@ -75,24 +76,32 @@ class TestModels(ESTestCase):
         req = Request(doi)
         pub1 = PublicApi.find_public_record(req)
         assert pub1 is not None
+        pub11 = PublicApi.find_public_record_by_identifier("doi", "10.1234/me")
+        assert pub11 is not None
 
         pmid = deepcopy(source2)
         pmid["record"]["dc:identifier"] = [{"type" : "pmid", "id" : "87654321"}]
         req = Request(pmid)
         pub1 = PublicApi.find_public_record(req)
         assert pub1 is not None
+        pub11 = PublicApi.find_public_record_by_identifier("pmid", "87654321")
+        assert pub11 is not None
 
         pmcid = deepcopy(source2)
         pmcid["record"]["dc:identifier"] = [{"type" : "pmcid", "id" : "PMC1234"}]
         req = Request(pmcid)
         pub1 = PublicApi.find_public_record(req)
         assert pub1 is not None
+        pub11 = PublicApi.find_public_record_by_identifier("pmcid", "PMC1234")
+        assert pub11 is not None
 
         url = deepcopy(source2)
         url["record"]["dc:identifier"] = [{"type" : "url", "id" : "http://example.com/whatever"}]
         req = Request(url)
         pub1 = PublicApi.find_public_record(req)
         assert pub1 is not None
+        pub11 = PublicApi.find_public_record_by_identifier("url", "http://example.com/whatever")
+        assert pub11 is not None
 
         # finally, ensure that you don't get a match when you shouldn't
         null = deepcopy(source2)
@@ -100,6 +109,8 @@ class TestModels(ESTestCase):
         req = Request(null)
         pub1 = PublicApi.find_public_record(req)
         assert pub1 is None
+        pub11 = PublicApi.find_public_record_by_identifier("doi", "10.1234/another")
+        assert pub11 is None
 
     def test_03_publish_new(self):
         source = RequestFixtureFactory.example()
@@ -324,6 +335,45 @@ class TestModels(ESTestCase):
         dao = PublicAPC()
         pub2 = dao.pull(pub.id)
         assert pub2 is None
+
+    def test_10_find_request(self):
+        source = RequestFixtureFactory.example()
+        req = Request(source)
+        req.save(blocking=True)
+
+        time.sleep(2)
+
+        source = RequestFixtureFactory.example()
+        req1 = Request(source)
+        req1.save(blocking=True)
+
+        # document to form the basis of the queries
+        source2 = RequestFixtureFactory.example()
+
+        # create sources with one of each kind of identifier, then look them up using the
+        # find_request_by_identifier method
+        result = RequestApi.find_request_by_identifier("doi", "10.1234/me", "abcdefghij")
+        assert result is not None
+        assert result.created_date == req1.created_date
+
+        result = RequestApi.find_request_by_identifier("pmid", "87654321", "abcdefghij")
+        assert result is not None
+        assert result.created_date == req1.created_date
+
+        result = RequestApi.find_request_by_identifier("pmcid", "PMC1234", "abcdefghij")
+        assert result is not None
+        assert result.created_date == req1.created_date
+
+        result = RequestApi.find_request_by_identifier("url", "http://example.com/whatever", "abcdefghij")
+        assert result is not None
+        assert result.created_date == req1.created_date
+
+        # finally, ensure that you don't get a match when you shouldn't
+        result = RequestApi.find_request_by_identifier("doi", "10.1234/another", "abcdefghij")
+        assert result is None
+
+        result = RequestApi.find_request_by_identifier("doi", "10.1234/me", "test")
+        assert result is None
 
 
 

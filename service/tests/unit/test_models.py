@@ -121,10 +121,49 @@ class TestModels(ESTestCase):
         req.owner = "test1"
         req.action = "update"
         req.public_id = "abcdefg"
-        req.save()
+        req.save(blocking=True)
 
         req2 = dao.pull(req.id)
         assert req2 is not None
+
+        # check successful queries for identifiers
+        res = dao.find_by_identifier("doi", "10.1234/me", "test1")
+        assert len(res) == 1
+
+        res = dao.find_by_identifier("pmcid", "PMC1234", "test1")
+        assert len(res) == 1
+
+        res = dao.find_by_identifier("pmid", "87654321", "test1")
+        assert len(res) == 1
+
+        res = dao.find_by_identifier("url", "http://example.com/whatever", "test1")
+        assert len(res) == 1
+
+        # check unsuccessful ones
+        res = dao.find_by_identifier("doi", "10.1234/you", "test1")
+        assert len(res) == 0
+
+        res = dao.find_by_identifier("pmcid", "PMC5678", "test1")
+        assert len(res) == 0
+
+        res = dao.find_by_identifier("pmid", "123456789", "test1")
+        assert len(res) == 0
+
+        res = dao.find_by_identifier("url", "http://example.com/this", "test1")
+        assert len(res) == 0
+
+        # and check using the wrong owner
+        res = dao.find_by_identifier("doi", "10.1234/me", "test2")
+        assert len(res) == 0
+
+        res = dao.find_by_identifier("pmcid", "PMC1234", "test2")
+        assert len(res) == 0
+
+        res = dao.find_by_identifier("pmid", "87654321", "test2")
+        assert len(res) == 0
+
+        res = dao.find_by_identifier("url", "http://example.com/whatever", "test2")
+        assert len(res) == 0
 
     def test_06_public_dao(self):
         dao = PublicAPC()
@@ -262,3 +301,25 @@ class TestModels(ESTestCase):
         # now just try some basic error cases
         with self.assertRaises(ModelException):
             target.merge_records({"random" : "data"})
+
+    def test_10_request_refs(self):
+        # first check that refs are stripped automatically on construction
+        source = RequestFixtureFactory.example()
+        source["record"]["jm:apc"][0]["ref"] = "1234567890"
+        req = Request(source)
+        assert "ref" not in req.apc_records[0]
+
+        # now do it again, setting the record explicitly
+        source = RequestFixtureFactory.example()
+        record = source.get("record")
+        record["jm:apc"][0]["ref"] = "123456789"
+        req = Request()
+        req.record = record
+        assert "ref" not in req.apc_records[0]
+
+    def test_11_public_refs(self):
+        source = PublicAPCFixtureFactory.example()
+        pub = PublicAPC(source)
+
+        assert pub.record.get("jm:apc")[0]["ref"] == "1111111111"
+        assert "ref" not in pub.clean_record.get("jm:apc")[0]

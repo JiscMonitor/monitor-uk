@@ -24,27 +24,36 @@ class RequestApi(object):
         return req
 
     @classmethod
-    def delete(cls, record, account, public_id):
+    def delete(cls, record, account, public_id=None):
         if record is None:
             raise RequestAPIException("You can't call 'delete' with a NoneType record argument")
         if account is None:
             raise RequestAPIException("You can't call 'delete' with a NoneType account argument")
-        if public_id is None:
-            raise RequestAPIException("You can't call 'delete' with a NoneType public_id argument")
 
         req = Request()
         req.record = record
         req.owner = account.id
         req.action = "delete"
-        req.public_id = public_id
+        if public_id is not None:
+            req.public_id = public_id
 
         req.save()
         return req
 
+    @classmethod
+    def find_request_by_identifier(cls, type, id, owner):
+        dao = Request()
+        results = dao.find_by_identifier(type, id, owner)
+        # results are ordered by date, so we want the latest one
+        if len(results) > 0:
+            return results[0]
+        return None
+
 class PublicApi(object):
 
     ####################################################
-    ## primary entry points to the Public APC API
+    ## primary workflow entry points to the Public APC API
+
     @classmethod
     def publish(cls, req):
         pub = PublicApi.find_public_record(req)
@@ -105,35 +114,63 @@ class PublicApi(object):
                 return pub
 
         if req.doi is not None:
-            pubs = dao.find_by_doi(req.doi)
-            if len(pubs) > 1:
-                app.logger.warn(u"Multiple public records found for DOI {x}".format(x=req.doi))
-            if len(pubs) > 0:
-                return pubs[0]
+            pub = PublicApi.find_public_record_by_identifier("doi", req.doi)
+            if pub is not None:
+                return pub
 
         if req.pmid is not None:
-            pubs = dao.find_by_pmid(req.pmid)
-            if len(pubs) > 1:
-                app.logger.warn(u"Multiple public records found for PMID {x}".format(x=req.pmid))
-            if len(pubs) > 0:
-                return pubs[0]
+            pub = PublicApi.find_public_record_by_identifier("pmid", req.pmid)
+            if pub is not None:
+                return pub
 
         if req.pmcid is not None:
-            pubs = dao.find_by_pmcid(req.pmcid)
-            if len(pubs) > 1:
-                app.logger.warn(u"Multiple public records found for PMCID {x}".format(x=req.pmcid))
-            if len(pubs) > 0:
-                return pubs[0]
+            pub = PublicApi.find_public_record_by_identifier("pmcid", req.pmcid)
+            if pub is not None:
+                return pub
 
         if req.url is not None:
-            pubs = dao.find_by_url(req.url)
-            if len(pubs) > 1:
-                app.logger.warn(u"Multiple public records found for URL {x}".format(x=req.url))
-            if len(pubs) > 0:
-                return pubs[0]
+            pub = PublicApi.find_public_record_by_identifier("url", req.url)
+            if pub is not None:
+                return pub
 
         # if we get to here, there is no record for this id
         return None
+
+    @classmethod
+    def find_public_record_by_identifier(cls, type, id):
+        dao = PublicAPC()
+
+        if type == "doi":
+            pubs = dao.find_by_doi(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for DOI {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "pmid":
+            pubs = dao.find_by_pmid(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for PMID {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "pmcid":
+            pubs = dao.find_by_pmcid(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for PMCID {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "url":
+            pubs = dao.find_by_url(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for URL {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
 
     @classmethod
     def merge_records(cls, source, target):

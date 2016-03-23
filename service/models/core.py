@@ -2,6 +2,7 @@ from octopus.modules.infosys.models import InfoSysModel
 from octopus.lib import dataobj, dictmerge
 from service import queries
 import uuid
+from copy import deepcopy
 
 class ModelException(Exception):
     pass
@@ -49,7 +50,8 @@ class RecordMethods(dataobj.DataObj):
 
 class Request(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
-        super(Request, self).__init__(type="request", record_struct=CORE_STRUCT, admin_struct=REQUEST_ADMIN_STRUCT, full=full)
+        super(Request, self).__init__(type="request", record_struct=CORE_STRUCT, admin_struct=REQUEST_ADMIN_STRUCT, index_rules=REQUEST_INDEX_RULES, full=full)
+        self.clear_refs()
 
     @property
     def owner(self):
@@ -75,6 +77,11 @@ class Request(InfoSysModel, RecordMethods):
     def public_id(self, val):
         self._set_with_struct("admin.public_id", val)
 
+    @InfoSysModel.record.setter
+    def record(self, val):
+        InfoSysModel.record.fset(self, val)
+        self.clear_refs()
+
     def make_public_apc(self):
         # make a new record which just contains the record data
         pub = PublicAPC()
@@ -99,9 +106,36 @@ class Request(InfoSysModel, RecordMethods):
 
         return pub
 
+    def clear_refs(self):
+        """
+        Clear out any references that may be in the apc data
+
+        Note, although this is a record-level operation, we put it on the Request because it is not relevant
+        to the PublicAPC, and just would be a bug-risk
+        :return:
+        """
+        for apc in self.apc_records:
+            if "ref" in apc:
+                del apc["ref"]
+
+    ##################################################
+    ## Data Access methods
+
+    def find_by_identifier(self, type, id, owner, size=1):
+        q = queries.RequestByIndexedIdentifierQuery(type, id, owner, size)
+        return self.object_query(q=q.query())
+
 class PublicAPC(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
         super(PublicAPC, self).__init__(type="public", record_struct=CORE_STRUCT, admin_struct=PUBLIC_ADMIN_STRUCT, index_rules=PUBLIC_INDEX_RULES, full=full)
+
+    @property
+    def clean_record(self):
+        rec = deepcopy(self.record)
+        for apc in rec.get("jm:apc", []):
+            if "ref" in apc:
+                del apc["ref"]
+        return rec
 
     #####################################################
     ## Methods for working with apc ref admin data
@@ -170,6 +204,41 @@ class PublicAPC(InfoSysModel, RecordMethods):
 
 ###############################################################
 ## Shared resources for class construction
+
+REQUEST_INDEX_RULES = [
+    {
+        "index_field" : "doi",
+        "struct_args" : {"coerce" : "unicode"},
+        "function" : {
+            "name" : "opath",
+            "args" : ["$.record.'dc:identifier'[@.type is 'doi'].id"]
+        }
+    },
+    {
+        "index_field" : "pmcid",
+        "struct_args" : {"coerce" : "unicode"},
+        "function" : {
+            "name" : "opath",
+            "args" : ["$.record.'dc:identifier'[@.type is 'pmcid'].id"]
+        }
+    },
+    {
+        "index_field" : "pmid",
+        "struct_args" : {"coerce" : "unicode"},
+        "function" : {
+            "name" : "opath",
+            "args" : ["$.record.'dc:identifier'[@.type is 'pmid'].id"]
+        }
+    },
+    {
+        "index_field" : "url",
+        "struct_args" : {"coerce" : "unicode"},
+        "function" : {
+            "name" : "opath",
+            "args" : ["$.record.'dc:identifier'[@.type is 'url'].id"]
+        }
+    }
+]
 
 PUBLIC_INDEX_RULES = [
     {
@@ -256,7 +325,7 @@ PUBLIC_INDEX_RULES = [
             "name" : "ascii_unpunc",
             "args" : ["$.record.'dc:title'"]
         }
-    },
+    }
 ]
 
 PUBLIC_ADMIN_STRUCT = {
