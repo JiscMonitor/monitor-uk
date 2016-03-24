@@ -125,6 +125,15 @@ class Request(InfoSysModel, RecordMethods):
         q = queries.RequestByIndexedIdentifierQuery(type, id, owner, size)
         return self.object_query(q=q.query())
 
+    def list_all_since(self, since, page_size=1000):
+        q = queries.RequestQueueQuery(since, page_size)
+        # we use iterate rather than scroll because that way each request is a paged query, which has lower memory
+        # requirements, and it means that the iteration is exhaustive, and includes items which were added to the
+        # index right up until the last page is requested.  We can use an iterator here because the Request index
+        # is append-only, and the query is in created_date order.
+        return self.iterate(q=q.query(), page_size=page_size)
+
+
 class PublicAPC(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
         super(PublicAPC, self).__init__(type="public", record_struct=CORE_STRUCT, admin_struct=PUBLIC_ADMIN_STRUCT, index_rules=PUBLIC_INDEX_RULES, full=full)
@@ -136,6 +145,13 @@ class PublicAPC(InfoSysModel, RecordMethods):
             if "ref" in apc:
                 del apc["ref"]
         return rec
+
+    def copy(self):
+        return PublicAPC(deepcopy(self.data))
+
+    def overwrite(self, replacement):
+        self.record = replacement.record
+        self.admin = replacement.admin
 
     #####################################################
     ## Methods for working with apc ref admin data

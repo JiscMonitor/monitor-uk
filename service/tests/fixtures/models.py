@@ -9,6 +9,19 @@ class RequestFixtureFactory(object):
     def record(cls):
         return deepcopy(EXAMPLE_RECORD)
 
+    @classmethod
+    def request_per_day(cls, prefix, days):
+        sources = []
+        for i in range(1, days + 1):
+            day = ("0" if i < 10 else "") + str(i)
+            date = prefix + "-" + day + "T00:00:00Z"
+            data = deepcopy(EXAMPLE_REQUEST)
+            data["created_date"] = date
+            data["last_updated"] = date
+            del data["id"]
+            sources.append(data)
+        return sources
+
 
 class PublicAPCFixtureFactory(object):
 
@@ -31,6 +44,23 @@ class PublicAPCFixtureFactory(object):
     @classmethod
     def apc_record(cls):
         return deepcopy(EXAMPLE_PUBLIC["record"]["jm:apc"][0])
+
+class WorkflowStateFixtureFactory(object):
+
+    @classmethod
+    def example(cls):
+        return deepcopy(WORKFLOW_STATE)
+
+WORKFLOW_STATE = {
+    "id" : "123456789",
+    "created_date" : "2001-01-01T00:00:00Z",
+    "last_updated" : "2002-01-01T00:00:00Z",
+
+    "record" : {
+        "last_request_date" :  "2003-01-01T00:00:00Z",
+        "already_processed" : ["123456789", "987654321"]
+    },
+}
 
 MERGE_SOURCE = {
     "dcterms:dateSubmitted" : "2003-01-01T00:00:00Z",

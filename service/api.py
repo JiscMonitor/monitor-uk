@@ -1,4 +1,4 @@
-from service.models import Request, PublicAPC
+from service.models import Request, PublicAPC, WorkflowState
 from octopus.core import app
 
 class RequestAPIException(Exception):
@@ -59,7 +59,7 @@ class PublicApi(object):
         pub = PublicApi.find_public_record(req)
 
         if pub is not None:
-            PublicApi.merge_records(req.make_public_apc(), pub)
+            pub = PublicApi.merge_public_apcs(req.make_public_apc(), pub)
             pub.save()
         else:
             pub = req.make_public_apc()
@@ -173,20 +173,28 @@ class PublicApi(object):
                 return pubs[0]
 
     @classmethod
-    def merge_records(cls, source, target):
+    def merge_public_apcs(cls, source, target):
         """
         Merge the source record into the target record.  Both records should be PublicAPC instances
+
+        What gets returned from this is savable as the replacement public record - the target record passed
+        in is not modified in place
 
         :param source:
         :param target:
         :return:
         """
+        # first make a copy of the target, which is the thing we'll eventually return
+        target = target.copy()
+
         source_owners = source.list_owners()
         for o in source_owners:
             target.remove_apcs_by_owner(o)
 
+        # if there are no apcs left, this means that the source record is definitive
         if len(target.apc_records) == 0:
-            return source
+            target.overwrite(source)
+            return target
 
         for o in source_owners:
             source_apcs = source.get_apcs_by_owner(o)
@@ -208,6 +216,55 @@ class PublicApi(object):
     def enhance_metadata(cls, source, target):
         target.merge_records(source)
         return target
+
+class WorkflowApi(object):
+
+    @classmethod
+    def process_requests(cls):
+        # first, pick up our current state from storage
+        workflow_dao = WorkflowState()
+        wfs = workflow_dao.pull("state")
+
+        # if we don't have a current state, make one
+        if wfs is None:
+            wfs = WorkflowState()
+            wfs.id = "state"
+
+        # get the oldest page of requests and process them
+        dao = Request()
+        requests = dao.list_all_since(wfs.last_request)     # produces a generator
+
+        for r in requests:
+            try:
+                # if the request was created at the time of the last request processed, it is possible it arrived
+                # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+                # we also need to check to see whether it was one of the ids processed during that second
+                if r.created_date == wfs.last_request and wfs.is_processed(r.id):
+                    # if it was created at that time, and it was one of the ones processed, we can skip it
+                    continue
+
+                # if the request is from a later time, or was not processed during the last run, then do the usual
+                # processing
+                if r.action == "update":
+                    PublicApi.publish(r)
+                elif r.action == "delete":
+                    PublicApi.remove(r)
+
+                # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+                # request which came in during that same second, but was not processed at the time because it was at the
+                # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+                # which have now been processed
+                if r.created_date == wfs.last_request:
+                    wfs.add_processed(r.id)
+                else:
+                    # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                    wfs.last_request = r.created_date
+                    wfs.already_processed = [r.id]
+            except:
+                wfs.save(blocking=True)
+                raise
+
+        wfs.save(blocking=True)
 
 # FIXME: I think this will probably go away, as all content will be delivered fully enhanced, or not enhanced at all
 class EnhancementsApi(object):

@@ -1,18 +1,48 @@
 from octopus.modules.es.testindex import ESTestCase
 from octopus.modules.account.models import BasicAccount
 
-from service.api import RequestApi, PublicApi
-from service.models import Request, PublicAPC
+from service.api import RequestApi, PublicApi, WorkflowApi
+from service.models import Request, PublicAPC, WorkflowState
 from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory
 
 from copy import deepcopy
 import time
 
+################################################
+## mocks
+
+class TestException(Exception):
+    pass
+
+PUBLISH_COUNTER = 0
+
+@classmethod
+def publish_mock(cls, *args, **kwargs):
+    global PUBLISH_COUNTER
+    PUBLISH_COUNTER += 1
+    if PUBLISH_COUNTER > 5:
+        raise TestException()
+
+DELETE_COUNTER = 0
+
+@classmethod
+def delete_mock(cls, *args, **kwargs):
+    global DELETE_COUNTER
+    DELETE_COUNTER += 1
+    if DELETE_COUNTER > 5:
+        raise TestException()
+
+################################################
+
 class TestModels(ESTestCase):
     def setUp(self):
+        self.old_publish = PublicApi.publish
+        self.old_remove = PublicApi.remove
         super(TestModels, self).setUp()
 
     def tearDown(self):
+        PublicApi.publish = self.old_publish
+        PublicApi.remove = self.old_remove
         super(TestModels, self).tearDown()
 
     def test_01_request_update(self):
@@ -121,7 +151,7 @@ class TestModels(ESTestCase):
         pub2 = dao.pull(pub.id)
         assert pub2 is not None
 
-    def test_04_merge_records(self):
+    def test_04_merge_public_apcs(self):
         source_source = PublicAPCFixtureFactory.example()
         target_source = PublicAPCFixtureFactory.example()
 
@@ -134,7 +164,7 @@ class TestModels(ESTestCase):
         del ts1["record"]["jm:apc"]
         target1 = PublicAPC(ts1)
 
-        result = PublicApi.merge_records(source1, target1)
+        result = PublicApi.merge_public_apcs(source1, target1)
         assert len(result.apc_records) == 0
 
         # next try a merge with only apc records in the source (again, shouldn't really happen in real life)
@@ -145,7 +175,7 @@ class TestModels(ESTestCase):
         del ts2["record"]["jm:apc"]
         target2 = PublicAPC(ts2)
 
-        result = PublicApi.merge_records(source2, target2)
+        result = PublicApi.merge_public_apcs(source2, target2)
         assert len(result.apc_records) == 1
 
         # next try a merge with only apc records in the target (also shouldn't happen in real life)
@@ -156,7 +186,7 @@ class TestModels(ESTestCase):
         del ts3["record"]["jm:apc"]
         target3 = PublicAPC(ts3)
 
-        result = PublicApi.merge_records(source3, target3)
+        result = PublicApi.merge_public_apcs(source3, target3)
         assert len(result.apc_records) == 1
 
         # finally try a merge with the following criteria:
@@ -184,7 +214,7 @@ class TestModels(ESTestCase):
         target4.add_apc_for_owner("11111", third)
         target4.add_apc_for_owner("22222", fourth)
 
-        result = PublicApi.merge_records(source4, target4)
+        result = PublicApi.merge_public_apcs(source4, target4)
         assert len(result.apc_records) == 3
 
         ones = result.get_apcs_by_owner("11111")
@@ -374,6 +404,158 @@ class TestModels(ESTestCase):
 
         result = RequestApi.find_request_by_identifier("doi", "10.1234/me", "test")
         assert result is None
+
+    def test_11_process_requests_cycle(self):
+        source = RequestFixtureFactory.example()
+        if "id" in source:
+            del source["id"]
+
+        pub_dao = PublicAPC()
+        wfs_dao = WorkflowState()
+
+        # first make a record for the first time
+        first = deepcopy(source)
+        del first["record"]["dc:title"]
+        req = Request(first)
+        req.owner = "test"
+        req.action = "update"
+        req.save(blocking=True)
+
+        # run the job
+        WorkflowApi.process_requests()
+
+        time.sleep(2)
+
+        # first check that a public record was made
+        pubs = pub_dao.find_by_doi("10.1234/me")
+        assert len(pubs) == 1
+        assert pubs[0].record.get("dc:title") is None
+
+        # check that the workflow state was created
+        wfs = wfs_dao.pull("state")
+        assert wfs is not None
+        assert wfs.last_request == req.created_date
+        assert wfs.already_processed == [req.id]
+
+        # now run an update with a different date
+        second = deepcopy(source)
+        second["record"]["dc:title"] = "Update"
+        second["created_date"] = "2002-01-01T00:00:00Z"
+        req2 = Request(second)
+        req2.owner = "test"
+        req2.action = "update"
+        req2.save(blocking=True)
+
+        # run the job again
+        WorkflowApi.process_requests()
+
+        time.sleep(2)
+
+        # check the public record was updated
+        pubs = pub_dao.find_by_doi("10.1234/me")
+        assert len(pubs) == 1
+        assert pubs[0].record.get("dc:title") == "Update"
+
+        # check that the workflow state was updated
+        wfs = wfs_dao.pull("state")
+        assert wfs is not None
+        assert wfs.last_request == req2.created_date
+        assert wfs.already_processed == [req2.id]
+
+        # now run an update with the same date, to observe the difference in the workflow state
+        third = deepcopy(source)
+        third["record"]["dc:title"] = "Update 2"
+        third["created_date"] = "2002-01-01T00:00:00Z"
+        req3 = Request(third)
+        req3.owner = "test"
+        req3.action = "update"
+        req3.save(blocking=True)
+
+        # run the job again
+        WorkflowApi.process_requests()
+
+        time.sleep(2)
+
+        # check the public record was updated
+        pubs = pub_dao.find_by_doi("10.1234/me")
+        assert len(pubs) == 1
+        assert pubs[0].record.get("dc:title") == "Update 2"   # should have been updated, as there are only apc contributions from one source
+
+        # check that the workflow state was updated
+        wfs = wfs_dao.pull("state")
+        assert wfs is not None
+        assert wfs.last_request == req3.created_date
+        assert wfs.already_processed == [req2.id, req3.id]  # processed records should have been appended
+
+        # finally issue a delete request
+        fourth = deepcopy(source)
+        fourth["created_date"] = "2003-01-01T00:00:00Z"
+        req4 = Request(fourth)
+        req4.owner = "test"
+        req4.action = "delete"
+        req4.save(blocking=True)
+
+        # run the job again
+        WorkflowApi.process_requests()
+
+        time.sleep(2)
+
+        # check the public record was updated
+        pubs = pub_dao.find_by_doi("10.1234/me")
+        assert len(pubs) == 0
+
+        # check that the workflow state was updated
+        wfs = wfs_dao.pull("state")
+        assert wfs is not None
+        assert wfs.last_request == req4.created_date
+        assert wfs.already_processed == [req4.id]  # processed records should have been appended
+
+
+    def test_11_process_requests_exception(self):
+        sources = RequestFixtureFactory.request_per_day("2001-01", 9)
+
+        dois = ["10.1234/first", "10.1234/second", "10.1234/third"]
+
+        # we're going to construct a series of requests for each doi
+        # starting with a create, then an update, followed by a delete
+        # (not that it matters, as we're going to pump them through a mock)
+        for i in range(len(sources)):
+            s = sources[i]
+            doi_idx = (i % 3)   # iterate over the dois 3 times
+            doi = dois[doi_idx]
+            s["record"]["dc:identifier"] = [{"type" : "doi", "id" : doi}]
+            if i < 3:
+                s["record"]["dc:title"] = "Create"
+                req = Request(s)
+                req.action = "update"
+                req.save()
+            elif i < 6:
+                s["record"]["dc:title"] = "Update"
+                req = Request(s)
+                req.action = "update"
+                req.save()
+            else:
+                s["record"]["dc:title"] = "Delete"
+                req = Request(s)
+                req.action = "delete"
+                req.save()
+
+        time.sleep(2)
+
+        # set up the mocks
+        PublicApi.publish = publish_mock
+        PublicApi.remove = delete_mock
+
+        # now run the process job back to the first day
+        with self.assertRaises(TestException):
+            WorkflowApi.process_requests()
+
+        # we know this died during the 6th update request being processed,
+        # so just check that the workflow state reflects that
+        wfs_dao = WorkflowState()
+        wfs = wfs_dao.pull("state")
+        assert wfs.last_request == "2001-01-05T00:00:00Z"
+        assert len(wfs.already_processed) == 1
 
 
 

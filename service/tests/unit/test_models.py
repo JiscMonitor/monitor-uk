@@ -1,11 +1,12 @@
 from octopus.modules.es.testindex import ESTestCase
 
 from octopus.lib import dataobj, dictmerge
-from service.models import core, Request, PublicAPC, ModelException
+from service.models import core, Request, PublicAPC, ModelException, WorkflowState
 from service.models.core import RecordMethods
-from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory
+from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory
 
 from copy import deepcopy
+import time
 
 class TestModels(ESTestCase):
     def setUp(self):
@@ -323,3 +324,77 @@ class TestModels(ESTestCase):
 
         assert pub.record.get("jm:apc")[0]["ref"] == "1111111111"
         assert "ref" not in pub.clean_record.get("jm:apc")[0]
+
+    def test_12_workflow_state(self):
+        # make a blank one just in case we need to
+        wfs = WorkflowState()
+
+        # now make one from source
+        source = WorkflowStateFixtureFactory.example()
+        wfs = WorkflowState(source)
+
+        assert wfs.last_request == "2003-01-01T00:00:00Z"
+        assert wfs.already_processed == ["123456789", "987654321"]
+
+        # now hit the setters, and check the round-trip
+        wfs.last_request = "2004-01-01T00:00:00Z"
+        wfs.already_processed = ["abcdefg"]
+
+        assert wfs.last_request == "2004-01-01T00:00:00Z"
+        assert wfs.already_processed == ["abcdefg"]
+
+        wfs.add_processed("qwerty")
+
+        assert wfs.already_processed == ["abcdefg", "qwerty"]
+        assert wfs.is_processed("qwerty")
+        assert wfs.is_processed("abcdefg")
+        assert not wfs.is_processed("random")
+
+        # now make one with broken content
+        with self.assertRaises(dataobj.DataStructureException):
+            wfs = WorkflowState({"junk" : "data"})
+
+    def test_13_request_iterator(self):
+        sources = RequestFixtureFactory.request_per_day("2001-01", 10)
+
+        for s in sources:
+            req = Request(s)
+            req.save()
+
+        time.sleep(2)
+
+        dao = Request()
+        gen = dao.list_all_since("2001-01-01T00:00:00Z", page_size=5)   # set the page size small, to ensure the iterator has to work
+        results = [x for x in gen]
+
+        assert len(results) == 10
+
+        dates = [r.created_date for r in results]
+        comp = deepcopy(dates)
+        comp.sort()     # this puts the dates in ascending order (i.e. oldest first)
+
+        # the point of this comparison is to show that the results came out in the right order.
+        # that is, oldest first
+        assert dates == comp
+
+    def test_14_copy_overwrite(self):
+        source = PublicAPCFixtureFactory.example()
+        pub = PublicAPC(source)
+
+        pub2 = pub.copy()
+
+        assert pub2.record == pub.record
+        assert pub2.admin == pub.admin
+        assert pub2.id == pub.id
+
+        source3 = PublicAPCFixtureFactory.example()
+        source3["record"]["dc:title"] = "Overwrite"
+        pub3 = PublicAPC(source3)
+
+        pub2.overwrite(pub3)
+
+        assert pub2.record == pub3.record
+        assert pub2.admin == pub3.admin
+        assert pub2.id == pub3.id
+
+

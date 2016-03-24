@@ -86,6 +86,14 @@ CRUD = {
     }
 }
 
+#######################################################
+## Task scheduler configuration
+
+SCHEDULER_TASKS = [
+    # every 10 seconds trigger the request processing task - this converts requests for updates into public apc records
+    (10, "seconds", None, "service.tasks.process_requests")
+]
+
 #############################################
 # important overrides for storage module
 
@@ -95,3 +103,12 @@ CRUD = {
 from octopus.lib import paths
 STORE_LOCAL_DIR = paths.rel2abs(__file__, "..", "service", "tests", "local_store", "live")
 STORE_TMP_DIR = paths.rel2abs(__file__, "..", "service", "tests", "local_store", "tmp")
+
+
+
+##############################################
+## App specific config
+
+# if the workflow state does not have a "last request" date recorded, what is the date it should report
+# (basically, this just needs to be earlier than the service went live.  We use the start of the unix epoch by default)
+WORKFLOW_STATE_EARLIEST_DATE = "1970-01-01T00:00:00Z"

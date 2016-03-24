@@ -38,3 +38,22 @@ class RequestByIndexedIdentifierQuery(object):
             "size" : self.size,
             "sort" : [{"created_date" : {"order" : "desc"}}]
         }
+
+class RequestQueueQuery(object):
+
+    def __init__(self, since, size=1000):
+        self.size = size
+        self.since = since
+
+    def query(self):
+        return {
+            "query" : {
+                "bool" : {
+                    "must" : [
+                        {"range" : {"created_date" : {"gte" : self.since}}}
+                    ]
+                }
+            },
+            "size" : self.size,
+            "sort" : [{"created_date" : {"order" : "asc"}}]
+        }
