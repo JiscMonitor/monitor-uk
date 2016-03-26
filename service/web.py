@@ -40,7 +40,7 @@ from octopus.modules.clientjs.configjs import blueprint as configjs
 app.register_blueprint(configjs)
 
 from octopus.modules.crud.api import blueprint as crud
-app.register_blueprint(crud, url_prefix="/api")
+app.register_blueprint(crud, url_prefix="/api/v1")
 
 from octopus.modules.es.query import blueprint as query
 app.register_blueprint(query, url_prefix="/account_query")
