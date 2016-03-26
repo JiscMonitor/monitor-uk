@@ -62,11 +62,14 @@ QUERY_ROUTE = {
 
 CRUD = {
     "apc" : {
-        "model" : "service.models.ApiRequest",
+        "model" : "service.models.crud.ApiRequest",
         "create" : {
             "enable" : True,
             "auth" : True,
-            "roles" : ["write_apc"]
+            "roles" : ["write_apc"],
+            "response" : {
+                "location" : False
+            }
         },
         "retrieve" : {
             "enable" : True,
@@ -76,12 +79,23 @@ CRUD = {
         "update" : {
             "enable" : True,
             "auth" : True,
-            "roles" : ["write_apc"]
+            "roles" : ["write_apc"],
+            "response" : {
+                "location" : False
+            }
+        },
+        "append" : {
+            "enable" : True,
+            "auth" : True,
+            "roles" : ["write_apc"],
+            "response" : {
+                "location" : False
+            }
         },
         "delete" : {
             "enable" : True,
             "auth" : True,
-            "roles" : ["write_apc"]
+            "roles" : ["write_apc"],
         }
     }
 }
