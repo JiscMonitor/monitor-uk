@@ -1,6 +1,8 @@
 from octopus.modules.infosys.models import InfoSysCrud
+from octopus.modules.crud.models import AuthorisationException
 from service.models.core import Request, PublicAPC             # because we're all in the models directory, have to be specific about the imports, or we'll have a circular dependency
 from service.api import PublicApi, RequestApi
+
 import json
 
 class ApiRequest(InfoSysCrud):
@@ -10,7 +12,7 @@ class ApiRequest(InfoSysCrud):
         self.raw = raw
         self.account = account
         self.public_id = None
-        self.request_id = None
+        self.public_record = None
 
         # just call update, as it's the same operation as construction
         self.update(raw, headers)
@@ -20,19 +22,10 @@ class ApiRequest(InfoSysCrud):
     @classmethod
     def pull(cls, id, account=None):
         """
-        The id may be one of 3 things, in order of preference:
+        The id may be one of 2 things, in order of preference:
 
         1. The DOI
         2. The public id
-        3. The request id
-
-        We'll then determine the record we pull based on the following criteria:
-
-        If id is a DOI (determined by inspection), look for it in the public space.
-        If it is not there, look for it in the request space, for this user
-        If it is an opaque id (might be public, might be request), look for it in the public space
-        If it is not there, look for it in the requests space for this user
-        If still not found, return None
 
         :param id:
         :param account:
@@ -44,20 +37,11 @@ class ApiRequest(InfoSysCrud):
             if pub is not None:
                 return ApiRequest._make_from_public(pub, account)
 
-            req = RequestApi.find_request_by_identifier("doi", id, account.id)
-            if req is not None:
-                return ApiRequest._make_from_request(req, account)
-
         else:
             dao = PublicAPC()
             pub = dao.pull(id)
             if pub is not None:
                 return ApiRequest._make_from_public(pub, account)
-
-            dao = Request()
-            req = dao.pull(id)
-            if req.owner == account.id:
-                return ApiRequest._make_from_request(req, account)
 
         return None
 
@@ -68,8 +52,7 @@ class ApiRequest(InfoSysCrud):
             return ident
         if self.public_id is not None:
             return self.public_id
-        if self.request_id is not None:
-            return self.request_id
+        return None
 
     def json(self):
         if self.raw is not None:
@@ -80,6 +63,13 @@ class ApiRequest(InfoSysCrud):
         self.request = RequestApi.update(self.raw, account=self.account, public_id=self.public_id)
 
     def delete(self):
+        # only allow delete to be called on a record where the requester has a stake in it
+        # in reality, this doesn't really matter, as a request with no stake will just have no
+        # effect, but this may be a clearer reaction to the user's request, and also may cut down
+        # on effect-less requests.
+        if self.public_record is not None:
+            if self.account.id not in self.public_record.list_owners:
+                raise AuthorisationException("You may only request delete on a record where you have previously provided data")
         self.request = RequestApi.delete(self.raw, account=self.account, public_id=self.public_id)
 
     def update(self, data, headers=None):
@@ -89,14 +79,33 @@ class ApiRequest(InfoSysCrud):
             self.request.record = data      # this will throw a DataSchemaException for the API layer to catch
         self.raw = data
 
+    def append(self, data, headers=None):
+        self.update(data, headers)
+
+    def created_response(self):
+        resp = {"status" : "created"}
+        return self._add_identifiers(resp)
+
+    def updated_response(self):
+        resp = {"status" : "updated"}
+        return self._add_identifiers(resp)
+
+    def deleted_response(self):
+        resp = {"status" : "deleted"}
+        return self._add_identifiers(resp)
+
+    def _add_identifiers(self, resp):
+        if self.request is not None and self.request.id is not None:
+            resp["request_id"] = self.request.id
+        if self.request.doi is not None:
+            resp["public_id"] = self.request.doi
+        elif self.public_id is not None:
+            resp["public_id"] = self.public_id
+        return resp
+
     @classmethod
     def _make_from_public(cls, pub, account):
         req = ApiRequest(pub.clean_record, account=account)
         req.public_id = pub.id
+        req.public_record = pub
         return req
-
-    @classmethod
-    def _make_from_request(cls, req, account):
-        obj = ApiRequest(req.record, account=account)
-        obj.request_id = req.id
-        return obj
