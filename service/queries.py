@@ -1,3 +1,5 @@
+from octopus.modules.es.dao import SearchAPIQuery
+
 class IndexedIdentifierQuery(object):
 
     def __init__(self, type, val):
@@ -57,3 +59,42 @@ class RequestQueueQuery(object):
             "size" : self.size,
             "sort" : [{"created_date" : {"order" : "asc"}}]
         }
+
+class PublicSearchQuery(SearchAPIQuery):
+    """
+    This class just gives us a place to hang any changes to the default SearchAPIQuery for public
+    requests
+    """
+    pass
+
+class PrivateSearchQuery(SearchAPIQuery):
+    """
+    This class just gives us a place to hang any changes to the default SearchAPIQuery for public
+    requests
+    """
+    def query(self):
+        q = {
+            "query" :{
+                "bool" : {
+                    "must" : [
+                        {
+                            "query_string" : {
+                                "query" : self.qs
+                            }
+                        },
+                        {
+                            "term" : {
+                                "admin.apc_owners.owner.exact" : self.acc.id
+                            }
+                        }
+                    ]
+                }
+            },
+            "from" : self.fro,
+            "size" : self.psize,
+        }
+
+        if self.sortby is not None:
+            q["sort"] = [{self.sortby : {"order" : self.sortdir, "mode" : "min"}}]
+
+        return q

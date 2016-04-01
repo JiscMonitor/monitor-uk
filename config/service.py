@@ -100,6 +100,76 @@ CRUD = {
     }
 }
 
+##############################################################
+# Public Search API Configuration
+
+# The search configuration for each mount point
+SEARCHAPI = {
+    "public" : {
+        "auth" : True,
+        "roles" : ["read_apc"],
+        "default_page_size" : 10,
+        "max_page_size" : 100,
+        "search_no_mod" : [
+            "created_date",
+            "last_updated"
+        ],
+        "search_prefix" : "record.",
+        "search_subs" : {
+            "id" : "id.exact",
+            "doi" : "index.doi.exact",
+            "pmcid" : "index.pmcid.exact",
+            "pmid" : "index.pmid.exact",
+            "url" : "index.url.exact",
+            "issn" : "index.issn.exact"
+        },
+        "sort_prefix" : "record.",
+        "sort_subs" : {
+            "dc:title" : "index.ascii_unpunc_title.exact",
+            "record.dc:title" : "index.ascii_unpunc_title.exact",
+            "apc_total_amount_gbp" : "index.apc_total_amount_gbp",
+            "apc_total_vat_gbp" : "index.apc_total_vat_gbp",
+            "apc_total_gbp" : "index.apc_total_gbp",
+            "sum_total_gbp" : "index.sum_total_gbp"
+        },
+        "query_builder" : "service.queries.PublicSearchQuery",
+        "dao" : "service.search.StaticPublicDAOProxy",
+        "results_filter" : "service.search.public_filter"
+    },
+
+    "private" : {
+        "auth" : True,
+        "roles" : ["write_apc"],
+        "default_page_size" : 10,
+        "max_page_size" : 100,
+        "search_no_mod" : [
+            "created_date",
+            "last_updated"
+        ],
+        "search_prefix" : "record.",
+        "search_subs" : {
+            "id" : "id.exact",
+            "doi" : "index.doi.exact",
+            "pmcid" : "index.pmcid.exact",
+            "pmid" : "index.pmid.exact",
+            "url" : "index.url.exact",
+            "issn" : "index.issn.exact"
+        },
+        "sort_prefix" : "record.",
+        "sort_subs" : {
+            "dc:title" : "index.ascii_unpunc_title.exact",
+            "record.dc:title" : "index.ascii_unpunc_title.exact",
+            "apc_total_amount_gbp" : "index.apc_total_amount_gbp",
+            "apc_total_vat_gbp" : "index.apc_total_vat_gbp",
+            "apc_total_gbp" : "index.apc_total_gbp",
+            "sum_total_gbp" : "index.sum_total_gbp"
+        },
+        "query_builder" : "service.queries.PrivateSearchQuery",
+        "dao" : "service.search.StaticPublicDAOProxy",
+        "results_filter" : "service.search.private_filter"
+    }
+}
+
 #######################################################
 ## Task scheduler configuration
 

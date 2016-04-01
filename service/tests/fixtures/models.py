@@ -30,6 +30,18 @@ class PublicAPCFixtureFactory(object):
         return deepcopy(EXAMPLE_PUBLIC)
 
     @classmethod
+    def make_record(cls, owner, title, date_submitted, date_accepted):
+        source = PublicAPCFixtureFactory.example()
+        del source["id"]
+        del source["created_date"]
+        del source["last_updated"]
+        source["admin"]["apc_owners"][0]["owner"] = owner
+        source["record"]["dcterms:dateSubmitted"] = date_submitted
+        source["record"]["dcterms:dateAccepted"] = date_accepted
+        source["record"]["dc:title"] = title
+        return source
+
+    @classmethod
     def record_merge_source(cls):
         return deepcopy(MERGE_SOURCE)
 
