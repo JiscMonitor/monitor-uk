@@ -76,6 +76,11 @@ class TestCRUD(ESTestCase):
         acc.add_role("write_apc")
         acc.save()
 
+        # and a third account without the correct role
+        acc3 = models.MonitorUKAccount()
+        acc3.generate_api_key()
+        acc3.save(blocking=True)
+
         record = fixtures.RequestFixtureFactory.record()
 
         # try a create without an API key

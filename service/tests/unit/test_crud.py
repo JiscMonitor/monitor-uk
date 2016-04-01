@@ -9,12 +9,12 @@ from service.api import PublicApi
 from copy import deepcopy
 import time
 
-class TestModels(ESTestCase):
+class TestCrud(ESTestCase):
     def setUp(self):
-        super(TestModels, self).setUp()
+        super(TestCrud, self).setUp()
 
     def tearDown(self):
-        super(TestModels, self).tearDown()
+        super(TestCrud, self).tearDown()
 
     def test_01_create(self):
         # construct a blank one, just to make sure we can
@@ -101,7 +101,6 @@ class TestModels(ESTestCase):
         assert result.raw == pub.clean_record
         assert result.account.id == acc.id
         assert result.public_id == pub.id
-        assert result.request_id is None
 
         # also try the pull with the wrong owner, which should work
         result = ApiRequest.pull("10.1234/me", account=acc2)
@@ -226,19 +225,19 @@ class TestModels(ESTestCase):
         # have a look at what we'd expect the responses to be if this was a create
         cr = req.created_response()
         assert cr.get("status") == "created"
-        assert cr.get("request_id") == req.request_id
+        assert cr.get("request_id") is not None
         assert cr.get("public_id") == "10.1234/me"
 
         # now look at the responses if this was an update/append
         ur = req.updated_response()
         assert ur.get("status") == "updated"
-        assert ur.get("request_id") == req.request_id
+        assert ur.get("request_id") is not None
         assert ur.get("public_id") == "10.1234/me"
 
         # now look at a delete
         dr = req.deleted_response()
         assert dr.get("status") == "deleted"
-        assert dr.get("request_id") == req.request_id
+        assert dr.get("request_id") is not None
         assert dr.get("public_id") == "10.1234/me"
 
         # just make a quick check to be sure that if no DOI is present, we get the right kind of info in the public_id
