@@ -1,9 +1,4 @@
-# API Documentation
-
-This document is a working document describing the use of the various APIs available on Monitor UK.  It'll probably
-need to be turned into proper documentation at some point.
-
-## Request API
+# Contribution API
 
 Intended for institutions.  
 Requires system role "write_apc" for all operations.
