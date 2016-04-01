@@ -1,9 +1,9 @@
 ##################################################
 # overrides for the webapp deployment
 
-DEBUG = True
+DEBUG = False
 PORT = 5000
-SSL = False
+SSL = True
 THREADED = True
 
 ############################################
