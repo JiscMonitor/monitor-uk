@@ -1,3 +1,4 @@
+from octopus.core import app
 from service import models
 
 class StaticPublicDAOProxy(object):
@@ -9,8 +10,12 @@ class StaticPublicDAOProxy(object):
 
 def public_filter(obj):
     inst = models.PublicAPC(obj)
-    return inst.clean_record
+    rec = inst.clean_record
+    rec["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+    return rec
 
 def private_filter(obj):
     inst = models.PublicAPC(obj)
-    return inst.clean_record
+    rec = inst.clean_record
+    rec["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+    return rec

@@ -1,5 +1,6 @@
 from octopus.modules.es.testindex import ESTestCase
 from octopus.lib import dataobj
+from octopus.core import app
 
 from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory
 from service.models.crud import ApiRequest
@@ -7,7 +8,7 @@ from service.models import MonitorUKAccount, PublicAPC, Request
 from service.api import PublicApi
 
 from copy import deepcopy
-import time
+import time, json
 
 class TestCrud(ESTestCase):
     def setUp(self):
@@ -25,10 +26,13 @@ class TestCrud(ESTestCase):
 
         # make one using valid source data
         source = RequestFixtureFactory.record()
+        csource = deepcopy(source)
+        csource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+
         acc = MonitorUKAccount()
         acc.save()
 
-        req = ApiRequest(source, account=acc)
+        req = ApiRequest(csource, account=acc)
         assert req.raw == source
         assert req.account.id == acc.id
         assert isinstance(req.json(), basestring)
@@ -39,12 +43,15 @@ class TestCrud(ESTestCase):
 
     def test_02_update(self):
         source = RequestFixtureFactory.record()
+        csource = deepcopy(source)
+        csource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+
         acc = MonitorUKAccount()
         acc.save()
 
         # do an update on blank one (unlikely use case)
         req = ApiRequest()
-        req.update(source)
+        req.update(csource)
         assert req.raw == source
         assert req.account is None
         assert isinstance(req.json(), basestring)
@@ -101,6 +108,10 @@ class TestCrud(ESTestCase):
         assert result.raw == pub.clean_record
         assert result.account.id == acc.id
         assert result.public_id == pub.id
+
+        craw = deepcopy(pub.clean_record)
+        craw["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        assert json.loads(result.json()) == craw
 
         # also try the pull with the wrong owner, which should work
         result = ApiRequest.pull("10.1234/me", account=acc2)

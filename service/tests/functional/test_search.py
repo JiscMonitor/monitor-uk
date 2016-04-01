@@ -81,6 +81,7 @@ class TestSearch(ESTestCase):
         assert len(j.get("results")) == 1
 
         r = j.get("results")[0]
+        assert "@context" in r
         assert r.get("dcterms:dateSubmitted") == "2001-01-01T00:00:00Z"
         assert r.get("dc:title") == "Title A"
         assert r.get("dcterms:dateAccepted") == "2002-01-01T00:00:00Z"

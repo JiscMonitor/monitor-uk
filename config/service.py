@@ -1,9 +1,9 @@
 ##################################################
 # overrides for the webapp deployment
 
-DEBUG = False
+DEBUG = True
 PORT = 5000
-SSL = True
+SSL = False
 THREADED = True
 
 ############################################
@@ -196,3 +196,11 @@ STORE_TMP_DIR = paths.rel2abs(__file__, "..", "service", "tests", "local_store",
 # if the workflow state does not have a "last request" date recorded, what is the date it should report
 # (basically, this just needs to be earlier than the service went live.  We use the start of the unix epoch by default)
 WORKFLOW_STATE_EARLIEST_DATE = "1970-01-01T00:00:00Z"
+
+API_JSON_LD_CONTEXT = {
+    "jm": "http://jiscmonitor.jiscinvolve.org/",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "rioxxterms": "http://rioxx.net/v2-0-beta-1/",
+    "ali" : "http://www.niso.org/schemas/ali/1.0/jsonld.json"
+}

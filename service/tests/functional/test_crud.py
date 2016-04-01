@@ -16,6 +16,7 @@ from service import models
 from service import web
 from service import api
 
+from copy import deepcopy
 import time
 import requests, json, os
 
@@ -26,7 +27,9 @@ class TestCRUD(ESTestCase):
             "PORT" : get_first_free_port(),
             "ELASTIC_SEARCH_INDEX" : app.config['ELASTIC_SEARCH_INDEX'],
             "THREADED" : True,
-            "FUNCTIONAL_TEST_MODE" : True
+            "FUNCTIONAL_TEST_MODE" : True,
+            "DEBUG" : True,
+            "SSL" : False
         }
         self.cfg_file = paths.rel2abs(__file__, "..", "resources", "test-server.cfg")
 
@@ -51,6 +54,7 @@ class TestCRUD(ESTestCase):
 
         # first, create a record via the API
         record = fixtures.RequestFixtureFactory.record()
+        record["@context"] = app.config.get("API_JSON_LD_CONTEXT")
         create_url = self.api_base + "apc?api_key=" + acc.api_key
 
         resp = requests.post(create_url, data=json.dumps(record), headers={"Content-Type" : "application/json"})
@@ -110,6 +114,7 @@ class TestCRUD(ESTestCase):
 
         # first, create a record via the API
         record = fixtures.RequestFixtureFactory.record()
+        record["@context"] = app.config.get("API_JSON_LD_CONTEXT")
         create_url = self.api_base + "apc?api_key=" + acc.api_key
 
         resp = requests.post(create_url, data=json.dumps(record), headers={"Content-Type" : "application/json"})
@@ -167,10 +172,12 @@ class TestCRUD(ESTestCase):
         # attempt to retrieve the record from the public space
 
         retrieve_url = self.api_base + "apc/" + j.get("public_id") + "?api_key=" + acc.api_key
+        crecord = deepcopy(record)
+        crecord["@context"] = app.config.get("API_JSON_LD_CONTEXT")
 
         resp2 = requests.get(retrieve_url)
         assert resp2.status_code == 200
-        assert resp2.json() == record
+        assert resp2.json() == crecord
 
         # now issue an update against that record
         update_url = self.api_base + "apc/" + j.get("public_id") + "?api_key=" + acc.api_key
@@ -192,7 +199,9 @@ class TestCRUD(ESTestCase):
         retrieve_url = self.api_base + "apc/" + j.get("public_id") + "?api_key=" + acc.api_key
         resp4 = requests.get(retrieve_url)
         assert resp4.status_code == 200
-        assert resp4.json() == record2
+        r4j = resp4.json()
+        del r4j["@context"]
+        assert r4j == record2
 
         # finally, a quick security check - that a user without the correct role can't access
         retrieve_url = self.api_base + "apc/" + j.get("public_id") + "?api_key=" + acc3.api_key

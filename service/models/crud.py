@@ -1,13 +1,20 @@
 from octopus.modules.infosys.models import InfoSysCrud
 from octopus.modules.crud.models import AuthorisationException
+from octopus.core import app
+
 from service.models.core import Request, PublicAPC             # because we're all in the models directory, have to be specific about the imports, or we'll have a circular dependency
 from service.api import PublicApi, RequestApi
 
+from copy import deepcopy
 import json
 
 class ApiRequest(InfoSysCrud):
     def __init__(self, raw=None, headers=None, account=None):
-        # do a validation step
+        # first clean out the json-ld stuff that might be in raw
+        if raw is not None and "@context" in raw:
+            del raw["@context"]
+
+        # record the incoming data
         self.request = None
         self.raw = raw
         self.account = account
@@ -56,7 +63,9 @@ class ApiRequest(InfoSysCrud):
 
     def json(self):
         if self.raw is not None:
-            return json.dumps(self.raw)
+            dumpable = deepcopy(self.raw)
+            dumpable["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+            return json.dumps(dumpable)
         return None
 
     def save(self):
@@ -73,6 +82,10 @@ class ApiRequest(InfoSysCrud):
         self.request = RequestApi.delete(self.raw, account=self.account, public_id=self.public_id)
 
     def update(self, data, headers=None):
+        # clean up the json-ld stuff that might be in the data
+        if data is not None and "@context" in data:
+            del data["@context"]
+
         if self.request is None:
             self.request = Request()
         if data is not None:
