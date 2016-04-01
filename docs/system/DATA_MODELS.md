@@ -251,23 +251,19 @@ which may be present).
 
 ```
 {
-    "@context": {
-        "jm": "http://jiscmonitor.jiscinvolve.org/",
-        "dc": "http://purl.org/dc/elements/1.1/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "rioxxterms": "http://rioxx.net/v2-0-beta-1/",
-        "ali" : "http://www.niso.org/schemas/ali/1.0/jsonld.json"
-    },
+    <other top-level search data>,
     
     "results": [
         {
-            "id" : "<opaque public identifier for the record>",
-            "created_date" : "<date the record was created>",
-            "last_updated" : "<date the record was last updated>",
+            "@context": {
+                "jm": "http://jiscmonitor.jiscinvolve.org/",
+                "dc": "http://purl.org/dc/elements/1.1/",
+                "dcterms": "http://purl.org/dc/terms/",
+                "rioxxterms": "http://rioxx.net/v2-0-beta-1/",
+                "ali" : "http://www.niso.org/schemas/ali/1.0/jsonld.json"
+            },
             
-            "record" : {
-                <the apc data record itself>
-            }
+            <the apc data record itself>
         }
     ]
 }
