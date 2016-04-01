@@ -68,7 +68,7 @@ class ApiRequest(InfoSysCrud):
         # effect, but this may be a clearer reaction to the user's request, and also may cut down
         # on effect-less requests.
         if self.public_record is not None:
-            if self.account.id not in self.public_record.list_owners:
+            if self.account.id not in self.public_record.list_owners():
                 raise AuthorisationException("You may only request delete on a record where you have previously provided data")
         self.request = RequestApi.delete(self.raw, account=self.account, public_id=self.public_id)
 
