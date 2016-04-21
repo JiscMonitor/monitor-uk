@@ -54,6 +54,16 @@ QUERY_ROUTE = {
              ],
             "dao" : "service.models.MonitorUKAccount"
         }
+    },
+    "query" : {
+        "apc" : {
+            "auth" : True,
+            "role" : None,
+            "filters" : [
+                "service.search.report_query_filter"
+            ],
+            "dao" : "service.search.StaticPublicDAOProxy"
+        }
     }
 }
 
