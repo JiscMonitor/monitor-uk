@@ -214,3 +214,32 @@ API_JSON_LD_CONTEXT = {
     "rioxxterms": "http://rioxx.net/v2-0-beta-1/",
     "ali" : "http://www.niso.org/schemas/ali/1.0/jsonld.json"
 }
+
+# Email address to be presented on the login page for the user to contact if they wish to request an account
+MONITOR_ACCOUNT_REQUEST_EMAIL = "monitor+account@jisc.ac.uk"
+
+SITE_NAVIGATION = [
+    {
+        "label" : "Welcome",
+        "url_for" : "index",
+        "active_on_exact" : ["index"],
+        "main_nav" : True,
+        "breadcrumb" : False
+    },
+    {
+        "label" : "Log In",
+        "url_for" : "account.login",
+        "active_on_exact" : ["account.login", "account.forgot"],
+        "main_nav" : True,
+        "breadcrumb" : True,
+        "subnav" : [
+            {
+                "label" : "Forgotten Password",
+                "url_for" : "account.forgot",
+                "main_nav" : False,
+                "active_on_exact" : ["account.forgot"],
+                "breadcrumb" : True
+            }
+        ]
+    }
+]

@@ -1,10 +1,12 @@
+{% import 'nav.html' as nav with context %}
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
 <head>
     <meta charset="utf-8">
 
-    <title>{% block page_title %}{% endblock %}</title>
+    <title>Monitor UK {% block page_title %}{% endblock %}</title>
 
     <meta name="description" content="Monitor UK - An aggregation of UK APC payments and related information">
     <meta name="author" content="Cottage Labs">
@@ -79,25 +81,27 @@
     </div>
     <h1>{% block page_h1 %}{% endblock %}</h1>
 </header>
+
 <div class="inner">
     <aside class="side-nav" >
+        {{ nav.main_nav(config.get("SITE_NAVIGATION", [])) }}
+    <!--
         <nav role="navigation" >
             <ul>
-                <li class="parent active"><span>Elem with subs</span><ul>
+                <li class="parent"><span>Elem with subs</span><ul>
                     <li><a href="#">Sub elem</a></li>
                     <li class="active" ><a href="#">Sub elem</a></li>
                     <li><a href="#">Sub elem</a></li>
                 </ul></li>
                 <li class="parent" ><a href="#">Elem with subs</a></li>
-                <li><a href="#" >Elem</a></li>
+                <li {% if request.path == url_for('account.login') %}class="active"{% endif %}><a href="{{ url_for('account.login') }}" >Log in</a></li>
             </ul>
         </nav>
+        -->
     </aside>
-    <ol class="breadcrumb" >
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Library</a></li>
-        <li class="active">Manage Academic Outputs</li>
-    </ol>
+
+    {{ nav.breadcrumb(config.get("SITE_NAVIGATION", [])) }}
+
     <main role="main" id="main" >
         {% block content %}{% endblock %}
     </main>
