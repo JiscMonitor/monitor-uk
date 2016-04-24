@@ -1,12 +1,233 @@
 {% extends "base.html" %}
 
+{% block page_title %}The title{% endblock %}
+{% block page_h1 %}Index Page{%  endblock %}
+
 {% block content %}
 
-Hello There
+    <h1>Manage Academic Outputs</h1>
+    <div class="inner">
+        <div class="article-full">
+            <p>
+                This is our top-level, conventional (responsive) grid system &mdash; a counterpart
+                to our region/block system.
+            </p>
+            <br>
+            <p>
+                This system is active above a certain viewport width, inert below
+            </p>
+            <p>
+                Columns are % width
+            </p>
+            <p>
+                Gutters (where used) are fixed width, by design
+            </p>
+        </div>
+        <div class="row">
+            <div class="col span-1">
+                <p>
+                    <code>
+                        span-1
+                    </code>
+                </p>
+            </div>
+            <div class="col span-2">
+                <p>
+                    <code>
+                        span-2
+                    </code>
+                </p>
+            </div>
+            <div class="col span-1">
+                <p>
+                    <code>
+                        span-1
+                    </code>
+                </p>
+            </div>
+            <div class="col span-3">
+                <p>
+                    <code>
+                        span-3
+                    </code>
+                </p>
+            </div>
+            <div class="col span-4">
+                <p>
+                    <code>
+                        span-4
+                    </code>
+                </p>
+            </div>
+            <div class="col span-1">
+                <p>
+                    <code>
+                        span-1
+                    </code>
+                </p>
+            </div>
+        </div>
+        <!--/ .row -->
+        <div class="row">
+            <div class="col span-2">
+                <p>
+                    <code>
+                        span-2
+                    </code>
+                </p>
+            </div>
+            <div class="col span-10">
+                <p>
+                    <code>
+                        span-10
+                    </code>
+                </p>
+            </div>
+        </div>
+        <!--/ .row -->
+        <div class="article-full">
+            <p>
+                Column <code>.span-n</code> semantics are relative, based on 12 units
+                in each context.
+            </p>
+            <p>
+                At the top level &mdash; where the parent is usually an <code>.inner</code>          &mdash; a <code>.span-6</code> column would occupy half of its width,
+                a <code>.span-3</code> a quarter etc.
+            </p>
+            <p>
+                When nesting, the context is the parent column. So to create a column half the
+                width of a <code>.span-8</code> parent you'd use <code>.span-6</code>          (6 being half the parent's 12 units)
+            </p>
+        </div>
+        <div class="row">
+            <div class="col span-4">
+                <p>
+                    <code>
+                        span-4
+                    </code>
+                </p>
+            </div>
+            <div class="col span-8">
+                <p>
+                    <code>
+                        span-8
+                    </code>
+                </p>
+                <div class="row">
+                    <div class="col span-6">
+                        <p>
+                            <code>
+                                span-6
+                            </code>
+                        </p>
+                    </div>
+                    <div class="col span-6">
+                        <p>
+                            <code>
+                                span-6
+                            </code>
+                        </p>
+                    </div>
+                </div>
+                <!--/ .row -->
+            </div>
+        </div>
+        <!--/ .row -->
+        <div class="row">
+            <div class="col span-4">
+                <p>
+                    <code>
+                        span-4
+                    </code>
+                </p>
+            </div>
+            <div class="col span-4">
+                <p>
+                    <code>
+                        span-4
+                    </code>
+                </p>
+            </div>
+            <div class="col span-4">
+                <p>
+                    <code>
+                        span-4
+                    </code>
+                </p>
+            </div>
+        </div>
+        <!--/ .row -->
+        <div class="article-full">
+            <p>
+                Columns don't have gutters built in (calculating compound % width blocks and fixed
+                width gutters when nesting would be too painful).
+            </p>
+            <p>
+                Instead, include a nested <code>.l-gutter--foo</code> div where required
+            </p>
+        </div>
+        <div class="row">
+            <div class="col span-4">
+                <div class="l-gutter--right">
+                    <p>
+                        <code>
+                            l-gutter--right
+                        </code>
+                    </p>
+                </div>
+            </div>
+            <div class="col span-4">
+                <div class="l-gutter--left">
+                    <p>
+                        <code>
+                            l-gutter--left
+                        </code>
+                    </p>
+                </div>
+            </div>
+            <div class="col span-4">
+                <div class="l-gutter--both">
+                    <p>
+                        <code>
+                            l-gutter--both
+                        </code>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--/ .row -->
+        <div class="article-full">
+            <p>
+                Use <code>.push-n</code> to engineer dead columns
+            </p>
+        </div>
+        <div class="row">
+            <div class="col span-3">
+                <p>
+                    <code>
+                        span-3
+                    </code>
+                </p>
+            </div>
+            <div class="col span-4 push-1">
+                <p>
+                    <code>
+                        span-4 push-1
+                    </code>
+                </p>
+            </div>
+            <div class="col span-4">
+                <p>
+                    <code>
+                        span-4
+                    </code>
+                </p>
+            </div>
+        </div>
+        <!--/ .row -->
+    </div>
+    <!-- .inner -->
 
 {% endblock %}
 
-
-{% block extra_js_bottom %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/service.facetview.theme.js') }}"></script>
-{% endblock%}
+{% block extra_js_bottom %}{% endblock%}

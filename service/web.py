@@ -23,7 +23,7 @@ if __name__ == "__main__":
     initialise()
 
 # most of the imports should be done here, after initialise()
-from flask import render_template
+from flask import render_template, redirect, url_for
 from octopus.lib.webapp import custom_static
 
 @app.route("/")
@@ -34,6 +34,10 @@ def index():
 @app.route("/static/<path:filename>")
 def static(filename):
     return custom_static(filename)
+
+@app.route("/fonts/<path:filename>")
+def fonts(filename):
+    return redirect(url_for("static", filename=u"fonts/{x}".format(x=filename)))
 
 # this allows us to serve our standard javascript config
 from octopus.modules.clientjs.configjs import blueprint as configjs

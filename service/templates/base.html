@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>{% block page_title %}{% endblock %}</title>
+
+    <meta name="description" content="Monitor UK - An aggregation of UK APC payments and related information">
+    <meta name="author" content="Cottage Labs">
+    <meta name="author" content="Jisc">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cleartype" content="on" >
+
+    <link href="{{ url_for('static', filename='images/favicon.ico') }}" rel="icon" type="image/x-icon" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- this is where we can incorporate any css files -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-jisc.7d6dc504.css')}}">
+
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap-3.3.1/css/bootstrap.min.css')}}"> -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap-2.0.0/css/bootstrap.min.css')}}"> -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap-3.2.0/css/bootstrap.min.css')}}"> -->
+
+    <!-- get jquery-ui css -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css')}}"> -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/jquery-ui-1.11.1/jquery-ui.css')}}"> -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/jquery-ui-1.11.1/jquery-ui.theme.css')}}"> -->
+
+    <!-- get facetview2 css -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/facetview2/css/facetview.css')}}"> -->
+
+    <!-- get the table sorter css -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/tablesorter-2.3.10/css/blue/style.css')}}"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/tablesorter-2.17.7/css/theme.blue.css')}}"> -->
+
+    <!-- get the select2 css -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.2/select2.css')}}"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2.css')}}"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2-bootstrap.css')}}"> -->
+
+    <!-- timepicker css -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/timepicker-0.3.3/jquery.ui.timepicker.css')}}"> -->
+
+    <!-- get octopus css -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/octopus.css')}}"> -->
+
+    <!-- nvd3 styles -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/facetview2/vendor/nvd3/nv.d3.css')}}"> -->
+
+    <!-- form styles -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/form/forms.css')}}"> -->
+
+    <!-- get the application's css -->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/service.css')}}"> -->
+
+</head>
+
+<body class="">
+<header class="site-header">
+    <div class="masthead" role="banner" >
+        <div class="inner">
+            <a class="visuallyhidden" href="#main" tabindex="1">
+                <span>Skip to main content</span>
+            </a>
+            <a class="logo" href="//jisc.ac.uk">
+                <img alt="Jisc logo" src="{{url_for('static', filename='images/jisc-logo.png')}}">
+            </a>
+            <div class="title-nav">
+                <a href="">Monitor UK <span class="badge">alpha</span></a>
+            </div>
+        </div>
+    </div>
+    <h1>{% block page_h1 %}{% endblock %}</h1>
+</header>
+<div class="inner">
+    <aside class="side-nav" >
+        <nav role="navigation" >
+            <ul>
+                <li class="parent active"><span>Elem with subs</span><ul>
+                    <li><a href="#">Sub elem</a></li>
+                    <li class="active" ><a href="#">Sub elem</a></li>
+                    <li><a href="#">Sub elem</a></li>
+                </ul></li>
+                <li class="parent" ><a href="#">Elem with subs</a></li>
+                <li><a href="#" >Elem</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <ol class="breadcrumb" >
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Library</a></li>
+        <li class="active">Manage Academic Outputs</li>
+    </ol>
+    <main role="main" id="main" >
+        {% block content %}{% endblock %}
+    </main>
+    <!--/ main -->
+</div>
+<!--/ .inner -->
+
+
+{% include 'footer.html' %}
+{% include '_js_includes.html' %}
+
+{% block extra_js_bottom %}{% endblock extra_js_bottom %}
+
+</body>
+
+</html>
