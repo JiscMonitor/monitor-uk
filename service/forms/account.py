@@ -11,8 +11,25 @@ from wtforms import Form, validators
 class MonitorUKUserFormXwalk(BasicUserFormXwalk):
 
     @classmethod
+    def obj2form(cls, acc):
+        data = BasicUserFormXwalk.obj2form(acc)
+
+        data["name"] = acc.name
+        data["organisation"] = acc.organisation
+        data["org_role"] = acc.org_role
+
+        return data
+
+    @classmethod
     def form2obj(cls, form, acc=None):
         acc = BasicUserFormXwalk.form2obj(form, acc)
+
+        if getattr(form, "name", None):
+            acc.name = form.name.data
+        if getattr(form, "organisation", None):
+            acc.organisation = form.organisation.data
+        if getattr(form, "org_role", None):
+            acc.org_role = form.org_role.data
 
         # if a new API key has been requested, set it
         if form.request_api_key.data == "true":
@@ -21,6 +38,12 @@ class MonitorUKUserFormXwalk(BasicUserFormXwalk):
         return acc
 
 class MonitorUKUserForm(BasicUserForm):
+    name = StringField("Name", [validators.DataRequired()])
+
+    organisation = StringField("Organisation", [validators.DataRequired()])
+
+    org_role = StringField("Role at Organisation", [validators.DataRequired()])
+
     request_api_key = HiddenField("request_api_key", default="true")
 
 
@@ -52,9 +75,11 @@ class MonitorUKUserFormContext(BasicUserFormContext):
         return super(MonitorUKUserFormContext, self).render_template(template=template, account=self.source, **kwargs)
 
     def pre_validate(self):
-        # if the email is not set, we need to set it, as this may be an API key reset request
-        if self.form.email.data is None or self.form.email.data == "":
-            self.form.email.data = self.source.email
+        # if this is a request to renew the API key, we don't do anything else with the form data
+        if self.form.request_api_key.data == "true":
+            password = self.form.password.data
+            self.source2form()
+            self.form.password.data = password
 
 class MonitorUKUserFormRenderer(Renderer):
     def __init__(self):
@@ -69,22 +94,37 @@ class MonitorUKUserFormRenderer(Renderer):
                 "fields" : [
                     {
                         "email" : {
-                            "attributes" : {}
+                            "attributes" : {"placeholder" : "Your email address"}
+                        }
+                    },
+                    {
+                        "name" : {
+                            "attributes" : {"placeholder" : "Your name"}
+                        }
+                    },
+                    {
+                        "organisation" : {
+                            "attributes" : {"placeholder" : "The organisation you work for"}
+                        }
+                    },
+                    {
+                        "org_role" : {
+                            "attributes" : {"placeholder" : "Your role at your organisation"}
                         }
                     },
                     {
                         "new_password" : {
-                            "attributes" : {}
+                            "attributes" : {"placeholder" : "Leave blank if not changing password"}
                         }
                     },
                     {
                         "confirm_new_password" : {
-                            "attributes" : {}
+                            "attributes" : {"placeholder" : "Leave blank if not changing password"}
                         }
                     },
                     {
                         "password" : {
-                            "attributes" : {}
+                            "attributes" : {"placeholder" : "Enter password to make changes"}
                         }
                     }
                 ]
@@ -102,7 +142,7 @@ class MonitorUKUserFormRenderer(Renderer):
                     },
                     {
                         "password" : {
-                            "attributes" : {}
+                            "attributes" : {"placeholder" : "Enter your password to make changes"}
                         }
                     }
                 ]
