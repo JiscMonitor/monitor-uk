@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block page_title %}Manage Users{% endblock %}
+{% block page_h1 %}Manage Users{% endblock %}
+
+{% block content %}
+
+{% if current_user.has_role(config.get("ACCOUNT_CREATE_USER_ROLE")) %}
+<div class="row">
+    <div class="col-md-12" style="text-align: right; margin-bottom: 50px;">
+        <a class="btn btn-info" href="{{url_for('account.register')}}"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Create New User</a>
+    </div>
+</div>
+{% endif %}
+
+<div id="userfacetview"></div>
+
+{% endblock %}
+
+{% block extra_js_bottom %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/account/userlist.js') }}"></script>
+{% endblock extra_js_bottom %}

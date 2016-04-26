@@ -49,6 +49,10 @@ SECRET_KEY = "super-secret-key"
 
 ACCOUNT_LIST_USERS = True
 
+# list of fields to be inserted into the _source part of a query on the account index.
+# This prevents us from sending information like api keys or hashed passwords to the front-end
+ACCOUNT_LIST_USERS_INCLUDE_SOURCE = ["id", "email", "created_date", "last_updated", "role", "organisation", "org_role", "name"]
+
 ACCOUNT_MODEL = "service.models.MonitorUKAccount"
 ACCOUNT_USER_FORM_CONTEXT = "service.forms.account.MonitorUKUserFormContext"
 
@@ -259,6 +263,33 @@ SITE_NAVIGATION = [
         }
     },
     {
+        "label" : "Admin",
+        "url" : {
+            "url_for" : "admin.index"
+        },
+        "active" : [
+            {"url_for" : "account.index", "match" : "exact"}
+        ],
+        "main_nav" : True,
+        "breadcrumb" : True,
+        "visibility" : {
+            "auth" : True,
+            "anonymous" : False,
+            "role" : ["admin"]
+        },
+        "always_show_subnav" : False,
+        "subnav" : [
+            {
+                "label" : "Manage Users",
+                "url" : {
+                    "url_for" : "account.index"
+                },
+                "main_nav" : True,
+                "breadcrumb" : True
+            }
+        ]
+    },
+    {
         "label" : "Log In",
         "url" : {
             "url_for" : "account.login",
@@ -267,13 +298,6 @@ SITE_NAVIGATION = [
             {"url_for" : "account.forgot", "match" : "exact"},
             {"url_for" : "account.forgot_pending", "match" : "exact"},
             {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "match" : "startswith"}
-        ],
-        "active_on_exact" : [
-            {"url_for" : "account.forgot"},
-            {"url_for" : "account.forgot_pending"}
-        ],
-        "active_on_startswith" : [
-            {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}}
         ],
         "main_nav" : True,
         "breadcrumb" : True,

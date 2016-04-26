@@ -57,6 +57,10 @@ app.register_blueprint(search, url_prefix="/search/v1")
 from octopus.modules.account.account import blueprint as account
 app.register_blueprint(account, url_prefix="/account")
 
+# adding account management, which enables the login functionality
+from service.views.admin import blueprint as admin
+app.register_blueprint(admin, url_prefix="/admin")
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
