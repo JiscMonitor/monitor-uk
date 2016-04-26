@@ -103,6 +103,13 @@
     {{ nav.breadcrumb(config.get("SITE_NAVIGATION", [])) }}
 
     <main role="main" id="main" >
+
+        <div class="row">
+            <div class="col-md-12">
+                {% include "_flash.html" %}
+            </div>
+        </div>
+
         {% block content %}{% endblock %}
     </main>
     <!--/ main -->

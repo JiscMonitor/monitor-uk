@@ -29,6 +29,19 @@ ELASTIC_SEARCH_EXAMPLE_DOCS = [
 ]
 
 ############################################
+## mail server configuration
+
+MAIL_FROM_ADDRESS = "no-reply@jisc.ac.uk"
+
+MAIL_SUBJECT_PREFIX = "[Monitor UK] "
+
+# Settings for Flask-Mail. Set in local.cfg
+MAIL_SERVER = None          # default localhost
+MAIL_PORT = 25              # default 25
+MAIL_USERNAME = None              # default None
+MAIL_PASSWORD = None              # default None
+
+############################################
 # important overrides for account module
 
 ACCOUNT_ENABLE = True
@@ -39,7 +52,7 @@ ACCOUNT_LIST_USERS = True
 ACCOUNT_MODEL = "service.models.MonitorUKAccount"
 ACCOUNT_USER_FORM_CONTEXT = "service.forms.account.MonitorUKUserFormContext"
 
-ACCOUNT_DEFAULT_ROLES = ["write_apc"]
+ACCOUNT_DEFAULT_ROLES = ["write_apc", "read_apc"]
 
 CLIENTJS_ACCOUNT_LIST_ENDPOINT = "/account_query/account"
 
@@ -221,25 +234,98 @@ MONITOR_ACCOUNT_REQUEST_EMAIL = "monitor+account@jisc.ac.uk"
 SITE_NAVIGATION = [
     {
         "label" : "Welcome",
-        "url_for" : "index",
-        "active_on_exact" : ["index"],
+        "url" : {
+            "url_for" : "index"
+        },
         "main_nav" : True,
         "breadcrumb" : False
     },
     {
+        "label" : "Your Account",
+        "url" : {
+            "url_for" : "account.username",
+            "current_user_kwargs" : [
+                {
+                    "property" : "email",
+                    "arg_name" : "username"
+                }
+            ]
+        },
+        "main_nav" : True,
+        "breadcrumb" : False,
+        "visibility" : {
+            "auth" : True,
+            "anonymous" : False
+        }
+    },
+    {
         "label" : "Log In",
-        "url_for" : "account.login",
-        "active_on_exact" : ["account.login", "account.forgot"],
+        "url" : {
+            "url_for" : "account.login",
+        },
+        "active" : [
+            {"url_for" : "account.forgot", "match" : "exact"},
+            {"url_for" : "account.forgot_pending", "match" : "exact"},
+            {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "match" : "startswith"}
+        ],
+        "active_on_exact" : [
+            {"url_for" : "account.forgot"},
+            {"url_for" : "account.forgot_pending"}
+        ],
+        "active_on_startswith" : [
+            {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}}
+        ],
         "main_nav" : True,
         "breadcrumb" : True,
+        "visibility" : {
+            "auth" : False,
+            "anonymous" : True
+        },
         "subnav" : [
             {
                 "label" : "Forgotten Password",
-                "url_for" : "account.forgot",
+                "url" : {
+                    "url_for" : "account.forgot"
+                },
                 "main_nav" : False,
-                "active_on_exact" : ["account.forgot"],
-                "breadcrumb" : True
+                "active" : [
+                    {"url_for" : "account.forgot_pending", "match" : "exact"}
+                ],
+                "breadcrumb" : True,
+                "subnav" : [
+                    {
+                        "label" : "Password Reset",
+                        "url_for" : "account.forgot_pending",
+                        "active" : [
+                            {"url_for" : "account.forgot_pending", "match" : "exact"}
+                        ],
+                        "main_nav" : False,
+                        "breadcrumb" : True,
+                        "link_on_active" : False
+                    }
+                ]
+            },
+            {
+                "label" : "Reset your password",
+                "active" : [
+                    {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "match" : "startswith"}
+                ],
+                "main_nav" : False,
+                "breadcrumb" : True,
+                "link_on_active" : False
             }
         ]
+    },
+    {
+        "label" : "Log Out",
+        "url" : {
+            "url_for" : "account.logout"
+        },
+        "main_nav" : True,
+        "breadcrumb" : False,
+        "visibility" : {
+            "auth" : True,
+            "anonymous" : False
+        }
     }
 ]
