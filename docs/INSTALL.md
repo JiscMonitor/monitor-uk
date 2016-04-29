@@ -4,6 +4,8 @@
 
 * Ubuntu 14.04 - all dev has been done under this version of linux, but it ought to work under all flavours.
 
+* OS X - installation requies xcode-select via ```xcode-select --install``` to compile libxml.
+
 * Python 2.7 + pip, setuptools and virtualenv.  If you are using Ubuntu, python, pip and setuptools should already be installed, then you can do:
 
     sudo pip install virtualenv
