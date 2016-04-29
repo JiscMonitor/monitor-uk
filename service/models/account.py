@@ -13,5 +13,5 @@ class MonitorUKAccount(BasicAccount, ContactableAccount, APIAccount, Organisatio
 
     def prep(self):
         super(MonitorUKAccount, self).prep()
-        if self.api_key is None:
+        if self.api_key is None and self.activation_token is not None:
             self.generate_api_key()

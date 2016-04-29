@@ -55,6 +55,7 @@ ACCOUNT_LIST_USERS_INCLUDE_SOURCE = ["id", "email", "created_date", "last_update
 
 ACCOUNT_MODEL = "service.models.MonitorUKAccount"
 ACCOUNT_USER_FORM_CONTEXT = "service.forms.account.MonitorUKUserFormContext"
+ACCOUNT_ACTIVATE_FORM_CONTEXT = "service.forms.account.MonitorUKActivateFormContext"
 
 ACCOUNT_DEFAULT_ROLES = ["write_apc", "read_apc"]
 
@@ -268,7 +269,8 @@ SITE_NAVIGATION = [
             "url_for" : "admin.index"
         },
         "active" : [
-            {"url_for" : "account.index", "match" : "exact"}
+            {"url_for" : "account.index", "match" : "exact"},
+            {"url_for" : "account.register", "match" : "exact"}
         ],
         "main_nav" : True,
         "breadcrumb" : True,
@@ -284,8 +286,29 @@ SITE_NAVIGATION = [
                 "url" : {
                     "url_for" : "account.index"
                 },
+                "active" : [
+                    {"url_for" : "account.register", "match" : "exact"}
+                ],
                 "main_nav" : True,
-                "breadcrumb" : True
+                "breadcrumb" : True,
+                "subnav" : [
+                    {
+                        "label" : "Create User",
+                        "url" : {
+                            "url_for" : "account.register"
+                        },
+                        "main_nav" : False,
+                        "breadcrumb" : True
+                    }
+                ]
+            },
+            {
+                "label" : "Create User",
+                "url" : {
+                    "url_for" : "account.register",
+                },
+                "main_nav" : True,
+                "breadcrumb" : False
             }
         ]
     },

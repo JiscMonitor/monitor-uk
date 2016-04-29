@@ -150,3 +150,88 @@ class MonitorUKUserFormRenderer(Renderer):
         }
 
 ###################################################
+
+
+class MonitorUKActivateForm(Form):
+    name = StringField("Name", [validators.DataRequired()])
+
+    organisation = StringField("Organisation", [validators.DataRequired()])
+
+    org_role = StringField("Role at Organisation", [validators.DataRequired()])
+
+    new_password = PasswordField('New Password', [
+        validators.DataRequired(),
+        validators.EqualTo('confirm_new_password', message='Passwords must match')
+    ])
+
+    confirm_new_password = PasswordField('Repeat Password', [validators.DataRequired()])
+
+class MonitorUKActivateFormContext(FormContext):
+    def set_template(self):
+        self.template = "account/activate.html"
+
+    def make_renderer(self):
+        self.renderer = MonitorUKActivateFormRenderer()
+
+    def blank_form(self):
+        self.form = MonitorUKActivateForm()
+
+    def data2form(self):
+        self.form = MonitorUKActivateForm(formdata=self.form_data)
+
+    def source2form(self):
+        self.form = MonitorUKActivateForm()
+
+    def finalise(self):
+        super(MonitorUKActivateFormContext, self).finalise()
+
+        password = self.form.new_password.data
+        self.source.set_password(password)
+        self.source.name = self.form.name.data
+        self.source.organisation = self.form.organisation.data
+        self.source.org_role = self.form.org_role.data
+        self.source.remove_activation_token()
+        self.source.save(blocking=True)
+
+    def render_template(self, template=None, **kwargs):
+        return super(MonitorUKActivateFormContext, self).render_template(template=template, account=self.source, **kwargs)
+
+class MonitorUKActivateFormRenderer(Renderer):
+    def __init__(self):
+        super(MonitorUKActivateFormRenderer, self).__init__()
+
+        self.FIELD_GROUPS = {
+            "activate" : {
+                "helper" : "bs3_horizontal",
+                "wrappers" : ["first_error", "container"],
+                "label_width" : 4,
+                "control_width" : 8,
+                "fields" : [
+                    {
+                        "name" : {
+                            "attributes" : {"placeholder" : "Your name"}
+                        }
+                    },
+                    {
+                        "organisation" : {
+                            "attributes" : {"placeholder" : "The organisation you work for"}
+                        }
+                    },
+                    {
+                        "org_role" : {
+                            "attributes" : {"placeholder" : "Your role at your organisation"}
+                        }
+                    },
+                    {
+                        "new_password" : {
+                            "attributes" : {"placeholder" : "Your desired password"}
+                        }
+                    },
+                    {
+                        "confirm_new_password" : {
+                            "attributes" : {"placeholder" : "Repeat your desired password"}
+                        }
+                    }
+                ]
+            }
+        }
