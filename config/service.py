@@ -281,7 +281,8 @@ SITE_NAVIGATION = [
                     }
                 ]
             },
-            {"url_for" : "account.index", "type" : "exact"}
+            {"url_for" : "account.index", "type" : "exact"},
+            {"url_for" : "account.login", "type" : "exact", "action" : "deactivate"}
         ],
         "main_nav" : True,
         "breadcrumb" : True,
@@ -320,7 +321,8 @@ SITE_NAVIGATION = [
                             "url_for" : "account.register"
                         },
                         "main_nav" : False,
-                        "breadcrumb" : True
+                        "breadcrumb" : True,
+                        "link_on_active" : False
                     },
                     {
                         "label" : "Edit User",
