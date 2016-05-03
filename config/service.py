@@ -268,9 +268,20 @@ SITE_NAVIGATION = [
         "url" : {
             "url_for" : "admin.index"
         },
-        "active" : [
-            {"url_for" : "account.index", "match" : "exact"},
-            {"url_for" : "account.register", "match" : "exact"}
+        "match" : [
+            {"url_for" : "account.register", "type" : "exact"},
+            {"url_for" : "account.username", "kwargs" : {"username" : ""}, "type" : "startswith"},
+            {
+                "action" : "deactivate",
+                "url_for" : "account.username",
+                "current_user_kwargs" : [
+                    {
+                        "property" : "email",
+                        "arg_name" : "username"
+                    }
+                ]
+            },
+            {"url_for" : "account.index", "type" : "exact"}
         ],
         "main_nav" : True,
         "breadcrumb" : True,
@@ -286,8 +297,19 @@ SITE_NAVIGATION = [
                 "url" : {
                     "url_for" : "account.index"
                 },
-                "active" : [
-                    {"url_for" : "account.register", "match" : "exact"}
+                "match" : [
+                    {"url_for" : "account.register", "type" : "exact"},
+                    {"url_for" : "account.username", "kwargs" : {"username" : ""}, "type" : "startswith"},
+                    {
+                        "action" : "deactivate",
+                        "url_for" : "account.username",
+                        "current_user_kwargs" : [
+                            {
+                                "property" : "email",
+                                "arg_name" : "username"
+                            }
+                        ]
+                    }
                 ],
                 "main_nav" : True,
                 "breadcrumb" : True,
@@ -299,6 +321,27 @@ SITE_NAVIGATION = [
                         },
                         "main_nav" : False,
                         "breadcrumb" : True
+                    },
+                    {
+                        "label" : "Edit User",
+                        "match" : [
+                            {"url_for" : "account.username", "kwargs" : {"username" : ""}, "type" : "startswith"},
+                            {
+                                "action" : "deactivate",
+                                "url_for" : "account.username",
+                                "current_user_kwargs" : [
+                                    {
+                                        "property" : "email",
+                                        "arg_name" : "username"
+                                    }
+                                ]
+                            },
+                            {"url_for" : "account.index", "action" : "deactivate"},
+                            {"url_for" : "account.register", "action" : "deactivate"}
+                        ],
+                        "main_nav" : False,
+                        "breadcrumb" : True,
+                        "link_on_active" : False
                     }
                 ]
             },
@@ -317,10 +360,10 @@ SITE_NAVIGATION = [
         "url" : {
             "url_for" : "account.login",
         },
-        "active" : [
-            {"url_for" : "account.forgot", "match" : "exact"},
-            {"url_for" : "account.forgot_pending", "match" : "exact"},
-            {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "match" : "startswith"}
+        "match" : [
+            {"url_for" : "account.forgot", "type" : "exact"},
+            {"url_for" : "account.forgot_pending", "type" : "exact"},
+            {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "type" : "startswith"}
         ],
         "main_nav" : True,
         "breadcrumb" : True,
@@ -335,16 +378,16 @@ SITE_NAVIGATION = [
                     "url_for" : "account.forgot"
                 },
                 "main_nav" : False,
-                "active" : [
-                    {"url_for" : "account.forgot_pending", "match" : "exact"}
+                "match" : [
+                    {"url_for" : "account.forgot_pending", "type" : "exact"}
                 ],
                 "breadcrumb" : True,
                 "subnav" : [
                     {
                         "label" : "Password Reset",
                         "url_for" : "account.forgot_pending",
-                        "active" : [
-                            {"url_for" : "account.forgot_pending", "match" : "exact"}
+                        "match" : [
+                            {"url_for" : "account.forgot_pending", "type" : "exact"}
                         ],
                         "main_nav" : False,
                         "breadcrumb" : True,
@@ -354,8 +397,8 @@ SITE_NAVIGATION = [
             },
             {
                 "label" : "Reset your password",
-                "active" : [
-                    {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "match" : "startswith"}
+                "match" : [
+                    {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "type" : "startswith"}
                 ],
                 "main_nav" : False,
                 "breadcrumb" : True,
