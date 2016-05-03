@@ -10,3 +10,5 @@
 
 # now run the normal setup.py and get all the normal PyPI dependencies from there
 -e .
+
+Flask==0.10.1
