@@ -64,3 +64,17 @@ Start the scheduler (which runs all the asynchronous processing) with:
     python magnificent-octopus/octopus/bin/run.py start_scheduler
     
 
+## Creating the first Admin user
+
+First create the user account with the basic information:
+
+    python magnificent-octopus/octopus/bin/run.py usermod -e <your email> -p <password> -r admin
+
+Then log in as this user from
+
+    /account/login
+    
+Then visit "Your Account" and populate the remaining required information
+
+    /account/<your email>
+    
