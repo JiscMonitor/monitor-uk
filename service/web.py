@@ -25,6 +25,7 @@ if __name__ == "__main__":
 # most of the imports should be done here, after initialise()
 from flask import render_template, redirect, url_for
 from octopus.lib.webapp import custom_static
+from flask_login import login_required
 
 @app.route("/")
 def index():
@@ -60,6 +61,11 @@ app.register_blueprint(account, url_prefix="/account")
 # adding account management, which enables the login functionality
 from service.views.admin import blueprint as admin
 app.register_blueprint(admin, url_prefix="/admin")
+
+@app.route("/search")
+@login_required
+def search():
+    return render_template("/reports/search.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
