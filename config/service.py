@@ -78,7 +78,7 @@ QUERY_ROUTE = {
             "auth" : True,
             "role" : None,
             "filters" : [
-                "service.search.report_query_filter"
+                # "service.search.report_query_filter"
             ],
             "dao" : "service.search.StaticPublicDAOProxy"
         }
@@ -244,6 +244,18 @@ SITE_NAVIGATION = [
         },
         "main_nav" : True,
         "breadcrumb" : False
+    },
+    {
+        "label" : "Search",
+        "url" : {
+            "url_for" : "search",
+        },
+        "visibility" : {
+            "auth" : True
+        },
+        "main_nav" : True,
+        "breadcrumb" : False
+
     },
     {
         "label" : "Your Account",
@@ -421,3 +433,6 @@ SITE_NAVIGATION = [
         }
     }
 ]
+
+# Javascript endpoint configurations
+CLIENTJS_PUBLIC_QUERY_ENDPOINT = "/query/apc"
