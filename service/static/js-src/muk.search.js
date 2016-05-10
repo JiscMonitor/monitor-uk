@@ -1,7 +1,6 @@
-var muk_search = {
-    activeEdges : {},
-
-    makeSearch : function(params) {
+$.extend(muk, {
+    search : {
+        makeSearch : function(params) {
         if (!params) { params = {} }
 
         var selector = edges.getParam(params.selector, "#muk_search");
@@ -12,12 +11,16 @@ var muk_search = {
             search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
             manageUrl : true,
             components : [
-                edges.newRefiningANDTermSelector({
+                edges.newORTermSelector({
                     id: "organisation",
                     field: "record.jm:apc.organisation_name.exact",
                     display: "Institution",
-                    size: 10,
-                    category: "facet"
+                    size: 500,
+                    category: "facet",
+                    lifecycle: "update",
+                    renderer : edges.bs3.newORTermSelectorRenderer({
+                        showCount: true
+                    })
                 }),
                 edges.newFullSearchController({
                     id: "search-controller",
@@ -61,6 +64,7 @@ var muk_search = {
             ]
         });
 
-        muk_search.activeEdges[selector] = e;
+        muk.activeEdges[selector] = e;
     }
-};
+    }
+});

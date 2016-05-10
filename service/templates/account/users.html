@@ -18,5 +18,9 @@
 {% endblock %}
 
 {% block extra_js_bottom %}
+<!-- get facetview2 -->
+<script type="text/javascript" src="{{url_for('static', filename='vendor/facetview2/es.js')}}"></script> -->
+<script type="text/javascript" src="{{url_for('static', filename='vendor/facetview2/bootstrap3.facetview.theme.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='vendor/facetview2/jquery.facetview2.js')}}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/account/userlist.js') }}"></script>
 {% endblock extra_js_bottom %}

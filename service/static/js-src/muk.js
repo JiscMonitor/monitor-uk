@@ -1,0 +1,3 @@
+var muk = {
+    activeEdges : {}
+};
