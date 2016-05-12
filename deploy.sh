@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/bash
 
 # Template script to use to deploy on a new VM the application
 # DO NOT USE AS-IS - you must customise it to your specific service name
