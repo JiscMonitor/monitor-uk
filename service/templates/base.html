@@ -64,47 +64,192 @@
 
     {% block extra_css_top %}{% endblock extra_css_top %}
 
+<style>
+.jiscbanner {
+    background-color: #2C3E50;
+    min-height: 36px !important;
+}
+
+.masthead {
+    line-height: 36px;
+    line-height: 3.6rem;
+    border-bottom: 0px !important;
+    background-color: #5fb8ba !important;
+}
+
+.masthead .inner {
+    padding-left: 0px !important;
+}
+
+.site-header {
+    background-color: #5fb8ba;
+    background-size: 50% 240px !important;
+}
+
+.site-header h1 {
+    color: #ffffff !important;
+    line-height: 36px !important;
+    font-size: 3.6rem;
+    margin-top: 29px;
+    margin-bottom: 25px;
+    padding: 0px;
+}
+
+.site-header h1 a {
+    color: #ffffff !important;
+    text-decoration:none;
+}
+
+.site-header h1 a:hover {
+    opacity: 0.7;
+}
+
+.badge {
+    vertical-align: top !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.tab-nav {
+    margin-right: auto;
+    margin-left: auto;
+    font-family: 'Stag Sans Web Light', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 18px;
+}
+
+.mainpanel {
+    margin-top: -240px !important;
+    min-height: 240px !important;
+}
+
+.tab-nav .active a {
+    border: 1px solid #ffffff !important;
+    color: #5fb8ba !important;
+}
+
+.tab-nav a:hover {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #5fb8ba;
+}
+
+.nav-tabs {
+    border: 0px !important;
+}
+
+.tab-nav li {
+    margin-right: 3px;
+    background-color: #236a6f;
+    margin-bottom: 0px;
+}
+
+.tab-nav li a {
+    color: #ffffff;
+    margin-right: 0px;
+}
+
+.tab-nav li:hover {
+    background-color: #ffffff !important;
+    color: #5fb8ba;
+}
+
+.tab-nav li:hover a {
+    background-color: #ffffff !important;
+    color: #5fb8ba;
+}
+
+.tab-nav li:hover>ul {
+    display: block;
+}
+
+.tab-nav .subnav {
+    display: none;
+    position:absolute;
+    list-style: none;
+    padding: 0 10px 10px;
+    box-shadow: 1px 1px 5px #1F282F;
+    z-index: 100;
+}
+
+.tab-nav .subnav li {
+    width: auto;
+    background-color: #ffffff !important;
+    color: #5fb8ba;
+}
+
+.tab-nav .subnav a {
+    font-size: 15px;
+    font-size: 1.5rem;
+    line-height: 30px;
+    line-height: 3rem;
+    /* color: #5fb8ba !important; */
+    font-weight: 400;
+    padding: 4px 10px;
+    display: block;
+    max-width: 265px;
+    font-family: "Stag Sans Web Book",HelveticaNeue,"Helvetica Neue",Arial,sans-serif;
+    border: 0px !important;
+}
+
+.tab-nav .subnav a:hover {
+    text-decoration: none;
+    font-size: 15px;
+    font-size: 1.5rem;
+    line-height: 30px;
+    line-height: 3rem;
+    color: #236a6f !important;
+    font-weight: 400;
+    padding: 4px 10px;
+    display: block;
+    max-width: 265px;
+    font-family: "Stag Sans Web Book",HelveticaNeue,"Helvetica Neue",Arial,sans-serif;
+    border: 0px !important;
+}
+
+.breadcrumb {
+    margin-left: 0px;
+}
+
+#main {
+    width: 100%;
+}
+
+</style>
+
 </head>
 
 <body class="">
 <header class="site-header">
-    <div class="masthead" role="banner" >
+    <div class="masthead" role="banner">
+        <div class="jiscbanner">
+            <div class="inner">
+                <a class="visuallyhidden" href="#main" tabindex="1">
+                    <span>Skip to main content</span>
+                </a>
+                <a class="logo" href="//jisc.ac.uk">
+                    <img alt="Jisc logo" src="{{url_for('static', filename='images/jisc-logo.png')}}">
+                </a>
+            </div>
+        </div>
+        <h1><a href="{{ url_for('index') }}">Monitor UK</a> <span class="badge">ALPHA</span></h1>
         <div class="inner">
-            <a class="visuallyhidden" href="#main" tabindex="1">
-                <span>Skip to main content</span>
-            </a>
-            <a class="logo" href="//jisc.ac.uk">
-                <img alt="Jisc logo" src="{{url_for('static', filename='images/jisc-logo.png')}}">
-            </a>
-            <div class="title-nav">
-                <a href="{{ url_for('index') }}">Monitor UK <span class="badge">alpha</span></a>
+            <div class="tab-nav" >
+                {{ nav.main_nav(config.get("PRIMARY_NAVIGATION", []), top_classes="nav nav-tabs navbar-left", sub_classes="subnav") }}
+                {{ nav.main_nav(config.get("SECONDARY_NAVIGATION", []), top_classes="nav nav-tabs navbar-right", sub_classes="subnav") }}
             </div>
         </div>
     </div>
-    <h1>{% block page_h1 %}{% endblock %}</h1>
+
 </header>
 
-<div class="inner">
-    <aside class="side-nav" >
-        {{ nav.main_nav(config.get("SITE_NAVIGATION", [])) }}
-    <!--
-        <nav role="navigation" >
-            <ul>
-                <li class="parent"><span>Elem with subs</span><ul>
-                    <li><a href="#">Sub elem</a></li>
-                    <li class="active" ><a href="#">Sub elem</a></li>
-                    <li><a href="#">Sub elem</a></li>
-                </ul></li>
-                <li class="parent" ><a href="#">Elem with subs</a></li>
-                <li {% if request.path == url_for('account.login') %}class="active"{% endif %}><a href="{{ url_for('account.login') }}" >Log in</a></li>
-            </ul>
-        </nav>
-        -->
-    </aside>
-
-    {{ nav.breadcrumb(config.get("SITE_NAVIGATION", [])) }}
-
+<div class="inner mainpanel">
     <main role="main" id="main" >
+        <div class="row">
+            <div class="col-md-12">
+                {{ nav.breadcrumb(config.get("SITE_NAVIGATION", [])) }}
+                <h1>{% block page_h1 %}{% endblock %}</h1>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12">

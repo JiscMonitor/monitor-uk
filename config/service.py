@@ -236,27 +236,23 @@ API_JSON_LD_CONTEXT = {
 # Email address to be presented on the login page for the user to contact if they wish to request an account
 MONITOR_ACCOUNT_REQUEST_EMAIL = "monitor+account@jisc.ac.uk"
 
-SITE_NAVIGATION = [
-    {
-        "label" : "Welcome",
-        "url" : {
-            "url_for" : "index"
-        },
-        "main_nav" : True,
-        "breadcrumb" : False
-    },
+PRIMARY_NAVIGATION = [
     {
         "label" : "Search",
         "url" : {
             "url_for" : "search",
         },
         "visibility" : {
-            "auth" : True
+            "auth" : True,
+            "anonymous" : False
         },
         "main_nav" : True,
         "breadcrumb" : False
 
-    },
+    }
+]
+
+SECONDARY_NAVIGATION = [
     {
         "label" : "Your Account",
         "url" : {
@@ -294,7 +290,10 @@ SITE_NAVIGATION = [
                 ]
             },
             {"url_for" : "account.index", "type" : "exact"},
-            {"url_for" : "account.login", "type" : "exact", "action" : "deactivate"}
+            {"url_for" : "account.login", "type" : "exact", "action" : "deactivate"},
+            {"url_for" : "account.forgot", "type" : "exact", "action" : "deactivate"},
+            {"url_for" : "account.forgot_pending", "type" : "exact", "action" : "deactivate"},
+            {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "type" : "startswith", "action" : "deactivate"}
         ],
         "main_nav" : True,
         "breadcrumb" : True,
@@ -303,10 +302,10 @@ SITE_NAVIGATION = [
             "anonymous" : False,
             "role" : ["admin"]
         },
-        "always_show_subnav" : False,
+        "always_show_subnav" : True,
         "subnav" : [
             {
-                "label" : "Manage Users",
+                "label" : "Manage&nbsp;Users",
                 "url" : {
                     "url_for" : "account.index"
                 },
@@ -328,7 +327,7 @@ SITE_NAVIGATION = [
                 "breadcrumb" : True,
                 "subnav" : [
                     {
-                        "label" : "Create User",
+                        "label" : "Create&nbsp;User",
                         "url" : {
                             "url_for" : "account.register"
                         },
@@ -433,6 +432,8 @@ SITE_NAVIGATION = [
         }
     }
 ]
+
+SITE_NAVIGATION = PRIMARY_NAVIGATION + SECONDARY_NAVIGATION
 
 # Javascript endpoint configurations
 CLIENTJS_PUBLIC_QUERY_ENDPOINT = "/query/apc"
