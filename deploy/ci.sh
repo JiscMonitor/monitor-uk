@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Continuous integration script
+# Continuous integration script, run via codeship
 
 . ../bin/activate
 git submodule update --init --recursive
