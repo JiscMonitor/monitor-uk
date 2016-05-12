@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # Continuous integration script, run via codeship
-cd ..
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $DIR/..
 git submodule update --init --recursive
-source ../bin/activate
+. ../bin/activate
 pip install -r requirements.txt
 
 sudo supervisorctl reread
