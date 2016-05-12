@@ -5,7 +5,7 @@ git submodule update --init --recursive
 
 source ../../bin/activate
 
-pip install -r requirements.txt
+pip install -r ../requirements.txt
 
 sudo supervisorctl reread
 sudo supervisorctl update monitor-uk
