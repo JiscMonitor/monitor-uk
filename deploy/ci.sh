@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Continuous integration script, run via codeship
+cd ..
+
 git submodule update --init --recursive
-
-source ../../bin/activate
-
-cd .. && pip install -r requirements.txt
+source ../bin/activate
+pip install -r requirements.txt
 
 sudo supervisorctl reread
 sudo supervisorctl update monitor-uk
