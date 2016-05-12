@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/bash
 
 # Continuous integration script, run via codeship
 
