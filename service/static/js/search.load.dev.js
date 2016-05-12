@@ -15,7 +15,7 @@ requirejs.config({
 
         // "edges.charts" : "src/components/charts",
         // "edges.maps" : "src/components/maps",
-        // "edges.ranges" : "src/components/ranges",
+        "edges.ranges" : edges_base + "src/components/ranges",
         "edges.search" : edges_base + "src/components/search",
         "edges.selectors" : edges_base + "src/components/selectors",
 
@@ -25,7 +25,7 @@ requirejs.config({
         // "edges.bs3.basicrangeselector" : "src/renderers/bs3.BasicRangeSelectorRenderer",
         "edges.bs3.fullsearchcontroller" : edges_base + "src/renderers/bs3.FullSearchControllerRenderer",
         // "edges.bs3.multidaterange" : "src/renderers/bs3.MultiDateRangeRenderer",
-        // "edges.bs3.numericrangeentry" : "src/renderers/bs3.NumericRangeEntryRenderer",
+        "edges.bs3.numericrangeentry" : edges_base + "src/renderers/bs3.NumericRangeEntryRenderer",
         "edges.bs3.ortermselector" : edges_base + "src/renderers/bs3.ORTermSelectorRenderer",
         "edges.bs3.pager" : edges_base + "src/renderers/bs3.PagerRenderer",
         "edges.bs3.refiningandtermselector" : edges_base + "src/renderers/bs3.RefiningANDTermSelectorRenderer",
@@ -48,10 +48,12 @@ requirejs(["jquery"], function() {
     requirejs(["es", "edges-jquery"], function() {
         requirejs(["edges"], function() {
             requirejs([
+                "edges.ranges",
                 "edges.search",
                 "edges.selectors",
                 "edges.bs3.facetview",
                 "edges.bs3.fullsearchcontroller",
+                "edges.bs3.numericrangeentry",
                 "edges.bs3.ortermselector",
                 "edges.bs3.pager",
                 "edges.bs3.refiningandtermselector",
