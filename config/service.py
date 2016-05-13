@@ -55,6 +55,7 @@ ACCOUNT_LIST_USERS_INCLUDE_SOURCE = ["id", "email", "created_date", "last_update
 
 ACCOUNT_MODEL = "service.models.MonitorUKAccount"
 ACCOUNT_USER_FORM_CONTEXT = "service.forms.account.MonitorUKUserFormContext"
+ACCOUNT_USER_FORM_ADMIN_CONTEXT = "service.forms.account.MonitorUKUserAdminFormContext"
 ACCOUNT_ACTIVATE_FORM_CONTEXT = "service.forms.account.MonitorUKActivateFormContext"
 
 ACCOUNT_DEFAULT_ROLES = ["write_apc", "read_apc"]
