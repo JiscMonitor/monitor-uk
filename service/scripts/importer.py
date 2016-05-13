@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+from octopus.core import app
 from octopus.lib import dataobj, http
 
 from octopus.modules.sheets import sheets, commasep
@@ -219,7 +220,9 @@ def do_import(path, org, email):
     acc = models.MonitorUKAccount.pull_by_email(email)
     if acc is None:
         acc = models.MonitorUKAccount()
+        acc.organisation = org
         acc.email = email
+        acc.role = app.config.get("ACCOUNT_DEFAULT_ROLES")
         acc.save(blocking=True)
 
     csv = commasep.CsvReader(path=path)

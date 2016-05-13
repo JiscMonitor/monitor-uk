@@ -37,7 +37,13 @@
         <form id="api_key_reset" method="post" action="{{url_for('account.username', username=account.email)}}">
             <div class="col-md-offset-2 col-md-6 form-horizontal wide">
                 <h2>API Key Management</h2>
-                <p><strong>Your current API Key:</strong> <code>{{ account.api_key }}</code></p>
+                <p><strong>Your current API Key:</strong><code>
+                    {% if account.api_key %}
+                        {{ account.api_key }}
+                    {% else %}
+                        You do not have an API key - generate one below
+                    {% endif %}
+                </code></p>
                 {% autoescape off %}
                 {{ form_context.render_field_group("api_key") }}
                 {% endautoescape %}
