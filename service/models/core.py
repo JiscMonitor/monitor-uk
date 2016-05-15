@@ -341,6 +341,38 @@ PUBLIC_INDEX_RULES = [
             "name" : "ascii_unpunc",
             "args" : ["$.record.'dc:title'"]
         }
+    },
+    {
+        "index_field" : "apc_count",
+        "struct_args" : {"coerce" : "integer"},
+        "function" : {
+            "name" : "count",
+            "kwargs" : {
+                "list_field" : "$.record.'jm:apc'"
+            }
+        }
+    },
+    {
+        "index_field" : "org_count",
+        "struct_args" : {"coerce" : "integer"},
+        "function" : {
+            "name" : "unique_count",
+            "kwargs" : {
+                "list_field" : "$.record.'jm:apc'",
+                "unique_field" : "$.organisation_name"
+            }
+        }
+    },
+    {
+        "index_field" : "account_count",
+        "struct_args" : {"coerce" : "integer"},
+        "function" : {
+            "name" : "unique_count",
+            "kwargs" : {
+                "list_field" : "$.admin.apc_owners",
+                "unique_field" : "$.owner"
+            }
+        }
     }
 ]
 
