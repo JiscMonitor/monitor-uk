@@ -1,0 +1,59 @@
+.muk-search-apc-container {
+
+}
+
+.muk-search-apc-record {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: 2px solid #3e8db8;
+    border-bottom: none;
+    background-color: white;
+    margin-bottom: 15px;
+}
+
+.muk-search-apc-title {
+    font-weight: bold;
+    font-size: 140%;
+}
+
+.muk-search-apc-cost {
+    font-weight: bold;
+    font-size: 140%;
+}
+
+.muk-search-apc-biblio {
+    padding-top: 20px;
+}
+
+.muk-search-apc-label {
+    display:block;
+    width: 100%;
+    text-align: right;
+}
+
+.muk-search-apc-value {
+    font-weight: bold;
+}
+
+.muk-search-apc-more-link {
+
+}
+
+.muk-search-apc-more-link-box {
+
+}
+
+.muk-search-apc-less-link {
+
+}
+
+.muk-search-apc-less-link-box {
+    display:none;
+}
+
+.muk-search-apc-more-box {
+    display:none;
+    padding-top: 20px;
+}
