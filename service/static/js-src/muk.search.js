@@ -177,7 +177,6 @@ $.extend(muk, {
 
         makeSearch : function(params) {
             if (!params) { params = {} }
-
             var selector = edges.getParam(params.selector, "#muk_search");
 
             var e = edges.newEdge({

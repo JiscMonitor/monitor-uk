@@ -249,7 +249,18 @@ PRIMARY_NAVIGATION = [
         },
         "main_nav" : True,
         "breadcrumb" : False
-
+    },
+    {
+        "label" : "Publisher",
+        "url" : {
+            "url_for" : "publisher"
+        },
+        "visibility" : {
+            "auth" : True,
+            "anonymous" : False
+        },
+        "main_nav" : True,
+        "breadcrumb" : False
     }
 ]
 

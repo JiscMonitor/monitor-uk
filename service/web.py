@@ -67,6 +67,11 @@ app.register_blueprint(admin, url_prefix="/admin")
 def search():
     return render_template("/reports/search.html")
 
+@app.route("/publisher")
+@login_required
+def publisher():
+    return render_template("/reports/publisher.html")
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
