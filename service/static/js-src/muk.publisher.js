@@ -27,6 +27,7 @@ $.extend(muk, {
                 var filterClass = edges.css_classes(this.namespace, "filter");
                 var tabViewClass = edges.css_classes(this.namespace, "tabview");
                 var tabContainerClass = edges.css_classes(this.namespace, "tab-container");
+                var tabLabelBarClass = edges.css_classes(this.namespace, "tab-bar");
                 var tabClass = edges.css_classes(this.namespace, "tab");
                 var storyClass = edges.css_classes(this.namespace, "stories");
                 var dataClass = edges.css_classes(this.namespace, "data");
@@ -69,7 +70,7 @@ $.extend(muk, {
                             </div>\
                         </div>';
                 }
-                tabLabels = '<ul class="nav nav-tabs">' + tabLabels + '</ul>';
+                tabLabels = '<ul class="nav nav-tabs navbar-right">' + tabLabels + '</ul>';
 
                 // the story entries
                 var stories = edge.category("story");
@@ -99,7 +100,7 @@ $.extend(muk, {
                         </div>\
                         <div class="col-md-9">\
                             <div class="' + tabViewClass + '">\
-                                <div class="row"><div class="col-md-12">' + tabLabels + '</div></div>\
+                                <div class="' + tabLabelBarClass + '"><div class="row"><div class="col-md-12">' + tabLabels + '</div></div></div>\
                                 ' + tabContents + '\
                             </div>\
                         </div>\
@@ -139,6 +140,9 @@ $.extend(muk, {
             };
 
             this.bringIn = function (selector) {
+                if (!this.hidden[selector]) {
+                    return;
+                }
                 var pos = this.hidden[selector].position;
                 var mar = this.hidden[selector].margin;
                 var el = this.edge.jq(selector);
@@ -246,7 +250,7 @@ $.extend(muk, {
                     }),
                     edges.newHorizontalMultibar({
                         id: "apc_count",
-                        display: "APC Count",
+                        display: "Number of APCs",
                         dataFunction: edges.ChartDataFunctions.terms({
                             useAggregations : ["apc_count"],
                             seriesKeys : {
@@ -257,7 +261,7 @@ $.extend(muk, {
                     }),
                     edges.newHorizontalMultibar({
                         id: "total_expenditure",
-                        display: "Total Expenditure",
+                        display: "Total expenditure",
                         dataFunction : edges.ChartDataFunctions.termsStats({
                             useAggregations : ["apc_count publisher_stats"],  // the path to the stats in the terms, separated by space
                             seriesFor : ["sum"],
@@ -269,7 +273,7 @@ $.extend(muk, {
                     }),
                     edges.newHorizontalMultibar({
                         id: "mean",
-                        display: "Mean",
+                        display: "Average APC Cost",
                         dataFunction : edges.ChartDataFunctions.termsStats({
                             useAggregations : ["apc_count publisher_stats"],
                             seriesFor : ["avg"],

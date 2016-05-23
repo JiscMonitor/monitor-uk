@@ -35,3 +35,38 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.muk-publisher-report-template-tab-bar {
+    border-bottom: 2px solid #eeeeee;
+}
+
+.muk-publisher-report-template-tab-bar li {
+    margin-bottom: -2px;
+}
+
+.muk-publisher-report-template-tab-bar li.active>a {
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+    border-top: 2px solid #0e90d2;
+}
+
+.muk-publisher-report-template-tab-bar li.active>a:hover {
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+    border-top: 2px solid #0e90d2;
+}
+
+.muk-publisher-report-template-tab-bar li.active>a:focus {
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+    border-top: 2px solid #0e90d2;
+}
+
+.muk-publisher-report-template-tab-container {
+    height: 750px;
+    width: 800px;
+}
+
+.muk-publisher-report-template-tab-container .muk-publisher-report-template-tab {
+    height: 700px;
+}
