@@ -30,6 +30,7 @@ $.extend(muk, {
                 var tabClass = edges.css_classes(this.namespace, "tab");
                 var storyClass = edges.css_classes(this.namespace, "stories");
                 var dataClass = edges.css_classes(this.namespace, "data");
+                var filterHeaderClass = edges.css_classes(this.namespace, "filter-header");
 
                 // the top strap controls
                 var topstrap = edge.category("top");
@@ -88,11 +89,13 @@ $.extend(muk, {
                     }
                 }
 
+                var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;FILTER</div></div></div>';
+
                 var template = '<div class="' + panelClass + '"> \
                     <div class="' + topClass + '">' + topContainers + '</div>\
                     <div class="row">\
                         <div class="col-md-3">\
-                            <div class="' + filtersClass + '">' + controlContainers + '</div>\
+                            <div class="' + filtersClass + '">' + filterHeader + controlContainers + '</div>\
                         </div>\
                         <div class="col-md-9">\
                             <div class="' + tabViewClass + '">\
@@ -202,41 +205,44 @@ $.extend(muk, {
                         autoLookupRange: true,
                         category : "top"
                     }),
-                    edges.newSelectedFilters({
-                        id: "selected-filters",
-                        fieldDisplays : {
-                            "monitor.jm:apc.name.exact" : "Institution",
-                            "monitor.jm:apc.amount_gbp" : "APC"
-                        },
-                        rangeMaps : {
-                            "monitor.jm:apc.amount_gbp": [
-                                {to: 500, display: "< 500"},
-                                {from: 500, to: 1000, display: "500 -> 1000"},
-                                {from: 1000, to: 2500, display: "1000 -> 2500"},
-                                {from: 2500, display: "2500+"}
-                            ]
-                        },
-                        category: "top"
-                    }),
                     edges.newORTermSelector({
                         id: "institution",
                         field: "record.jm:apc.organisation_name.exact",
-                        display: "Limit by Institution",
+                        display: "Compare Institutions",
                         lifecycle: "static",
-                        category: "lhs"
+                        size: 10000,
+                        category: "top",
+                        renderer : edges.bs3.newNSeparateORTermSelectorRenderer({
+                            n: 3,
+                            properties : [
+                                {label: "Compare", unselected: "<choose an institution>"},
+                                {label : "With", unselected : "<add another>"},
+                                {label : "and", unselected : "<add another>"}
+                            ]
+                        })
                     }),
                     edges.newORTermSelector({
                         id : "publisher",
                         field : "record.dcterms:publisher.name.exact",
-                        display : "Choose publishers to display",
+                        display : "Publisher",
                         lifecycle: "static",
-                        category: "lhs"
+                        size: 10000,
+                        category: "lhs",
+                        renderer : edges.bs3.newORTermSelectorRenderer({
+                            open: true,
+                            togglable: false
+                        })
                     }),
                     edges.newRefiningANDTermSelector({
-                        id: "journal_type",
-                        field: "record.dc:source.oa_type.exact",
-                        display: "Journal type",
-                        category: "lhs"
+                        id : "oa_type",
+                        field : "record.dc:source.oa_type.exact",
+                        display : "Journal type",
+                        category: "lhs",
+                        renderer : edges.bs3.newRefiningANDTermSelectorRenderer({
+                            open: true,
+                            togglable: false,
+                            controls: false
+                        })
                     }),
                     edges.newHorizontalMultibar({
                         id: "apc_count",
