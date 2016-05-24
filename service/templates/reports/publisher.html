@@ -52,5 +52,8 @@
 {% endblock %}
 
 {% block extra_js_bottom %}
+    <script type="application/javascript">
+        var myInstituion = "{{ current_user.organisation }}";
+    </script>
     <script data-main="{{ url_for("static", filename="js/publisher.load.dev") }}" src="{{ url_for("static", filename="vendor/edges_build/build/require.js") }}"></script>
 {% endblock%}
