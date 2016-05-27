@@ -138,6 +138,14 @@ class PublicAPC(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
         super(PublicAPC, self).__init__(type="public", record_struct=CORE_STRUCT, admin_struct=PUBLIC_ADMIN_STRUCT, index_rules=PUBLIC_INDEX_RULES, full=full)
 
+    def prep(self):
+        # aside from the usual indexing prep, we also need to make sure we've got suitable numbers in all the
+        # amount fields for each apc
+        for apc in self.apc_records:
+            if apc.get("amount_inc_vat_gbp") is None:
+                apc["amount_inc_vat_gbp"] = apc.get("amount_ex_vat_gbp", 0) + apc.get("vat_gbp", 0)
+        super(PublicAPC, self).prep()
+
     @property
     def clean_record(self):
         rec = deepcopy(self.record)
@@ -258,15 +266,15 @@ REQUEST_INDEX_RULES = [
 
 PUBLIC_INDEX_RULES = [
     {
-        "index_field" : "apc_total_amount_gbp",
+        "index_field" : "additional_costs",
         "struct_args" : {"coerce" : "float"},
         "function" : {
             "name" : "add",
-            "args" : ["$.record.'jm:apc'.amount_gbp"]
+            "args" : ["$.record.'jm:apc'.additional_costs"]
         }
     },
     {
-        "index_field" : "apc_total_vat_gbp",
+        "index_field" : "vat",
         "struct_args" : {"coerce" : "float"},
         "function" : {
             "name" : "add",
@@ -274,19 +282,27 @@ PUBLIC_INDEX_RULES = [
         }
     },
     {
-        "index_field" : "apc_total_gbp",
+        "index_field" : "amount_ex_vat",
         "struct_args" : {"coerce" : "float"},
         "function" : {
             "name" : "add",
-            "args" : ["$.record.'jm:apc'.amount_gbp", "$.record.'jm:apc'.vat_gbp"]
+            "args" : ["$.record.'jm:apc'.amount_ex_vat_gbp"]
         }
     },
     {
-        "index_field" : "sum_total_gbp",
+        "index_field" : "amount_inc_vat",
         "struct_args" : {"coerce" : "float"},
         "function" : {
             "name" : "add",
-            "args" : ["$.record.'jm:apc'.amount_gbp", "$.record.'jm:apc'.vat_gbp", "$.record.'jm:apc'.additional_costs"]
+            "args" : ["$.record.'jm:apc'.amount_inc_vat_gbp"]
+        }
+    },
+    {
+        "index_field" : "grand_total",
+        "struct_args" : {"coerce" : "float"},
+        "function" : {
+            "name" : "add",
+            "args" : ["$.record.'jm:apc'.amount_inc_vat_gbp", "$.record.'jm:apc'.additional_costs"]
         }
     },
     {
@@ -520,7 +536,8 @@ CORE_STRUCT = {
                 "amount" : {"coerce" : "float"},
                 "vat" : {"coerce" : "float"},
                 "currency" : {"coerce" : "currency_code"},
-                "amount_gbp" : {"coerce" : "float"},
+                "amount_inc_vat_gbp" : {"coerce" : "float"},
+                "amount_ex_vat_gbp" : {"coerce" : "float"},
                 "vat_gbp" : {"coerce" : "float"},
                 "additional_costs" : {"coerce" : "float"},
                 "notes" : {"coerce" : "unicode"}

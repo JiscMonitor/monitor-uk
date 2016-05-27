@@ -164,7 +164,8 @@ Where possible top-level keys in the model have been taken from the following me
             "amount" : <amount paid in native currency, excluding vat (float)>,
             "vat" : <vat paid in native currency (float)>,
             "currency" : "<currency paid in - from iso currency code list>",
-            "amount_gbp" : <amount paid in equivalent GBP, excluding vat (float)>,
+            "amount_inc_vat_gbp" : <amout paid in equivalent GBP, including vat (float)>,
+            "amount_ex_vat_gbp" : <amount paid in equivalent GBP, excluding vat (float)>,
             "vat_gbp" : <vat paid in equivalent GBP (float)>,
             "additional_costs" : <additional publication costs in GBP (float)>,
             "discounts" : ["<names or identifiers of any discounts applied (e.g. Prepayment)>"],
@@ -347,10 +348,11 @@ consistent update/delete cycle.
     },
     
     "index" : {
-        "apc_total_amount_gbp" : [<sum of jm:apc.amount_gbp (float)>],
-        "apc_total_vat_gbp" : [<sum of jm:apc.vat_gbp (float)>],
-        "apc_total_gbp" : [<sum of apc_total_amount_gbp and apc_total_vat_gbp (float)>],
-        "sum_total_gbp" : [<sum of apc_total_gbp and jm:apc.additional_costs (float)>],
+        "additional_costs" : <sum of jm:apc.additional_costs (float)>,
+        "vat" : <sum of jm:apc.vat_gbp (float)>,
+        "amount_ex_vat" : <sum of jm:apc.amount_ex_vat_gbp (float)>,
+        "amount_inc_vat" : <sum of jm:apc.amount_inc_vat_gbp (float>,
+        "grand_total" : <sum of additional_costs and amount_inc_vat>,
         
         "doi" : ["<article doi>"],
         "pmcid" : ["<article pmcid>"],

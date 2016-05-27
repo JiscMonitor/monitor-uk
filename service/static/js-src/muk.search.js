@@ -71,7 +71,7 @@ $.extend(muk, {
                 var lessLinkBoxId = edges.css_id(this.namespace, "less-link-" + id, this);
 
                 var title = edges.objVal("record.dc:title", res, "Untitled");
-                var cost = edges.objVal("index.apc_total_amount_gbp", res, "-");
+                var cost = edges.objVal("index.amount_inc_vat", res, "-");
                 var publisher = edges.objVal("record.dcterms:publisher.name", res, "Unknown");
                 var journal = edges.objVal("record.dc:source.name", res, "Unknown");
                 var apcs = edges.objVal("record.jm:apc", res, []);
@@ -91,7 +91,7 @@ $.extend(muk, {
                 for (var i = 0; i < apcs.length; i++) {
                     var apc_record = apcs[i];
                     var inst = edges.objVal("organisation_name", apc_record, "Unknown Organisation");
-                    var total = edges.objVal("amount_gbp", apc_record, "Unknown Amount");
+                    var total = edges.objVal("amount_inc_vat_gbp", apc_record, "Unknown Amount");
                     var date = edges.objVal("date_paid", apc_record);
                     var funds = edges.objVal("fund", apc_record, []);
 
@@ -211,7 +211,7 @@ $.extend(muk, {
                     }),
                     edges.newNumericRangeEntry({
                         id: "apc_cost",
-                        field: "index.apc_total_amount_gbp",
+                        field: "index.amount_inc_vat",
                         display: "APC Cost [from/to]",
                         category: "facet",
                         increment: 500,
@@ -312,7 +312,7 @@ $.extend(muk, {
                         fieldDisplays : {
                             "record.dcterms:publisher.name.exact" : "Publisher",
                             "record.dc:source.name.exact" : "Journal",
-                            "index.apc_total_amount_gbp" : "APC Cost",
+                            "index.amount_inc_vat" : "APC Cost",
                             "record.jm:apc.organisation_name.exact" : "Institution",
                             "index.apc_count" : "Multiple APCs",
                             "index.org_count" : "Multiple Organisations",
@@ -324,7 +324,7 @@ $.extend(muk, {
                             "index.account_count" : [{from : 2, display: "Yes"}]
                         },
                         displayPrefix : {
-                            "index.apc_total_amount_gbp" : '£'
+                            "index.amount_inc_vat" : '£'
                         }
                     }),
                     edges.newPager({
