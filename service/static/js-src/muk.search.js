@@ -214,10 +214,7 @@ $.extend(muk, {
                         field: "index.amount_inc_vat",
                         display: "APC Cost [from/to]",
                         category: "facet",
-                        increment: 500,
-                        renderer: edges.bs3.newNumericRangeEntryRenderer({
-                            optionLabelPrefix: "£"
-                        })
+                        increment: 500
                     }),
                     edges.newORTermSelector({
                         id: "organisation",
@@ -322,9 +319,6 @@ $.extend(muk, {
                             "index.apc_count" : [{from : 2, display: "Yes"}],
                             "index.org_count" : [{from : 2, display: "Yes"}],
                             "index.account_count" : [{from : 2, display: "Yes"}]
-                        },
-                        displayPrefix : {
-                            "index.amount_inc_vat" : '£'
                         }
                     }),
                     edges.newPager({
