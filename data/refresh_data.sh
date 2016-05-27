@@ -14,3 +14,6 @@ curl -X DELETE localhost:9200/muk/public
 
 # Re-import the data
 python import_data.py
+
+# Restart the app
+sudo supervisorctl restart monitor-uk
