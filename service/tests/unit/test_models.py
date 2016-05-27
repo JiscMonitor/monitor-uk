@@ -397,4 +397,35 @@ class TestModels(ESTestCase):
         assert pub2.admin == pub3.admin
         assert pub2.id == pub3.id
 
+    def test_15_public_indexing(self):
+        source = PublicAPCFixtureFactory.example()
+        pub = PublicAPC(source)
+
+        apc_record1 = PublicAPCFixtureFactory.apc_record()
+        apc_record2 = PublicAPCFixtureFactory.apc_record()
+
+        del apc_record1["amount_inc_vat_gbp"]
+        apc_record1["amount_ex_vat_gbp"] = 1000
+        apc_record1["vat_gbp"] = 200
+        apc_record1["additional_costs"] = 100
+
+        apc_record2["amount_inc_vat_gbp"] = 2400
+        apc_record2["amount_ex_vat_gbp"] = 2000
+        apc_record2["vat_gbp"] = 400
+        apc_record2["additional_costs"] = 200
+
+        pub.apc_records = [apc_record1, apc_record2]
+        pub.prep()
+
+        # first check that the amount_inc_vat_gbp was calculated or kept
+        assert pub.apc_records[0]["amount_inc_vat_gbp"] == 1200
+
+        # now check all the indexed amounts add up
+        assert pub.data.get("index", {}).get("additional_costs") == 300
+        assert pub.data.get("index", {}).get("vat") == 600
+        assert pub.data.get("index", {}).get("amount_ex_vat") == 3000
+        assert pub.data.get("index", {}).get("amount_inc_vat") == 3600
+        assert pub.data.get("index", {}).get("grand_total") == 3900
+
+
 

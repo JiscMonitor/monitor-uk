@@ -404,7 +404,7 @@ $.extend(muk, {
                             aggs : [
                                 es.newStatsAggregation({
                                     name : "publisher_stats",
-                                    field: "index.apc_total_amount_gbp"     // ex-VAT
+                                    field: "index.amount_inc_vat"
                                 })
                             ]
                         })
