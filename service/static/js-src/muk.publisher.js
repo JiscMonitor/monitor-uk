@@ -172,225 +172,173 @@ $.extend(muk, {
             };
         },
 
+        reportDF : function(params) {
+            var ch = params.chart;
+            var valueFunction = params.valueFunction;
+
+            var data_series = [];
+            if (!ch.edge.result) {
+                return data_series;
+            }
+
+            // we need to make sure that we only extract data for institutions and publishers that are in
+            // the filter list
+            var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
+            var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
+
+            // if there are no current institution filters, we don't want to show anything
+            if (instFilters.length === 0) {
+                return data_series;
+            }
+
+            var inst_buckets = ch.edge.result.buckets("institution");
+            for (var i = 0; i < inst_buckets.length; i++) {
+                var ibucket = inst_buckets[i];
+                var ikey = ibucket.key;
+
+                // if the institution in the aggregation is not in the filter list ignore it
+                // (this can happen for records where there's more than one institution on the APC)
+                var skip = false;
+                for (var j = 0; j < instFilters.length; j++) {
+                    var filt = instFilters[j];
+                    if (!filt.has_term(ikey)) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if (skip) {
+                    continue;
+                }
+
+                var series = {};
+                series["key"] = ikey;
+                series["values"] = [];
+
+                var pub_buckets = ibucket["publisher"].buckets;
+                for (var j = 0; j < pub_buckets.length; j++) {
+                    var pbucket = pub_buckets[j];
+                    var pkey = pbucket.key;
+
+                    // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
+                    skip = false;
+                    for (var k = 0; k < pubFilters.length; k++) {
+                        var filt = pubFilters[k];
+                        if (!filt.has_term(pkey)) {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (skip) {
+                        continue;
+                    }
+
+                    var value = valueFunction(pbucket);
+                    series["values"].push({label: pkey, value: value})
+                }
+
+                data_series.push(series);
+            }
+
+            return data_series;
+        },
+
         apcCountDF : function(ch) {
-            var data_series = [];
-            if (!ch.edge.result) {
-                return data_series;
-            }
-
-            // we need to make sure that we only extract data for institutions and publishers that are in
-            // the filter list
-            var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-            var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
-
-            // if there are no current institution filters, we don't want to show anything
-            if (instFilters.length === 0) {
-                return data_series;
-            }
-
-            var inst_buckets = ch.edge.result.buckets("institution");
-            for (var i = 0; i < inst_buckets.length; i++) {
-                var ibucket = inst_buckets[i];
-                var ikey = ibucket.key;
-
-                // if the institution in the aggregation is not in the filter list ignore it
-                // (this can happen for records where there's more than one institution on the APC)
-                var skip = false;
-                for (var j = 0; j < instFilters.length; j++) {
-                    var filt = instFilters[j];
-                    if (!filt.has_term(ikey)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (skip) {
-                    continue;
-                }
-
-                var series = {};
-                series["key"] = ikey;
-                series["values"] = [];
-
-                var pub_buckets = ibucket["publisher"].buckets;
-                for (var j = 0; j < pub_buckets.length; j++) {
-                    var pbucket = pub_buckets[j];
-                    var pkey = pbucket.key;
-
-                    // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
-                    skip = false;
-                    for (var k = 0; k < pubFilters.length; k++) {
-                        var filt = pubFilters[k];
-                        if (!filt.has_term(pkey)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if (skip) {
-                        continue;
-                    }
-
-                    series["values"].push({label: pkey, value: pbucket.doc_count})
-                }
-
-                data_series.push(series);
-            }
-
-            return data_series;
+            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
         },
-
         apcExpenditureDF : function(ch) {
-            var data_series = [];
-            if (!ch.edge.result) {
-                return data_series;
-            }
-
-            // we need to make sure that we only extract data for institutions and publishers that are in
-            // the filter list
-            var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-            var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
-
-            // if there are no current institution filters, we don't want to show anything
-            if (instFilters.length === 0) {
-                return data_series;
-            }
-
-            var inst_buckets = ch.edge.result.buckets("institution");
-            for (var i = 0; i < inst_buckets.length; i++) {
-                var ibucket = inst_buckets[i];
-                var ikey = ibucket.key;
-
-                // if the institution in the aggregation is not in the filter list ignore it
-                // (this can happen for records where there's more than one institution on the APC)
-                var skip = false;
-                for (var j = 0; j < instFilters.length; j++) {
-                    var filt = instFilters[j];
-                    if (!filt.has_term(ikey)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (skip) {
-                    continue;
-                }
-
-                var series = {};
-                series["key"] = ikey;
-                series["values"] = [];
-
-                var pub_buckets = ibucket["publisher"].buckets;
-                for (var j = 0; j < pub_buckets.length; j++) {
-                    var pbucket = pub_buckets[j];
-                    var pkey = pbucket.key;
-
-                    // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
-                    skip = false;
-                    for (var k = 0; k < pubFilters.length; k++) {
-                        var filt = pubFilters[k];
-                        if (!filt.has_term(pkey)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if (skip) {
-                        continue;
-                    }
-
-                    series["values"].push({label: pkey, value: pbucket.publisher_stats.sum})
-                }
-
-                data_series.push(series);
-            }
-
-            return data_series;
+            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.publisher_stats.sum }});
         },
-
         avgAPCDF : function(ch) {
-            var data_series = [];
-            if (!ch.edge.result) {
-                return data_series;
-            }
+            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.publisher_stats.avg }});
+        },
 
-            // we need to make sure that we only extract data for institutions and publishers that are in
-            // the filter list
-            var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-            var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
+        tableData : function(charts) {
+            var seriesNames = {
+                "apc_count" : "APC Count",
+                "total_expenditure" : "Total expenditure",
+                "mean" : "Average APC cost"
+            };
 
-            // if there are no current institution filters, we don't want to show anything
-            if (instFilters.length === 0) {
-                return data_series;
-            }
-
-            var inst_buckets = ch.edge.result.buckets("institution");
-            for (var i = 0; i < inst_buckets.length; i++) {
-                var ibucket = inst_buckets[i];
-                var ikey = ibucket.key;
-
-                // if the institution in the aggregation is not in the filter list ignore it
-                // (this can happen for records where there's more than one institution on the APC)
-                var skip = false;
-                for (var j = 0; j < instFilters.length; j++) {
-                    var filt = instFilters[j];
-                    if (!filt.has_term(ikey)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (skip) {
+            var rows = {};
+            for (var i = 0; i < charts.length; i++) {
+                var chart = charts[i];
+                if (!chart.dataSeries) {
                     continue;
                 }
+                var dataSeries = chart.dataSeries;
+                for (var j = 0; j < dataSeries.length; j++) {
+                    var ds = dataSeries[j];
+                    var inst = ds.key;
+                    for (var k = 0; k < ds.values.length; k++) {
+                        var val = ds.values[k];
+                        var pub = val.label;
+                        var num = val.value;
 
-                var series = {};
-                series["key"] = ikey;
-                series["values"] = [];
-
-                var pub_buckets = ibucket["publisher"].buckets;
-                for (var j = 0; j < pub_buckets.length; j++) {
-                    var pbucket = pub_buckets[j];
-                    var pkey = pbucket.key;
-
-                    // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
-                    skip = false;
-                    for (var k = 0; k < pubFilters.length; k++) {
-                        var filt = pubFilters[k];
-                        if (!filt.has_term(pkey)) {
-                            skip = true;
-                            break;
+                        var rowId = pub + " - " + seriesNames[chart.id];
+                        var row = {};
+                        if (rowId in rows) {
+                            row = rows[rowId];
                         }
-                    }
-                    if (skip) {
-                        continue;
-                    }
 
-                    series["values"].push({label: pkey, value: pbucket.publisher_stats.avg})
+                        row[inst] = num;
+                        rows[rowId] = row;
+                    }
                 }
-
-                data_series.push(series);
             }
 
-            return data_series;
+            var rowNames = Object.keys(rows);
+            rowNames.sort()
+
+            var table = [];
+            for (var i = 0; i < rowNames.length; i++) {
+                var obj = rows[rowNames[i]];
+                obj["Metric"] = rowNames[i];
+                table.push(obj);
+            }
+
+            return table;
         },
+
+        /*
+        tableData : function(dataSeries) {
+            var rows = {};
+            var seriesName = "APC Count";
+
+            for (var i = 0; i < dataSeries.length; i++) {
+                var ds = dataSeries[i];
+                var inst = ds.key;
+                for (var j = 0; j < ds.values.length; j++) {
+                    var val = ds.values[j];
+                    var pub = val.label;
+                    var num = val.value;
+
+                    var rowId = pub + " - " + seriesName;
+                    var row = {};
+                    if (rowId in rows) {
+                        row = rows[rowId];
+                    }
+
+                    row[inst] = num;
+                    rows[rowId] = row;
+                }
+            }
+
+            var table = [];
+            for (var rowId in rows) {
+                var obj = rows[rowId];
+                obj["Metric"] = rowId;
+                table.push(obj);
+            }
+
+            return table;
+        },
+        */
 
         makePublisherReport : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_publisher");
 
             var base_query = es.newQuery();
-            /*
-            base_query.addAggregation(
-                es.newTermsAggregation({
-                    name : "apc_count",
-                    field : "record.dcterms:publisher.name.exact",
-                    size : 10,
-                    aggs : [
-                        es.newStatsAggregation({
-                            name : "publisher_stats",
-                            field: "index.apc_total_amount_gbp"
-                        })
-                    ]
-                })
-            );
-            */
-
             base_query.addAggregation(
                 es.newTermsAggregation({
                     name: "institution",
@@ -507,44 +455,21 @@ $.extend(muk, {
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions above"
                         })
-                    })
-                    /*
-                    edges.newHorizontalMultibar({
-                        id: "apc_count",
-                        display: "Number of APCs",
-                        dataFunction: edges.ChartDataFunctions.terms({
-                            useAggregations : ["apc_count"],
-                            seriesKeys : {
-                                "apc_count" : "Number of APCs paid"
-                            }
-                        }),
-                        category : "tab"
                     }),
-                    edges.newHorizontalMultibar({
-                        id: "total_expenditure",
-                        display: "Total expenditure",
-                        dataFunction : edges.ChartDataFunctions.termsStats({
-                            useAggregations : ["apc_count publisher_stats"],  // the path to the stats in the terms, separated by space
-                            seriesFor : ["sum"],
-                            seriesKeys : {
-                                "apc_count publisher_stats sum" : "Total Expenditure"
-                            }
-                        }),
-                        category : "tab"
-                    }),
-                    edges.newHorizontalMultibar({
-                        id: "mean",
-                        display: "Average APC Cost",
-                        dataFunction : edges.ChartDataFunctions.termsStats({
-                            useAggregations : ["apc_count publisher_stats"],
-                            seriesFor : ["avg"],
-                            seriesKeys : {
-                                "apc_count publisher_stats avg" : "Mean"
-                            }
-                        }),
-                        category : "tab"
+                    edges.newChartsTable({
+                        id: "data_table",
+                        display: "Raw Data",
+                        category: "data",
+                        chartComponents: ["apc_count", "total_expenditure", "mean"],
+                        // dataFunction: muk.publisher.apcCountDF,
+                        tabularise: muk.publisher.tableData,
+                        renderer : edges.bs3.newTabularResultsRenderer({
+                            fieldDisplay : [
+                                {field: "Metric", display: ""}
+                            ],
+                            displayListedOnly: false
+                        })
                     })
-                    */
                 ]
             });
 
