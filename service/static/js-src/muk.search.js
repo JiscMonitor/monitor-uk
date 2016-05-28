@@ -213,7 +213,8 @@ $.extend(muk, {
                         id: "apc_cost",
                         field: "index.amount_inc_vat",
                         display: "APC Cost [from/to]",
-                        category: "facet"
+                        category: "facet",
+                        increment: 500
                     }),
                     edges.newORTermSelector({
                         id: "organisation",
@@ -308,6 +309,7 @@ $.extend(muk, {
                         fieldDisplays : {
                             "record.dcterms:publisher.name.exact" : "Publisher",
                             "record.dc:source.name.exact" : "Journal",
+                            "index.amount_inc_vat" : "APC Cost",
                             "record.jm:apc.organisation_name.exact" : "Institution",
                             "index.apc_count" : "Multiple APCs",
                             "index.org_count" : "Multiple Organisations",
@@ -334,21 +336,6 @@ $.extend(muk, {
                     edges.newResultsDisplay({
                         id: "results",
                         category: "results",
-                        /*
-                        renderer : edges.bs3.newResultsDisplayRenderer({
-                            fieldDisplayMap: [
-                                {field: "id", display: "ID"},
-                                {field: "record.dc:title", display: "Title"},
-                                {field: "index.total_amount_gbp", display: "£"},
-                                {field: "record.dcterms:publisher.name", display: "Publisher"},
-                                {field: "record.dc:source.name", display: "Journal"},
-                                //{field: "record.index.issn", display: "ISSN"},
-                                {field: "record.jm:apc.organisation_name", display: "Organisation"}
-                                //{field: "record.jm:apc.fund.name", display: "Funder"}
-                                //{field: "record.jm:apc.fund.name", display: "Paid from fund"}
-                                //{field: "record.ali:licence_ref.type", display: "License"}
-                            ]
-                        })*/
                         renderer : muk.search.newAPCRenderer({})
                     })
                 ]
