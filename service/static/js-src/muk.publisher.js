@@ -280,14 +280,14 @@ $.extend(muk, {
                             row = rows[rowId];
                         }
 
-                        row[inst] = num;
+                        row[inst] = num.toFixed(2);
                         rows[rowId] = row;
                     }
                 }
             }
 
             var rowNames = Object.keys(rows);
-            rowNames.sort()
+            rowNames.sort();
 
             var table = [];
             for (var i = 0; i < rowNames.length; i++) {
@@ -298,41 +298,6 @@ $.extend(muk, {
 
             return table;
         },
-
-        /*
-        tableData : function(dataSeries) {
-            var rows = {};
-            var seriesName = "APC Count";
-
-            for (var i = 0; i < dataSeries.length; i++) {
-                var ds = dataSeries[i];
-                var inst = ds.key;
-                for (var j = 0; j < ds.values.length; j++) {
-                    var val = ds.values[j];
-                    var pub = val.label;
-                    var num = val.value;
-
-                    var rowId = pub + " - " + seriesName;
-                    var row = {};
-                    if (rowId in rows) {
-                        row = rows[rowId];
-                    }
-
-                    row[inst] = num;
-                    rows[rowId] = row;
-                }
-            }
-
-            var table = [];
-            for (var rowId in rows) {
-                var obj = rows[rowId];
-                obj["Metric"] = rowId;
-                table.push(obj);
-            }
-
-            return table;
-        },
-        */
 
         makePublisherReport : function(params) {
             if (!params) { params = {} }
@@ -415,7 +380,8 @@ $.extend(muk, {
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             open: true,
                             togglable: false,
-                            showCount: true
+                            showCount: true,
+                            hideEmpty: true
                         })
                     }),
                     edges.newRefiningANDTermSelector({
@@ -461,13 +427,14 @@ $.extend(muk, {
                         display: "Raw Data",
                         category: "data",
                         chartComponents: ["apc_count", "total_expenditure", "mean"],
-                        // dataFunction: muk.publisher.apcCountDF,
                         tabularise: muk.publisher.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
                                 {field: "Metric", display: ""}
                             ],
-                            displayListedOnly: false
+                            displayListedOnly: false,
+                            download: true,
+                            downloadText : "download as csv"
                         })
                     })
                 ]

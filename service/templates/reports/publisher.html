@@ -53,6 +53,7 @@
 {% endblock %}
 
 {% block extra_js_bottom %}
+    <script type="text/javascript" src="/static/vendor/edges_build/vendor/PapaParse-4.1.2/papaparse.min.js"></script>
     <script type="application/javascript">
         var myInstituion = "{{ current_user.organisation }}";
     </script>
