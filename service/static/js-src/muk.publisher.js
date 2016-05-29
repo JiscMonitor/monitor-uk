@@ -172,6 +172,15 @@ $.extend(muk, {
             };
         },
 
+        newStory : function (params) {
+            if (!params) { params = {} }
+            muk.publisher.Story.prototype = edges.newComponent(params);
+            return new muk.publisher.Story(params);
+        },
+        Story : function(params) {
+
+        },
+
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
@@ -422,6 +431,7 @@ $.extend(muk, {
                             noDataMessage: "Select one or more institutions above"
                         })
                     }),
+                    muk.publisher.newStory({}), // FIXME: not clear what the story is
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
