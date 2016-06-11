@@ -1,0 +1,72 @@
+#date_range {
+    float: right;
+}
+
+.ui-datepicker-year {
+    background: #f6a828;
+}
+
+.muk-funder-report-template-filters {
+    padding: 10px;
+    background: #eeeeee;
+}
+
+.muk-funder-report-template-filter-header {
+    color: #777777;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #bbbbbb;
+}
+
+.muk-funder-report-template-filter {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.edges-bs3-or-term-selector-selections {
+    max-height: 150px;
+}
+
+.edges-bs3-or-term-selector-selections {
+    max-height: 150px;
+}
+
+.edges-bs3-n-separate-or-term-selector-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.muk-funder-report-template-tab-bar {
+    border-bottom: 2px solid #eeeeee;
+}
+
+.muk-funder-report-template-tab-bar li {
+    margin-bottom: -2px;
+}
+
+.muk-funder-report-template-tab-bar li.active>a {
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+    border-top: 2px solid #0e90d2;
+}
+
+.muk-funder-report-template-tab-bar li.active>a:hover {
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+    border-top: 2px solid #0e90d2;
+}
+
+.muk-funder-report-template-tab-bar li.active>a:focus {
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+    border-top: 2px solid #0e90d2;
+}
+
+.muk-funder-report-template-tab-container {
+    height: 750px;
+    width: 800px;
+}
+
+.muk-funder-report-template-tab-container .muk-funder-report-template-tab {
+    height: 700px;
+}
