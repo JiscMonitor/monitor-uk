@@ -463,9 +463,15 @@ $.extend(muk, {
                 })
             );
 
-            var pieTable = function(chart){
-                console.log(chart.dataSeries);
-                return [{Total: 10, '%': 33.3, type: "OA"}, {Total: 20, '%': 66.6, type: "Hybrid" }]
+            var pieTable = function(charts){
+                var ds = charts[0].dataSeries[0].values;        // pie charts only have one series.
+
+                // Get the total number from the query results, calculate each percentage and add to the series
+                var total = charts[0].edge.result.data.hits.total;
+                for (x of ds) {                                 // todo: can we use fancy new ECMAScript-6 stuff?
+                    x["percent"] = (100 * (x.value / total)).toFixed(2)
+                }
+                return ds;
             };
 
             var e2 = edges.newEdge({
@@ -477,6 +483,10 @@ $.extend(muk, {
                         id: "vs_pie_uk",
                         dataFunction: edges.ChartDataFunctions.terms({
                             useAggregations: ["oavshybrid"]
+                        }),
+                        renderer: edges.nvd3.newPieChartRenderer({
+                            valueFormat: d3.format(',d'),
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
                         })
                     }),
                     edges.newChartsTable({
@@ -486,9 +496,10 @@ $.extend(muk, {
                         tabularise: pieTable,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "type", display: ""}
+                                {field: "label", display: ""},
+                                {field: "value", display: "Total"},
+                                {field: "percent", display: "%"}
                             ],
-                            displayListedOnly: false,
                             downloadEnabled: false,
                             bordered: true
                         })
