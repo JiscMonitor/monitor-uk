@@ -70,3 +70,18 @@
 .muk-funder-report-template-tab-container .muk-funder-report-template-tab {
     height: 700px;
 }
+
+/* Pie Chart Styles FIXME: sort namespace stuff*/
+#uk_pie {
+    width:400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px
+}
+
+#vs_pie_uk {
+    height: 400px;
+}
+
+table {
+    margin: auto;
+}

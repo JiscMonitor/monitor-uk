@@ -30,6 +30,7 @@ $.extend(muk, {
                 var tabLabelBarClass = edges.css_classes(this.namespace, "tab-bar");
                 var tabClass = edges.css_classes(this.namespace, "tab");
                 var storyClass = edges.css_classes(this.namespace, "stories");
+                //var pieClass = edges.css_classes(this.namespace, "uk_pie");
                 var dataClass = edges.css_classes(this.namespace, "data");
                 var filterHeaderClass = edges.css_classes(this.namespace, "filter-header");
 
@@ -109,6 +110,7 @@ $.extend(muk, {
                     <div class="' + dataClass + '">' + dataContainers + '</div>\
                 </div>';
 
+                //                    <div class="' + pieClass + '"><div id="vs_pie_uk"></div></div>\
                 edge.context.html(template);
 
                 // hide the graphs while while they are rendered
@@ -247,7 +249,6 @@ $.extend(muk, {
 
                 data_series.push(series);
             }
-            console.log(data_series);
             return data_series;
         },
 
@@ -304,7 +305,6 @@ $.extend(muk, {
                 obj["Metric"] = rowNames[i];
                 table.push(obj);
             }
-
             return table;
         },
 
@@ -333,7 +333,6 @@ $.extend(muk, {
                     ]
                 })
             );
-
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -446,7 +445,7 @@ $.extend(muk, {
                                 {field: "Metric", display: ""}
                             ],
                             displayListedOnly: false,
-                            download: true,
+                            downloadEnabled: true,
                             downloadText : "download as csv"
                         })
                     })
@@ -454,6 +453,49 @@ $.extend(muk, {
             });
 
             muk.activeEdges[selector] = e;
+
+            //FIXME: namespace stuff - does this have to be a separate edge / div?
+            var oavshybrid_uk_query = es.newQuery();
+            oavshybrid_uk_query.addAggregation(
+                es.newTermsAggregation({
+                    name: "oavshybrid",
+                    field: "record.rioxxterms:type.exact"               //fixme: normalised OA vs Hybrid field
+                })
+            );
+
+            var pieTable = function(chart){
+                console.log(chart.dataSeries);
+                return [{Total: 10, '%': 33.3, type: "OA"}, {Total: 20, '%': 66.6, type: "Hybrid" }]
+            };
+
+            var e2 = edges.newEdge({
+                selector: "#uk_pie",
+                search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
+                baseQuery: oavshybrid_uk_query,
+                components: [
+                    edges.newPieChart({
+                        id: "vs_pie_uk",
+                        dataFunction: edges.ChartDataFunctions.terms({
+                            useAggregations: ["oavshybrid"]
+                        })
+                    }),
+                    edges.newChartsTable({
+                        id: "pie_table",
+                        display: "Raw Data",
+                        chartComponents: ["vs_pie_uk"],
+                        tabularise: pieTable,
+                        renderer : edges.bs3.newTabularResultsRenderer({
+                            fieldDisplay : [
+                                {field: "type", display: ""}
+                            ],
+                            displayListedOnly: false,
+                            downloadEnabled: false,
+                            bordered: true
+                        })
+                    })
+                ]
+            });
+            muk.activeEdges["#uk_pie"] = e2;
         }
     }
 });
