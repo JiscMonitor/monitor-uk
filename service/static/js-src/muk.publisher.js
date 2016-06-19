@@ -181,9 +181,62 @@ $.extend(muk, {
 
         },
 
+        averagesQuery : function(edge) {
+            // clone the current query, which will be the basis for the averages query
+            var query = edge.cloneQuery();
+
+            // remove the institutional constraints
+            query.removeMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
+
+            // now look to see if there are any publisher filters set
+            var pubFilters = query.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
+            if (pubFilters.length === 0) {
+                // if there are no publisher filters, we must set some one the list of publishers that we are interested in
+                var terms = [];
+                var ibuckets = edge.result.buckets("institution");
+                var pbuckets = ibuckets[0].publisher.buckets;
+                for (var i = 0; i < pbuckets.length; i++) {
+                    var pbucket = pbuckets[i];
+                    var pub = pbucket.key;
+                    terms.push(pub);
+                }
+                query.addMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact", values: terms}));
+            }
+
+            // remove any existing aggregations, we don't need them
+            query.clearAggregations();
+
+            // add the new aggregation which will actually get the data
+            query.addAggregation(
+                es.newTermsAggregation({
+                    name: "publishers",
+                    field: "record.dcterms:publisher.name.exact",
+                    size: pubFilters.length,
+                    aggs : [
+                        es.newStatsAggregation({
+                            name : "publisher_stats",
+                            field: "index.amount_inc_vat"
+                        }),
+                        es.newCardinalityAggregation({
+                            name: "institutions",
+                            field: "record.jm:apc.organisation_name.exact"
+                        })
+                    ]
+                })
+            );
+
+            // finally set the size and from parameters
+            query.size = 0;
+            query.from = 0;
+
+            // return the secondary query
+            return query;
+        },
+
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
+            var avgFunction = params.avgFunction;
 
             var data_series = [];
             if (!ch.edge.result) {
@@ -200,6 +253,31 @@ $.extend(muk, {
                 return data_series;
             }
 
+            // get the UK average out for each of the publishers
+            var avgSeries = {};
+            avgSeries["key"] = "UK Average";
+            avgSeries["values"] = [];
+
+            var avgPubFilters = ch.edge.realisedSecondaryQueries.avg.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
+            for (var i = 0; i < avgPubFilters.length; i++) {
+                var filt = avgPubFilters[i];
+                var pubs = filt.values;
+                for (var j = 0; j < pubs.length; j++) {
+                    var pub = pubs[j];
+                    var buckets = ch.edge.secondaryResults.avg.buckets("publishers");
+                    for (var k = 0; k < buckets.length; k++) {
+                        var bucket = buckets[k];
+                        if (bucket.key === pub) {
+                            var value = avgFunction(bucket);
+                            avgSeries.values.push({label: pub, value: value});
+                            break;
+                        }
+                    }
+                }
+            }
+            data_series.push(avgSeries);
+
+            var reportOn = [];
             var inst_buckets = ch.edge.result.buckets("institution");
             for (var i = 0; i < inst_buckets.length; i++) {
                 var ibucket = inst_buckets[i];
@@ -228,6 +306,13 @@ $.extend(muk, {
                     var pbucket = pub_buckets[j];
                     var pkey = pbucket.key;
 
+                    // only report on publishers that are in the first institution's aggregation
+                    if (i === 0) {
+                        reportOn.push(pkey);
+                    } else if ($.inArray(pkey, reportOn) === -1) {
+                        continue;
+                    }
+
                     // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
                     skip = false;
                     for (var k = 0; k < pubFilters.length; k++) {
@@ -252,13 +337,22 @@ $.extend(muk, {
         },
 
         apcCountDF : function(ch) {
-            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
+            return muk.publisher.reportDF({chart: ch,
+                valueFunction: function(bucket) { return bucket.doc_count },
+                avgFunction : function(bucket) {return bucket.doc_count / bucket.institutions.value }
+            });
         },
         apcExpenditureDF : function(ch) {
-            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.publisher_stats.sum }});
+            return muk.publisher.reportDF({chart: ch,
+                valueFunction: function(bucket) { return bucket.publisher_stats.sum },
+                avgFunction: function(bucket) { return bucket.publisher_stats.sum / bucket.institutions.value }
+            });
         },
         avgAPCDF : function(ch) {
-            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.publisher_stats.avg }});
+            return muk.publisher.reportDF({chart: ch,
+                valueFunction: function(bucket) { return bucket.publisher_stats.avg },
+                avgFunction: function(bucket) { return bucket.publisher_stats.avg }
+            });
         },
 
         tableData : function(charts) {
@@ -367,6 +461,9 @@ $.extend(muk, {
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 preflightQueries : {
                     uk_mean : preflight
+                },
+                secondaryQueries : {
+                    avg: muk.publisher.averagesQuery
                 },
                 baseQuery : base_query,
                 openingQuery : opening_query,
