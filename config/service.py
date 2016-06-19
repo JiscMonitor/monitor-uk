@@ -261,6 +261,18 @@ PRIMARY_NAVIGATION = [
         },
         "main_nav" : True,
         "breadcrumb" : False
+    },
+    {
+        "label": "Funder",
+        "url": {
+            "url_for": "funder"
+        },
+        "visibility": {
+            "auth": True,
+            "anonymous": False
+        },
+        "main_nav": True,
+        "breadcrumb": False
     }
 ]
 
