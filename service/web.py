@@ -77,6 +77,11 @@ def publisher():
 def funder():
     return render_template("/reports/funder.html")
 
+@app.route("/institution")
+@login_required
+def institution():
+    return render_template("/reports/institution.html")
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404

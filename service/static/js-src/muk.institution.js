@@ -1,12 +1,12 @@
 $.extend(muk, {
-    publisher: {
+    institution: {
 
-        newPublisherReportTemplate: function (params) {
+        newInstitutionReportTemplate: function (params) {
             if (!params) { params = {} }
-            muk.publisher.PublisherReportTemplate.prototype = edges.newTemplate(params);
-            return new muk.publisher.PublisherReportTemplate(params);
+            muk.institution.InstitutionReportTemplate.prototype = edges.newTemplate(params);
+            return new muk.institution.InstitutionReportTemplate(params);
         },
-        PublisherReportTemplate: function (params) {
+        InstitutionReportTemplate: function (params) {
             // later we'll store the edge instance here
             this.edge = false;
 
@@ -16,7 +16,7 @@ $.extend(muk, {
             // ids of the tabs that are in the layout
             this.tabIds = [];
 
-            this.namespace = "muk-publisher-report-template";
+            this.namespace = "muk-institution-report-template";
 
             this.draw = function (edge) {
                 this.edge = edge;
@@ -174,8 +174,8 @@ $.extend(muk, {
 
         newStory : function (params) {
             if (!params) { params = {} }
-            muk.publisher.Story.prototype = edges.newComponent(params);
-            return new muk.publisher.Story(params);
+            muk.institution.Story.prototype = edges.newComponent(params);
+            return new muk.institution.Story(params);
         },
         Story : function(params) {
 
@@ -184,6 +184,7 @@ $.extend(muk, {
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
+            var seriesKey = params.seriesKey;
 
             var data_series = [];
             if (!ch.edge.result) {
@@ -199,6 +200,10 @@ $.extend(muk, {
             if (instFilters.length === 0) {
                 return data_series;
             }
+
+            var series = {};
+            series["key"] = seriesKey;
+            series["values"] = [];
 
             var inst_buckets = ch.edge.result.buckets("institution");
             for (var i = 0; i < inst_buckets.length; i++) {
@@ -219,46 +224,22 @@ $.extend(muk, {
                     continue;
                 }
 
-                var series = {};
-                series["key"] = ikey;
-                series["values"] = [];
-
-                var pub_buckets = ibucket["publisher"].buckets;
-                for (var j = 0; j < pub_buckets.length; j++) {
-                    var pbucket = pub_buckets[j];
-                    var pkey = pbucket.key;
-
-                    // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
-                    skip = false;
-                    for (var k = 0; k < pubFilters.length; k++) {
-                        var filt = pubFilters[k];
-                        if (!filt.has_term(pkey)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if (skip) {
-                        continue;
-                    }
-
-                    var value = valueFunction(pbucket);
-                    series["values"].push({label: pkey, value: value})
-                }
-
-                data_series.push(series);
+                var value = valueFunction(ibucket);
+                series["values"].push({label: ikey, value: value});
             }
 
+            data_series.push(series);
             return data_series;
         },
 
         apcCountDF : function(ch) {
-            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
+            return muk.institution.reportDF({chart: ch, seriesKey: "Number of APCs", valueFunction: function(bucket) { return bucket.doc_count }});
         },
         apcExpenditureDF : function(ch) {
-            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.publisher_stats.sum }});
+            return muk.institution.reportDF({chart: ch, seriesKey: "Total expenditure", valueFunction: function(bucket) { return bucket.institution_stats.sum }});
         },
         avgAPCDF : function(ch) {
-            return muk.publisher.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.publisher_stats.avg }});
+            return muk.institution.reportDF({chart: ch, seriesKey: "Average APC Cost",  valueFunction: function(bucket) { return bucket.institution_stats.avg }});
         },
 
         tableData : function(charts) {
@@ -277,20 +258,20 @@ $.extend(muk, {
                 var dataSeries = chart.dataSeries;
                 for (var j = 0; j < dataSeries.length; j++) {
                     var ds = dataSeries[j];
-                    var inst = ds.key;
                     for (var k = 0; k < ds.values.length; k++) {
                         var val = ds.values[k];
-                        var pub = val.label;
+                        var inst = val.label;
                         var num = val.value;
 
-                        var rowId = pub + " - " + seriesNames[chart.id];
+                        // var rowId = inst + " - " + seriesNames[chart.id];
                         var row = {};
-                        if (rowId in rows) {
-                            row = rows[rowId];
+                        if (inst in rows) {
+                            row = rows[inst];
                         }
 
-                        row[inst] = num.toFixed(2);
-                        rows[rowId] = row;
+                        var col = seriesNames[chart.id];
+                        row[col] = num.toFixed(2);
+                        rows[inst] = row;
                     }
                 }
             }
@@ -301,16 +282,16 @@ $.extend(muk, {
             var table = [];
             for (var i = 0; i < rowNames.length; i++) {
                 var obj = rows[rowNames[i]];
-                obj["Metric"] = rowNames[i];
+                obj["Institution"] = rowNames[i];
                 table.push(obj);
             }
 
             return table;
         },
 
-        makePublisherReport : function(params) {
+        makeInstitutionReport : function(params) {
             if (!params) { params = {} }
-            var selector = edges.getParam(params.selector, "#muk_publisher");
+            var selector = edges.getParam(params.selector, "#muk_institution");
 
             var base_query = es.newQuery();
             base_query.addAggregation(
@@ -319,21 +300,15 @@ $.extend(muk, {
                     field: "record.jm:apc.organisation_name.exact",
                     size: 10,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
                     aggs : [
-                        es.newTermsAggregation({
-                            name : "publisher",
-                            field : "record.dcterms:publisher.name.exact",
-                            size : 10, // again, size will be constrained by the filters
-                            aggs : [
-                                es.newStatsAggregation({
-                                    name : "publisher_stats",
-                                    field: "index.amount_inc_vat"
-                                })
-                            ]
+                        es.newStatsAggregation({
+                            name : "institution_stats",
+                            field: "index.amount_inc_vat"
                         })
                     ]
                 })
             );
 
+            /*
             var preflight = es.newQuery({size: 0});
             preflight.addAggregation(
                 es.newStatsAggregation({
@@ -347,6 +322,7 @@ $.extend(muk, {
                     field: "record.dcterms:publisher.name.exact"
                 })
             );
+            */
 
             // FIXME: actually we need to first find out if the institution is listed, and only then load the
             // relevant opening query
@@ -362,12 +338,11 @@ $.extend(muk, {
 
             var e = edges.newEdge({
                 selector: selector,
-                // template: edges.bs3.newTabbed(),
-                template: muk.publisher.newPublisherReportTemplate(),
+                template: muk.institution.newInstitutionReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
-                preflightQueries : {
-                    uk_mean : preflight
-                },
+                //preflightQueries : {
+                //    uk_mean : preflight
+                //},
                 baseQuery : base_query,
                 openingQuery : opening_query,
                 components: [
@@ -388,28 +363,27 @@ $.extend(muk, {
                         display: "Compare Institutions",
                         lifecycle: "static",
                         size: 10000,
-                        category: "top",
-                        renderer : edges.bs3.newNSeparateORTermSelectorRenderer({
-                            n: 3,
-                            properties : [
-                                {label: "Compare", unselected: "<choose an institution>"},
-                                {label : "With", unselected : "<add another>"},
-                                {label : "and", unselected : "<add another>"}
-                            ]
-                        })
-                    }),
-                    edges.newORTermSelector({
-                        id : "publisher",
-                        field : "record.dcterms:publisher.name.exact",
-                        display : "Publisher",
-                        lifecycle: "update",
-                        size: 10000,
                         category: "lhs",
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             open: true,
                             togglable: false,
-                            showCount: true,
+                            showCount: false,
                             hideEmpty: true
+                        })
+                    }),
+                    edges.newRefiningANDTermSelector({
+                        id : "publisher",
+                        field : "record.dcterms:publisher.name.exact",
+                        display : "Publisher",
+                        size: 10000,
+                        category: "lhs",
+                        orderBy: "term",
+                        orderDir: "asc",
+                        renderer : edges.bs3.newRefiningANDTermSelectorRenderer({
+                            hideInactive: true,
+                            open: true,
+                            togglable: false,
+                            controls: false
                         })
                     }),
                     edges.newRefiningANDTermSelector({
@@ -427,40 +401,43 @@ $.extend(muk, {
                     edges.newHorizontalMultibar({
                         id: "apc_count",
                         display: "Number of APCs",
-                        dataFunction: muk.publisher.apcCountDF,
+                        dataFunction: muk.institution.apcCountDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions on the left",
+                            legend: false
                         })
                     }),
                     edges.newHorizontalMultibar({
                         id: "total_expenditure",
                         display: "Total expenditure",
-                        dataFunction: muk.publisher.apcExpenditureDF,
+                        dataFunction: muk.institution.apcExpenditureDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions on the left",
+                            legend: false
                         })
                     }),
                     edges.newHorizontalMultibar({
                         id: "mean",
                         display: "Average APC Cost",
-                        dataFunction: muk.publisher.avgAPCDF,
+                        dataFunction: muk.institution.avgAPCDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions on the left",
+                            legend: false
                         })
                     }),
-                    muk.publisher.newStory({}), // FIXME: not clear what the story is
+                    muk.institution.newStory({}), // FIXME: not clear what the story is
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
                         category: "data",
                         chartComponents: ["apc_count", "total_expenditure", "mean"],
-                        tabularise: muk.publisher.tableData,
+                        tabularise: muk.institution.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "Metric", display: ""}
+                                {field: "Institution", display: ""}
                             ],
                             displayListedOnly: false,
                             download: true,

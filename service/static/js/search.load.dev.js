@@ -61,10 +61,10 @@ requirejs(["jquery"], function() {
                 "edges.bs3.refiningandtermselector",
                 "edges.bs3.resultsdisplay",
                 "edges.bs3.searchingnotification",
-                "edges.bs3.selectedfilters"
+                "edges.bs3.selectedfilters",
+                "muk"
             ], function() {
                 requirejs([
-                    "muk",
                     "muk.search"
                 ], function() {
                     jQuery(document).ready(function($) {

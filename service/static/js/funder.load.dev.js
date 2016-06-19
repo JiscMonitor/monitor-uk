@@ -72,10 +72,10 @@ requirejs(["jquery", "d3"], function() {
                 "edges.bs3.searchingnotification",
                 "edges.bs3.selectedfilters",
                 "edges.bs3.tabularresults",
-                "edges.nvd3"
+                "edges.nvd3",
+                "muk"
             ], function() {
                 requirejs([
-                    "muk",
                     "muk.funder"
                 ], function() {
                     jQuery(document).ready(function($) {

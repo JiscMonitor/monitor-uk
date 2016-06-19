@@ -23,7 +23,7 @@ requirejs.config({
         "edges.selectors" : edges_base + "src/components/selectors",
 
         // "edges.bs3.facetview" : edges_base + "src/templates/bs3.Facetview",
-        "edges.bs3.tabbed" : edges_base + "src/templates/bs3.Tabbed",
+        // "edges.bs3.tabbed" : edges_base + "src/templates/bs3.Tabbed",
 
         // "edges.bs3.basicrangeselector" : edges_base + "src/renderers/bs3.BasicRangeSelectorRenderer",
         // "edges.bs3.facetfiltersetter" : edges_base + "src/renderers/bs3.FacetFilterSetterRenderer",
@@ -45,7 +45,7 @@ requirejs.config({
         "edges.nvd3" : edges_base + "src/renderers/nvd3.edges",
 
         "muk" : "js-src/muk",
-        "muk.publisher" : "js-src/muk.publisher"
+        "muk.institution" : "js-src/muk.institution"
     }
 });
 
@@ -60,7 +60,7 @@ requirejs(["jquery", "d3"], function() {
                 "edges.selectors",
                 //"edges.bs3.facetfiltersetter",
                 //"edges.bs3.facetview",
-                "edges.bs3.tabbed",
+                // "edges.bs3.tabbed",
                 //"edges.bs3.fullsearchcontroller",
                 "edges.bs3.multidaterange",
                 "edges.bs3.nseparateorterm",
@@ -76,10 +76,10 @@ requirejs(["jquery", "d3"], function() {
                 "muk"
             ], function() {
                 requirejs([
-                    "muk.publisher"
+                    "muk.institution"
                 ], function() {
                     jQuery(document).ready(function($) {
-                        muk.publisher.makePublisherReport();
+                        muk.institution.makeInstitutionReport();
                     });
                 })
             })

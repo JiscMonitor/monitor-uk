@@ -273,6 +273,18 @@ PRIMARY_NAVIGATION = [
         },
         "main_nav": True,
         "breadcrumb": False
+    },
+    {
+        "label": "Institution",
+        "url": {
+            "url_for": "institution"
+        },
+        "visibility": {
+            "auth": True,
+            "anonymous": False
+        },
+        "main_nav": True,
+        "breadcrumb": False
     }
 ]
 
