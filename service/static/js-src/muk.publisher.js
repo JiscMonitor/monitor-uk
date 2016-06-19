@@ -334,6 +334,22 @@ $.extend(muk, {
                 })
             );
 
+            var preflight = es.newQuery({size: 0});
+            preflight.addAggregation(
+                es.newStatsAggregation({
+                    name: "total_stats",
+                    field: "index.amount_inc_vat"
+                })
+            );
+            preflight.addAggregation(
+                es.newCardinalityAggregation({
+                    name: "publisher_count",
+                    field: "record.dcterms:publisher.name.exact"
+                })
+            );
+
+            // FIXME: actually we need to first find out if the institution is listed, and only then load the
+            // relevant opening query
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -349,6 +365,9 @@ $.extend(muk, {
                 // template: edges.bs3.newTabbed(),
                 template: muk.publisher.newPublisherReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
+                preflightQueries : {
+                    uk_mean : preflight
+                },
                 baseQuery : base_query,
                 openingQuery : opening_query,
                 components: [
