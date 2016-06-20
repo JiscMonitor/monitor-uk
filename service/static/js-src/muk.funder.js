@@ -20,7 +20,8 @@ $.extend(muk, {
 
             this.draw = function (edge) {
                 this.edge = edge;
-
+                
+                // main report
                 var panelClass = edges.css_classes(this.namespace, "panel");
                 var topClass = edges.css_classes(this.namespace, "top");
                 var filtersClass = edges.css_classes(this.namespace, "filters");
@@ -32,16 +33,14 @@ $.extend(muk, {
                 var storyClass = edges.css_classes(this.namespace, "stories");
                 var dataClass = edges.css_classes(this.namespace, "data");
                 var filterHeaderClass = edges.css_classes(this.namespace, "filter-header");
+                
                 // inset pie chart
                 var pieClass = edges.css_classes(this.namespace, "uk_pie");
                 var pieId = edges.css_id(this.namespace, "uk_pie");
-                //var pieId = "uk_pie";
                 var pieChartClass = edges.css_classes(this.namespace, "uk_pie_chart");
                 var pieChartId = edges.css_id(this.namespace, "uk_pie_chart");
-                //var pieChartId = "uk_pie_chart";
                 var pieTableClass = edges.css_classes(this.namespace, "uk_pie_table");
                 var pieTableId = edges.css_id(this.namespace, "uk_pie_table");
-                //var pieTableId = "uk_pie_table";
 
                 // the top strap controls
                 var topstrap = edge.category("top");
@@ -331,7 +330,7 @@ $.extend(muk, {
 
             // Get the total number from the query results, calculate each percentage and add to the series
             var total = charts[0].edge.result.data.hits.total;
-            for (x of ds) {                                 // todo: can we use fancy new ECMAScript-6 stuff?
+            for (x of ds) {                                 // fixme: can we use fancy new ECMAScript-6 stuff?
                 x["percent"] = (100 * (x.value / total)).toFixed(2)
             }
             return ds;
@@ -491,13 +490,13 @@ $.extend(muk, {
                         display: "Raw Data",
                         category: "data",
                         chartComponents: ["apc_count", "total_expenditure", "mean"],
-                        //tabularise: muk.funder.tableData,
+                        tabularise: muk.funder.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
                                 {field: "Metric", display: ""}
                             ],
                             displayListedOnly: false,
-                            downloadEnabled: true,
+                            download: true,
                             downloadText : "download as csv"
                         })
                     })
@@ -540,7 +539,7 @@ $.extend(muk, {
                                 {field: "value", display: "Total"},
                                 {field: "percent", display: "%"}
                             ],
-                            downloadEnabled: false
+                            download: false
                         })
                     })
                 ]
