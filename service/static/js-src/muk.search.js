@@ -251,7 +251,7 @@ $.extend(muk, {
                         filters : [
                             {
                                 id: "multiple_apcs",
-                                display: "Multiple APCs",
+                                display: "Show records where more than one APC has been paid (by anyone)",
                                 must : [
                                     es.newRangeFilter({
                                         field: "index.apc_count",
@@ -264,7 +264,7 @@ $.extend(muk, {
                             },
                             {
                                 id : "multiple_orgs",
-                                display: "Multiple Organisations",
+                                display: "Show records where more than one organisation has paid an APC",
                                 must : [
                                     es.newRangeFilter({
                                         field: "index.org_count",
@@ -277,7 +277,7 @@ $.extend(muk, {
                             },
                             {
                                 id : "multiple_accs",
-                                display: "Multiple Contributors",
+                                display: "Show records where more than one user account has reported an APC payment",
                                 must : [
                                     es.newRangeFilter({
                                         field: "index.account_count",
