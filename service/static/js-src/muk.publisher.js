@@ -255,7 +255,7 @@ $.extend(muk, {
 
             // get the UK average out for each of the publishers
             var avgSeries = {};
-            avgSeries["key"] = "UK Average";
+            avgSeries["key"] = "Publisher Average";
             avgSeries["values"] = [];
 
             var avgPubFilters = ch.edge.realisedSecondaryQueries.avg.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
@@ -490,9 +490,10 @@ $.extend(muk, {
                             n: 3,
                             properties : [
                                 {label: "Compare", unselected: "<choose an institution>"},
-                                {label : "With", unselected : "<add another>"},
+                                {label : "with", unselected : "<add another>"},
                                 {label : "and", unselected : "<add another>"}
-                            ]
+                            ],
+                            select2: true
                         })
                     }),
                     edges.newORTermSelector({
@@ -527,7 +528,8 @@ $.extend(muk, {
                         dataFunction: muk.publisher.apcCountDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions above",
+                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -536,7 +538,8 @@ $.extend(muk, {
                         dataFunction: muk.publisher.apcExpenditureDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions above",
+                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -545,7 +548,8 @@ $.extend(muk, {
                         dataFunction: muk.publisher.avgAPCDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions above",
+                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
                         })
                     }),
                     muk.publisher.newStory({}), // FIXME: not clear what the story is
