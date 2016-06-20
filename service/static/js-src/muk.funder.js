@@ -344,6 +344,27 @@ $.extend(muk, {
                 )
             }
 
+            var spoofData = function() {
+                return [
+                    {
+                        key: "OA",
+                        values: [
+                            {key:"OA", value:1, label:"funder1"},
+                            {key:"OA", value:5, label:"funder2"},
+                            {key:"OA", value:1, label:"funder3"}
+                        ]
+                    },
+                    {
+                        key: "Hybrid",
+                        values: [
+                            {key:"Hybrid", value:10, label: "funder1"},
+                            {key:"Hybrid", value:7, label:"funder2"},
+                            {key:"Hybrid", value:5, label:"funder3"}
+                        ]
+                    }
+                ];
+            };
+
             var e = edges.newEdge({
                 selector: selector,
                 // template: edges.bs3.newTabbed(),
@@ -417,12 +438,13 @@ $.extend(muk, {
                     edges.newHorizontalMultibar({
                         id: "total_expenditure",
                         display: "Total expenditure",
-                        dataFunction: muk.funder.apcExpenditureDF,
+                        //dataFunction: muk.funder.apcExpenditureDF,
+                        dataSeries: spoofData(),
                         category : "tab",
-                        controls : true,
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions above",
-                            controls: true
+                            controls: true,
+                            stacked: true
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -440,7 +462,7 @@ $.extend(muk, {
                         display: "Raw Data",
                         category: "data",
                         chartComponents: ["apc_count", "total_expenditure", "mean"],
-                        tabularise: muk.funder.tableData,
+                        //tabularise: muk.funder.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
                                 {field: "Metric", display: ""}
