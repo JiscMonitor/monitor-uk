@@ -178,7 +178,34 @@ $.extend(muk, {
             return new muk.publisher.Story(params);
         },
         Story : function(params) {
+            this.avgCount = false;
+            this.avgExp = false;
+            this.avgAPC = false;
 
+            this.synchronise = function() {
+                var results = this.edge.preflightResults.uk_mean;
+                var stats = results.aggregation("total_stats");
+                var pubs = results.aggregation("publisher_count");
+
+                this.avgCount = stats.count / pubs.value;
+                this.avgExp = stats.sum / pubs.value;
+                this.avgAPC = stats.avg;
+            };
+
+            this.draw = function() {
+                if (!this.avgCount || !this.avgExp || !this.avgAPC) {
+                    this.context.html("");
+                    return;
+                }
+
+                // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
+                var story = "<p>On average, a publisher receives <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
+                story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
+                    .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
+                    .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
+
+                this.context.html(story);
+            };
         },
 
         averagesQuery : function(edge) {
@@ -552,7 +579,10 @@ $.extend(muk, {
                             color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
                         })
                     }),
-                    muk.publisher.newStory({}), // FIXME: not clear what the story is
+                    muk.publisher.newStory({
+                        id: "story",
+                        category: "story"
+                    }), // FIXME: not clear what the story is
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
