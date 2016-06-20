@@ -32,6 +32,16 @@ $.extend(muk, {
                 var storyClass = edges.css_classes(this.namespace, "stories");
                 var dataClass = edges.css_classes(this.namespace, "data");
                 var filterHeaderClass = edges.css_classes(this.namespace, "filter-header");
+                // inset pie chart
+                var pieClass = edges.css_classes(this.namespace, "uk_pie");
+                var pieId = edges.css_id(this.namespace, "uk_pie");
+                //var pieId = "uk_pie";
+                var pieChartClass = edges.css_classes(this.namespace, "uk_pie_chart");
+                var pieChartId = edges.css_id(this.namespace, "uk_pie_chart");
+                //var pieChartId = "uk_pie_chart";
+                var pieTableClass = edges.css_classes(this.namespace, "uk_pie_table");
+                var pieTableId = edges.css_id(this.namespace, "uk_pie_table");
+                //var pieTableId = "uk_pie_table";
 
                 // the top strap controls
                 var topstrap = edge.category("top");
@@ -81,6 +91,13 @@ $.extend(muk, {
                     }
                 }
 
+                // A uk-wide pie chart
+                var pieContents = '\
+                <h3>UK Pure OA/Hybrid breakdown</h3>\
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\
+                <div class="' + pieChartClass + '" id="' + pieChartId + '"></div>\
+                <div class="' + pieTableClass + '" id="' + pieTableId + '"></div>';
+
                 // the data tables
                 var data = edge.category("data");
                 var dataContainers = "";
@@ -92,7 +109,7 @@ $.extend(muk, {
 
                 var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;FILTER</div></div></div>';
 
-                var template = '<div class="' + panelClass + '"> \
+                var template = '<div class="' + panelClass + '">\
                     <div class="' + topClass + '">' + topContainers + '</div>\
                     <div class="row">\
                         <div class="col-md-3">\
@@ -105,7 +122,10 @@ $.extend(muk, {
                             </div>\
                         </div>\
                     </div>\
-                    <div class="' + storyClass + '">' + storyContainers + '</div>\
+                    <div class="row">\
+                        <div class="col-md-7 ' + storyClass + '">' + storyContainers + '</div>\
+                        <div class="col-md-5 ' + pieClass + '" id="' + pieId + '">' + pieContents + '</div>\
+                    </div>\
                     <div class="' + dataClass + '">' + dataContainers + '</div>\
                 </div>';
 
@@ -247,7 +267,6 @@ $.extend(muk, {
 
                 data_series.push(series);
             }
-            console.log(data_series);
             return data_series;
         },
 
@@ -304,9 +323,20 @@ $.extend(muk, {
                 obj["Metric"] = rowNames[i];
                 table.push(obj);
             }
-
             return table;
         },
+
+        pieTable : function(charts) {
+            var ds = charts[0].dataSeries[0].values;        // pie charts only have one series.
+
+            // Get the total number from the query results, calculate each percentage and add to the series
+            var total = charts[0].edge.result.data.hits.total;
+            for (x of ds) {                                 // todo: can we use fancy new ECMAScript-6 stuff?
+                x["percent"] = (100 * (x.value / total)).toFixed(2)
+            }
+            return ds;
+        },
+
 
         makeFunderReport : function(params) {
             if (!params) { params = {} }
@@ -333,7 +363,6 @@ $.extend(muk, {
                     ]
                 })
             );
-
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -468,7 +497,7 @@ $.extend(muk, {
                                 {field: "Metric", display: ""}
                             ],
                             displayListedOnly: false,
-                            download: true,
+                            downloadEnabled: true,
                             downloadText : "download as csv"
                         })
                     })
@@ -476,6 +505,47 @@ $.extend(muk, {
             });
 
             muk.activeEdges[selector] = e;
+
+            var oavshybrid_uk_query = es.newQuery();
+            oavshybrid_uk_query.addAggregation(
+                es.newTermsAggregation({
+                    name: "oavshybrid",
+                    field: "record.rioxxterms:type.exact"               //fixme: normalised OA vs Hybrid field
+                })
+            );
+
+            var e2 = edges.newEdge({
+                selector: edges.css_id_selector("muk-funder-report-template", "uk_pie"),
+                search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
+                baseQuery: oavshybrid_uk_query,
+                components: [
+                    edges.newPieChart({
+                        id: edges.css_id("muk-funder-report-template", "uk_pie_chart"),
+                        dataFunction: edges.ChartDataFunctions.terms({
+                            useAggregations: ["oavshybrid"]
+                        }),
+                        renderer: edges.nvd3.newPieChartRenderer({
+                            valueFormat: d3.format(',d'),
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
+                        })
+                    }),
+                    edges.newChartsTable({
+                        id: edges.css_id("muk-funder-report-template", "uk_pie_table"),
+                        display: "Raw Data",
+                        chartComponents: [edges.css_id("muk-funder-report-template", "uk_pie_chart")],
+                        tabularise: muk.funder.pieTable,
+                        renderer : edges.bs3.newTabularResultsRenderer({
+                            fieldDisplay : [
+                                {field: "label", display: ""},
+                                {field: "value", display: "Total"},
+                                {field: "percent", display: "%"}
+                            ],
+                            downloadEnabled: false
+                        })
+                    })
+                ]
+            });
+            muk.activeEdges["#uk_pie"] = e2;
         }
     }
 });
