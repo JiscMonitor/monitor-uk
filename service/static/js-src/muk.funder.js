@@ -202,7 +202,7 @@ $.extend(muk, {
 
         stackedBarClean : function(data_series) {
             // Clean up some things in a data series that a stacked chart doesn't handle very well.
-
+            // fixme: this code was written in the dead of night, there may be a more sensible way of doing this (or with real data it might not be required)
             // discard empty series and find a list of inner labels to sort
             var labels = new Set();
             var i = data_series.length;
@@ -416,30 +416,9 @@ $.extend(muk, {
                         values: [myInstituion]
                     })
                 )
-            }*/
+            }
 
-            var spoofData = function() {
-                return [
-                    {
-                        key: "OA",
-                        values: [
-                            {key:"OA", value:1, label:"funder1"},
-                            {key:"OA", value:5, label:"funder2"},
-                            {key:"OA", value:1, label:"funder3"}
-                        ]
-                    },
-                    {
-                        key: "Hybrid",
-                        values: [
-                            {key:"Hybrid", value:10, label: "funder1"},
-                            {key:"Hybrid", value:7, label:"funder2"},
-                            {key:"Hybrid", value:5, label:"funder3"}
-                        ]
-                    }
-                ];
-            };
-
-            var spoofData2 = function() {
+            var spoofData = function() {            // graphs render nicer when labels are sorted, no empty values
                 return [
                     {
                         key: "Journal Article/Review (Full OA journal)",
@@ -458,7 +437,7 @@ $.extend(muk, {
                         ]
                     }
                 ];
-            };
+            };*/
 
             var e = edges.newEdge({
                 selector: selector,
@@ -518,7 +497,8 @@ $.extend(muk, {
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions on the left",
                             controls: false,
-                            stacked: true
+                            stacked: true,
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -530,7 +510,8 @@ $.extend(muk, {
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions on the left",
                             controls: false,
-                            stacked: true
+                            stacked: true,
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -541,7 +522,8 @@ $.extend(muk, {
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions on the left",
                             controls: false,
-                            stacked: true
+                            stacked: true,
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
                         })
                     }),
                     muk.funder.newStory({}), // FIXME: not clear what the story is
