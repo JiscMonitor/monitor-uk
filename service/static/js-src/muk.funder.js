@@ -521,7 +521,8 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions on the left",
-                            controls: false,
+                            showValues: false,
+                            controls: true,
                             stacked: true,
                             color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
                         })
@@ -567,6 +568,7 @@ $.extend(muk, {
                         }),
                         renderer: edges.nvd3.newPieChartRenderer({
                             valueFormat: d3.format(',d'),
+                            labelsOutside: true,
                             color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
                         })
                     }),
