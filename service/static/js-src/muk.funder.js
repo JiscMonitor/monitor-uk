@@ -200,6 +200,53 @@ $.extend(muk, {
 
         },
 
+        stackedBarClean : function(data_series) {
+            // Clean up some things in a data series that a stacked chart doesn't handle very well.
+
+            // discard empty series and find a list of inner labels to sort
+            var labels = new Set();
+            var i = data_series.length;
+            while (i--) {
+                var s = data_series[i];
+                if (!s.values.length) {
+                    data_series.splice(i,1)
+                } else {
+                    for (var e of s.values) {
+                        labels.add(e.label)
+                    }
+                }
+            }
+
+            var sorted_labels = Array.from(labels).sort();
+
+            var clean_series = [];
+            for (var j=0; j<data_series.length;j++) {
+                var k = data_series[j].key;
+                var vs = data_series[j].values;
+                var cs = {};
+                cs["key"] = k;
+                cs["values"] = [];
+                for (var l of sorted_labels) {
+                    var current_labels_value = undefined;
+
+                    // apply the existing value if we have it
+                    for (var v of vs) {
+                        if (v.label == l) {
+                            current_labels_value = {label: l, value: v.value, series: j, key: k}
+                        }
+                    }
+
+                    if (current_labels_value === undefined){
+                        cs["values"].push({label: l, value: 0, series: j, key: k})
+                    } else {
+                        cs["values"].push(current_labels_value)
+                    }
+                }
+                clean_series.push(cs)
+            }
+            return clean_series
+        },
+
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
@@ -214,12 +261,7 @@ $.extend(muk, {
             var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
             var fundFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
 
-            // if there are no current institution filters, we don't want to show anything
-            if (instFilters.length === 0) {
-                return data_series;
-            }
-
-            var inst_buckets = ch.edge.result.buckets("institution");
+            var inst_buckets = ch.edge.result.buckets("oahybrid");
             for (var i = 0; i < inst_buckets.length; i++) {
                 var ibucket = inst_buckets[i];
                 var ikey = ibucket.key;
@@ -270,13 +312,16 @@ $.extend(muk, {
         },
 
         apcCountDF : function(ch) {
-            return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
+            var ds = muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
+            return muk.funder.stackedBarClean(ds)
         },
         apcExpenditureDF : function(ch) {
-            return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.sum }});
+            var ds = muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.sum }});
+            return muk.funder.stackedBarClean(ds)
         },
         avgAPCDF : function(ch) {
-            return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.avg }});
+            var ds = muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.avg }});
+            return muk.funder.stackedBarClean(ds)
         },
 
         tableData : function(charts) {
@@ -344,14 +389,14 @@ $.extend(muk, {
             var base_query = es.newQuery();
             base_query.addAggregation(
                 es.newTermsAggregation({
-                    name: "institution",
-                    field: "record.jm:apc.organisation_name.exact",
-                    size: 10,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                    name: "oahybrid",
+                    field: "record.rioxxterms:type.exact",
+                    size: 0,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
                     aggs : [
                         es.newTermsAggregation({
                             name : "funder",
                             field : "record.rioxxterms:project.funder_name.exact",
-                            size : 10, // again, size will be constrained by the filters
+                            size : 0, // again, size will be constrained by the filters
                             aggs : [
                                 es.newStatsAggregation({
                                     name : "funder_stats",
@@ -362,6 +407,7 @@ $.extend(muk, {
                     ]
                 })
             );
+            /*
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -370,7 +416,7 @@ $.extend(muk, {
                         values: [myInstituion]
                     })
                 )
-            }
+            }*/
 
             var spoofData = function() {
                 return [
@@ -393,13 +439,34 @@ $.extend(muk, {
                 ];
             };
 
+            var spoofData2 = function() {
+                return [
+                    {
+                        key: "Journal Article/Review (Full OA journal)",
+                        values: [
+                            {label: "EPSRC", value: 1324.287921686747, series: 1, key: "Journal Article/Review (Full OA journal)"},
+                            {label: "MRC", value: 1488.044691358025, series: 1, key: "Journal Article/Review (Full OA journal)"},
+                            {label: "Wellcome Trust", value: 1330.383, series: 1, key: "Journal Article/Review (Full OA journal)"}
+                        ]
+                    },
+                    {
+                        key: "Journal Article/Review (Hybrid journal)",
+                        values: [
+                            {label: "EPSRC", value: 1674.248839965398, series: 0, key: "Journal Article/Review (Hybrid journal)"},
+                            {label: "MRC", value: 2058.389610069444, series: 0, key: "Journal Article/Review (Hybrid journal)"},
+                            {label: "Wellcome Trust", value: 1933.2121969387758, series: 0, key: "Journal Article/Review (Hybrid journal)"}
+                        ]
+                    }
+                ];
+            };
+
             var e = edges.newEdge({
                 selector: selector,
                 // template: edges.bs3.newTabbed(),
                 template: muk.funder.newFunderReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 baseQuery : base_query,
-                openingQuery : opening_query,
+                //openingQuery : opening_query,
                 components: [
                     edges.newMultiDateRangeEntry({
                         id : "date_range",
@@ -415,26 +482,12 @@ $.extend(muk, {
                     edges.newORTermSelector({
                         id: "institution",
                         field: "record.jm:apc.organisation_name.exact",
-                        display: "Compare Institutions",
-                        lifecycle: "static",
-                        size: 10000,
-                        category: "top",
-                        renderer : edges.bs3.newNSeparateORTermSelectorRenderer({
-                            n: 3,
-                            properties : [
-                                {label: "Compare", unselected: "<choose an institution>"},
-                                {label : "With", unselected : "<add another>"},
-                                {label : "and", unselected : "<add another>"}
-                            ]
-                        })
-                    }),
-                    edges.newORTermSelector({
-                        id : "funder",
-                        field : "record.rioxxterms:project.funder_name.exact",
-                        display : "Funder",
+                        display: "Institution",
                         lifecycle: "update",
                         size: 10000,
                         category: "lhs",
+                        orderBy: "count",
+                        orderDir: "desc",
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             open: true,
                             togglable: false,
@@ -442,16 +495,19 @@ $.extend(muk, {
                             hideEmpty: true
                         })
                     }),
-                    edges.newRefiningANDTermSelector({
+                    edges.newORTermSelector({
                         id : "oa_type",
                         //field : "record.dc:source.oa_type.exact",             // fixme: is this supposed be the normalised field?
                         field : "record.rioxxterms:type.exact",
                         display : "Journal type",
                         category: "lhs",
-                        renderer : edges.bs3.newRefiningANDTermSelectorRenderer({
+                        orderBy: "count",
+                        orderDir: "desc",
+                        renderer : edges.bs3.newORTermSelectorRenderer({
                             open: true,
                             togglable: false,
-                            controls: false
+                            showCount: true,
+                            hideEmpty: true
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -460,18 +516,20 @@ $.extend(muk, {
                         dataFunction: muk.funder.apcCountDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions on the left",
+                            controls: false,
+                            stacked: true
                         })
                     }),
                     edges.newHorizontalMultibar({
                         id: "total_expenditure",
                         display: "Total expenditure",
-                        //dataFunction: muk.funder.apcExpenditureDF,
-                        dataSeries: spoofData(),
+                        dataFunction: muk.funder.apcExpenditureDF,
+                        //dataSeries: spoofData2(),
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above",
-                            controls: true,
+                            noDataMessage: "Select one or more institutions on the left",
+                            controls: false,
                             stacked: true
                         })
                     }),
@@ -481,7 +539,9 @@ $.extend(muk, {
                         dataFunction: muk.funder.avgAPCDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions above"
+                            noDataMessage: "Select one or more institutions on the left",
+                            controls: false,
+                            stacked: true
                         })
                     }),
                     muk.funder.newStory({}), // FIXME: not clear what the story is
