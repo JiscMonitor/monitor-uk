@@ -430,7 +430,35 @@ $.extend(muk, {
         },
 
         makePublisherReport : function(params) {
-            if (!params) { params = {} }
+            if (!params) {params = {} }
+
+            // first thing to do is determine if the user's institution is in the dataset
+            var check_query = es.newQuery();
+            check_query.addMust(
+                es.newTermsFilter({
+                    field: "record.jm:apc.organisation_name.exact",
+                    values: [myInstituion]
+                })
+            );
+            check_query.size = 0;
+            es.doQuery({
+                search_url: octopus.config.public_query_endpoint,
+                queryobj: check_query.objectify(),
+                success: function (result) {
+                    if (result.total() == 0) {
+                        myInstituion = false;
+                    }
+                    muk.publisher.makePublisherReport2(params);
+                },
+                error : function() {
+                    myInstituion = false;
+                    muk.publisher.makePublisherReport2(params);
+                }
+            });
+        },
+
+        makePublisherReport2 : function(params) {
+            if (!params) {params = {} }
             var selector = edges.getParam(params.selector, "#muk_publisher");
 
             var base_query = es.newQuery();
