@@ -275,11 +275,6 @@ $.extend(muk, {
             var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
             var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
 
-            // if there are no current institution filters, we don't want to show anything
-            if (instFilters.length === 0) {
-                return data_series;
-            }
-
             // get the UK average out for each of the publishers
             var avgSeries = {};
             avgSeries["key"] = "Publisher Average";
@@ -303,6 +298,11 @@ $.extend(muk, {
                 }
             }
             data_series.push(avgSeries);
+
+            // if there are no current institution filters, we don't want to show any more
+            if (instFilters.length === 0) {
+                return data_series;
+            }
 
             var reportOn = [];
             var inst_buckets = ch.edge.result.buckets("institution");
