@@ -1,5 +1,6 @@
 #date_range {
     float: right;
+    margin-bottom: 20px;
 }
 
 .ui-datepicker-year {
@@ -69,4 +70,24 @@
 
 .muk-funder-report-template-tab-container .muk-funder-report-template-tab {
     height: 700px;
+}
+
+/* Pie Chart Styles */
+.muk-funder-report-template-uk_pie {
+    width:400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px
+}
+
+.muk-funder-report-template-uk_pie_chart {
+    height: 350px;
+}
+
+.muk-funder-report-template-uk_pie_table {
+    margin: auto;
+}
+
+.muk-funder-report-template-uk_pie_table td,
+.muk-funder-report-template-uk_pie_table th {
+    border: 1px solid #c3d1da
 }
