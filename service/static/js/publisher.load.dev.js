@@ -8,6 +8,8 @@ requirejs.config({
         select2 : edges_base + "vendor/select2-3.5.1/select2.min",
         d3: edges_base + "vendor/d3-v3/d3.min",
         nvd3: edges_base + "vendor/nvd3-1.8.1/nv.d3",
+        moment : edges_base + "vendor/bootstrap-daterangepicker-2.1.22/moment",
+        daterangepicker: edges_base + "vendor/bootstrap-daterangepicker-2.1.22/daterangepicker",
         // FIXME: papaparse can't be loaded asynchronously
         // papa : edges_base + "vendor/PapaParse-4.1.2/papaparse",
 
@@ -26,6 +28,7 @@ requirejs.config({
         "edges.bs3.tabbed" : edges_base + "src/templates/bs3.Tabbed",
 
         // "edges.bs3.basicrangeselector" : edges_base + "src/renderers/bs3.BasicRangeSelectorRenderer",
+        "edges.bs3.bsmultidaterange" : edges_base + "src/renderers/bs3.BSMultiDateRange",
         // "edges.bs3.facetfiltersetter" : edges_base + "src/renderers/bs3.FacetFilterSetterRenderer",
         // "edges.bs3.fullsearchcontroller" : edges_base + "src/renderers/bs3.FullSearchControllerRenderer",
         "edges.bs3.multidaterange" : edges_base + "src/renderers/bs3.MultiDateRangeRenderer",
@@ -50,7 +53,7 @@ requirejs.config({
 });
 
 requirejs(["jquery", "d3"], function() {
-    requirejs(["jquery-ui", "select2", "nvd3", "es", "edges-jquery"], function() {
+    requirejs(["jquery-ui", "select2", "nvd3", "es", "edges-jquery", "daterangepicker"], function() {
         requirejs(["edges"], function() {
             requirejs([
                 "edges.csv",
@@ -61,6 +64,7 @@ requirejs(["jquery", "d3"], function() {
                 //"edges.bs3.facetfiltersetter",
                 //"edges.bs3.facetview",
                 "edges.bs3.tabbed",
+                "edges.bs3.bsmultidaterange",
                 //"edges.bs3.fullsearchcontroller",
                 "edges.bs3.multidaterange",
                 "edges.bs3.nseparateorterm",
