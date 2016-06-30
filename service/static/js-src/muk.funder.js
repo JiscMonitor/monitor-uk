@@ -387,6 +387,11 @@ $.extend(muk, {
             var selector = edges.getParam(params.selector, "#muk_funder");
 
             var base_query = es.newQuery();
+
+            // Filter on selected institutions
+            //base_query.addMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
+
+            // Aggregate by type and funder
             base_query.addAggregation(
                 es.newTermsAggregation({
                     name: "oahybrid",
@@ -416,28 +421,7 @@ $.extend(muk, {
                         values: [myInstituion]
                     })
                 )
-            }
-
-            var spoofData = function() {            // graphs render nicer when labels are sorted, no empty values
-                return [
-                    {
-                        key: "Journal Article/Review (Full OA journal)",
-                        values: [
-                            {label: "EPSRC", value: 1324.287921686747, series: 1, key: "Journal Article/Review (Full OA journal)"},
-                            {label: "MRC", value: 1488.044691358025, series: 1, key: "Journal Article/Review (Full OA journal)"},
-                            {label: "Wellcome Trust", value: 1330.383, series: 1, key: "Journal Article/Review (Full OA journal)"}
-                        ]
-                    },
-                    {
-                        key: "Journal Article/Review (Hybrid journal)",
-                        values: [
-                            {label: "EPSRC", value: 1674.248839965398, series: 0, key: "Journal Article/Review (Hybrid journal)"},
-                            {label: "MRC", value: 2058.389610069444, series: 0, key: "Journal Article/Review (Hybrid journal)"},
-                            {label: "Wellcome Trust", value: 1933.2121969387758, series: 0, key: "Journal Article/Review (Hybrid journal)"}
-                        ]
-                    }
-                ];
-            };*/
+            }*/
 
             var e = edges.newEdge({
                 selector: selector,
@@ -456,7 +440,16 @@ $.extend(muk, {
                             {field : "record.jm:apc.date_paid", display: "APC Paid"}
                         ],
                         autoLookupRange: true,
-                        category : "top"
+                        category : "top",
+                        renderer : edges.bs3.newBSMultiDateRange({
+                            ranges : muk.yearRanges({
+                                    "academic year" : "09-01",
+                                    "fiscal year" : "04-01",
+                                    "calendar year" : "01-01"
+                                },
+                                {"This " : 0, "Last " : 1}
+                            )
+                        })
                     }),
                     edges.newORTermSelector({
                         id: "institution",
@@ -467,6 +460,20 @@ $.extend(muk, {
                         category: "lhs",
                         orderBy: "count",
                         orderDir: "desc",
+                        renderer : edges.bs3.newORTermSelectorRenderer({
+                            open: true,
+                            togglable: false,
+                            showCount: true,
+                            hideEmpty: true
+                        })
+                    }),
+                    edges.newORTermSelector({
+                        id: "funder",
+                        field: "record.rioxxterms:project.funder_name.exact",
+                        display: "Funder",
+                        lifecycle: "update",
+                        size: 10000,
+                        category: "lhs",
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             open: true,
                             togglable: false,
