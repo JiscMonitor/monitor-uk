@@ -209,10 +209,10 @@ $.extend(muk, {
             while (i--) {
                 var s = data_series[i];
                 if (!s.values.length) {
-                    data_series.splice(i,1)
+                    data_series.splice(i, 1)
                 } else {
-                    for (var e of s.values) {
-                        labels.add(e.label)
+                    for (var j = 0; j < s.values.length; j++) {
+                        labels.add(s.values[j].label)
                     }
                 }
             }
@@ -220,24 +220,25 @@ $.extend(muk, {
             var sorted_labels = Array.from(labels).sort();
 
             var clean_series = [];
-            for (var j=0; j<data_series.length;j++) {
-                var k = data_series[j].key;
-                var vs = data_series[j].values;
+            for (var a = 0; a < data_series.length; a++) {
+                var k = data_series[a].key;
+                var vs = data_series[a].values;
                 var cs = {};
                 cs["key"] = k;
                 cs["values"] = [];
-                for (var l of sorted_labels) {
+                for (var b = 0; b < sorted_labels.length; b++) {
+                    var l = sorted_labels[b];
                     var current_labels_value = undefined;
 
                     // apply the existing value if we have it
-                    for (var v of vs) {
-                        if (v.label == l) {
-                            current_labels_value = {label: l, value: v.value, series: j, key: k}
+                    for (var c = 0; c < vs.length; c++) {
+                        if (vs[c].label == l) {
+                            current_labels_value = {label: l, value: vs[c].value, series: a, key: k}
                         }
                     }
 
                     if (current_labels_value === undefined){
-                        cs["values"].push({label: l, value: 0, series: j, key: k})
+                        cs["values"].push({label: l, value: 0, series: a, key: k})
                     } else {
                         cs["values"].push(current_labels_value)
                     }
@@ -375,8 +376,8 @@ $.extend(muk, {
 
             // Get the total number from the query results, calculate each percentage and add to the series
             var total = charts[0].edge.result.data.hits.total;
-            for (x of ds) {                                 // fixme: can we use fancy new ECMAScript-6 stuff?
-                x["percent"] = (100 * (x.value / total)).toFixed(2)
+            for (var x = 0; x < ds.length; x++) {
+                ds[x]["percent"] = (100 * (ds[x].value / total)).toFixed(2)
             }
             return ds;
         },
