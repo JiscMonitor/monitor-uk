@@ -88,3 +88,11 @@
     border-width: 2px 2px 2px 6px;
     border-color: #addaaf;
 }
+
+.edges-bs3-tabular-results-table {
+    text-align: right;
+}
+
+.edges-bs3-tabular-results-cell-Metric {
+    text-align: left;
+}

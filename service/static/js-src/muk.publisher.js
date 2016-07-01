@@ -423,7 +423,7 @@ $.extend(muk, {
                             row = rows[rowId];
                         }
 
-                        row[inst] = num.toFixed(2);
+                        row[inst] = muk.toIntFormat()(num);
                         rows[rowId] = row;
                     }
                 }
@@ -646,7 +646,8 @@ $.extend(muk, {
                         tabularise: muk.publisher.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "Metric", display: ""}
+                                {field: "Metric", display: ""},
+                                {field: "UK Average", display: "UK Average"}
                             ],
                             displayListedOnly: false,
                             download: true,
