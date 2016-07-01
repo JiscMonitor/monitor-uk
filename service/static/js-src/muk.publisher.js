@@ -290,7 +290,7 @@ $.extend(muk, {
 
             // get the UK average out for each of the publishers
             var avgSeries = {};
-            avgSeries["key"] = "Publisher Average";
+            avgSeries["key"] = "UK Average";
             avgSeries["values"] = [];
 
             var avgPubFilters = ch.edge.realisedSecondaryQueries.avg.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
@@ -605,7 +605,9 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions above",
-                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
+                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"],
+                            valueFormat: muk.toIntFormat(),
+                            yAxisLabel: "Number of APCs"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -615,7 +617,9 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions above",
-                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
+                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"],
+                            valueFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Total expenditure (£)"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -625,7 +629,9 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions above",
-                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"]
+                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"],
+                            valueFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Average APC Cost (£)"
                         })
                     }),
                     muk.publisher.newStory({

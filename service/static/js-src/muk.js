@@ -37,4 +37,19 @@ var muk = {
 
         return ranges;
     },
+
+    toIntFormat : function() {
+        return edges.numFormat({
+            decimalPlaces: 0,
+            thousandsSeparator: ","
+        })
+    },
+
+    toGBPIntFormat : function() {
+        return edges.numFormat({
+            prefix: "£",
+            decimalPlaces: 0,
+            thousandsSeparator: ","
+        })
+    }
 };
