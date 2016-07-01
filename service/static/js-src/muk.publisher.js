@@ -32,6 +32,16 @@ $.extend(muk, {
                 var storyClass = edges.css_classes(this.namespace, "stories");
                 var dataClass = edges.css_classes(this.namespace, "data");
                 var filterHeaderClass = edges.css_classes(this.namespace, "filter-header");
+                var loadingClass = edges.css_classes(this.namespace, "loading");
+
+                // the loading bar
+                var loading = edge.category("loading");
+                var loadContainers = "";
+                if (loading.length > 0) {
+                    for (var i = 0; i < loading.length; i++) {
+                        loadContainers += '<div class="row"><div class="col-md-12"><div id="' + loading[i].id + '"></div></div></div>';
+                    }
+                }
 
                 // the top strap controls
                 var topstrap = edge.category("top");
@@ -93,6 +103,7 @@ $.extend(muk, {
                 var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;FILTER</div></div></div>';
 
                 var template = '<div class="' + panelClass + '"> \
+                    <div class="' + loadingClass + '">' + loadContainers + '</div>\
                     <div class="' + topClass + '">' + topContainers + '</div>\
                     <div class="row">\
                         <div class="col-md-3">\
@@ -635,6 +646,10 @@ $.extend(muk, {
                             download: true,
                             downloadText : "download as csv"
                         })
+                    }),
+                    edges.newSearchingNotification({
+                        id: "loading-bar",
+                        category: "loading"
                     })
                 ]
             });
