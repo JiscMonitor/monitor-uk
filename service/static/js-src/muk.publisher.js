@@ -226,6 +226,9 @@ $.extend(muk, {
             // remove the institutional constraints
             query.removeMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
 
+            // find out how many publishers we need to get back in the aggregation
+            var aggSize = 10;
+
             // now look to see if there are any publisher filters set
             var pubFilters = query.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
             if (pubFilters.length === 0) {
@@ -241,6 +244,8 @@ $.extend(muk, {
                     }
                     query.addMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact", values: terms}));
                 }
+            } else {
+                aggSize = pubFilters[0].term_count();
             }
 
             // remove any existing aggregations, we don't need them
@@ -251,7 +256,7 @@ $.extend(muk, {
                 es.newTermsAggregation({
                     name: "publishers",
                     field: "record.dcterms:publisher.name.exact",
-                    size: pubFilters.length,
+                    size: aggSize,
                     aggs : [
                         es.newStatsAggregation({
                             name : "publisher_stats",
