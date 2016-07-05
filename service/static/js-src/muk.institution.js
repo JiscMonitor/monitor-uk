@@ -178,14 +178,97 @@ $.extend(muk, {
             return new muk.institution.Story(params);
         },
         Story : function(params) {
+            this.countMax = false;
+            this.countAvg = false;
+            this.totalMin = false;
+            this.totalMax = false;
+            this.totalAvg = false;
+            this.avgMin = false;
+            this.avgMax = false;
+            this.avgAvg = false;
 
+            this.synchronise = function() {
+                var results = this.edge.secondaryResults.avg;
+                var cardinality = results.aggregation("inst_count");
+                var insts = results.buckets("institutions");
+                var general = results.aggregation("general_stats");
+
+                if (insts.length > 0) {
+                    this.countMax = insts[0].doc_count;
+                } else {
+                    this.countMax = 0;
+                }
+
+                if (cardinality.value > 0) {
+                    this.countAvg = results.total() / cardinality.value;
+                    this.totalAvg = general.sum / cardinality.value;
+                } else {
+                    this.countAvg = 0;
+                    this.totalAvg = 0;
+                }
+
+                for (var i = 0; i < insts.length; i++) {
+                    var inst = insts[i];
+                    var sum = inst.inst_stats.sum;
+                    var avg = inst.inst_stats.avg;
+
+                    if (this.totalMin === false || sum < this.totalMin) {
+                        this.totalMin = sum;
+                    }
+
+                    if (this.totalMax === false || sum > this.totalMax) {
+                        this.totalMax = sum;
+                    }
+
+                    if (this.avgMin === false || avg < this.avgMin) {
+                        this.avgMin = avg;
+                    }
+
+                    if (this.avgMax === false || avg > this.avgMax) {
+                        this.avgMax = avg;
+                    }
+                }
+
+                this.avgAvg = general.avg;
+            };
+
+            this.draw = function() {
+                if (this.countMax === false ||
+                        this.countAvg === false ||
+                        this.totalMin === false ||
+                        this.totalMax === false ||
+                        this.totalAvg === false ||
+                        this.avgMin === false ||
+                        this.avgMax === false ||
+                        this.avgAvg === false) {
+                    this.context.html("");
+                    return;
+                }
+
+                var story = "<p>In this time period, an institution may have up to <strong>{{a}}</strong> APCs, with the average being <strong>{{b}}</strong></p>";
+                story += "<p>The least amount spent by any institution was <strong>£{{c}}</strong>, the most was <strong>£{{d}}</strong>, with the average being <strong>£{{e}}</strong></p>";
+                story += "<p>The smallest average APC for an institution was <strong>£{{f}}</strong>, the largest average was <strong>£{{g}}</strong>, and the overall average APC cost is <strong>£{{h}}</strong></p>";
+
+                var format = muk.toIntFormat()
+                // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
+                story = story.replace(/{{a}}/g, format(this.countMax))
+                    .replace(/{{b}}/g, format(this.countAvg))
+                    .replace(/{{c}}/g, format(this.totalMin))
+                    .replace(/{{d}}/g, format(this.totalMax))
+                    .replace(/{{e}}/g, format(this.totalAvg))
+                    .replace(/{{f}}/g, format(this.avgMin))
+                    .replace(/{{g}}/g, format(this.avgMax))
+                    .replace(/{{h}}/g, format(this.avgAvg));
+
+                this.context.html(story);
+            };
         },
 
         averagesQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
             var query = edge.cloneQuery();
 
-            // remove the institutional constraints
+            // remove the institutional constraints, but keep any others
             query.removeMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
 
             // remove any existing aggregations, we don't need them
@@ -193,8 +276,29 @@ $.extend(muk, {
 
             // add the new aggregation which will actually get the data
             query.addAggregation(
+                es.newTermsAggregation({
+                    name: "institutions",
+                    field: "record.jm:apc.organisation_name.exact",
+                    size: 10000,
+                    orderBy: "count",
+                    orderDir: "desc",
+                    aggs: [
+                        es.newStatsAggregation({
+                            name : "inst_stats",
+                            field: "index.amount_inc_vat"
+                        })
+                    ]
+                })
+            );
+            query.addAggregation(
+                es.newCardinalityAggregation({
+                    name: "inst_count",
+                    field: "record.jm:apc.organisation_name.exact"
+                })
+            );
+            query.addAggregation(
                 es.newStatsAggregation({
-                    name : "uk_stats",
+                    name: "general_stats",
                     field: "index.amount_inc_vat"
                 })
             );
@@ -467,7 +571,10 @@ $.extend(muk, {
                             legend: false
                         })
                     }),
-                    muk.institution.newStory({}), // FIXME: not clear what the story is
+                    muk.institution.newStory({
+                        id: "story",
+                        category: "story"
+                    }), // FIXME: not clear what the story is
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
