@@ -181,6 +181,32 @@ $.extend(muk, {
 
         },
 
+        averagesQuery : function(edge) {
+            // clone the current query, which will be the basis for the averages query
+            var query = edge.cloneQuery();
+
+            // remove the institutional constraints
+            query.removeMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
+
+            // remove any existing aggregations, we don't need them
+            query.clearAggregations();
+
+            // add the new aggregation which will actually get the data
+            query.addAggregation(
+                es.newStatsAggregation({
+                    name : "uk_stats",
+                    field: "index.amount_inc_vat"
+                })
+            );
+
+            // finally set the size and from parameters
+            query.size = 0;
+            query.from = 0;
+
+            // return the secondary query
+            return query;
+        },
+
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
@@ -290,6 +316,35 @@ $.extend(muk, {
         },
 
         makeInstitutionReport : function(params) {
+            if (!params) {params = {} }
+
+            // first thing to do is determine if the user's institution is in the dataset
+            var check_query = es.newQuery();
+            check_query.addMust(
+                es.newTermsFilter({
+                    field: "record.jm:apc.organisation_name.exact",
+                    values: [myInstituion]
+                })
+            );
+            check_query.size = 0;
+            es.doQuery({
+                search_url: octopus.config.public_query_endpoint,
+                queryobj: check_query.objectify(),
+                success: function (result) {
+                    if (result.total() == 0) {
+                        myInstituion = false;
+                    }
+                    muk.institution.makeInstitutionReport2(params);
+                },
+                error : function() {
+                    myInstituion = false;
+                    muk.institution.makeInstitutionReport2(params);
+                }
+            });
+        },
+
+
+        makeInstitutionReport2 : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_institution");
 
@@ -308,22 +363,6 @@ $.extend(muk, {
                 })
             );
 
-            /*
-            var preflight = es.newQuery({size: 0});
-            preflight.addAggregation(
-                es.newStatsAggregation({
-                    name: "total_stats",
-                    field: "index.amount_inc_vat"
-                })
-            );
-            preflight.addAggregation(
-                es.newCardinalityAggregation({
-                    name: "publisher_count",
-                    field: "record.dcterms:publisher.name.exact"
-                })
-            );
-            */
-
             // FIXME: actually we need to first find out if the institution is listed, and only then load the
             // relevant opening query
             var opening_query = es.newQuery();
@@ -340,11 +379,11 @@ $.extend(muk, {
                 selector: selector,
                 template: muk.institution.newInstitutionReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
-                //preflightQueries : {
-                //    uk_mean : preflight
-                //},
                 baseQuery : base_query,
                 openingQuery : opening_query,
+                secondaryQueries : {
+                    avg: muk.institution.averagesQuery
+                },
                 components: [
                     edges.newMultiDateRangeEntry({
                         id : "date_range",

@@ -66,7 +66,7 @@
                 <p class="help-block" style="margin-bottom: 10px">If you delete your account it will be gone forever</p>
             {% endif %}
 
-            <form id="user_delete" class="form-inline" action="{{url_for('account.username', username=current_user.email)}}" method="POST">
+            <form id="user_delete" class="form-inline" action="{{url_for('account.username', username=account.email)}}" method="POST">
                 <div class="form-group">
                     <input class="form-control" type="password" name="password" placeholder="Enter password">
                     <button type="submit" class="btn btn-danger" id="delete" value="Delete" name="submit">Delete <i class="glyphicon glyphicon-trash"></i></button>
