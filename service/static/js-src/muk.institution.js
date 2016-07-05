@@ -32,6 +32,16 @@ $.extend(muk, {
                 var storyClass = edges.css_classes(this.namespace, "stories");
                 var dataClass = edges.css_classes(this.namespace, "data");
                 var filterHeaderClass = edges.css_classes(this.namespace, "filter-header");
+                var loadingClass = edges.css_classes(this.namespace, "loading");
+
+                // the loading bar
+                var loading = edge.category("loading");
+                var loadContainers = "";
+                if (loading.length > 0) {
+                    for (var i = 0; i < loading.length; i++) {
+                        loadContainers += '<div class="row"><div class="col-md-12"><div id="' + loading[i].id + '"></div></div></div>';
+                    }
+                }
 
                 // the top strap controls
                 var topstrap = edge.category("top");
@@ -93,6 +103,7 @@ $.extend(muk, {
                 var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;FILTER</div></div></div>';
 
                 var template = '<div class="' + panelClass + '"> \
+                    <div class="' + loadingClass + '">' + loadContainers + '</div>\
                     <div class="' + topClass + '">' + topContainers + '</div>\
                     <div class="row">\
                         <div class="col-md-3">\
@@ -447,7 +458,6 @@ $.extend(muk, {
             });
         },
 
-
         makeInstitutionReport2 : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_institution");
@@ -498,7 +508,16 @@ $.extend(muk, {
                             {field : "record.jm:apc.date_paid", display: "APC Paid"}
                         ],
                         autoLookupRange: true,
-                        category : "top"
+                        category : "top",
+                        renderer : edges.bs3.newBSMultiDateRange({
+                            ranges : muk.yearRanges({
+                                    "academic year" : "09-01",
+                                    "fiscal year" : "04-01",
+                                    "calendar year" : "01-01"
+                                },
+                                {"This " : 0, "Last " : 1}
+                            )
+                        })
                     }),
                     edges.newORTermSelector({
                         id: "institution",
@@ -589,6 +608,10 @@ $.extend(muk, {
                             download: true,
                             downloadText : "download as csv"
                         })
+                    }),
+                    edges.newSearchingNotification({
+                        id: "loading-bar",
+                        category: "loading"
                     })
                 ]
             });
