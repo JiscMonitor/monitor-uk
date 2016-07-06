@@ -10,6 +10,7 @@
 .muk-institution-report-template-filters {
     padding: 10px;
     background: #eeeeee;
+    margin-bottom: 20px; /* for the responsive layout */
 }
 
 .muk-institution-report-template-filter-header {
@@ -63,9 +64,10 @@
     border-top: 2px solid #0e90d2;
 }
 
-.muk-institution-report-template-tab-container {
+.muk-publisher-report-template-tab-container {
     height: 750px;
-    width: 800px;
+    /*width: 800px;*/
+    width: 100%;
 }
 
 .muk-institution-report-template-tab-container .muk-institution-report-template-tab {
@@ -84,4 +86,5 @@
 
 .edges-bs3-tabular-results-cell-Institution {
     text-align: left;
+    white-space: nowrap;
 }
