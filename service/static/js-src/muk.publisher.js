@@ -194,6 +194,10 @@ $.extend(muk, {
             this.avgAPC = false;
 
             this.synchronise = function() {
+                this.avgCount = false;
+                this.avgExp = false;
+                this.avgAPC = false;
+
                 var results = this.edge.preflightResults.uk_mean;
                 var stats = results.aggregation("total_stats");
                 var pubs = results.aggregation("publisher_count");
@@ -407,6 +411,8 @@ $.extend(muk, {
                 "mean" : "Average APC cost"
             };
 
+            var formatter = muk.toIntFormat();
+
             var rows = {};
             for (var i = 0; i < charts.length; i++) {
                 var chart = charts[i];
@@ -428,7 +434,7 @@ $.extend(muk, {
                             row = rows[rowId];
                         }
 
-                        row[inst] = muk.toIntFormat()(num);
+                        row[inst] = formatter(num);
                         rows[rowId] = row;
                     }
                 }
@@ -479,7 +485,7 @@ $.extend(muk, {
             if (!params) {params = {} }
             var selector = edges.getParam(params.selector, "#muk_publisher");
 
-            var base_query = es.newQuery();
+            var base_query = es.newQuery({size: 0});
             base_query.addAggregation(
                 es.newTermsAggregation({
                     name: "institution",

@@ -199,6 +199,15 @@ $.extend(muk, {
             this.avgAvg = false;
 
             this.synchronise = function() {
+                this.countMax = false;
+                this.countAvg = false;
+                this.totalMin = false;
+                this.totalMax = false;
+                this.totalAvg = false;
+                this.avgMin = false;
+                this.avgMax = false;
+                this.avgAvg = false;
+
                 var results = this.edge.secondaryResults.avg;
                 var cardinality = results.aggregation("inst_count");
                 var insts = results.buckets("institutions");
@@ -335,17 +344,13 @@ $.extend(muk, {
             // we need to make sure that we only extract data for institutions and publishers that are in
             // the filter list
             var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-            var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
-
-            // if there are no current institution filters, we don't want to show anything
-            if (instFilters.length === 0) {
-                return data_series;
-            }
+            // var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
 
             var series = {};
             series["key"] = seriesKey;
             series["values"] = [];
 
+            var insts = []; // for tracking institutions in the buckets for use later
             var inst_buckets = ch.edge.result.buckets("institution");
             for (var i = 0; i < inst_buckets.length; i++) {
                 var ibucket = inst_buckets[i];
@@ -353,6 +358,7 @@ $.extend(muk, {
 
                 // if the institution in the aggregation is not in the filter list ignore it
                 // (this can happen for records where there's more than one institution on the APC)
+                // if the length of the filter list is 0, then we just display the top X institutions anyway (i.e. none are skipped)
                 var skip = false;
                 for (var j = 0; j < instFilters.length; j++) {
                     var filt = instFilters[j];
@@ -367,6 +373,19 @@ $.extend(muk, {
 
                 var value = valueFunction(ibucket);
                 series["values"].push({label: ikey, value: value});
+                insts.push(ikey);
+            }
+
+            // now make sure that any institutions which didn't return results are still in the series, albeit with a 0
+            // value
+            for (var i = 0; i < instFilters.length; i++) {
+                var filt = instFilters[i];
+                for (var j = 0; j < filt.values.length; j++) {
+                    var val = filt.values[j];
+                    if ($.inArray(val, insts) === -1) {
+                        series["values"].push({label: val, value: 0});
+                    }
+                }
             }
 
             data_series.push(series);
@@ -390,6 +409,8 @@ $.extend(muk, {
                 "mean" : "Average APC cost"
             };
 
+            var formatter = muk.toIntFormat();
+
             var rows = {};
             for (var i = 0; i < charts.length; i++) {
                 var chart = charts[i];
@@ -411,7 +432,7 @@ $.extend(muk, {
                         }
 
                         var col = seriesNames[chart.id];
-                        row[col] = num.toFixed(2);
+                        row[col] = formatter(num);
                         rows[inst] = row;
                     }
                 }
@@ -462,7 +483,7 @@ $.extend(muk, {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_institution");
 
-            var base_query = es.newQuery();
+            var base_query = es.newQuery({size: 0});
             base_query.addAggregation(
                 es.newTermsAggregation({
                     name: "institution",
@@ -472,6 +493,12 @@ $.extend(muk, {
                         es.newStatsAggregation({
                             name : "institution_stats",
                             field: "index.amount_inc_vat"
+                        }),
+                        es.newTermsAggregation({
+                            name: "oa_type",
+                            //field : "record.dc:source.oa_type.exact",             // fixme: its supposed to be this one
+                            field : "record.rioxxterms:type.exact",
+                            size: 10
                         })
                     ]
                 })
@@ -566,8 +593,10 @@ $.extend(muk, {
                         dataFunction: muk.institution.apcCountDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions on the left",
-                            legend: false
+                            noDataMessage: "No results match your filter criteria - try changing the date range",
+                            legend: false,
+                            valueFormat: muk.toIntFormat(),
+                            yAxisLabel: "Number of APCs"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -576,8 +605,10 @@ $.extend(muk, {
                         dataFunction: muk.institution.apcExpenditureDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions on the left",
-                            legend: false
+                            noDataMessage: "No results match your filter criteria - try changing the date range",
+                            legend: false,
+                            valueFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Total expenditure (£)"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -586,8 +617,10 @@ $.extend(muk, {
                         dataFunction: muk.institution.avgAPCDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions on the left",
-                            legend: false
+                            noDataMessage: "No results match your filter criteria - try changing the date range",
+                            legend: false,
+                            valueFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Average APC Cost (£)"
                         })
                     }),
                     muk.institution.newStory({
