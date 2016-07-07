@@ -66,8 +66,8 @@
 
 .muk-publisher-report-template-tab-container {
     height: 750px;
-    /*width: 800px;*/
-    width: 100%;
+    width: 800px;
+    /* width: 100%; */
 }
 
 .muk-institution-report-template-tab-container .muk-institution-report-template-tab {
