@@ -257,18 +257,17 @@ $.extend(muk, {
                 return data_series;
             }
 
-            // we need to make sure that we only extract data for institutions and funders that are in
-            // the filter list
+            // we need to make sure that we only extract data for institutions that are in the filter list
             var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-            var fundFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
 
-            var inst_buckets = ch.edge.result.buckets("oahybrid");
+            var inst_buckets = ch.edge.result.buckets("institution");
             for (var i = 0; i < inst_buckets.length; i++) {
                 var ibucket = inst_buckets[i];
                 var ikey = ibucket.key;
 
                 // if the institution in the aggregation is not in the filter list ignore it
                 // (this can happen for records where there's more than one institution on the APC)
+                // if the length of the filter list is 0, then we just display the top X institutions anyway (i.e. none are skipped)
                 var skip = false;
                 for (var j = 0; j < instFilters.length; j++) {
                     var filt = instFilters[j];
@@ -281,33 +280,27 @@ $.extend(muk, {
                     continue;
                 }
 
-                var series = {};
-                series["key"] = ikey;
-                series["values"] = [];
+                var oahyb_buckets = ibucket["oahybrid"].buckets;
 
-                var pub_buckets = ibucket["funder"].buckets;
-                for (var j = 0; j < pub_buckets.length; j++) {
-                    var pbucket = pub_buckets[j];
-                    var pkey = pbucket.key;
+                for (var k = 0; k < oahyb_buckets.length; k++) {
+                    var obucket = oahyb_buckets[k];
+                    var okey = obucket.key;
 
-                    // since funder isn't a repeated field, this shouldn't happen, but best to be definitive
-                    skip = false;
-                    for (var k = 0; k < fundFilters.length; k++) {
-                        var filt = fundFilters[k];
-                        if (!filt.has_term(pkey)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if (skip) {
-                        continue;
+                    var series = {};
+                    series["key"] = okey;
+                    series["values"] = [];
+
+                    var fund_buckets = obucket["funder"].buckets;
+                    for (var l = 0; l < fund_buckets.length; l++) {
+                        var fbucket = fund_buckets[l];
+                        var fkey = fbucket.key;
+
+                        var value = valueFunction(fbucket);
+                        series["values"].push({label: fkey, value: value})
                     }
 
-                    var value = valueFunction(pbucket);
-                    series["values"].push({label: pkey, value: value})
+                    data_series.push(series);
                 }
-
-                data_series.push(series);
             }
             return data_series;
         },
@@ -389,31 +382,35 @@ $.extend(muk, {
 
             var base_query = es.newQuery();
 
-            // Filter on selected institutions
-            //base_query.addMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-
-            // Aggregate by type and funder
+            // Aggregate by institution, type and funder
             base_query.addAggregation(
                 es.newTermsAggregation({
-                    name: "oahybrid",
-                    field: "record.rioxxterms:type.exact",
-                    size: 0,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
-                    aggs : [
+                    name: "institution",
+                    field: "record.jm:apc.organisation_name.exact",
+                    size: 10,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                    aggs: [
                         es.newTermsAggregation({
-                            name : "funder",
-                            field : "record.rioxxterms:project.funder_name.exact",
-                            size : 0, // again, size will be constrained by the filters
-                            aggs : [
-                                es.newStatsAggregation({
-                                    name : "funder_stats",
-                                    field: "index.amount_inc_vat"
+                            name: "oahybrid",
+                            field: "record.rioxxterms:type.exact",
+                            size: 0,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                            aggs: [
+                                es.newTermsAggregation({
+                                    name: "funder",
+                                    field: "record.rioxxterms:project.funder_name.exact",
+                                    size: 0, // again, size will be constrained by the filters
+                                    aggs: [
+                                        es.newStatsAggregation({
+                                            name: "funder_stats",
+                                            field: "index.amount_inc_vat"
+                                        })
+                                    ]
                                 })
                             ]
                         })
                     ]
                 })
             );
-            /*
+
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -422,11 +419,10 @@ $.extend(muk, {
                         values: [myInstituion]
                     })
                 )
-            }*/
+            }
 
             var e = edges.newEdge({
                 selector: selector,
-                // template: edges.bs3.newTabbed(),
                 template: muk.funder.newFunderReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 baseQuery : base_query,
@@ -503,7 +499,7 @@ $.extend(muk, {
                         dataFunction: muk.funder.apcCountDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions on the left",
+                            noDataMessage: "No data to display",
                             controls: false,
                             stacked: true,
                             color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
@@ -516,7 +512,7 @@ $.extend(muk, {
                         //dataSeries: spoofData2(),
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions on the left",
+                            noDataMessage: "No data to display",
                             controls: false,
                             stacked: true,
                             color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
@@ -528,7 +524,7 @@ $.extend(muk, {
                         dataFunction: muk.funder.avgAPCDF,
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
-                            noDataMessage: "Select one or more institutions on the left",
+                            noDataMessage: "No data to display",
                             showValues: false,
                             controls: true,
                             stacked: true,
