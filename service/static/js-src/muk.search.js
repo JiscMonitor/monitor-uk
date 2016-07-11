@@ -1,6 +1,118 @@
 $.extend(muk, {
     search : {
 
+        newSearchTemplate: function (params) {
+            if (!params) { params = {} }
+            muk.search.SearchTemplate.prototype = edges.newTemplate(params);
+            return new muk.search.SearchTemplate(params);
+        },
+        SearchTemplate: function (params) {
+            // later we'll store the edge instance here
+            this.edge = false;
+
+            this.namespace = "muk-search-template";
+
+            this.draw = function (edge) {
+                this.edge = edge;
+
+                // the classes we're going to need
+                var containerClass = edges.css_classes(this.namespace, "container");
+                var searchClass = edges.css_classes(this.namespace, "search");
+                var facetsClass = edges.css_classes(this.namespace, "facets");
+                var countClass = edges.css_classes(this.namespace, "count");
+                var sortClass = edges.css_classes(this.namespace, "sort");
+                var resultsClass = edges.css_classes(this.namespace, "results");
+                var itemsClass = edges.css_classes(this.namespace, "items");
+                var pagerClass = edges.css_classes(this.namespace, "pager");
+                var facetClass = edges.css_classes(this.namespace, "facet");
+                var searchingClass = edges.css_classes(this.namespace, "searching");
+                var panelClass = edges.css_classes(this.namespace, "panel");
+                var refineClass = edges.css_classes(this.namespace, "refine");
+
+                var frag = '<div class="' + containerClass + '">\
+                    <div class="row"><div class="col-md-12"><div class="' + searchClass + '">{{SEARCH}}</div></div></div>\
+                    <div class="row"><div class="col-md-12"><div class="' + searchingClass + '">{{SEARCHING}}</div></div></div>\
+                    <div class="' + panelClass + '"><div class="row">\
+                        <div class="col-md-3"><div class="' + facetsClass + '"><div class="' + refineClass + '">Refine</div>{{FACETS}}</div></div>\
+                        <div class="col-md-9">\
+                            <div class="row">\
+                                <div class="col-md-6"><div class="' + countClass + '">{{RESULTCOUNT}}</div></div>\
+                                <div class="col-md-6"><div class="' + sortClass + '">{{SORT}}</div></div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-md-12"><div class="' + resultsClass + '">{{RESULTS}}</div></div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-md-12"><div class="' + itemsClass + '">{{ITEMSPERPAGE}}</div></div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-md-12"><div class="' + pagerClass + '">{{PAGER}}</div></div>\
+                            </div>\
+                        </div>\
+                    </div></div>\
+                </div>';
+
+                var searchFrag = "";
+                var searches = edge.category("search");
+                for (var i = 0; i < searches.length; i++) {
+                    searchFrag += '<div id="' + searches[i].id + '"></div>';
+                }
+
+                var searchingFrag = "";
+                var searchings = edge.category("searching-notification");
+                for (var i = 0; i < searchings.length; i++) {
+                    searchingFrag += '<div id="' + searchings[i].id + '"></div>';
+                }
+
+                var facets = edge.category("facet");
+                var facetsFrag = "";
+                for (var i = 0; i < facets.length; i++) {
+                    facetsFrag += '<div class="' + facetClass + '"><div id="' + facets[i].id + '"></div></div>';
+                }
+
+                var countFrag = "";
+                var counts = edge.category("count");
+                for (var i = 0; i < counts.length; i++) {
+                    countFrag += '<div id="' + counts[i].id + '"></div>';
+                }
+
+                var sortFrag = "";
+                var sorts = edge.category("sort");
+                for (var i = 0; i < sorts.length; i++) {
+                    sortFrag += '<div id="' + sorts[i].id + '"></div>';
+                }
+
+                var resultsFrag = "";
+                var results = edge.category("results");
+                for (var i = 0; i < results.length; i++) {
+                    resultsFrag += '<div id="' + results[i].id + '"></div>';
+                }
+
+                var itemsFrag = "";
+                var items = edge.category("items");
+                for (var i = 0; i < items.length; i++) {
+                    itemsFrag += '<div id="' + items[i].id + '"></div>';
+                }
+
+                var pagerFrag = "";
+                var pagers = edge.category("pager");
+                for (var i = 0; i < pagers.length; i++) {
+                    pagerFrag += '<div id="' + pagers[i].id + '"></div>';
+                }
+
+                frag = frag.replace(/{{SEARCH}}/g, searchFrag)
+                            .replace(/{{SEARCHING}}/g, searchingFrag)
+                            .replace(/{{FACETS}}/g, facetsFrag)
+                            .replace(/{{RESULTCOUNT}}/g, countFrag)
+                            .replace(/{{SORT}}/g, sortFrag)
+                            .replace(/{{RESULTS}}/g, resultsFrag)
+                            .replace(/{{ITEMSPERPAGE}}/g, itemsFrag)
+                            .replace(/{{PAGER}}/g, pagerFrag);
+
+                edge.context.html(frag);
+            };
+        },
+
         newAPCRenderer : function(params) {
             if (!params) { params = {} }
             muk.search.APCRenderer.prototype = edges.newRenderer(params);
@@ -181,10 +293,45 @@ $.extend(muk, {
 
             var e = edges.newEdge({
                 selector: selector,
-                template: edges.bs3.newFacetview(),
+                template: muk.search.newSearchTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 manageUrl : true,
                 components : [
+                    edges.newFullSearchController({
+                        id: "search-box",
+                        category: "search",
+                        renderer : edges.bs3.newSearchBoxRenderer({
+                            clearButton: false,
+                            searchButton: true,
+                            searchButtonText: "Search",
+                            searchPlaceholder: "Enter a title, journal, publisher, funder, organisation...",
+                            freetextSubmitDelay: -1
+                        })
+                    }),
+                    edges.newSelectedFilters({
+                        id: "selected-filters",
+                        category: "facet",
+                        fieldDisplays : {
+                            "record.dcterms:publisher.name.exact" : "Publisher",
+                            "record.dc:source.name.exact" : "Journal",
+                            "index.amount_inc_vat" : "APC Cost",
+                            "record.jm:apc.organisation_name.exact" : "Institution",
+                            "index.apc_count" : "Multiple APCs",
+                            "index.org_count" : "Multiple Organisations",
+                            "index.account_count" : "Multiple Contributors"
+                        },
+                        rangeMaps : {
+                            "index.apc_count" : [{from : 2, display: "Yes"}],
+                            "index.org_count" : [{from : 2, display: "Yes"}],
+                            "index.account_count" : [{from : 2, display: "Yes"}]
+                        },
+                        renderer : edges.bs3.newCompactSelectedFiltersRenderer({
+                            header: "Refined by",
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right"
+                        })
+                    }),
                     edges.newORTermSelector({
                         id: "publisher",
                         field: "record.dcterms:publisher.name.exact",
@@ -293,41 +440,9 @@ $.extend(muk, {
                             facetTitle : "Duplicates"
                         })
                     }),
-                    edges.newFullSearchController({
-                        id: "search-controller",
-                        category: "controller",
-                        sortOptions : [
-                            {field: "index.asciiunpunctitle.exact", display: "Title"}
-                        ],
-                        fieldOptions : [
-                            {field: "index.unpunctitle", display: "Title"}
-                        ]
-                    }),
-                    edges.newSelectedFilters({
-                        id: "selected-filters",
-                        category: "selected-filters",
-                        fieldDisplays : {
-                            "record.dcterms:publisher.name.exact" : "Publisher",
-                            "record.dc:source.name.exact" : "Journal",
-                            "index.amount_inc_vat" : "APC Cost",
-                            "record.jm:apc.organisation_name.exact" : "Institution",
-                            "index.apc_count" : "Multiple APCs",
-                            "index.org_count" : "Multiple Organisations",
-                            "index.account_count" : "Multiple Contributors"
-                        },
-                        rangeMaps : {
-                            "index.apc_count" : [{from : 2, display: "Yes"}],
-                            "index.org_count" : [{from : 2, display: "Yes"}],
-                            "index.account_count" : [{from : 2, display: "Yes"}]
-                        }
-                    }),
-                    edges.newPager({
-                        id: "top-pager",
-                        category: "top-pager"
-                    }),
                     edges.newPager({
                         id: "bottom-pager",
-                        category: "bottom-pager"
+                        category: "pager"
                     }),
                     edges.newSearchingNotification({
                         id: "searching-notification",

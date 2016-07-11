@@ -1,0 +1,47 @@
+.edges-bs3-search-box-search {
+    text-align: center;
+}
+
+.edges-bs3-search-box-search .form-group {
+    width: 50%;
+}
+
+.edges-bs3-search-box-search .input-group {
+    width: 100%;
+}
+
+.edges-bs3-search-box-search .input-group-btn {
+    width: 1% !important;
+}
+
+.edges-bs3-search-box-search-button {
+    background-color: #1f5476;
+    border-color: #1f5476;
+}
+
+.muk-search-template-search {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.muk-search-template-panel {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #e3e9ec;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.muk-search-template-facets {
+    background-color: #d4dee4;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.muk-search-template-refine {
+    font-size: 200%;
+}
