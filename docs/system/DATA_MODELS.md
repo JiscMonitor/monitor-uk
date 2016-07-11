@@ -113,7 +113,7 @@ Where possible top-level keys in the model have been taken from the following me
             {"type" : "issn-l", "id" : "linking issn for the journal>" },
             {"type" : "doi", "id" : "<doi for the journal or series>" }
         ],
-        "oa_type" : "<hybrid|oa>",
+        "oa_type" : "<hybrid|oa|unknown>",
         "self_archiving" : {
             "preprint" : {
                 "policy" : "<can|restricted|cannot>",

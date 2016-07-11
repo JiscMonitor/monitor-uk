@@ -466,7 +466,7 @@ CORE_STRUCT = {
         "dc:source" : {
             "fields" : {
                 "name" : {"coerce" : "unicode"},
-                "oa_type" : {"coerce" : "unicode", "allowed_values" : [u"hybrid", u"oa"]}
+                "oa_type" : {"coerce" : "unicode", "allowed_values" : [u"hybrid", u"oa", u"unknown"]}
             },
             "lists" : {
                 "identifier" : {"contains" : "object"}
