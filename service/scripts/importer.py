@@ -8,6 +8,17 @@ from service import models, api
 
 import argparse
 
+
+OA_TYPE_MAP = {
+    "Journal Article/Review (Hybrid journal)" : "hybrid",
+    "Journal article/review" : "unknown",
+    "Journal Article/Review (Full OA journal)" : "oa",
+    "Conference paper" : "unknown",
+    "Book" : "unknown",
+    "Journal Article" : "unknown",
+    "Journal Article/Review (Hybrid OA journal)" : "hybrid"
+}
+
 IN_SPEC = {
     "ignore_empty_rows" : True,
     "defaults" : {
@@ -239,7 +250,8 @@ def do_import(path, org, email):
             "dcterms:publisher" : {"name" : do.publisher},
             "dc:source" : {
                 "name" : do.journal,
-                "identifier" : []
+                "identifier" : [],
+                "oa_type" : OA_TYPE_MAP.get(do.publication_type, "unknown")
             },
             "rioxxterms:project" : [],
             "jm:apc" : [
@@ -333,11 +345,6 @@ def do_import(path, org, email):
 
         api.RequestApi.update(apc, acc)
 
-        """
-        papc = models.PublicAPC()
-        papc.record = apc
-        papc.save()
-        """
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
