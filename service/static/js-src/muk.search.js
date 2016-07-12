@@ -318,7 +318,15 @@ $.extend(muk, {
                             "record.jm:apc.organisation_name.exact" : "Institution",
                             "index.apc_count" : "Multiple APCs",
                             "index.org_count" : "Multiple Organisations",
-                            "index.account_count" : "Multiple Contributors"
+                            "index.account_count" : "Multiple Contributors",
+                            "record.dc:source.oa_type.exact" : "Journal Type"
+                        },
+                        valueMaps : {
+                            "record.dc:source.oa_type.exact" : {
+                                "oa" : "Pure OA",
+                                "hybrid" : "Hybrid",
+                                "unknown" : "Unknown"
+                            }
                         },
                         rangeMaps : {
                             "index.apc_count" : [{from : 2, display: "Yes"}],
@@ -333,18 +341,6 @@ $.extend(muk, {
                         })
                     }),
                     edges.newORTermSelector({
-                        id: "publisher",
-                        field: "record.dcterms:publisher.name.exact",
-                        display: "Publisher",
-                        size: 500,
-                        category: "facet",
-                        lifecycle: "update",
-                        renderer : edges.bs3.newORTermSelectorRenderer({
-                            showCount: true,
-                            hideEmpty: true
-                        })
-                    }),
-                    edges.newORTermSelector({
                         id: "journal",
                         field: "record.dc:source.name.exact",
                         display: "Journal",
@@ -353,15 +349,11 @@ $.extend(muk, {
                         lifecycle: "update",
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             showCount: true,
-                            hideEmpty: true
+                            hideEmpty: true,
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right"
                         })
-                    }),
-                    edges.newNumericRangeEntry({
-                        id: "apc_cost",
-                        field: "index.amount_inc_vat",
-                        display: "APC Cost [from/to]",
-                        category: "facet",
-                        increment: 500
                     }),
                     edges.newORTermSelector({
                         id: "organisation",
@@ -372,9 +364,65 @@ $.extend(muk, {
                         lifecycle: "update",
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             showCount: true,
-                            hideEmpty: true
+                            hideEmpty: true,
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right"
                         })
                     }),
+                    edges.newNumericRangeEntry({
+                        id: "apc_cost",
+                        field: "index.amount_inc_vat",
+                        display: "APC Cost",
+                        category: "facet",
+                        increment: 500,
+                        renderer : edges.bs3.newNumericRangeEntryRenderer({
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right"
+                        })
+                    }),
+                    edges.newORTermSelector({
+                        id: "oa_type",
+                        field: "record.dc:source.oa_type.exact",
+                        display: "Journal Type",
+                        category: "facet",
+                        lifecycle: "update",
+                        valueMap : {
+                            "oa" : "Pure OA",
+                            "hybrid" : "Hybrid",
+                            "unknown" : "Unknown"
+                        },
+                        renderer : edges.bs3.newORTermSelectorRenderer({
+                            showCount: true,
+                            hideEmpty: false,
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right"
+                        })
+                    }),
+                    /*
+                    edges.newMultiDateRangeEntry({
+                        id : "date_range",
+                        category : "facet",
+                        display: "Show records where:",
+                        fields : [
+                            {field : "record.rioxxterms:publication_date", display: "Publication Date"},
+                            {field : "record.jm:apc.date_applied", display: "APC Application"},
+                            {field : "record.jm:apc.date_paid", display: "APC Paid"}
+                        ],
+                        autoLookupRange: true,
+                        renderer : edges.bs3.newBSMultiDateRange({
+                            ranges : muk.yearRanges({
+                                    "academic year" : "09-01",
+                                    "fiscal year" : "04-01",
+                                    "calendar year" : "01-01"
+                                },
+                                {"This " : 0, "Last " : 1}
+                            )
+                        })
+                    }),
+                    */
                     edges.newFilterSetter({
                         id : "deduplicate",
                         category: "facet",
@@ -398,7 +446,7 @@ $.extend(muk, {
                         filters : [
                             {
                                 id: "multiple_apcs",
-                                display: "Show records where more than one APC has been paid (by anyone)",
+                                display: "More than one APC has been paid (by anyone)",
                                 must : [
                                     es.newRangeFilter({
                                         field: "index.apc_count",
@@ -411,7 +459,7 @@ $.extend(muk, {
                             },
                             {
                                 id : "multiple_orgs",
-                                display: "Show records where more than one organisation has paid an APC",
+                                display: "More than one organisation has paid an APC",
                                 must : [
                                     es.newRangeFilter({
                                         field: "index.org_count",
@@ -424,7 +472,7 @@ $.extend(muk, {
                             },
                             {
                                 id : "multiple_accs",
-                                display: "Show records where more than one user account has reported an APC payment",
+                                display: "More than one user account has reported an APC payment",
                                 must : [
                                     es.newRangeFilter({
                                         field: "index.account_count",
@@ -437,7 +485,11 @@ $.extend(muk, {
                             }
                         ],
                         renderer : edges.bs3.newFacetFilterSetterRenderer({
-                            facetTitle : "Duplicates"
+                            facetTitle : "Search for duplicates",
+                            intro: "Show records where:",
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right"
                         })
                     }),
                     edges.newPager({

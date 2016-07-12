@@ -47,10 +47,8 @@
 }
 
 .muk-search-template-facet {
-    padding-top: 10px;
-    padding-bottom: 10px;
     background-color: #d4dee4;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .edges-bs3-compact-selected-filters-facet {
@@ -134,4 +132,126 @@
 
 .edges-bs3-compact-selected-filters-clear-all:hover {
     color: #ffffff;
+}
+
+.edges-bs3-or-term-selector-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-or-term-selector-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-or-term-selector-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-or-term-selector-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-or-term-selector-selections {
+    max-height: 200px;
+}
+
+.edges-bs3-or-term-selector-result:nth-of-type(odd) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-or-term-selector-result:nth-of-type(even) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-or-term-selector-result {
+    padding-left: 0px;
+}
+
+.edges-bs3-or-term-selector-value {
+    color: #000000;
+}
+
+.edges-bs3-or-term-selector-value:hover {
+    color: #000000;
+}
+
+.edges-bs3-or-term-selector-count {
+    color: #666666;
+}
+
+.edges-bs3-numeric-range-entry-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-numeric-range-entry-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-numeric-range-entry-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-numeric-range-entry-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-facet-filter-setter-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-facet-filter-setter-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-facet-filter-setter-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-facet-filter-setter-filter:nth-of-type(odd) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-facet-filter-setter-filter:nth-of-type(even) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-facet-filter-setter-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-facet-filter-setter-filter {
+    padding-left: 0px;
+}
+
+.edges-bs3-facet-filter-setter-value {
+    color: #000000;
+}
+
+.edges-bs3-facet-filter-setter-value:hover {
+    color: #000000;
+}
+
+.edges-bs3-facet-filter-setter-intro {
+    font-weight: bold;
+}
+
+.edges-bs3-facet-filter-setter-count {
+    color: #666666;
 }

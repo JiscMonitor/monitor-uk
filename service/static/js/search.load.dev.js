@@ -8,6 +8,8 @@ requirejs.config({
         // select2 : "vendor/edges_build/vendor/select2-3.5.1/select2.min",
         // d3: "vendor/edges_build/vendor/d3-v3/d3.min",
         // nvd3: "vendor/edges_build/vendor/nvd3-1.8.1/nv.d3",
+        moment : edges_base + "vendor/bootstrap-daterangepicker-2.1.22/moment",
+        daterangepicker: edges_base + "vendor/bootstrap-daterangepicker-2.1.22/daterangepicker",
 
         es : edges_base + "src/es",
         edges : edges_base + "src/edges",
@@ -23,6 +25,7 @@ requirejs.config({
         // "edges.bs3.tabbed" : "src/templates/bs3.Tabbed",
 
         // "edges.bs3.basicrangeselector" : "src/renderers/bs3.BasicRangeSelectorRenderer",
+        "edges.bs3.bsmultidaterange" : edges_base + "src/renderers/bs3.BSMultiDateRange",
         "edges.bs3.compactselectedfilters" : edges_base + "src/renderers/bs3.CompactSelectedFiltersRenderer",
         "edges.bs3.facetfiltersetter" : edges_base + "src/renderers/bs3.FacetFilterSetterRenderer",
         "edges.bs3.fullsearchcontroller" : edges_base + "src/renderers/bs3.FullSearchControllerRenderer",
@@ -48,12 +51,13 @@ requirejs.config({
 });
 
 requirejs(["jquery"], function() {
-    requirejs(["es", "edges-jquery"], function() {
+    requirejs(["es", "edges-jquery", "daterangepicker"], function() {
         requirejs(["edges"], function() {
             requirejs([
                 "edges.ranges",
                 "edges.search",
                 "edges.selectors",
+                "edges.bs3.bsmultidaterange",
                 "edges.bs3.compactselectedfilters",
                 "edges.bs3.facetfiltersetter",
                 "edges.bs3.facetview",

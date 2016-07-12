@@ -53,5 +53,6 @@
 {% endblock %}
 
 {% block extra_js_bottom %}
+    <script type="text/javascript" src="/static/vendor/edges_build/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
     <script data-main="{{ url_for("static", filename="js/search.load.dev") }}" src="{{ url_for("static", filename="vendor/edges_build/build/require.js") }}"></script>
 {% endblock%}
