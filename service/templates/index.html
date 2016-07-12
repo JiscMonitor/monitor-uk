@@ -1,229 +1,27 @@
 {% extends "base.html" %}
 
-{% block page_title %}The title{% endblock %}
-{% block page_h1 %}Index Page{%  endblock %}
+{% block page_title %}Welcome{% endblock %}
+{% block page_h1 %}Welcome to Monitor UK{%  endblock %}
 
 {% block content %}
 
     <div class="inner">
-        <div class="article-full">
-            <p>
-                This is our top-level, conventional (responsive) grid system &mdash; a counterpart
-                to our region/block system.
-            </p>
-            <br>
-            <p>
-                This system is active above a certain viewport width, inert below
-            </p>
-            <p>
-                Columns are % width
-            </p>
-            <p>
-                Gutters (where used) are fixed width, by design
-            </p>
-        </div>
-        <div class="row">
-            <div class="col span-1">
-                <p>
-                    <code>
-                        span-1
-                    </code>
-                </p>
-            </div>
-            <div class="col span-2">
-                <p>
-                    <code>
-                        span-2
-                    </code>
-                </p>
-            </div>
-            <div class="col span-1">
-                <p>
-                    <code>
-                        span-1
-                    </code>
-                </p>
-            </div>
-            <div class="col span-3">
-                <p>
-                    <code>
-                        span-3
-                    </code>
-                </p>
-            </div>
-            <div class="col span-4">
-                <p>
-                    <code>
-                        span-4
-                    </code>
-                </p>
-            </div>
-            <div class="col span-1">
-                <p>
-                    <code>
-                        span-1
-                    </code>
-                </p>
-            </div>
-        </div>
-        <!--/ .row -->
-        <div class="row">
-            <div class="col span-2">
-                <p>
-                    <code>
-                        span-2
-                    </code>
-                </p>
-            </div>
-            <div class="col span-10">
-                <p>
-                    <code>
-                        span-10
-                    </code>
-                </p>
-            </div>
-        </div>
-        <!--/ .row -->
-        <div class="article-full">
-            <p>
-                Column <code>.span-n</code> semantics are relative, based on 12 units
-                in each context.
-            </p>
-            <p>
-                At the top level &mdash; where the parent is usually an <code>.inner</code>          &mdash; a <code>.span-6</code> column would occupy half of its width,
-                a <code>.span-3</code> a quarter etc.
-            </p>
-            <p>
-                When nesting, the context is the parent column. So to create a column half the
-                width of a <code>.span-8</code> parent you'd use <code>.span-6</code>          (6 being half the parent's 12 units)
-            </p>
-        </div>
-        <div class="row">
-            <div class="col span-4">
-                <p>
-                    <code>
-                        span-4
-                    </code>
-                </p>
-            </div>
-            <div class="col span-8">
-                <p>
-                    <code>
-                        span-8
-                    </code>
-                </p>
-                <div class="row">
-                    <div class="col span-6">
-                        <p>
-                            <code>
-                                span-6
-                            </code>
-                        </p>
-                    </div>
-                    <div class="col span-6">
-                        <p>
-                            <code>
-                                span-6
-                            </code>
-                        </p>
-                    </div>
-                </div>
-                <!--/ .row -->
-            </div>
-        </div>
-        <!--/ .row -->
-        <div class="row">
-            <div class="col span-4">
-                <p>
-                    <code>
-                        span-4
-                    </code>
-                </p>
-            </div>
-            <div class="col span-4">
-                <p>
-                    <code>
-                        span-4
-                    </code>
-                </p>
-            </div>
-            <div class="col span-4">
-                <p>
-                    <code>
-                        span-4
-                    </code>
-                </p>
-            </div>
-        </div>
-        <!--/ .row -->
-        <div class="article-full">
-            <p>
-                Columns don't have gutters built in (calculating compound % width blocks and fixed
-                width gutters when nesting would be too painful).
-            </p>
-            <p>
-                Instead, include a nested <code>.l-gutter--foo</code> div where required
-            </p>
-        </div>
-        <div class="row">
-            <div class="col span-4">
-                <div class="l-gutter--right">
-                    <p>
-                        <code>
-                            l-gutter--right
-                        </code>
-                    </p>
-                </div>
-            </div>
-            <div class="col span-4">
-                <div class="l-gutter--left">
-                    <p>
-                        <code>
-                            l-gutter--left
-                        </code>
-                    </p>
-                </div>
-            </div>
-            <div class="col span-4">
-                <div class="l-gutter--both">
-                    <p>
-                        <code>
-                            l-gutter--both
-                        </code>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!--/ .row -->
-        <div class="article-full">
-            <p>
-                Use <code>.push-n</code> to engineer dead columns
-            </p>
-        </div>
-        <div class="row">
-            <div class="col span-3">
-                <p>
-                    <code>
-                        span-3
-                    </code>
-                </p>
-            </div>
-            <div class="col span-4 push-1">
-                <p>
-                    <code>
-                        span-4 push-1
-                    </code>
-                </p>
-            </div>
-            <div class="col span-4">
-                <p>
-                    <code>
-                        span-4
-                    </code>
-                </p>
-            </div>
-        </div>
-        <!--/ .row -->
+        <p>If you are looking at this page, hopefully you are here to help us with the testing!</p>
+
+        <p>We have a full testing plan <a href="https://docs.google.com/document/d/1jrmwQK3ducfVnbMJg84ZgxWreW9dFetQPQqJnSDdTMk/edit?usp=sharing">here</a>, and in summary, we need help with the following things:</p>
+
+        <ol>
+            <li>Making sure the interface works.  Try out the Search page and the various Report pages, linked in the navigation above.  Also take a look at your user account page,
+            and make sure you can update your details, reset your password, etc.</li>
+            <li>Provide us with data.  If you send us data in the Jisc TCO format, we'll import it into the test system for you.  You can then look at your data via the Search and Report pages, and
+            let us know if it represents you suitably.</li>
+            <li>Testing the API.  If you would like to try to integrate with the API, take a look at the testing plan linked above, where you will find all the details you need.</li>
+        </ol>
+
+        <p>Thanks for your help in testing - don't hesitate to give us any kind of feedback, so we can make the system better!</p>
+
+        <p>- The Monitor Team</p>
+
     </div>
     <!-- .inner -->
 
