@@ -39,9 +39,99 @@
     padding-top: 30px;
     padding-bottom: 30px;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 0px;
 }
 
 .muk-search-template-refine {
     font-size: 200%;
+}
+
+.muk-search-template-facet {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #d4dee4;
+    margin-bottom: 10px;
+}
+
+.edges-bs3-compact-selected-filters-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-compact-selected-filters-header {
+    padding-left: 10px;
+    background-color: #d4dee4;
+    font-size: 140%;
+    color: #ffffff;
+}
+
+.edges-bs3-compact-selected-filters-facet-selected-filters {
+    background-color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-header-selected-filters {
+    background-color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-header a {
+    color: #ffffff;
+}
+
+.edges-bs3-compact-selected-filters-body {
+    color: #ffffff;
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+.edges-bs3-compact-selected-filters-text {
+    background-color: #ffffff;
+    color: #3f8eba;
+    padding: 5px;
+    font-size: 80%;
+}
+
+.edges-bs3-compact-selected-filters-label {
+    font-size: 120%;
+}
+
+#edges-bs3-compact-selected-filters-body-selected-filters {
+    padding-bottom: 10px;
+}
+
+.edges-bs3-compact-selected-filters-filter-box {
+    background-color: #ffffff;
+    color: #3f8eba;
+    padding: 2px;
+    font-size: 80%;
+    display: inline-block;
+    margin: 2px 2px 2px 0px;
+}
+
+.edges-bs3-compact-selected-filters-remove {
+    color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-search-clear {
+    color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-filters {
+    padding-left: 0px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+
+.edges-bs3-compact-selected-filters-field {
+    margin-top: 5px;
+}
+
+.edges-bs3-compact-selected-filters-clear-all {
+    float: right;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.edges-bs3-compact-selected-filters-clear-all:hover {
+    color: #ffffff;
 }
