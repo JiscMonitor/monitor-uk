@@ -493,6 +493,29 @@ $.extend(muk, {
                         })
                     }),
                     edges.newPager({
+                        id: "result-count",
+                        category: "count",
+                        renderer : edges.bs3.newResultCountRenderer({
+                            prefix: "Results (",
+                            suffix: ")"
+                        })
+                    }),
+                    edges.newFullSearchController({
+                        id: "sort-box",
+                        category: "sort",
+                        sortOptions : [
+                            {field : "record.dc:title.exact", dir: "asc", display: "Title (A-Z)"},
+                            {field : "record.dc:title.exact", dir: "desc", display: "Title (Z-A)"},
+                            {field : "index.amount_inc_vat", dir: "asc", display: "APC Cost (Low - High)"},
+                            {field : "index.amount_inc_vat", dir: "desc", display: "APC Cost (High - Low)"},
+                            {field : "created_date", dir: "desc", display : "Most recent"}
+                        ],
+                        renderer : edges.bs3.newSortRenderer({
+                            prefix: "Sort: ",
+                            dirSwitcher: false
+                        })
+                    }),
+                    edges.newPager({
                         id: "bottom-pager",
                         category: "pager"
                     }),

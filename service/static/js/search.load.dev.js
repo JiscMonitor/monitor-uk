@@ -34,10 +34,12 @@ requirejs.config({
         "edges.bs3.ortermselector" : edges_base + "src/renderers/bs3.ORTermSelectorRenderer",
         "edges.bs3.pager" : edges_base + "src/renderers/bs3.PagerRenderer",
         "edges.bs3.refiningandtermselector" : edges_base + "src/renderers/bs3.RefiningANDTermSelectorRenderer",
+        "edges.bs3.resultcountrenderer" : edges_base + "src/renderers/bs3.ResultCountRenderer",
         "edges.bs3.resultsdisplay" : edges_base + "src/renderers/bs3.ResultsDisplayRenderer",
         "edges.bs3.searchbox" :  edges_base + "src/renderers/bs3.SearchBoxRenderer",
         "edges.bs3.searchingnotification" : edges_base + "src/renderers/bs3.SearchingNotificationRenderer",
         "edges.bs3.selectedfilters" : edges_base + "src/renderers/bs3.SelectedFiltersRenderer",
+        "edges.bs3.sort" : edges_base + "src/renderers/bs3.SortRenderer",
         // "edges.bs3.tabularresults" : "src/renderers/bs3.TabularResultsRenderer",
 
         //"edges.d3" : "src/renderers/d3.edges",
@@ -66,10 +68,12 @@ requirejs(["jquery"], function() {
                 "edges.bs3.ortermselector",
                 "edges.bs3.pager",
                 "edges.bs3.refiningandtermselector",
+                "edges.bs3.resultcountrenderer",
                 "edges.bs3.resultsdisplay",
                 "edges.bs3.searchbox",
                 "edges.bs3.searchingnotification",
                 "edges.bs3.selectedfilters",
+                "edges.bs3.sort",
                 "muk"
             ], function() {
                 requirejs([

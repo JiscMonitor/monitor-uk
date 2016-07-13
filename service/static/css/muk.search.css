@@ -255,3 +255,16 @@
 .edges-bs3-facet-filter-setter-count {
     color: #666666;
 }
+
+.edges-bs3-result-count-container {
+    font-size: 200%;
+}
+
+.muk-search-template-sort {
+    float:right;
+    margin-bottom: 10px;
+}
+
+.muk-search-template-count {
+    margin-bottom: 10px;
+}
