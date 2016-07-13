@@ -177,35 +177,122 @@ $.extend(muk, {
                 var lessLinkClass = edges.css_classes(this.namespace, "less-link", this);
                 var lessLinkBoxClass = edges.css_classes(this.namespace, "less-link-box", this);
                 var moreBoxClass = edges.css_classes(this.namespace, "more-box", this);
+                var vatClass = edges.css_classes(this.namespace, "vat", this);
+                var inlineLabelClass = edges.css_classes(this.namespace, "inline-label", this);
+                var rightClass = edges.css_classes(this.namespace, "right", this);
+                var biblioRowClass = edges.css_classes(this.namespace, "bib-row", this);
+                var innerMoreClass = edges.css_classes(this.namespace, "inner-more", this);
+                var innerMoreLinkClass = edges.css_classes(this.namespace, "inner-more-link", this);
+                var innerLessLinkClass = edges.css_classes(this.namespace, "inner-less-link", this);
 
                 var moreBoxId = edges.css_id(this.namespace, "more-" + id, this);
                 var moreLinkBoxId = edges.css_id(this.namespace, "more-link-" + id, this);
                 var lessLinkBoxId = edges.css_id(this.namespace, "less-link-" + id, this);
 
+                // get the values out of the object
                 var title = edges.objVal("record.dc:title", res, "Untitled");
-                var cost = edges.objVal("index.amount_inc_vat", res, "-");
+                var cost = edges.objVal("index.amount_inc_vat", res, false);
                 var publisher = edges.objVal("record.dcterms:publisher.name", res, "Unknown");
                 var journal = edges.objVal("record.dc:source.name", res, "Unknown");
                 var apcs = edges.objVal("record.jm:apc", res, []);
+                var journal_ids = edges.objVal("record.dc:source.identifier", res, []);
+                var projects = edges.objVal("record.rioxxterms:project", res, []);
+                var license_ref = edges.objVal("record.ali:license_ref", res, []);
+
+                // make any display changes required to the values
+                if (cost !== false) {
+                    cost = muk.toGBPIntFormat()(cost);
+                } else {
+                    cost = "£-"
+                }
+
+                var orgList = [];
+                var fundList = [];
+                for (var i = 0; i < apcs.length; i++) {
+                    var org = edges.objVal("organisation_name", apcs[i], false);
+                    if (org !== false && $.inArray(org, orgList) === -1) {
+                        orgList.push(org);
+                    }
+                    var funds = edges.objVal("fund", apcs[i], []);
+                    for (var j = 0; j < funds.length; j++) {
+                        var fname = funds[j].name;
+                        if (fname && $.inArray(fname, fundList) === -1) {
+                            fundList.push(fname);
+                        }
+                    }
+                }
+                var orgs = orgList.join(", ");
+                var funds = fundList.join(", ");
+
+                var issnList = [];
+                for (var i = 0; i < journal_ids.length; i++) {
+                    var jid = journal_ids[i];
+                    if (jid.type === "issn") {
+                        issnList.push(jid.id);
+                    }
+                }
+                var issnFrag = "";
+                var journalWidth = "10";
+                if (issnList.length > 0) {
+                    issnFrag = '<div class="col-md-8">(<span class="' + inlineLabelClass + '">ISSN:</span>&nbsp;<span class="' + valueClass + '">' + edges.escapeHtml(issnList.join(", ")) + '</span>)</div>';
+                    journalWidth = "2";
+                }
+
+                var funderList = [];
+                for (var i = 0; i < projects.length; i++) {
+                    var fname = projects[i].funder_name;
+                    if (fname && $.inArray(fname, funderList) === -1) {
+                        funderList.push(fname);
+                    }
+                }
+                var funders = funderList.join(", ");
+
+                var licenceList = [];
+                for (var i = 0; i < license_ref.length; i++) {
+                    var lname = license_ref[i].type;
+                    if (lname && $.inArray(lname, licenceList) === -1) {
+                        licenceList.push(lname);
+                    }
+                }
+                var licences = licenceList.join(", ");
 
                 // the body of the bibliographic records
-                var biblio = '<div class="row">\
+                var biblio = '<div class="' + biblioRowClass + '"><div class="row">\
                     <div class="col-md-2"><span class="' + labelClass + '">Publisher</span></div>\
                     <div class="col-md-10"><span class="' + valueClass + '">' + edges.escapeHtml(publisher) + '</span></div>\
-                </div>\
-                <div class="row">\
+                </div></div>\
+                <div class="' + biblioRowClass + '"><div class="row">\
                     <div class="col-md-2"><span class="' + labelClass + '">Journal</span></div>\
-                    <div class="col-md-10"><span class="' + valueClass + '">' + edges.escapeHtml(journal) + '</span></div>\
-                </div>';
+                    <div class="col-md-' + journalWidth + '"><span class="' + valueClass + '">' + edges.escapeHtml(journal) + '</span></div>\
+                    ' + issnFrag + '\
+                </div></div>\
+                <div class="' + biblioRowClass + '"><div class="row">\
+                    <div class="col-md-2"><span class="' + labelClass + '">Organisation</span></div>\
+                    <div class="col-md-10"><span class="' + valueClass + '">' + edges.escapeHtml(orgs) + '</span></div>\
+                </div></div>\
+                <div class="' + biblioRowClass + '"><div class="row">\
+                    <div class="col-md-2"><span class="' + labelClass + '">Funder</span></div>\
+                    <div class="col-md-2"><span class="' + valueClass + '">' + edges.escapeHtml(funders) + '</span></div>\
+                    <div class="col-md-2"><span class="' + labelClass + '">Paid from fund</span></div>\
+                    <div class="col-md-2"><span class="' + valueClass + '">' + edges.escapeHtml(funds) + '</span></div>\
+                    <div class="col-md-2"><span class="' + labelClass + '">Licence</span></div>\
+                    <div class="col-md-2"><span class="' + valueClass + '">' + edges.escapeHtml(licences) + '</span></div>\
+                </div></div>';
 
                 // details about the individual apcs
                 var apc = "";
                 for (var i = 0; i < apcs.length; i++) {
                     var apc_record = apcs[i];
                     var inst = edges.objVal("organisation_name", apc_record, "Unknown Organisation");
-                    var total = edges.objVal("amount_inc_vat_gbp", apc_record, "Unknown Amount");
+                    var total = edges.objVal("amount_inc_vat_gbp", apc_record, false);
                     var date = edges.objVal("date_paid", apc_record);
                     var funds = edges.objVal("fund", apc_record, []);
+
+                    if (total !== false) {
+                        total = muk.toGBPIntFormat()(total);
+                    } else {
+                        total = "Unknown Amount";
+                    }
 
                     var fund_names = [];
                     for (var j = 0; j < funds.length; j++) {
@@ -226,7 +313,7 @@ $.extend(muk, {
                         <div class="col-md-12">\
                             <span class="' + valueClass + '">' + edges.escapeHtml(inst) + '</span> \
                             paid \
-                            <span class="' + valueClass + '">£' + edges.escapeHtml(total) + '</span> \
+                            <span class="' + valueClass + '">' + edges.escapeHtml(total) + '</span> \
                             on \
                             <span class="' + valueClass + '">' + edges.escapeHtml(date) + '</span> \
                             from fund(s): \
@@ -239,19 +326,21 @@ $.extend(muk, {
                 // the main layout template, and all the extra bells and whistles
                 var frag = '<div class="row"> \
                     <div class="col-md-10"><span class="' + titleClass + '">' + edges.escapeHtml(title) + '</span></div>\
-                    <div class="col-md-2"><span class="' + costClass + '">£' + edges.escapeHtml(cost) + '</span></div>\
+                    <div class="col-md-2"><div class="' + rightClass + '"><span class="' + costClass + '">' + edges.escapeHtml(cost) + '</span><br>\
+                        <span class="' + vatClass + '">(inc VAT)</span>\
+                    </div></div>\
                 </div>\
                 <div class="' + biblioClass + '"><div class="row"> \
                     <div class="col-md-12">{{BIBLIO}}</div>\
                 </div></div>\
                 <div class="' + moreBoxClass + '" id="' + moreBoxId + '"><div class="row"> \
-                    <div class="col-md-12">{{APCS}}</div>\
+                    <div class="col-md-12"><div class="' + innerMoreClass + '">{{APCS}}</div></div>\
                 </div></div>\
                 <div id="' + moreLinkBoxId + '" class="' + moreLinkBoxClass + '"><div class="row"> \
-                    <div class="col-md-12"><a href="#" class="' + moreLinkClass + '" data-id="' + id + '">More</a></div>\
+                    <div class="col-md-12"><div class="' + innerMoreLinkClass + '"><a href="#" class="' + moreLinkClass + '" data-id="' + id + '">More</a></div></div>\
                 </div></div>\
                 <div id="' + lessLinkBoxId + '" class="' + lessLinkBoxClass + '"><div class="row"> \
-                    <div class="col-md-12"><a href="#" class="' + lessLinkClass + '" data-id="' + id + '">Less</a></div>\
+                    <div class="col-md-12"><div class="' + innerLessLinkClass + '"><a href="#" class="' + lessLinkClass + '" data-id="' + id + '">Less</a></div></div>\
                 </div></div>';
 
                 frag = frag.replace(/{{BIBLIO}}/g, biblio)

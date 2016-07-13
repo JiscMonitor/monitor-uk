@@ -268,3 +268,16 @@
 .muk-search-template-count {
     margin-bottom: 10px;
 }
+
+.muk-search-apc-right {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.muk-search-apc-vat {
+    color: #666666;
+}
+
+.muk-search-apc-bib-row {
+    margin-bottom: 10px;
+}

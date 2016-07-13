@@ -3,7 +3,7 @@
 }
 
 .muk-search-apc-record {
-    padding-bottom: 15px;
+    padding-bottom: 0px;
     padding-top: 15px;
     padding-left: 10px;
     padding-right: 10px;
@@ -38,7 +38,11 @@
 }
 
 .muk-search-apc-more-link {
+    color: #000000;
+}
 
+.muk-search-apc-more-link:hover {
+    color: #000000;
 }
 
 .muk-search-apc-more-link-box {
@@ -46,7 +50,11 @@
 }
 
 .muk-search-apc-less-link {
+    color: #000000;
+}
 
+.muk-search-apc-less-link:hover {
+    color: #000000;
 }
 
 .muk-search-apc-less-link-box {
@@ -56,4 +64,24 @@
 .muk-search-apc-more-box {
     display:none;
     padding-top: 20px;
+}
+
+.muk-search-apc-inner-more-link {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    background-color: #f9f9f9;
+}
+
+.muk-search-apc-inner-less-link {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    background-color: #f9f9f9;
 }
