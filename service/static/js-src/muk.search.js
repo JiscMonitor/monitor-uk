@@ -380,11 +380,18 @@ $.extend(muk, {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_search");
 
+            var opening_query = es.newQuery();
+            opening_query.addSortBy(es.newSort({
+                field: "created_date",
+                dir : "desc"
+            }));
+
             var e = edges.newEdge({
                 selector: selector,
                 template: muk.search.newSearchTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 manageUrl : true,
+                openingQuery: opening_query,
                 components : [
                     edges.newFullSearchController({
                         id: "search-box",
@@ -606,7 +613,12 @@ $.extend(muk, {
                     }),
                     edges.newPager({
                         id: "bottom-pager",
-                        category: "pager"
+                        category: "pager",
+                        renderer : edges.bs3.newPagerRenderer({
+                            showRecordCount: false,
+                            sizePrefix: "Show ",
+                            sizeSuffix: "&nbsp;&nbsp;&nbsp;&nbsp;items per page"
+                        })
                     }),
                     edges.newSearchingNotification({
                         id: "searching-notification",
