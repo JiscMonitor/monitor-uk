@@ -611,7 +611,8 @@ $.extend(muk, {
                             noDataMessage: "No results match your filter criteria - try changing the date range",
                             legend: false,
                             valueFormat: muk.toGBPIntFormat(),
-                            yAxisLabel: "Total expenditure (£)"
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Total expenditure"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -623,7 +624,8 @@ $.extend(muk, {
                             noDataMessage: "No results match your filter criteria - try changing the date range",
                             legend: false,
                             valueFormat: muk.toGBPIntFormat(),
-                            yAxisLabel: "Average APC Cost (£)"
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Average APC Cost"
                         })
                     }),
                     muk.institution.newStory({

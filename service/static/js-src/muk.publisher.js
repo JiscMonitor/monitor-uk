@@ -630,7 +630,8 @@ $.extend(muk, {
                             noDataMessage: "Select one or more institutions above",
                             color: ["#addaff", "#f44336","#ffeb3b","#addaaf"],
                             valueFormat: muk.toGBPIntFormat(),
-                            yAxisLabel: "Total expenditure (£)"
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Total expenditure"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -642,7 +643,8 @@ $.extend(muk, {
                             noDataMessage: "Select one or more institutions above",
                             color: ["#addaff", "#f44336","#ffeb3b","#addaaf"],
                             valueFormat: muk.toGBPIntFormat(),
-                            yAxisLabel: "Average APC Cost (£)"
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Average APC Cost"
                         })
                     }),
                     muk.publisher.newStory({

@@ -513,7 +513,6 @@ $.extend(muk, {
                         id: "total_expenditure",
                         display: "Total expenditure",
                         dataFunction: muk.funder.apcExpenditureDF,
-                        //dataSeries: spoofData2(),
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
@@ -521,7 +520,8 @@ $.extend(muk, {
                             stacked: true,
                             color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
                             valueFormat: muk.toGBPIntFormat(),
-                            yAxisLabel: "Total expenditure (£)"
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Total expenditure"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -536,7 +536,8 @@ $.extend(muk, {
                             stacked: true,
                             color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
                             valueFormat: muk.toGBPIntFormat(),
-                            yAxisLabel: "Average APC Cost (£)"
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Average APC Cost"
                         })
                     }),
                     muk.funder.newStory({
