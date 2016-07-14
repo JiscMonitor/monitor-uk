@@ -496,8 +496,7 @@ $.extend(muk, {
                         }),
                         es.newTermsAggregation({
                             name: "oa_type",
-                            //field : "record.dc:source.oa_type.exact",             // fixme: its supposed to be this one
-                            field : "record.rioxxterms:type.exact",
+                            field : "record.dc:source.oa_type.exact",
                             size: 10
                         })
                     ]
@@ -577,10 +576,14 @@ $.extend(muk, {
                     }),
                     edges.newRefiningANDTermSelector({
                         id : "oa_type",
-                        //field : "record.dc:source.oa_type.exact",             // fixme: is this supposed be the normalised field?
-                        field : "record.rioxxterms:type.exact",
+                        field : "record.dc:source.oa_type.exact",
                         display : "Journal type",
                         category: "lhs",
+                        valueMap: {
+                            "oa" : "Pure OA",
+                            "hybrid" : "Hybrid",
+                            "unknown" : "Unknown"
+                        },
                         renderer : edges.bs3.newRefiningANDTermSelectorRenderer({
                             open: true,
                             togglable: false,

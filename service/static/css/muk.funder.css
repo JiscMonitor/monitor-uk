@@ -83,8 +83,9 @@
     height: 350px;
 }
 
-.muk-funder-report-template-uk_pie_table {
-    margin: auto;
+.edges-bs3-tabular-results-table-muk-funder-report-template-uk_pie_table {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .muk-funder-report-template-uk_pie_table td,
