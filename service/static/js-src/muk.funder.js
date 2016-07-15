@@ -42,6 +42,15 @@ $.extend(muk, {
                 var pieTableClass = edges.css_classes(this.namespace, "uk_pie_table");
                 var pieTableId = edges.css_id(this.namespace, "uk_pie_table");
 
+                // the loading bar
+                var loading = edge.category("loading");
+                var loadContainers = "";
+                if (loading.length > 0) {
+                    for (var i = 0; i < loading.length; i++) {
+                        loadContainers += '<div class="row"><div class="col-md-12"><div id="' + loading[i].id + '"></div></div></div>';
+                    }
+                }
+
                 // the top strap controls
                 var topstrap = edge.category("top");
                 var topContainers = "";
@@ -93,7 +102,6 @@ $.extend(muk, {
                 // A uk-wide pie chart
                 var pieContents = '\
                 <h3>UK Pure OA/Hybrid breakdown</h3>\
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\
                 <div class="' + pieChartClass + '" id="' + pieChartId + '"></div>\
                 <div class="' + pieTableClass + '" id="' + pieTableId + '"></div>';
 
@@ -190,12 +198,19 @@ $.extend(muk, {
                 this.activateTab(id);
             };
         },
+        
+        valueMap : {
+            "oa" : "Pure OA",
+            "hybrid" : "Hybrid",
+            "unknown" : "Unknown"
+        },
 
         newStory : function (params) {
             if (!params) { params = {} }
             muk.funder.Story.prototype = edges.newComponent(params);
             return new muk.funder.Story(params);
         },
+        
         Story : function(params) {
 
         },
@@ -257,50 +272,26 @@ $.extend(muk, {
                 return data_series;
             }
 
-            // we need to make sure that we only extract data for institutions that are in the filter list
-            var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
+            var oahyb_buckets = ch.edge.result.buckets("oahybrid");
 
-            var inst_buckets = ch.edge.result.buckets("institution");
-            for (var i = 0; i < inst_buckets.length; i++) {
-                var ibucket = inst_buckets[i];
-                var ikey = ibucket.key;
+            for (var k = 0; k < oahyb_buckets.length; k++) {
+                var obucket = oahyb_buckets[k];
+                var okey = obucket.key;
 
-                // if the institution in the aggregation is not in the filter list ignore it
-                // (this can happen for records where there's more than one institution on the APC)
-                // if the length of the filter list is 0, then we just display the top X institutions anyway (i.e. none are skipped)
-                var skip = false;
-                for (var j = 0; j < instFilters.length; j++) {
-                    var filt = instFilters[j];
-                    if (!filt.has_term(ikey)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (skip) {
-                    continue;
+                var series = {};
+                series["key"] = muk.funder.valueMap[okey];
+                series["values"] = [];
+
+                var fund_buckets = obucket["funder"].buckets;
+                for (var l = 0; l < fund_buckets.length; l++) {
+                    var fbucket = fund_buckets[l];
+                    var fkey = fbucket.key;
+
+                    var value = valueFunction(fbucket);
+                    series["values"].push({label: fkey, value: value})
                 }
 
-                var oahyb_buckets = ibucket["oahybrid"].buckets;
-
-                for (var k = 0; k < oahyb_buckets.length; k++) {
-                    var obucket = oahyb_buckets[k];
-                    var okey = obucket.key;
-
-                    var series = {};
-                    series["key"] = okey;
-                    series["values"] = [];
-
-                    var fund_buckets = obucket["funder"].buckets;
-                    for (var l = 0; l < fund_buckets.length; l++) {
-                        var fbucket = fund_buckets[l];
-                        var fkey = fbucket.key;
-
-                        var value = valueFunction(fbucket);
-                        series["values"].push({label: fkey, value: value})
-                    }
-
-                    data_series.push(series);
-                }
+                data_series.push(series);
             }
             return data_series;
         },
@@ -325,6 +316,8 @@ $.extend(muk, {
                 "mean" : "Average APC cost"
             };
 
+            var formatter = muk.toIntFormat();
+
             var rows = {};
             for (var i = 0; i < charts.length; i++) {
                 var chart = charts[i];
@@ -346,7 +339,7 @@ $.extend(muk, {
                             row = rows[rowId];
                         }
 
-                        row[inst] = num.toFixed(2);
+                        row[inst] = formatter(num);
                         rows[rowId] = row;
                     }
                 }
@@ -362,6 +355,22 @@ $.extend(muk, {
                 table.push(obj);
             }
             return table;
+        },
+
+        pieDF : function(ch) {
+            var buckets = ch.edge.result.data.aggregations['oavshybrid'].buckets;
+
+            var series = {};
+            series["key"] = 'oavshybrid';
+            series["values"] = [];
+
+            for (var j = 0; j < buckets.length; j++) {
+                var doccount = buckets[j].doc_count;
+                var key = buckets[j].key;
+                series.values.push({label: muk.funder.valueMap[key], value: doccount});
+            }
+
+            return [series];
         },
 
         pieTable : function(charts) {
@@ -380,30 +389,23 @@ $.extend(muk, {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_funder");
 
-            var base_query = es.newQuery();
+            var base_query = es.newQuery({size: 0});
 
             // Aggregate by institution, type and funder
             base_query.addAggregation(
                 es.newTermsAggregation({
-                    name: "institution",
-                    field: "record.jm:apc.organisation_name.exact",
-                    size: 10,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                    name: "oahybrid",
+                    field: "record.dc:source.oa_type.exact",
+                    size: 0,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
                     aggs: [
                         es.newTermsAggregation({
-                            name: "oahybrid",
-                            field: "record.rioxxterms:type.exact",
-                            size: 0,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                            name: "funder",
+                            field: "record.rioxxterms:project.funder_name.exact",
+                            size: 0, // again, size will be constrained by the filters
                             aggs: [
-                                es.newTermsAggregation({
-                                    name: "funder",
-                                    field: "record.rioxxterms:project.funder_name.exact",
-                                    size: 0, // again, size will be constrained by the filters
-                                    aggs: [
-                                        es.newStatsAggregation({
-                                            name: "funder_stats",
-                                            field: "index.amount_inc_vat"
-                                        })
-                                    ]
+                                es.newStatsAggregation({
+                                    name: "funder_stats",
+                                    field: "index.amount_inc_vat"
                                 })
                             ]
                         })
@@ -480,12 +482,12 @@ $.extend(muk, {
                     }),
                     edges.newORTermSelector({
                         id : "oa_type",
-                        //field : "record.dc:source.oa_type.exact",             // fixme: is this supposed be the normalised field?
-                        field : "record.rioxxterms:type.exact",
+                        field : "record.dc:source.oa_type.exact",
                         display : "Journal type",
                         category: "lhs",
                         orderBy: "count",
                         orderDir: "desc",
+                        valueMap: muk.funder.valueMap,
                         renderer : edges.bs3.newORTermSelectorRenderer({
                             open: true,
                             togglable: false,
@@ -502,20 +504,24 @@ $.extend(muk, {
                             noDataMessage: "No data to display",
                             controls: false,
                             stacked: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
+                            valueFormat: muk.toIntFormat(),
+                            yAxisLabel: "Number of APCs"
                         })
                     }),
                     edges.newHorizontalMultibar({
                         id: "total_expenditure",
                         display: "Total expenditure",
                         dataFunction: muk.funder.apcExpenditureDF,
-                        //dataSeries: spoofData2(),
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
                             controls: false,
                             stacked: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
+                            valueFormat: muk.toGBPIntFormat(),
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Total expenditure"
                         })
                     }),
                     edges.newHorizontalMultibar({
@@ -528,10 +534,16 @@ $.extend(muk, {
                             showValues: false,
                             controls: true,
                             stacked: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
+                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
+                            valueFormat: muk.toGBPIntFormat(),
+                            yTickFormat: muk.toGBPIntFormat(),
+                            yAxisLabel: "Average APC Cost"
                         })
                     }),
-                    muk.funder.newStory({}), // FIXME: not clear what the story is
+                    muk.funder.newStory({
+                        id: "story",
+                        category: "story"}
+                    ), // FIXME: not clear what the story is
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
@@ -556,7 +568,7 @@ $.extend(muk, {
             oavshybrid_uk_query.addAggregation(
                 es.newTermsAggregation({
                     name: "oavshybrid",
-                    field: "record.rioxxterms:type.exact"               //fixme: normalised OA vs Hybrid field
+                    field: "record.dc:source.oa_type.exact"
                 })
             );
 
@@ -567,9 +579,7 @@ $.extend(muk, {
                 components: [
                     edges.newPieChart({
                         id: edges.css_id("muk-funder-report-template", "uk_pie_chart"),
-                        dataFunction: edges.ChartDataFunctions.terms({
-                            useAggregations: ["oavshybrid"]
-                        }),
+                        dataFunction: muk.funder.pieDF,
                         renderer: edges.nvd3.newPieChartRenderer({
                             valueFormat: d3.format(',d'),
                             labelsOutside: true,
