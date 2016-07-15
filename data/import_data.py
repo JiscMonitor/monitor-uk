@@ -3,6 +3,8 @@ from service import tasks
 
 import time
 
+do_import("Durham-APC-2015_2.csv", "Durham University", "durham@example.com")
+do_import("QUB-APC-2015.csv", "Queen's University Belfast", "qub@example.com")
 do_import("Manchester-RCUK-Aug-Apr2016.csv", "University of Manchester", "manchester@example.com")
 do_import("Birmingham-APC-2015.csv", "University of Birmingham", "birmingham@example.com")
 do_import("Bristol-APC-July2015.csv", "University of Bristol", "bristol@example.com")
