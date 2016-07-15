@@ -440,7 +440,7 @@ $.extend(muk, {
                         id: "journal",
                         field: "record.dc:source.name.exact",
                         display: "Journal",
-                        size: 500,
+                        size: 10000,
                         category: "facet",
                         lifecycle: "update",
                         renderer : edges.bs3.newORTermSelectorRenderer({
