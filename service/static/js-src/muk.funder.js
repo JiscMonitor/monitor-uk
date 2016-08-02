@@ -243,7 +243,7 @@ $.extend(muk, {
                 }
 
                 // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
-                var story = "<p>On average, a publisher funder pays for <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
+                var story = "<p>On average, a funder pays for <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
                 story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
                     .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
                     .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
