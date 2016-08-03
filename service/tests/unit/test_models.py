@@ -1,7 +1,7 @@
 from octopus.modules.es.testindex import ESTestCase
 
 from octopus.lib import dataobj, dictmerge
-from service.models import core, Request, PublicAPC, ModelException, WorkflowState
+from service.models import core, Request, PublicAPC, ModelException, WorkflowState, MonitorUKAccount
 from service.models.core import RecordMethods
 from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory
 
@@ -426,6 +426,36 @@ class TestModels(ESTestCase):
         assert pub.data.get("index", {}).get("amount_ex_vat") == 3000
         assert pub.data.get("index", {}).get("amount_inc_vat") == 3600
         assert pub.data.get("index", {}).get("grand_total") == 3900
+
+    def test_16_lantern_accounts(self):
+        acc1 = MonitorUKAccount()
+        acc1.email = "one@example.com"
+        acc1.save()
+
+        acc2 = MonitorUKAccount()
+        acc2.email = "two@example.com"
+        acc2.lantern_api_key = "123456789"
+        acc2.save()
+
+        acc3 = MonitorUKAccount()
+        acc3.email = "three@example.com"
+        acc3.lantern_api_key = "987654321"
+        acc3.save(blocking=True)
+
+        count = 0
+        gen = MonitorUKAccount.list_lantern_enabled()
+        for acc in gen:
+            if acc.email == "two@example.com":
+                assert acc.lantern_api_key == "123456789"
+                count += 1
+            elif acc.email == "three@example.com":
+                assert acc.lantern_api_key == "987654321"
+                count += 10
+            else:
+                count += 100
+        assert count == 11
+
+
 
 
 
