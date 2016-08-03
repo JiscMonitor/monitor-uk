@@ -309,6 +309,9 @@ $.extend(muk, {
                 return data_series;
             }
 
+            // we need to make sure that we only extract data for funders that are in the filter list
+            var fundFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
+
             var oahyb_buckets = ch.edge.result.buckets("oahybrid");
 
             for (var k = 0; k < oahyb_buckets.length; k++) {
@@ -323,6 +326,20 @@ $.extend(muk, {
                 for (var l = 0; l < fund_buckets.length; l++) {
                     var fbucket = fund_buckets[l];
                     var fkey = fbucket.key;
+
+                    // if the funder in the aggregation is not in the filter list ignore it
+                    // (this can happen for records where there's more than one funder on the APC)
+                    var skip = false;
+                    for (var j = 0; j < fundFilters.length; j++) {
+                        var filt = fundFilters[j];
+                        if (!filt.has_term(fkey)) {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (skip) {
+                        continue;
+                    }
 
                     var value = valueFunction(fbucket);
                     series["values"].push({label: fkey, value: value})
