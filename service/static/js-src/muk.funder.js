@@ -6,6 +6,9 @@ $.extend(muk, {
             muk.funder.FunderReportTemplate.prototype = edges.newTemplate(params);
             return new muk.funder.FunderReportTemplate(params);
         },
+
+        chartColours : ["#66bdbe", "#a6d6d6", "#7867a3", "#d90d4c", "#6bcf65"],
+
         FunderReportTemplate: function (params) {
             // later we'll store the edge instance here
             this.edge = false;
@@ -130,10 +133,13 @@ $.extend(muk, {
                         </div>\
                     </div>\
                     <div class="row">\
-                        <div class="col-md-7 ' + storyClass + '">' + storyContainers + '</div>\
+                        <div class="col-md-7">\
+                            <div class="' + storyClass + '">' + storyContainers + '</div>\
+                            <hr>\
+                            <div class="' + dataClass + '">' + dataContainers + '</div>\
+                        </div>\
                         <div class="col-md-5 ' + pieClass + '" id="' + pieId + '">' + pieContents + '</div>\
                     </div>\
-                    <div class="' + dataClass + '">' + dataContainers + '</div>\
                 </div>';
 
                 edge.context.html(template);
@@ -212,7 +218,38 @@ $.extend(muk, {
         },
         
         Story : function(params) {
+            this.avgCount = false;
+            this.avgExp = false;
+            this.avgAPC = false;
 
+            this.synchronise = function() {
+                this.avgCount = false;
+                this.avgExp = false;
+                this.avgAPC = false;
+
+                var results = this.edge.preflightResults.uk_mean;
+                var stats = results.aggregation("total_stats");
+                var pubs = results.aggregation("funder_count");
+
+                this.avgCount = stats.count / pubs.value;
+                this.avgExp = stats.sum / pubs.value;
+                this.avgAPC = stats.avg;
+            };
+
+            this.draw = function() {
+                if (!this.avgCount || !this.avgExp || !this.avgAPC) {
+                    this.context.html("");
+                    return;
+                }
+
+                // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
+                var story = "<p>On average, a funder pays for <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
+                story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
+                    .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
+                    .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
+
+                this.context.html(story);
+            };
         },
 
         stackedBarClean : function(data_series) {
@@ -383,9 +420,37 @@ $.extend(muk, {
             }
             return ds;
         },
-
-
+        
         makeFunderReport : function(params) {
+            if (!params) {params = {} }
+
+            // first thing to do is determine if the user's institution is in the dataset
+            var check_query = es.newQuery();
+            check_query.addMust(
+                es.newTermsFilter({
+                    field: "record.jm:apc.organisation_name.exact",
+                    values: [myInstituion]
+                })
+            );
+            check_query.size = 0;
+            es.doQuery({
+                search_url: octopus.config.public_query_endpoint,
+                queryobj: check_query.objectify(),
+                success: function (result) {
+                    if (result.total() == 0) {
+                        myInstituion = false;
+                    }
+                    muk.funder.makeFunderReport2(params);
+                },
+                error : function() {
+                    myInstituion = false;
+                    muk.funder.makeFunderReport2(params);
+                }
+            });
+        },
+
+
+        makeFunderReport2 : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_funder");
 
@@ -412,7 +477,9 @@ $.extend(muk, {
                     ]
                 })
             );
-
+            
+            // FIXME: actually we need to first find out if the institution is listed, and only then load the
+            // relevant opening query
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -423,12 +490,29 @@ $.extend(muk, {
                 )
             }
 
+            var preflight = es.newQuery({size: 0});
+            preflight.addAggregation(
+                es.newStatsAggregation({
+                    name: "total_stats",
+                    field: "index.amount_inc_vat"
+                })
+            );
+            preflight.addAggregation(
+                es.newCardinalityAggregation({
+                    name: "funder_count",
+                    field: "record.rioxxterms:project.funder_name.exact"
+                })
+            );
+
             var e = edges.newEdge({
                 selector: selector,
                 template: muk.funder.newFunderReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 baseQuery : base_query,
-                //openingQuery : opening_query,
+                openingQuery : opening_query,
+                preflightQueries : {
+                    uk_mean : preflight
+                },
                 components: [
                     edges.newMultiDateRangeEntry({
                         id : "date_range",
@@ -504,7 +588,7 @@ $.extend(muk, {
                             noDataMessage: "No data to display",
                             controls: false,
                             stacked: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
+                            color: muk.funder.chartColours,
                             valueFormat: muk.toIntFormat(),
                             yAxisLabel: "Number of APCs"
                         })
@@ -518,7 +602,7 @@ $.extend(muk, {
                             noDataMessage: "No data to display",
                             controls: false,
                             stacked: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
+                            color: muk.funder.chartColours,
                             valueFormat: muk.toGBPIntFormat(),
                             yTickFormat: muk.toGBPIntFormat(),
                             yAxisLabel: "Total expenditure"
@@ -534,7 +618,7 @@ $.extend(muk, {
                             showValues: false,
                             controls: true,
                             stacked: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"],
+                            color: muk.funder.chartColours,
                             valueFormat: muk.toGBPIntFormat(),
                             yTickFormat: muk.toGBPIntFormat(),
                             yAxisLabel: "Average APC Cost"
@@ -543,7 +627,7 @@ $.extend(muk, {
                     muk.funder.newStory({
                         id: "story",
                         category: "story"}
-                    ), // FIXME: not clear what the story is
+                    ),
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
@@ -583,7 +667,7 @@ $.extend(muk, {
                         renderer: edges.nvd3.newPieChartRenderer({
                             valueFormat: d3.format(',d'),
                             labelsOutside: true,
-                            color: ["#66BDBE", "#A6D6D6", "#aec7e8", "#d90d4c", "#6c537e", "#64d54f", "#ecc7c4", "#f1712b"]
+                            color: muk.funder.chartColours
                         })
                     }),
                     edges.newChartsTable({
