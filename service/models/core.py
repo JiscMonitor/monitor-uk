@@ -200,6 +200,21 @@ class PublicAPC(InfoSysModel, RecordMethods):
         self.remove_apc_refs(owner)
 
     #####################################################
+    ## Methods for working with Lantern data
+
+    @property
+    def lantern_lookup(self):
+        return self._get_single("admin.lantern_lookup")
+
+    @lantern_lookup.setter
+    def lantern_lookup(self, val):
+        self._set_with_struct("admin.lantern_lookup", val)
+
+    @property
+    def lantern_lookup_datestamp(self):
+        return self._get_single("admin.lantern_lookup", coerce=dataobj.to_datestamp())
+
+    #####################################################
     ## Merge capability
 
     def merge_records(self, source):
@@ -225,6 +240,10 @@ class PublicAPC(InfoSysModel, RecordMethods):
     def find_by_url(self, val):
         q = queries.IndexedIdentifierQuery("url", val)
         return self.object_query(q=q.query())
+
+    def list_by_owner(self, owner, **kwargs):
+        q = queries.OwnerQuery(owner)
+        return self.scroll(q=q.query(), **kwargs)
 
 ###############################################################
 ## Shared resources for class construction
@@ -393,6 +412,9 @@ PUBLIC_INDEX_RULES = [
 ]
 
 PUBLIC_ADMIN_STRUCT = {
+    "fields" : {
+        "lantern_lookup" : {"coerce" : "utcdatetime"}
+    },
     "lists" : {
         "apc_owners" : {"contains" : "object"}
     },

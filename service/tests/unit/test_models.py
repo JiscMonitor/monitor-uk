@@ -1,7 +1,7 @@
 from octopus.modules.es.testindex import ESTestCase
 
 from octopus.lib import dataobj, dictmerge
-from service.models import core, Request, PublicAPC, ModelException, WorkflowState, MonitorUKAccount
+from service.models import core, Request, PublicAPC, ModelException, WorkflowState, MonitorUKAccount, LanternJob
 from service.models.core import RecordMethods
 from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory
 
@@ -203,6 +203,12 @@ class TestModels(ESTestCase):
 
         res = dao.find_by_url("http://example.com/another")
         assert len(res) == 0
+
+        gen = dao.list_by_owner("abcdefg")
+        count = 0
+        for apc in gen:
+            count += 1
+        assert count == 1
 
     def test_07_request2public(self):
         source = RequestFixtureFactory.example()
@@ -434,11 +440,13 @@ class TestModels(ESTestCase):
 
         acc2 = MonitorUKAccount()
         acc2.email = "two@example.com"
+        acc2.lantern_email = "twolantern@example.com"
         acc2.lantern_api_key = "123456789"
         acc2.save()
 
         acc3 = MonitorUKAccount()
         acc3.email = "three@example.com"
+        acc3.lantern_email = "threelantern@example.com"
         acc3.lantern_api_key = "987654321"
         acc3.save(blocking=True)
 
@@ -447,13 +455,33 @@ class TestModels(ESTestCase):
         for acc in gen:
             if acc.email == "two@example.com":
                 assert acc.lantern_api_key == "123456789"
+                assert acc.lantern_email == "twolantern@example.com"
                 count += 1
             elif acc.email == "three@example.com":
                 assert acc.lantern_api_key == "987654321"
+                assert acc.lantern_email == "threelantern@example.com"
                 count += 10
             else:
                 count += 100
         assert count == 11
+
+    def test_17_lantern_jobs(self):
+        lj = LanternJob()
+        lj.job_id = "123456789"
+        lj.account = "abcdefg"
+        lj.status = "active"
+        lj.save(blocking=True)
+
+        dao = LanternJob()
+        lj2 = dao.pull(lj.id)
+        assert lj2.job_id == "123456789"
+        assert lj2.account == "abcdefg"
+        assert lj2.status == "active"
+
+        lj2.status = "complete"
+
+        with self.assertRaises(dataobj.DataSchemaException):
+            lj2.status = "other"
 
 
 

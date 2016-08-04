@@ -650,6 +650,7 @@ EXAMPLE_PUBLIC = {
     "admin" : {
         "apc_owners" : [
             {"owner" : "abcdefg", "ref" : "1111111111"}
-        ]
+        ],
+        "lantern_lookup" : "2016-01-01T00:00:00Z"
     },
 }

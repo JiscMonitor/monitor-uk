@@ -60,6 +60,22 @@ class RequestQueueQuery(object):
             "sort" : [{"created_date" : {"order" : "asc"}}]
         }
 
+
+class OwnerQuery(object):
+    def __init__(self, owner):
+        self.owner = owner
+
+    def query(self):
+        return {
+            "query" : {
+                "bool" : {
+                    "must" : [
+                        {"term" : {"admin.apc_owners.owner.exact" : self.owner}}
+                    ]
+                }
+            }
+        }
+
 class PublicSearchQuery(SearchAPIQuery):
     """
     This class just gives us a place to hang any changes to the default SearchAPIQuery for public
@@ -98,3 +114,4 @@ class PrivateSearchQuery(SearchAPIQuery):
             q["sort"] = [{self.sortby : {"order" : self.sortdir, "mode" : "min"}}]
 
         return q
+

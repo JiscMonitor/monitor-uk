@@ -1,4 +1,8 @@
+from octopus.core import app
+
 from service.api import WorkflowApi
+from service.lantern import LanternApi
+
 
 def process_requests():
     """
@@ -7,3 +11,9 @@ def process_requests():
     :return:
     """
     WorkflowApi.process_requests()
+
+
+def lantern_jobs():
+    if not app.config.get("ENABLE_LANTERN", False):
+        return
+    LanternApi.make_new_jobs()

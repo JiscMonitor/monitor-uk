@@ -13,10 +13,19 @@ class MonitorUKAccount(BasicAccount, ContactableAccount, APIAccount, Organisatio
     In addition, it contains support for integration with Lantern, by incorporating:
 
     {
+        "lantern_email" : "<email address for lantern account>",
         "lantern_api_key" : "<api key lantern account>"
     }
 
     """
+
+    @property
+    def lantern_email(self):
+        return self._get_single("lantern_email", coerce=self._utf8_unicode())
+
+    @lantern_email.setter
+    def lantern_email(self, val):
+        self._set_single("lantern_email", val, coerce=self._utf8_unicode())
 
     @property
     def lantern_api_key(self):

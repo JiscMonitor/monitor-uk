@@ -344,7 +344,8 @@ consistent update/delete cycle.
     "admin" : {
         "apc_owners" : [
             {"owner" : "<user account id of organisation>", "ref" : "<reference of apc payment record>"}
-        ]
+        ],
+        "lantern_lookup" : "<date last checked in Lantern>"
     },
     
     "index" : {

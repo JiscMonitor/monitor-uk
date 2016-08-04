@@ -204,7 +204,10 @@ SEARCHAPI = {
 
 SCHEDULER_TASKS = [
     # every 10 seconds trigger the request processing task - this converts requests for updates into public apc records
-    (10, "seconds", None, "service.tasks.process_requests")
+    (10, "seconds", None, "service.tasks.process_requests"),
+
+    # every 10 seconds trigger the lantern lookup - this sends any new records out to Lantern for enhancement
+    (1, "hours", None, "service.tasks.lantern_jobs")
 ]
 
 #############################################
@@ -473,3 +476,36 @@ SITE_NAVIGATION = PRIMARY_NAVIGATION + SECONDARY_NAVIGATION
 
 # Javascript endpoint configurations
 CLIENTJS_PUBLIC_QUERY_ENDPOINT = "/query/apc"
+
+
+#################################################
+## Settings for Lantern integration
+
+ENABLE_LANTERN = False
+
+# The list of paths to fields which trigger a lookup for a record in Lantern
+# (uses objectpath notation)
+MISSING_FIELD_TRIGGERS_LANTERN = [
+    "$.record.'rioxxterms:publication_date'",
+    "$.record.'rioxxterms:version'",
+    "$.record.'dc:source'.name",
+    "$.record.'dc:source'.identifier[@.type is 'issn'].id",
+    "$.record.'dc:source'.oa_type",
+    "$.record.'dc:source'.self_archiving.preprint.policy",
+    "$.record.'dc:source'.self_archiving.preprint.embargo",
+    "$.record.'dc:source'.self_archiving.postprint.policy",
+    "$.record.'dc:source'.self_archiving.postprint.embargo",
+    "$.record.'dc:source'.self_archiving.publisher.policy",
+    "$.record.'dc:source'.self_archiving.publisher.embargo",
+    "$.record.'rioxxterms:project'.funder_name",
+    "$.record.'ali:license_ref'.type",
+    "$.record.'jm:repository'.repo_name"
+]
+
+# batch sizes to send to Lantern.  Lantern permits up to 3000 per request, but we keep it low here for
+# performance on our side
+BATCH_SIZE_LANTERN = 1000
+
+# length of time (in seconds) to wait before re-submitting a previously checked item
+# default here is 6 months
+DATA_REFRESH_LANTERN = 15552000
