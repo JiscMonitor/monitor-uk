@@ -159,6 +159,26 @@
     font-size: 18px;
 }
 
+/* CSS customisations for nvd3 */
+
+.nvd3 .nv-multibar .nv-groups rect,
+.nvd3 .nv-multibarHorizontal .nv-groups rect,
+.nvd3 .nv-discretebar .nv-groups rect {
+    stroke-opacity: 0;
+    fill-opacity: 1;
+
+    transition: fill-opacity 250ms linear;
+    -moz-transition: fill-opacity 250ms linear;
+    -webkit-transition: fill-opacity 250ms linear;
+}
+
+.nvd3 .nv-multibar .nv-groups rect:hover,
+.nvd3 .nv-multibarHorizontal .nv-groups rect:hover,
+.nvd3 .nv-candlestickBar .nv-ticks rect:hover,
+.nvd3 .nv-discretebar .nv-groups rect:hover {
+    stroke-opacity: 1;
+    stroke: black;
+}
 
 /* CSS customisations for facetview */
 
