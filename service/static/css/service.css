@@ -150,6 +150,10 @@
 }
 
 /* CSS for all reports */
+.report-header {
+    font-family: 'Stag Sans Web Light', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Arial, sans-serif;
+}
+
 .report-intro-text {
     font-family: 'Stag Sans Web Light', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Arial, sans-serif;
     font-size: 18px;
