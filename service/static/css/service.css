@@ -149,6 +149,12 @@
     width: 100%;
 }
 
+/* CSS for all reports */
+.report-intro-text {
+    font-family: 'Stag Sans Web Light', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 18px;
+}
+
 
 /* CSS customisations for facetview */
 
