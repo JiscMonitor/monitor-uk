@@ -22,6 +22,11 @@ class RequestFixtureFactory(object):
             sources.append(data)
         return sources
 
+class EnhancementFixtureFactory(object):
+    @classmethod
+    def example(cls):
+        return deepcopy(EXAMPLE_ENHANCMENT)
+
 
 class PublicAPCFixtureFactory(object):
 
@@ -637,6 +642,91 @@ EXAMPLE_REQUEST = {
         "public_id" : "987654321"
     }
 }
+
+EXAMPLE_ENHANCMENT = {
+    "id" : "123456789",
+    "created_date" : "2001-01-01T00:00:00Z",
+    "last_updated" : "2002-01-01T00:00:00Z",
+
+    "record" : {
+        "rioxxterms:publication_date" : "2005-01-01T00:00:00Z",
+
+        "dc:identifier" : [
+            {"type" : "pmcid", "id" : "PMC1234"},
+            {"type" : "pmid", "id" : "87654321"},
+            {"type" : "doi", "id" : "10.1234/me"}
+        ],
+
+        "dc:title" : "An example Enhancement Object",
+        "rioxxterms:version" : "AAM",
+
+        "rioxxterms:author" : [
+            {
+                "name" : "Richard Jones",
+                "affiliation" : [
+                    {
+                        "name" : "Cottage Labs",
+                    }
+                ]
+            }
+        ],
+
+        "dcterms:publisher" : {
+            "name" : "Publishing Warehouse"
+        },
+
+        "dc:source" : {
+            "name" : "Journal of Important Things",
+            "identifier" : [
+                {"type" : "issn", "id" : "1234-5678" },
+                {"type" : "e-issn", "id" : "1234-5678" }
+            ],
+            "oa_type" : "oa",
+            "self_archiving" : {
+                "preprint" : {
+                    "policy" : "cannot",
+                    "embargo" : 24
+                },
+                "postprint" : {
+                    "policy" : "restricted",
+                    "embargo" : 12
+                },
+                "publisher" : {
+                    "policy" : "can",
+                    "embargo" : 6
+                }
+            }
+        },
+
+        "rioxxterms:project" : [
+            {
+                "funder_name" : "EPSRC",
+                "grant_number" : "EP/37776/B"
+            }
+        ],
+
+        "ali:license_ref" : [
+            {
+                "type" : "CC BY",
+            }
+        ],
+
+        "ali:free_to_read" : {
+            "free_to_read" : True
+        },
+
+        "jm:repository" : [
+            {
+                "repo_name" : "arXiv"
+            }
+        ],
+
+        "jm:provenance" : [
+            "Enhancement provenance here ..."
+        ]
+    }
+}
+
 
 REFFED_EXAMPLE_RECORD = deepcopy(EXAMPLE_RECORD)
 REFFED_EXAMPLE_RECORD["jm:apc"][0]["ref"] = "1111111111"

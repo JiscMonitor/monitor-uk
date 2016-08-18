@@ -48,6 +48,7 @@ class RecordMethods(dataobj.DataObj):
                 return ident.get("id")
         return None
 
+
 class Request(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
         super(Request, self).__init__(type="request", record_struct=CORE_STRUCT, admin_struct=REQUEST_ADMIN_STRUCT, index_rules=REQUEST_INDEX_RULES, full=full)
@@ -133,6 +134,10 @@ class Request(InfoSysModel, RecordMethods):
         # is append-only, and the query is in created_date order.
         return self.iterate(q=q.query(), page_size=page_size)
 
+
+class Enhancement(InfoSysModel, RecordMethods):
+    def __init__(self, full=None, *args, **kwargs):
+        super(Enhancement, self).__init__(type="enhancement", record_struct=CORE_STRUCT, admin_struct=ENHANCEMENT_ADMIN_STRUCT, index_rules=ENHANCEMENT_INDEX_RULES, full=full)
 
 class PublicAPC(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
@@ -282,6 +287,8 @@ REQUEST_INDEX_RULES = [
         }
     }
 ]
+
+ENHANCEMENT_INDEX_RULES = []
 
 PUBLIC_INDEX_RULES = [
     {
@@ -434,6 +441,10 @@ REQUEST_ADMIN_STRUCT = {
         "action" : {"coerce" : "unicode", "allowed_values" : [u"update", u"delete"]},
         "public_id" : {"coerce" : "unicode"}
     }
+}
+
+ENHANCEMENT_ADMIN_STRUCT = {
+
 }
 
 CORE_STRUCT = {

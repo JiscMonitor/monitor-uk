@@ -3,9 +3,9 @@ from octopus.modules.lantern import client
 from octopus.lib import dates
 
 from service.lantern import LanternApi
-from service.models import PublicAPC, MonitorUKAccount, LanternJob
+from service.models import PublicAPC, MonitorUKAccount, LanternJob, Enhancement
 
-from service.tests.fixtures import PublicAPCFixtureFactory
+from service.tests.fixtures import PublicAPCFixtureFactory, LanternFixtureFactory
 
 from copy import deepcopy
 import time
@@ -16,6 +16,10 @@ import time
 CREATED_JOBS = []
 
 QUOTA = 5000
+
+PROGRESS_REQUESTS = []
+
+RESULTS_REQUESTS = []
 
 class LanternMock(object):
     def __init__(self, *args, **kwargs):
@@ -42,13 +46,42 @@ class LanternMock(object):
         return None
 
     def get_progress(self, job_id):
-        return None
+        global PROGRESS_REQUESTS
+        PROGRESS_REQUESTS.append(job_id)
+
+        if job_id == "222222222":
+            # return an incomplete result
+            return {
+                "status" : "success",
+                "data" : {
+                    "progress" : 47
+                }
+            }
+        elif job_id == "333333333":
+            # return a complete results
+            return {
+                "status" : "success",
+                "data" : {
+                    "progress" : 100
+                }
+            }
+        elif job_id == "444444444":
+            # return an api error
+            return {
+                "status" : "error"
+            }
 
     def get_todo(self, job_id):
         return None
 
     def get_results(self, job_id):
-        return None
+        global RESULTS_REQUESTS
+        RESULTS_REQUESTS.append(job_id)
+
+        return {
+            "status" : "success",
+            "data" : [LanternFixtureFactory.record()]
+        }
 
     def get_results_csv(self, job_id):
         return None
@@ -74,6 +107,12 @@ class TestModels(ESTestCase):
 
         global CREATED_JOBS
         CREATED_JOBS = []
+
+        global PROGRESS_REQUESTS
+        PROGRESS_REQUESTS = []
+
+        global RESULTS_REQUESTS
+        RESULTS_REQUESTS = []
 
     def tearDown(self):
         super(TestModels, self).tearDown()
@@ -219,7 +258,6 @@ class TestModels(ESTestCase):
         obj = PublicAPC(apc)
         needs = LanternApi._needs_lantern_data(obj)
         assert needs is True
-
 
     def test_02_get_identifiers(self):
         apc = {
@@ -387,3 +425,88 @@ class TestModels(ESTestCase):
 
         assert job["email"] == "twolantern@example.com"
         assert len(job["list"]) == 1
+
+    def test_06_xwalk(self):
+        record = LanternFixtureFactory.record()
+        result = LanternFixtureFactory.xwalk_result()
+
+        enhancement = LanternApi._xwalk(record)
+
+        assert enhancement.data["record"] == result["record"]
+
+    def test_07_check_jobs(self):
+        acc = MonitorUKAccount()
+        acc.email = "one@example.com"
+        acc.lantern_email = "onelantern@example.com"
+        acc.lantern_api_key = "123456789"
+        acc.save()
+
+        lj1 = LanternJob()
+        lj1.job_id = "111111111"
+        lj1.account = acc.id
+        lj1.status = "complete"
+        lj1.save()
+
+        lj2 = LanternJob()
+        lj2.job_id = "222222222"
+        lj2.account = acc.id
+        lj2.status = "active"
+        lj2.last_updated = dates.format(dates.before_now(5000))
+        lj2.save(updated=False)
+
+        lj3 = LanternJob()
+        lj3.job_id = "333333333"
+        lj3.account = acc.id
+        lj3.status = "active"
+        lj3.last_updated = dates.format(dates.before_now(5000))
+        lj3.save(updated=False)
+
+        lj4 = LanternJob()
+        lj4.job_id = "444444444"
+        lj4.account = acc.id
+        lj4.status = "active"
+        lj4.last_updated = dates.format(dates.before_now(5000))
+        lj4.save(updated=False)
+
+        lj5 = LanternJob()
+        lj5.job_id = "555555555"
+        lj5.account = acc.id
+        lj5.status = "active"
+        lj5.save(blocking=True)
+
+        LanternApi.check_jobs()
+
+        # check that the progress requests we expected were made
+        assert len(PROGRESS_REQUESTS) == 3
+        assert "222222222" in PROGRESS_REQUESTS
+        assert "333333333" in PROGRESS_REQUESTS
+        assert "444444444" in PROGRESS_REQUESTS
+
+        # check that the job which received an error was just ignored
+        dao = LanternJob()
+        ignored = dao.pull(lj4.id)
+        assert ignored.last_updated == lj4.last_updated
+        assert ignored.status == "active"
+
+        # check that the record which was not complete was touched
+        touched = dao.pull(lj2.id)
+        assert touched.last_updated != lj2.last_updated
+        assert touched.status == "active"
+
+        # check that results were requested only for one item
+        assert len(RESULTS_REQUESTS) == 1
+        assert "333333333" in RESULTS_REQUESTS
+
+        # wait for a bit, so that enhancements have time to go in
+        time.sleep(2)
+
+        # check that an enhancement was registered
+        edao = Enhancement()
+        gen = edao.iterall()
+        enhancements = [e for e in gen]
+
+        assert len(enhancements) == 1
+
+        result = LanternFixtureFactory.xwalk_result()
+        assert enhancements[0].data["record"] == result["record"]
+

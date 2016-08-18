@@ -1,12 +1,13 @@
 from octopus.modules.es.testindex import ESTestCase
 
-from octopus.lib import dataobj, dictmerge
-from service.models import core, Request, PublicAPC, ModelException, WorkflowState, MonitorUKAccount, LanternJob
+from octopus.lib import dataobj, dictmerge, dates
+from service.models import core, Request, PublicAPC, ModelException, WorkflowState, MonitorUKAccount, LanternJob, Enhancement
 from service.models.core import RecordMethods
-from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory
+from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory, EnhancementFixtureFactory
 
 from copy import deepcopy
 import time
+from datetime import datetime, timedelta
 
 class TestModels(ESTestCase):
     def setUp(self):
@@ -483,7 +484,67 @@ class TestModels(ESTestCase):
         with self.assertRaises(dataobj.DataSchemaException):
             lj2.status = "other"
 
+    def test_18_enhancement(self):
+        # first make a blank one
+        req = Enhancement()
 
+        # now make one around the fixture
+        source = EnhancementFixtureFactory.example()
+        req = Enhancement(source)
+
+        # make one with a broken source
+        broken = {"whatever" : "broken"}
+        with self.assertRaises(dataobj.DataStructureException):
+            req = Enhancement(broken)
+
+        # now make one bit by bit
+        req = Enhancement()
+        req.record = source.get("record")
+
+        # now make it broken
+        req = Enhancement()
+        with self.assertRaises(dataobj.DataStructureException):
+            req.record = {"random" : "stuff"}
+
+    def test_19_lantern_active_jobs(self):
+        lj1 = LanternJob()
+        lj1.job_id = "123456789"
+        lj1.account = "abcdefg"
+        lj1.status = "complete"
+        lj1.save()
+
+        lj2 = LanternJob()
+        lj2.job_id = "123456789"
+        lj2.account = "abcdefg"
+        lj2.status = "active"
+        lj2.save()
+
+        time.sleep(2)
+
+        lj3 = LanternJob()
+        lj3.job_id = "987654321"
+        lj3.account = "abcdefg"
+        lj3.status = "active"
+        lj3.save(blocking=True)
+
+        dao = LanternJob()
+
+        # list all the active jobs, without worrying about cutting them off by date
+        gen = dao.list_active()
+        jobs = [job for job in gen]
+
+        assert len(jobs) == 2
+
+        # now check that we can do a date cut-off, by setting the before date to just after
+        # the oldest one
+        lu = lj2.last_updated
+        ds = dates.parse(lu)
+        ds = ds + timedelta(seconds=1)
+
+        gen = dao.list_active(checked_before=ds)
+        jobs = [job for job in gen]
+
+        assert len(jobs) == 1
 
 
 

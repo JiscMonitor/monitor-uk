@@ -1,2 +1,3 @@
 
-from service.tests.fixtures.models import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory
+from service.tests.fixtures.models import RequestFixtureFactory, PublicAPCFixtureFactory, WorkflowStateFixtureFactory, EnhancementFixtureFactory
+from service.tests.fixtures.lantern import LanternFixtureFactory

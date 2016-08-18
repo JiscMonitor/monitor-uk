@@ -17,3 +17,8 @@ def lantern_jobs():
     if not app.config.get("ENABLE_LANTERN", False):
         return
     LanternApi.make_new_jobs()
+
+def lantern_check():
+    if not app.config.get("ENABLE_LANTERN", False):
+        return
+    LanternApi.check_jobs()

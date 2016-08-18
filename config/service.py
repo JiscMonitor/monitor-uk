@@ -206,8 +206,11 @@ SCHEDULER_TASKS = [
     # every 10 seconds trigger the request processing task - this converts requests for updates into public apc records
     (10, "seconds", None, "service.tasks.process_requests"),
 
-    # every 10 seconds trigger the lantern lookup - this sends any new records out to Lantern for enhancement
-    (1, "hours", None, "service.tasks.lantern_jobs")
+    # every hour trigger the lantern lookup - this sends any new records out to Lantern for enhancement
+    (1, "hours", None, "service.tasks.lantern_jobs"),
+
+    # every hour trigger the lantern job checker - this will pull in any updates from Lantern
+    (1, "hours", None, "service.tasks.lantern_check")
 ]
 
 #############################################
@@ -509,3 +512,6 @@ BATCH_SIZE_LANTERN = 1000
 # length of time (in seconds) to wait before re-submitting a previously checked item
 # default here is 6 months
 DATA_REFRESH_LANTERN = 15552000
+
+# The minimum amount of time to wait between polling Lantern for updates on a previously submitted job
+JOB_LOOKUP_DELAY_LANTERN = 3600
