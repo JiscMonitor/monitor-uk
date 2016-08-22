@@ -15,6 +15,10 @@ class MonitorUKUserForm(BasicUserForm):
 
     org_role = StringField("Role at Organisation", [validators.DataRequired()])
 
+    lantern_email = StringField("Lantern Email Address", [validators.Optional()], description="If you are using <a href='https://lantern.cottagelabs.com'>Lantern</a> for enhancing your records, enter the email you use to log in to Lantern here.")
+
+    lantern_api_key = StringField("Lantern API Key", [validators.Optional()], description="If you are using <a href='https://lantern.cottagelabs.com'>Lantern</a> for enhancing your records, enter your Lantern API key here.")
+
     request_api_key = HiddenField("request_api_key", default="true")
 
 class MonitorUKUserAdminForm(MonitorUKUserForm):
@@ -33,6 +37,8 @@ class MonitorUKUserFormXwalk(BasicUserFormXwalk):
         data["name"] = acc.name
         data["organisation"] = acc.organisation
         data["org_role"] = acc.org_role
+        data["lantern_email"] = acc.lantern_email
+        data["lantern_api_key"] = acc.lantern_api_key
 
         return data
 
@@ -46,6 +52,10 @@ class MonitorUKUserFormXwalk(BasicUserFormXwalk):
             acc.organisation = form.organisation.data
         if getattr(form, "org_role", None):
             acc.org_role = form.org_role.data
+        if getattr(form, "lantern_email", None):
+            acc.lantern_email = form.lantern_email.data
+        if getattr(form, "lantern_api_key", None):
+            acc.lantern_api_key = form.lantern_api_key.data
 
         # if a new API key has been requested, set it
         if form.request_api_key.data == "true":
@@ -116,6 +126,16 @@ class MonitorUKUserFormRenderer(Renderer):
                     {
                         "org_role" : {
                             "attributes" : {"placeholder" : "Your role at your organisation"}
+                        }
+                    },
+                    {
+                        "lantern_email" : {
+                            "attributes" : {"placeholder" : "Your user account email for Lantern"}
+                        }
+                    },
+                    {
+                        "lantern_api_key" : {
+                            "attributes" : {"placeholder" : "Your account API key for Lantern"}
                         }
                     },
                     {
@@ -238,6 +258,16 @@ class MonitorUKUserAdminFormRenderer(Renderer):
                     {
                         "org_role" : {
                             "attributes" : {"placeholder" : "User's role at their organisation"}
+                        }
+                    },
+                    {
+                        "lantern_email" : {
+                            "attributes" : {"placeholder" : "Your user account email for Lantern"}
+                        }
+                    },
+                    {
+                        "lantern_api_key" : {
+                            "attributes" : {"placeholder" : "Your account API key for Lantern"}
                         }
                     },
                     {
