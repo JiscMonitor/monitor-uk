@@ -27,6 +27,19 @@ class EnhancementFixtureFactory(object):
     def example(cls):
         return deepcopy(EXAMPLE_ENHANCMENT)
 
+    @classmethod
+    def request_per_day(cls, prefix, days):
+        sources = []
+        for i in range(1, days + 1):
+            day = ("0" if i < 10 else "") + str(i)
+            date = prefix + "-" + day + "T00:00:00Z"
+            data = deepcopy(EXAMPLE_ENHANCMENT)
+            data["created_date"] = date
+            data["last_updated"] = date
+            del data["id"]
+            sources.append(data)
+        return sources
+
 
 class PublicAPCFixtureFactory(object):
 
@@ -246,6 +259,7 @@ MERGE_TARGET = {
             {"type" : "issn-l", "id" : "2222-1111" },
             {"type" : "doi", "id" : "10.1234" }
         ],
+        "oa_type" : "unknown",
         "self_archiving" : {
             "preprint" : {
                 "policy" : "cannot",
@@ -647,6 +661,10 @@ EXAMPLE_ENHANCMENT = {
     "id" : "123456789",
     "created_date" : "2001-01-01T00:00:00Z",
     "last_updated" : "2002-01-01T00:00:00Z",
+
+    "admin" : {
+        "public_id" : "987654321"
+    },
 
     "record" : {
         "rioxxterms:publication_date" : "2005-01-01T00:00:00Z",

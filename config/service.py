@@ -204,7 +204,7 @@ SEARCHAPI = {
 
 SCHEDULER_TASKS = [
     # every 10 seconds trigger the request processing task - this converts requests for updates into public apc records
-    (10, "seconds", None, "service.tasks.process_requests"),
+    (10, "seconds", None, "service.tasks.process_updates"),
 
     # every hour trigger the lantern lookup - this sends any new records out to Lantern for enhancement
     (1, "hours", None, "service.tasks.lantern_jobs"),

@@ -491,6 +491,9 @@ class TestModels(ESTestCase):
         # now make one around the fixture
         source = EnhancementFixtureFactory.example()
         req = Enhancement(source)
+        pub = req.make_public_apc()
+        assert isinstance(pub, PublicAPC)
+        assert pub.record == req.record
 
         # make one with a broken source
         broken = {"whatever" : "broken"}
@@ -546,5 +549,26 @@ class TestModels(ESTestCase):
 
         assert len(jobs) == 1
 
+    def test_20_enhancement_iterator(self):
+        sources = EnhancementFixtureFactory.request_per_day("2001-01", 10)
 
+        for s in sources:
+            req = Enhancement(s)
+            req.save()
+
+        time.sleep(2)
+
+        dao = Enhancement()
+        gen = dao.list_all_since("2001-01-01T00:00:00Z", page_size=5)   # set the page size small, to ensure the iterator has to work
+        results = [x for x in gen]
+
+        assert len(results) == 10
+
+        dates = [r.created_date for r in results]
+        comp = deepcopy(dates)
+        comp.sort()     # this puts the dates in ascending order (i.e. oldest first)
+
+        # the point of this comparison is to show that the results came out in the right order.
+        # that is, oldest first
+        assert dates == comp
 

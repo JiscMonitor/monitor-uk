@@ -48,8 +48,23 @@ class RecordMethods(dataobj.DataObj):
                 return ident.get("id")
         return None
 
+class Publishable(dataobj.DataObj):
 
-class Request(InfoSysModel, RecordMethods):
+    @property
+    def public_id(self):
+        return self._get_single("admin.public_id")
+
+    @public_id.setter
+    def public_id(self, val):
+        self._set_with_struct("admin.public_id", val)
+
+    def make_public_apc(self):
+        raise NotImplementedError()
+
+    def list_all_since(self, since, page_size=1000):
+        raise NotImplementedError()
+
+class Request(InfoSysModel, RecordMethods, Publishable):
     def __init__(self, full=None, *args, **kwargs):
         super(Request, self).__init__(type="request", record_struct=CORE_STRUCT, admin_struct=REQUEST_ADMIN_STRUCT, index_rules=REQUEST_INDEX_RULES, full=full)
         self.clear_refs()
@@ -69,14 +84,6 @@ class Request(InfoSysModel, RecordMethods):
     @action.setter
     def action(self, val):
         self._set_with_struct("admin.action", val)
-
-    @property
-    def public_id(self):
-        return self._get_single("admin.public_id")
-
-    @public_id.setter
-    def public_id(self, val):
-        self._set_with_struct("admin.public_id", val)
 
     @InfoSysModel.record.setter
     def record(self, val):
@@ -127,7 +134,7 @@ class Request(InfoSysModel, RecordMethods):
         return self.object_query(q=q.query())
 
     def list_all_since(self, since, page_size=1000):
-        q = queries.RequestQueueQuery(since, page_size)
+        q = queries.CreatedDateQueueQuery(since, page_size)
         # we use iterate rather than scroll because that way each request is a paged query, which has lower memory
         # requirements, and it means that the iteration is exhaustive, and includes items which were added to the
         # index right up until the last page is requested.  We can use an iterator here because the Request index
@@ -135,9 +142,26 @@ class Request(InfoSysModel, RecordMethods):
         return self.iterate(q=q.query(), page_size=page_size)
 
 
-class Enhancement(InfoSysModel, RecordMethods):
+class Enhancement(InfoSysModel, RecordMethods, Publishable):
     def __init__(self, full=None, *args, **kwargs):
         super(Enhancement, self).__init__(type="enhancement", record_struct=CORE_STRUCT, admin_struct=ENHANCEMENT_ADMIN_STRUCT, index_rules=ENHANCEMENT_INDEX_RULES, full=full)
+
+    def make_public_apc(self):
+        # make a new record which just contains the record data
+        pub = PublicAPC()
+        pub.record = self.record
+        return pub
+
+    ##################################################
+    ## Data Access methods
+
+    def list_all_since(self, since, page_size=1000):
+        q = queries.CreatedDateQueueQuery(since, page_size)
+        # we use iterate rather than scroll because that way each request is a paged query, which has lower memory
+        # requirements, and it means that the iteration is exhaustive, and includes items which were added to the
+        # index right up until the last page is requested.  We can use an iterator here because the Request index
+        # is append-only, and the query is in created_date order.
+        return self.iterate(q=q.query(), page_size=page_size)
 
 class PublicAPC(InfoSysModel, RecordMethods):
     def __init__(self, full=None, *args, **kwargs):
@@ -444,7 +468,9 @@ REQUEST_ADMIN_STRUCT = {
 }
 
 ENHANCEMENT_ADMIN_STRUCT = {
-
+    "fields" : {
+        "public_id" : {"coerce" : "unicode"}
+    }
 }
 
 CORE_STRUCT = {
@@ -737,6 +763,7 @@ RECORD_MERGE_RULES = {
         "dc:source",
         "rioxxterms:project",
         "ali:license_ref",
+        "ali:free_to_read",
         "jm:license_received",
         "jm:repository",
         "jm:provenance",
@@ -815,6 +842,13 @@ RECORD_MERGE_RULES = {
         "jm:provenance" : { "dedupe" : True }
     },
     "merge" : {
+        "ali:free_to_read" : {
+            "copy_if_missing" : [
+                "free_to_read",
+                "start_date",
+                "end_date"
+            ]
+        },
         "rioxxterms:author" : {
             "copy_if_missing" : [
                 "name",
@@ -922,6 +956,11 @@ RECORD_MERGE_RULES = {
                 "oa_type",
                 "self_archiving"
             ],
+            "override_if_better" : {
+                "oa_type" : {
+                    "hierarchy" : ["unknown", ("hybrid", "oa")]
+                }
+            },
             "list_append" : {
                 "identifier" : {
                     "dedupe" : True,
@@ -936,7 +975,27 @@ RECORD_MERGE_RULES = {
                         "preprint",
                         "postprint",
                         "publisher"
-                    ]
+                    ],
+                    "merge" : {
+                        "preprint" : {
+                            "copy_if_missing" : [
+                                "policy",
+                                "embargo"
+                            ]
+                        },
+                        "postprint" : {
+                            "copy_if_missing" : [
+                                "policy",
+                                "embargo"
+                            ]
+                        },
+                        "publisher" : {
+                            "copy_if_missing" : [
+                                "policy",
+                                "embargo"
+                            ]
+                        }
+                    }
                 }
             }
         }

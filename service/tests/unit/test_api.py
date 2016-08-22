@@ -2,8 +2,8 @@ from octopus.modules.es.testindex import ESTestCase
 from octopus.modules.account.models import BasicAccount
 
 from service.api import RequestApi, PublicApi, WorkflowApi
-from service.models import Request, PublicAPC, WorkflowState
-from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory
+from service.models import Request, PublicAPC, WorkflowState, Enhancement
+from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactory, EnhancementFixtureFactory
 
 from copy import deepcopy
 import time
@@ -38,6 +38,13 @@ class TestModels(ESTestCase):
     def setUp(self):
         self.old_publish = PublicApi.publish
         self.old_remove = PublicApi.remove
+
+        global PUBLISH_COUNTER
+        PUBLISH_COUNTER = 0
+
+        global DELETE_COUNTER
+        DELETE_COUNTER = 0
+
         super(TestModels, self).setUp()
 
     def tearDown(self):
@@ -432,7 +439,7 @@ class TestModels(ESTestCase):
         assert pubs[0].record.get("dc:title") is None
 
         # check that the workflow state was created
-        wfs = wfs_dao.pull("state")
+        wfs = wfs_dao.pull("requests")
         assert wfs is not None
         assert wfs.last_request == req.created_date
         assert wfs.already_processed == [req.id]
@@ -457,7 +464,7 @@ class TestModels(ESTestCase):
         assert pubs[0].record.get("dc:title") == "Update"
 
         # check that the workflow state was updated
-        wfs = wfs_dao.pull("state")
+        wfs = wfs_dao.pull("requests")
         assert wfs is not None
         assert wfs.last_request == req2.created_date
         assert wfs.already_processed == [req2.id]
@@ -482,7 +489,7 @@ class TestModels(ESTestCase):
         assert pubs[0].record.get("dc:title") == "Update 2"   # should have been updated, as there are only apc contributions from one source
 
         # check that the workflow state was updated
-        wfs = wfs_dao.pull("state")
+        wfs = wfs_dao.pull("requests")
         assert wfs is not None
         assert wfs.last_request == req3.created_date
         assert wfs.already_processed == [req2.id, req3.id]  # processed records should have been appended
@@ -505,7 +512,7 @@ class TestModels(ESTestCase):
         assert len(pubs) == 0
 
         # check that the workflow state was updated
-        wfs = wfs_dao.pull("state")
+        wfs = wfs_dao.pull("requests")
         assert wfs is not None
         assert wfs.last_request == req4.created_date
         assert wfs.already_processed == [req4.id]  # processed records should have been appended
@@ -553,9 +560,117 @@ class TestModels(ESTestCase):
         # we know this died during the 6th update request being processed,
         # so just check that the workflow state reflects that
         wfs_dao = WorkflowState()
-        wfs = wfs_dao.pull("state")
+        wfs = wfs_dao.pull("requests")
         assert wfs.last_request == "2001-01-05T00:00:00Z"
         assert len(wfs.already_processed) == 1
+
+    def test_12_publish_enhancement(self):
+        source = EnhancementFixtureFactory.example()
+        en = Enhancement(source)
+        pub = PublicApi.publish(en)
+
+        # check that no public record was saved
+        assert pub.id is None
+        dao = PublicAPC()
+        pubs = [p for p in dao.iterall()]
+        assert len(pubs) == 0
+
+    def test_13_process_ehnancements_cycle(self):
+        source = EnhancementFixtureFactory.example()
+        if "id" in source:
+            del source["id"]
+
+        pub_dao = PublicAPC()
+        wfs_dao = WorkflowState()
+
+        # first make a public record for us to enhance
+        first = PublicAPCFixtureFactory.example()
+        del first["record"]["dc:title"]
+        pub = PublicAPC(first)
+        pub.save(blocking=True)
+
+        # now create an enhancements on the record
+        second = deepcopy(source)
+        second["record"]["dc:title"] = "Update"
+        second["created_date"] = "2002-01-01T00:00:00Z"
+        en = Enhancement(second)
+        en.public_id = pub.id
+        en.save(blocking=True)
+
+        # run the job
+        WorkflowApi.process_enhancements()
+
+        time.sleep(2)
+
+        # check that the workflow state was created
+        wfs = wfs_dao.pull("enhancements")
+        assert wfs is not None
+        assert wfs.last_request == en.created_date
+        assert wfs.already_processed == [en.id]
+
+        # check the public record was updated
+        pubs = pub_dao.find_by_doi("10.1234/me")
+        assert len(pubs) == 1
+        assert pubs[0].record.get("dc:title") == "Update"
+
+        # now run an update with the same date, to observe the difference in the workflow state
+        third = deepcopy(source)
+        third["record"]["dc:title"] = "Update 2"
+        third["created_date"] = "2002-01-01T00:00:00Z"
+        en2 = Enhancement(third)
+        en2.public_id = pub.id
+        en2.save(blocking=True)
+
+        # run the job again
+        WorkflowApi.process_enhancements()
+
+        time.sleep(2)
+
+        # check the public record was updated
+        pubs = pub_dao.find_by_doi("10.1234/me")
+        assert len(pubs) == 1
+        assert pubs[0].record.get("dc:title") == "Update"   # should not have been updated, since data was already present
+
+        # check that the workflow state was updated
+        wfs = wfs_dao.pull("enhancements")
+        assert wfs is not None
+        assert wfs.last_request == en2.created_date
+        assert wfs.already_processed == [en.id, en2.id]  # processed records should have been appended
+
+    def test_14_process_enhancements_exception(self):
+        sources = EnhancementFixtureFactory.request_per_day("2001-01", 9)
+
+        dois = ["10.1234/first", "10.1234/second", "10.1234/third"]
+
+        # we're going to construct a series of enhancements for each doi
+        for i in range(len(sources)):
+            s = sources[i]
+            doi_idx = (i % 3)   # iterate over the dois 3 times
+            doi = dois[doi_idx]
+            s["record"]["dc:identifier"] = [{"type" : "doi", "id" : doi}]
+            en = Enhancement(s)
+            en.save()
+
+        time.sleep(2)
+
+        # set up the mock
+        PublicApi.publish = publish_mock
+
+        # now run the process job back to the first day
+        with self.assertRaises(TestException):
+            WorkflowApi.process_enhancements()
+
+        time.sleep(2)
+
+        # we know this died during the 6th update request being processed,
+        # so just check that the workflow state reflects that
+        wfs_dao = WorkflowState()
+        wfs = wfs_dao.pull("enhancements")
+        assert wfs.last_request == "2001-01-05T00:00:00Z"
+        assert len(wfs.already_processed) == 1
+
+
+
 
 
 

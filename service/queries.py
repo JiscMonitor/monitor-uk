@@ -41,7 +41,7 @@ class RequestByIndexedIdentifierQuery(object):
             "sort" : [{"created_date" : {"order" : "desc"}}]
         }
 
-class RequestQueueQuery(object):
+class CreatedDateQueueQuery(object):
 
     def __init__(self, since, size=1000):
         self.size = size
@@ -59,7 +59,6 @@ class RequestQueueQuery(object):
             "size" : self.size,
             "sort" : [{"created_date" : {"order" : "asc"}}]
         }
-
 
 class OwnerQuery(object):
     def __init__(self, owner):

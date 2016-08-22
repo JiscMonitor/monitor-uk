@@ -1,4 +1,4 @@
-from service.models import Request, PublicAPC, WorkflowState
+from service.models import Request, PublicAPC, WorkflowState, Enhancement
 from octopus.core import app
 
 class RequestAPIException(Exception):
@@ -55,15 +55,16 @@ class PublicApi(object):
     ## primary workflow entry points to the Public APC API
 
     @classmethod
-    def publish(cls, req):
-        pub = PublicApi.find_public_record(req)
+    def publish(cls, source):
+        pub = PublicApi.find_public_record(source)
 
         if pub is not None:
-            pub = PublicApi.merge_public_apcs(req.make_public_apc(), pub)
+            pub = PublicApi.merge_public_apcs(source.make_public_apc(), pub)
             pub.save()
         else:
-            pub = req.make_public_apc()
-            pub.save()
+            pub = source.make_public_apc()
+            if pub.has_apcs():
+                pub.save()
 
         return pub
 
@@ -223,12 +224,12 @@ class WorkflowApi(object):
     def process_requests(cls):
         # first, pick up our current state from storage
         workflow_dao = WorkflowState()
-        wfs = workflow_dao.pull("state")
+        wfs = workflow_dao.pull("requests")
 
         # if we don't have a current state, make one
         if wfs is None:
             wfs = WorkflowState()
-            wfs.id = "state"
+            wfs.id = "requests"
 
         # get the oldest page of requests and process them
         dao = Request()
@@ -266,9 +267,46 @@ class WorkflowApi(object):
 
         wfs.save(blocking=True)
 
-# FIXME: I think this will probably go away, as all content will be delivered fully enhanced, or not enhanced at all
-class EnhancementsApi(object):
-
     @classmethod
-    def enhance(cls, pub):
-        pass
+    def process_enhancements(cls):
+        # first, pick up our current state from storage
+        workflow_dao = WorkflowState()
+        wfs = workflow_dao.pull("enhancements")
+
+        # if we don't have a current state, make one
+        if wfs is None:
+            wfs = WorkflowState()
+            wfs.id = "enhancements"
+
+        # get the oldest page of enhancements and process them
+        dao = Enhancement()
+        enhancements = dao.list_all_since(wfs.last_request)     # produces a generator
+
+        for e in enhancements:
+            try:
+                # if the request was created at the time of the last request processed, it is possible it arrived
+                # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+                # we also need to check to see whether it was one of the ids processed during that second
+                if e.created_date == wfs.last_request and wfs.is_processed(e.id):
+                    # if it was created at that time, and it was one of the ones processed, we can skip it
+                    continue
+
+                # if the request is from a later time, or was not processed during the last run, then do the usual
+                # processing, which in this case is just to publish the data, and let the merge handle it
+                PublicApi.publish(e)
+
+                # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+                # request which came in during that same second, but was not processed at the time because it was at the
+                # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+                # which have now been processed
+                if e.created_date == wfs.last_request:
+                    wfs.add_processed(e.id)
+                else:
+                    # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                    wfs.last_request = e.created_date
+                    wfs.already_processed = [e.id]
+            except:
+                wfs.save(blocking=True)
+                raise
+
+        wfs.save(blocking=True)

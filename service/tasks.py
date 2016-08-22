@@ -4,13 +4,14 @@ from service.api import WorkflowApi
 from service.lantern import LanternApi
 
 
-def process_requests():
+def process_updates():
     """
     Function for binding the WorkflowApi to the scheduled task runner
 
     :return:
     """
     WorkflowApi.process_requests()
+    WorkflowApi.process_enhancements()
 
 
 def lantern_jobs():
