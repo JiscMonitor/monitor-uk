@@ -60,6 +60,40 @@ class PublicAPCFixtureFactory(object):
         return source
 
     @classmethod
+    def skeleton(cls, doi, owner, non_apc_record_data=None):
+        if non_apc_record_data is None:
+            non_apc_record_data = {}
+        skel = {
+            "admin" : {
+                "apc_owners" : [
+                    {"owner" : owner, "ref" : "1111111111"}
+                ]
+            },
+            "record" : non_apc_record_data
+        }
+
+        skel["record"]["jm:apc"] = [
+            {
+                "ref" : "1111111111",
+            }
+        ]
+
+        if "dc:identifier" not in skel["record"]:
+            skel["record"]["dc:identifier"] = [
+                {"type" : "doi", "id" : doi}
+            ]
+        else:
+            trip = False
+            for ident in skel["record"]["dc:identifier"]:
+                if ident["type"] == "doi":
+                    ident["id"] = doi
+                    trip = True
+            if not trip:
+                skel["record"]["dc:identifier"].append({"type" : "doi", "id" : doi})
+
+        return skel
+
+    @classmethod
     def record_merge_source(cls):
         return deepcopy(MERGE_SOURCE)
 

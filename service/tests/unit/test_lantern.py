@@ -99,9 +99,9 @@ class LanternMock(object):
 
 ################################################
 
-class TestModels(ESTestCase):
+class TestLantern(ESTestCase):
     def setUp(self):
-        super(TestModels, self).setUp()
+        super(TestLantern, self).setUp()
         self.old_lantern = client.Lantern
         client.Lantern = LanternMock
 
@@ -115,7 +115,7 @@ class TestModels(ESTestCase):
         RESULTS_REQUESTS = []
 
     def tearDown(self):
-        super(TestModels, self).tearDown()
+        super(TestLantern, self).tearDown()
         client.Lantern = self.old_lantern
 
     def test_01_needs_lantern(self):

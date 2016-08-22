@@ -515,3 +515,8 @@ DATA_REFRESH_LANTERN = 15552000
 
 # The minimum amount of time to wait between polling Lantern for updates on a previously submitted job
 JOB_LOOKUP_DELAY_LANTERN = 3600
+
+# For the purposes of the functional/integration tests with Lantern, you can provide a test account email address and
+# api key, via your local.cfg file
+TEST_ACCOUNT_EMAIL_LANTERN = False
+TEST_API_KEY_LANTERN = False

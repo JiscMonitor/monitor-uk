@@ -229,6 +229,27 @@ class LanternApi(object):
 
         # repository
         repository = result.get("repositories", [])
+        rrecords = []
+        for r in repository:
+            obj = {}
+            if isinstance(r, basestring):
+                obj["repo_name"] = r
+                obj["metadata"] = "True"
+                obj["fulltext"] = "Unknown"
+                obj["machine_readable_fulltext"] = "Unknown"
+            elif isinstance(r, dict):
+                obj["metadata"] = "True"
+                obj["fulltext"] = "Unknown"
+                obj["machine_readable_fulltext"] = "Unknown"
+                if "name" in r:
+                    obj["repo_name"] = r["name"]
+                if "url" in r:
+                    obj["repo_url"] = r["url"]
+                if "fulltexts" in r and len(r["fulltexts"]) > 0:
+                    obj["record_url"] = " | ".join(r["fulltexts"])
+
+            if len(obj.keys()) > 0:
+                rrecords.append(obj)
 
         # article title
         title = result.get("title")
@@ -277,9 +298,8 @@ class LanternApi(object):
         if free_to_read is True:
             do._set_single("ali:free_to_read.free_to_read", free_to_read)
         do._add_to_list("jm:provenance", prov)
-        if len(repository) > 0:
-            for r in repository:
-                do._add_to_list("jm:repository", {"repo_name" : r})
+        if len(rrecords) > 0:
+            do._set_single("jm:repository", rrecords)
         if title is not None:
             do._set_single("dc:title", title)
 
