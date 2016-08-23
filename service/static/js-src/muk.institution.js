@@ -269,7 +269,7 @@ $.extend(muk, {
                 story += "<p>The least amount spent by any institution was <strong>£{{c}}</strong>, the most was <strong>£{{d}}</strong>, with the average being <strong>£{{e}}</strong></p>";
                 story += "<p>The smallest average APC for an institution was <strong>£{{f}}</strong>, the largest average was <strong>£{{g}}</strong>, and the overall average APC cost is <strong>£{{h}}</strong></p>";
 
-                var format = muk.toIntFormat()
+                var format = muk.toIntFormat();
                 // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
                 story = story.replace(/{{a}}/g, format(this.countMax))
                     .replace(/{{b}}/g, format(this.countAvg))
