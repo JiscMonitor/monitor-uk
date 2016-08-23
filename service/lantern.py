@@ -20,6 +20,12 @@ class LanternApi(object):
                     idents = LanternApi._get_identifiers(apc)
                     if idents is not None:
                         identifiers.append(idents)
+                    apc.lantern_lookup = dates.now()
+                    apc.save()
+
+            # if there are no identifiers, no need to do any more
+            if len(identifiers) == 0:
+                continue
 
             # now check the user's quota
             lc = client.Lantern(api_key=acc.lantern_api_key)
@@ -121,31 +127,35 @@ class LanternApi(object):
 
     @classmethod
     def _xwalk(cls, result):
+        journal_record = result.get("journal", {})
 
         # publication date
-        publication_date = result.get("journal", {}).get("dateOfPublication")
-        try:
-            dates.parse(publication_date)
-        except ValueError:
-            publication_date = None
+        publication_date = None
+        if journal_record is not None:
+            publication_date = journal_record.get("dateOfPublication")
+            try:
+                dates.parse(publication_date)
+            except:
+                publication_date = None
 
         # Version
         is_aam = result.get("is_aam", False)
         version = None
-        if is_aam:
+        if is_aam is not None and is_aam is not False:
             version = "AAM"
 
         # authors
         authors = result.get("author", [])
         eauthors = []
-        for author in authors:
-            ea = {}
-            if author.get("fullName") is not None:
-                ea["name"] = author.get("fullName")
-            if author.get("affiliation") is not None:
-                ea["affiliation"] = [{"name" : author.get("affiliation")}]
-            if len(ea.keys()) > 0:
-                eauthors.append(ea)
+        if authors is not None:
+            for author in authors:
+                ea = {}
+                if author.get("fullName") is not None:
+                    ea["name"] = author.get("fullName")
+                if author.get("affiliation") is not None:
+                    ea["affiliation"] = [{"name" : author.get("affiliation")}]
+                if len(ea.keys()) > 0:
+                    eauthors.append(ea)
 
         # publisher
         publisher = result.get("publisher")
@@ -159,59 +169,75 @@ class LanternApi(object):
         # pmid
         pmid = result.get("pmid")
 
-        # journal title
-        journal = result.get("journal", {}).get("title")
-
-        # issn
-        issn = result.get("journal", {}).get("issn")
-
-        # essn
-        essn = result.get("journal", {}).get("eissn")
-
-        # oa type
+        journal = None
+        issn = None
+        essn = None
         oa_type = "unknown"
-        in_doaj = result.get("journal", {}).get("in_doaj")
-        if in_doaj is not None:
-            if in_doaj is True:
-                oa_type = "oa"
-            else:
-                oa_type = "hybrid"
+
+        if journal_record is not None:
+            # journal title
+            journal = journal_record.get("title")
+
+            # issn
+            issn = journal_record.get("issn")
+
+            # essn
+            essn = journal_record.get("eissn")
+
+            # oa type
+            in_doaj = journal_record.get("in_doaj")
+            if in_doaj is not None:
+                if in_doaj is True:
+                    oa_type = "oa"
+                else:
+                    oa_type = "hybrid"
 
         # self_archiving policies
-        archive_preprint = result.get("archiving", {}).get("preprint", False)
-        archive_postprint = result.get("archiving", {}).get("postprint", False)
-        archive_pdf = result.get("archiving", {}).get("pdf", False)
+        archiving = result.get("archiving")
+        archive_preprint = False
+        archive_postprint = False
+        archive_pdf = False
+        if archiving is not None:
+            archive_preprint = archiving.get("preprint", False)
+            archive_postprint = archiving.get("postprint", False)
+            archive_pdf = archiving.get("pdf", False)
 
         # embargo policies
-        embargo_preprint = result.get("embargo", {}).get("preprint", False)
-        if not isinstance(embargo_preprint, bool):
-            try:
-                embargo_preprint = int(embargo_preprint)
-            except: pass
-        embargo_postprint = result.get("embargo", {}).get("postprint", False)
-        if not isinstance(embargo_postprint, bool):
-            try:
-                embargo_postprint = int(embargo_postprint)
-            except: pass
-        embargo_pdf = result.get("embargo", {}).get("pdf", False)
-        if not isinstance(embargo_pdf, bool):
-            try:
-                embargo_pdf = int(embargo_pdf)
-            except: pass
+        embargo = result.get("embargo")
+        embargo_preprint = False
+        embargo_postprint = False
+        embargo_pdf = False
+        if embargo is not None:
+            embargo_preprint = result.get("embargo", {}).get("preprint", False)
+            if not isinstance(embargo_preprint, bool):
+                try:
+                    embargo_preprint = int(embargo_preprint)
+                except: pass
+            embargo_postprint = result.get("embargo", {}).get("postprint", False)
+            if not isinstance(embargo_postprint, bool):
+                try:
+                    embargo_postprint = int(embargo_postprint)
+                except: pass
+            embargo_pdf = result.get("embargo", {}).get("pdf", False)
+            if not isinstance(embargo_pdf, bool):
+                try:
+                    embargo_pdf = int(embargo_pdf)
+                except: pass
 
         # grant funding
         projects = []
         grants = result.get("grants", [])
-        for g in grants:
-            project = {}
-            grant_number = g.get("grantId")
-            if grant_number is not None:
-                project["grant_number"] = grant_number
-            agency = g.get("agency")
-            if agency is not None:
-                project["funder_name"] = agency
-            if len(project.keys()) > 0:
-                projects.append(project)
+        if grants is not None:
+            for g in grants:
+                project = {}
+                grant_number = g.get("grantId")
+                if grant_number is not None:
+                    project["grant_number"] = grant_number
+                agency = g.get("agency")
+                if agency is not None:
+                    project["funder_name"] = agency
+                if len(project.keys()) > 0:
+                    projects.append(project)
 
         # licence
         licence_type = None
@@ -220,36 +246,38 @@ class LanternApi(object):
         if licence != "non-standard-licence":
             if licence == "free-to-read":
                 free_to_read = True
-            else:
+            elif licence != "unknown":
                 licence_type = licence
 
         # provenance
         prov = result.get("provenance", [])
-        prov = "Record enhanced via Lantern (not all data necessarily used), which provided provenance information: " + "; ".join(prov)
+        if prov is not None:
+            prov = "Record enhanced via Lantern (not all data necessarily used), which provided provenance information: " + "; ".join(prov)
 
         # repository
         repository = result.get("repositories", [])
         rrecords = []
-        for r in repository:
-            obj = {}
-            if isinstance(r, basestring):
-                obj["repo_name"] = r
-                obj["metadata"] = "True"
-                obj["fulltext"] = "Unknown"
-                obj["machine_readable_fulltext"] = "Unknown"
-            elif isinstance(r, dict):
-                obj["metadata"] = "True"
-                obj["fulltext"] = "Unknown"
-                obj["machine_readable_fulltext"] = "Unknown"
-                if "name" in r:
-                    obj["repo_name"] = r["name"]
-                if "url" in r:
-                    obj["repo_url"] = r["url"]
-                if "fulltexts" in r and len(r["fulltexts"]) > 0:
-                    obj["record_url"] = " | ".join(r["fulltexts"])
+        if repository is not None:
+            for r in repository:
+                obj = {}
+                if isinstance(r, basestring):
+                    obj["repo_name"] = r
+                    obj["metadata"] = "True"
+                    obj["fulltext"] = "Unknown"
+                    obj["machine_readable_fulltext"] = "Unknown"
+                elif isinstance(r, dict):
+                    obj["metadata"] = "True"
+                    obj["fulltext"] = "Unknown"
+                    obj["machine_readable_fulltext"] = "Unknown"
+                    if "name" in r:
+                        obj["repo_name"] = r["name"]
+                    if "url" in r:
+                        obj["repo_url"] = r["url"]
+                    if "fulltexts" in r and len(r["fulltexts"]) > 0:
+                        obj["record_url"] = " | ".join(r["fulltexts"])
 
-            if len(obj.keys()) > 0:
-                rrecords.append(obj)
+                if len(obj.keys()) > 0:
+                    rrecords.append(obj)
 
         # article title
         title = result.get("title")

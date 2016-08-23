@@ -484,7 +484,7 @@ CLIENTJS_PUBLIC_QUERY_ENDPOINT = "/query/apc"
 #################################################
 ## Settings for Lantern integration
 
-ENABLE_LANTERN = False
+ENABLE_LANTERN = True
 
 # The list of paths to fields which trigger a lookup for a record in Lantern
 # (uses objectpath notation)

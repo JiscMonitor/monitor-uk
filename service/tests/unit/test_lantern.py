@@ -388,6 +388,14 @@ class TestLantern(ESTestCase):
                 assert len(job["list"]) == 2
         assert count == 11
 
+        # now do the same thing again.  The jobs should not change, as we've already created jobs
+        # for all the public records
+        LanternApi.make_new_jobs()
+        time.sleep(2)
+        jobs = [job for job in dao.iterall()]
+        assert len(jobs) == 2
+
+
     def test_05_low_quota(self):
         global QUOTA
         QUOTA = 1
