@@ -1,13 +1,24 @@
+/** @module muk */
 $.extend(muk, {
+    /** @namespace */
     publisher: {
-
+        /**
+         * Construct the publisher report template
+         *
+         * @constructor
+         */
         newPublisherReportTemplate: function (params) {
             if (!params) { params = {} }
             muk.publisher.PublisherReportTemplate.prototype = edges.newTemplate(params);
             return new muk.publisher.PublisherReportTemplate(params);
         },
+        /**
+         * The meat of the publisher report template
+         *
+         * Construct with {@link publisher.newPublisherReportTemplate}
+         */
         PublisherReportTemplate: function (params) {
-            // later we'll store the edge instance here
+            /** later we'll store the edge instance here */
             this.edge = false;
 
             // bits that are hidden off-screen
@@ -198,7 +209,8 @@ $.extend(muk, {
                 this.avgExp = false;
                 this.avgAPC = false;
 
-                var results = this.edge.preflightResults.uk_mean;
+                var results = this.edge.secondaryResults.globalAvg;
+                // var results = this.edge.preflightResults.uk_mean;
                 var stats = results.aggregation("total_stats");
                 var pubs = results.aggregation("publisher_count");
 
@@ -213,8 +225,10 @@ $.extend(muk, {
                     return;
                 }
 
-                // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
-                var story = "<p>On average, a publisher receives <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
+                var story = "<p>In this time period, a publisher receives an average of <strong>{{x}}</strong> APCs, ";
+                story += "the average total expenditure on a publisher is <strong>£{{y}}</strong>, ";
+                story += "and the average cost UK cost for for an APC is <strong>£{{z}}</strong></p>";
+
                 story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
                     .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
                     .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
@@ -271,6 +285,44 @@ $.extend(muk, {
                             field: "record.jm:apc.organisation_name.exact"
                         })
                     ]
+                })
+            );
+
+            // finally set the size and from parameters
+            query.size = 0;
+            query.from = 0;
+
+            // return the secondary query
+            return query;
+        },
+
+        globalAveragesQuery : function(edge) {
+            // clone the current query, which will be the basis for the averages query
+            var query = edge.cloneQuery();
+
+            // remove the institutional constraints
+            query.removeMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
+
+            // remove publisher constraints
+            query.removeMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
+
+            // remove type constraints
+            query.removeMust(es.newTermFilter({field: "record.dc:source.oa_type.exact"}));
+
+            // remove any existing aggregations, we don't need them
+            query.clearAggregations();
+
+            // add the new aggregation which will actually get the data
+            query.addAggregation(
+                es.newStatsAggregation({
+                    name: "total_stats",
+                    field: "index.amount_inc_vat"
+                })
+            );
+            query.addAggregation(
+                es.newCardinalityAggregation({
+                    name: "publisher_count",
+                    field: "record.dcterms:publisher.name.exact"
                 })
             );
 
@@ -507,22 +559,6 @@ $.extend(muk, {
                 })
             );
 
-            var preflight = es.newQuery({size: 0});
-            preflight.addAggregation(
-                es.newStatsAggregation({
-                    name: "total_stats",
-                    field: "index.amount_inc_vat"
-                })
-            );
-            preflight.addAggregation(
-                es.newCardinalityAggregation({
-                    name: "publisher_count",
-                    field: "record.dcterms:publisher.name.exact"
-                })
-            );
-
-            // FIXME: actually we need to first find out if the institution is listed, and only then load the
-            // relevant opening query
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
@@ -537,11 +573,9 @@ $.extend(muk, {
                 selector: selector,
                 template: muk.publisher.newPublisherReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
-                preflightQueries : {
-                    uk_mean : preflight
-                },
                 secondaryQueries : {
-                    avg: muk.publisher.averagesQuery
+                    avg: muk.publisher.averagesQuery,
+                    globalAvg: muk.publisher.globalAveragesQuery
                 },
                 baseQuery : base_query,
                 openingQuery : opening_query,
@@ -599,10 +633,14 @@ $.extend(muk, {
                     }),
                     edges.newRefiningANDTermSelector({
                         id : "oa_type",
-                        //field : "record.dc:source.oa_type.exact",             // fixme: is this supposed be the normalised field?
-                        field : "record.rioxxterms:type.exact",
+                        field : "record.dc:source.oa_type.exact",
                         display : "Journal type",
                         category: "lhs",
+                        valueMap : {
+                            "hybrid" : "Hybrid",
+                            "oa" : "Pure OA",
+                            "unknown" : "Unknown"
+                        },
                         renderer : edges.bs3.newRefiningANDTermSelectorRenderer({
                             open: true,
                             togglable: false,
@@ -650,7 +688,7 @@ $.extend(muk, {
                     muk.publisher.newStory({
                         id: "story",
                         category: "story"
-                    }), // FIXME: not clear what the story is
+                    }),
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",
