@@ -378,6 +378,14 @@ $.extend(muk, {
                 return data_series;
             }
 
+            var selected = ch.edge.getComponent({id: "institution"}).selected;
+
+            // pre-size the data series array, so that we can just populate it in the right order later
+            var offset = data_series.length;
+            for (var i = 0; i < selected.length; i++) {
+                data_series.push(false);
+            }
+
             var reportOn = [];
             var inst_buckets = ch.edge.result.buckets("institution");
             for (var i = 0; i < inst_buckets.length; i++) {
@@ -431,7 +439,9 @@ $.extend(muk, {
                     series["values"].push({label: pkey, value: value})
                 }
 
-                data_series.push(series);
+                // now put the result in the right place in the data series
+                var idx = $.inArray(ikey, selected);
+                data_series[idx + offset] = series;
             }
 
             return data_series;
