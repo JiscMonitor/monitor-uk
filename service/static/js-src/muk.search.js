@@ -1,4 +1,6 @@
+/** @module muk */
 $.extend(muk, {
+    /** @namespace */
     search : {
 
         newSearchTemplate: function (params) {
@@ -376,6 +378,24 @@ $.extend(muk, {
             }
         },
 
+        formatDateRange : function(params) {
+            var field = params.field;
+            var from = params.from;
+            var to = params.to;
+
+            var fd = new Date(from);
+            var td = new Date(to);
+
+            var months = [
+                "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+            ];
+
+            var fs = months[fd.getUTCMonth()] + " " + fd.getUTCDate() + ", " + fd.getUTCFullYear();
+            var ts = months[td.getUTCMonth()] + " " + td.getUTCDate() + ", " + td.getUTCFullYear();
+
+            return {to: to, from: from, display: "From " + fs + " to " + ts };
+        },
+
         makeSearch : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_search");
@@ -415,7 +435,10 @@ $.extend(muk, {
                             "index.apc_count" : "Multiple APCs",
                             "index.org_count" : "Multiple Organisations",
                             "index.account_count" : "Multiple Contributors",
-                            "record.dc:source.oa_type.exact" : "Journal Type"
+                            "record.dc:source.oa_type.exact" : "Journal Type",
+                            "record.rioxxterms:publication_date" : "Publication Date",
+                            "record.jm:apc.date_applied" : "APC Application",
+                            "record.jm:apc.date_paid" : "Date Paid"
                         },
                         valueMaps : {
                             "record.dc:source.oa_type.exact" : {
@@ -428,6 +451,11 @@ $.extend(muk, {
                             "index.apc_count" : [{from : 2, display: "Yes"}],
                             "index.org_count" : [{from : 2, display: "Yes"}],
                             "index.account_count" : [{from : 2, display: "Yes"}]
+                        },
+                        rangeFunctions : {
+                            "record.rioxxterms:publication_date" : muk.search.formatDateRange,
+                            "record.jm:apc.date_applied" : muk.search.formatDateRange,
+                            "record.jm:apc.date_paid" : muk.search.formatDateRange
                         },
                         renderer : edges.bs3.newCompactSelectedFiltersRenderer({
                             header: "Refined by",
@@ -497,18 +525,21 @@ $.extend(muk, {
                             layout: "right"
                         })
                     }),
-                    /*
                     edges.newMultiDateRangeEntry({
                         id : "date_range",
                         category : "facet",
-                        display: "Show records where:",
+                        display: "Date",
                         fields : [
                             {field : "record.rioxxterms:publication_date", display: "Publication Date"},
                             {field : "record.jm:apc.date_applied", display: "APC Application"},
                             {field : "record.jm:apc.date_paid", display: "APC Paid"}
                         ],
                         autoLookupRange: true,
-                        renderer : edges.bs3.newBSMultiDateRange({
+                        renderer : edges.bs3.newBSMultiDateRangeFacet({
+                            openIcon: "glyphicon glyphicon-chevron-down",
+                            closeIcon: "glyphicon glyphicon-chevron-up",
+                            layout: "right",
+                            prefix: "Show records where",
                             ranges : muk.yearRanges({
                                     "academic year" : "09-01",
                                     "fiscal year" : "04-01",
@@ -518,7 +549,6 @@ $.extend(muk, {
                             )
                         })
                     }),
-                    */
                     edges.newFilterSetter({
                         id : "deduplicate",
                         category: "facet",

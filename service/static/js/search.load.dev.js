@@ -26,6 +26,7 @@ requirejs.config({
 
         // "edges.bs3.basicrangeselector" : "src/renderers/bs3.BasicRangeSelectorRenderer",
         "edges.bs3.bsmultidaterange" : edges_base + "src/renderers/bs3.BSMultiDateRange",
+        "edges.bs3.bsmultidaterangefacet" : edges_base + "src/renderers/bs3.BSMultiDateRangeFacet",
         "edges.bs3.compactselectedfilters" : edges_base + "src/renderers/bs3.CompactSelectedFiltersRenderer",
         "edges.bs3.facetfiltersetter" : edges_base + "src/renderers/bs3.FacetFilterSetterRenderer",
         "edges.bs3.fullsearchcontroller" : edges_base + "src/renderers/bs3.FullSearchControllerRenderer",
@@ -60,6 +61,7 @@ requirejs(["jquery"], function() {
                 "edges.search",
                 "edges.selectors",
                 "edges.bs3.bsmultidaterange",
+                "edges.bs3.bsmultidaterangefacet",
                 "edges.bs3.compactselectedfilters",
                 "edges.bs3.facetfiltersetter",
                 "edges.bs3.facetview",
