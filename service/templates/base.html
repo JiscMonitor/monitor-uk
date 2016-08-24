@@ -79,7 +79,22 @@
                 </a>
             </div>
         </div>
-        <h1><a href="{{ url_for('index') }}">Monitor UK</a> <span class="badge">ALPHA</span></h1>
+        <div class="inner">
+        <div class="row">
+            <div class="col-md-10">
+                <h1><a href="{{ url_for('index') }}">Monitor UK</a> <span class="badge">ALPHA</span></h1>
+            </div>
+            <div class="col-md-2">
+                <div class="login-bits">
+                    {% if current_user.is_anonymous() %}
+                        <a href="{{ url_for("account.login") }}" class="btn btn-primary jisc-btn jisc-btn-clear">Login</a>
+                    {%  else %}
+                        <a href="{{ url_for("account.logout") }}" class="btn btn-primary jisc-btn jisc-btn-clear">Log out</a>
+                    {%  endif %}
+                </div>
+            </div>
+        </div>
+        </div>
         <div class="inner">
             <div class="tab-nav" >
                 {{ nav.main_nav(config.get("PRIMARY_NAVIGATION", []), top_classes="nav nav-tabs navbar-left", sub_classes="subnav") }}

@@ -257,41 +257,88 @@ PRIMARY_NAVIGATION = [
         "breadcrumb" : False
     },
     {
-        "label" : "Publisher",
-        "url" : {
-            "url_for" : "publisher"
-        },
+        "label" : "Reports",
         "visibility" : {
             "auth" : True,
             "anonymous" : False
         },
         "main_nav" : True,
-        "breadcrumb" : False
-    },
-    {
-        "label": "Funder",
-        "url": {
-            "url_for": "funder"
-        },
-        "visibility": {
-            "auth": True,
-            "anonymous": False
-        },
-        "main_nav": True,
-        "breadcrumb": False
-    },
-    {
-        "label": "Institution",
-        "url": {
-            "url_for": "institution"
-        },
-        "visibility": {
-            "auth": True,
-            "anonymous": False
-        },
-        "main_nav": True,
-        "breadcrumb": False
-    }
+        "breadcrumb" : False,
+        "subnav" : [
+            {
+                "label" : "Publisher",
+                "url" : {
+                    "url_for" : "publisher"
+                },
+                "visibility" : {
+                    "auth" : True,
+                    "anonymous" : False
+                },
+                "main_nav" : True,
+                "breadcrumb" : False
+            },
+            {
+                "label": "Funder",
+                "url": {
+                    "url_for": "funder"
+                },
+                "visibility": {
+                    "auth": True,
+                    "anonymous": False
+                },
+                "main_nav": True,
+                "breadcrumb": False
+            },
+            {
+                "label": "Institution",
+                "url": {
+                    "url_for": "institution"
+                },
+                "visibility": {
+                    "auth": True,
+                    "anonymous": False
+                },
+                "main_nav": True,
+                "breadcrumb": False
+            }
+        ]
+    }#,
+    #{
+    #    "label" : "Publisher",
+    #    "url" : {
+    #        "url_for" : "publisher"
+    #    },
+    #    "visibility" : {
+    #        "auth" : True,
+    #        "anonymous" : False
+    #    },
+    #    "main_nav" : True,
+    #    "breadcrumb" : False
+    #},
+    #{
+    #    "label": "Funder",
+    #    "url": {
+    #        "url_for": "funder"
+    #    },
+    #    "visibility": {
+    #        "auth": True,
+    #        "anonymous": False
+    #    },
+    #    "main_nav": True,
+    #    "breadcrumb": False
+    #},
+    #{
+    #    "label": "Institution",
+    #    "url": {
+    #        "url_for": "institution"
+    #    },
+    #    "visibility": {
+    #        "auth": True,
+    #        "anonymous": False
+    #    },
+    #    "main_nav": True,
+    #    "breadcrumb": False
+    #}
 ]
 
 SECONDARY_NAVIGATION = [
@@ -420,7 +467,7 @@ SECONDARY_NAVIGATION = [
             {"url_for" : "account.forgot_pending", "type" : "exact"},
             {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "type" : "startswith"}
         ],
-        "main_nav" : True,
+        "main_nav" : False,
         "breadcrumb" : True,
         "visibility" : {
             "auth" : False,
@@ -460,19 +507,19 @@ SECONDARY_NAVIGATION = [
                 "link_on_active" : False
             }
         ]
-    },
-    {
-        "label" : "Log Out",
-        "url" : {
-            "url_for" : "account.logout"
-        },
-        "main_nav" : True,
-        "breadcrumb" : False,
-        "visibility" : {
-            "auth" : True,
-            "anonymous" : False
-        }
-    }
+    }#,
+    #{
+    #    "label" : "Log Out",
+    #    "url" : {
+    #        "url_for" : "account.logout"
+    #    },
+    #    "main_nav" : True,
+    #    "breadcrumb" : False,
+    #    "visibility" : {
+    #        "auth" : True,
+    #        "anonymous" : False
+    #    }
+    #}
 ]
 
 SITE_NAVIGATION = PRIMARY_NAVIGATION + SECONDARY_NAVIGATION
