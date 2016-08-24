@@ -642,12 +642,20 @@ $.extend(muk, {
                         })
                     }),
                     edges.newPager({
-                        id: "bottom-pager",
+                        id: "results-size",
                         category: "pager",
                         renderer : edges.bs3.newPagerRenderer({
                             showRecordCount: false,
+                            showPageNavigation: false,
                             sizePrefix: "Show ",
                             sizeSuffix: "&nbsp;&nbsp;&nbsp;&nbsp;items per page"
+                        })
+                    }),
+                    edges.newPager({
+                        id: "page-navigation",
+                        category: "pager",
+                        renderer : edges.bs3.newNumberedPager({
+
                         })
                     }),
                     edges.newSearchingNotification({

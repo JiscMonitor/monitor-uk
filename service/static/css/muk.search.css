@@ -312,8 +312,14 @@
     padding-left: 0px;
 }
 
-/*
-.edges-bs3-bs-multi-date-range-facet-input {
-    width: 100% !important;
-    font-size: 13px;
-}*/
+.edges-bs3-pager-container-results-size {
+    text-align: right;
+}
+
+.edges-bs3-pager-nav {
+    float: none !important;
+}
+
+.edges-bs3-pager-container-page-navigation {
+    text-align: center;
+}
