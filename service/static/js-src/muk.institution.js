@@ -335,16 +335,19 @@ $.extend(muk, {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
             var seriesKey = params.seriesKey;
+            var maxSeries = 0;
 
             var data_series = [];
             if (!ch.edge.result) {
                 return data_series;
             }
 
-            // we need to make sure that we only extract data for institutions and publishers that are in
+            // we need to make sure that we only extract data for institutions that are in
             // the filter list
             var instFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.jm:apc.organisation_name.exact"}));
-            // var pubFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
+            if (instFilters.length == 0) {
+                maxSeries = 10;     // the maximum number to show if there are no institution constraints
+            }
 
             var series = {};
             series["key"] = seriesKey;
@@ -353,6 +356,11 @@ $.extend(muk, {
             var insts = []; // for tracking institutions in the buckets for use later
             var inst_buckets = ch.edge.result.buckets("institution");
             for (var i = 0; i < inst_buckets.length; i++) {
+                // break out of the loop if we've hit our maximum
+                if (maxSeries > 0 && i >= maxSeries) {
+                    break;
+                }
+
                 var ibucket = inst_buckets[i];
                 var ikey = ibucket.key;
 
@@ -488,7 +496,7 @@ $.extend(muk, {
                 es.newTermsAggregation({
                     name: "institution",
                     field: "record.jm:apc.organisation_name.exact",
-                    size: 10,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                    size: 1000, // random, large number, most of the time the number of results will be constrained by the filters applied
                     aggs : [
                         es.newStatsAggregation({
                             name : "institution_stats",
