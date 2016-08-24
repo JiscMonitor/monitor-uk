@@ -76,19 +76,19 @@
 #s2id_edges-bs3-n-separate-or-term-selector-select-0-institution {
     border-style: solid;
     border-width: 2px 2px 2px 6px;
-    border-color: #f44336;
+    border-color: #f44336 !important;
 }
 
 #s2id_edges-bs3-n-separate-or-term-selector-select-1-institution {
     border-style: solid;
     border-width: 2px 2px 2px 6px;
-    border-color: #ffeb3b;
+    border-color: #FDD835 !important;
 }
 
 #s2id_edges-bs3-n-separate-or-term-selector-select-2-institution {
     border-style: solid;
     border-width: 2px 2px 2px 6px;
-    border-color: #addaaf;
+    border-color: #4CAF50 !important;
 }
 
 .edges-bs3-tabular-results-table {
@@ -98,4 +98,12 @@
 .edges-bs3-tabular-results-cell-Metric {
     text-align: left;
     white-space: nowrap;
+}
+
+.edges-bs3-n-separate-or-term-selector-select {
+    box-shadow: 0 0 3px #bfbfbf;
+}
+
+.select2-drop-active {
+    border-color: #cccccc !important;
 }

@@ -666,7 +666,7 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "Select one or more institutions above",
-                            color: ["#addaff", "#f44336","#ffeb3b","#addaaf"],
+                            color: ["#addaff", "#f44336","#FDD835","#4CAF50"],
                             valueFormat: muk.toGBPIntFormat(),
                             yTickFormat: muk.toGBPIntFormat(),
                             yAxisLabel: "Total expenditure"
