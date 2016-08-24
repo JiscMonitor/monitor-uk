@@ -323,3 +323,7 @@
 .edges-bs3-pager-container-page-navigation {
     text-align: center;
 }
+
+.edges-bs3-search-box-search-button {
+    border-radius: 0 3px 3px 0;
+}

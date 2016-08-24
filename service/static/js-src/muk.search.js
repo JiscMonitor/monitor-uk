@@ -461,7 +461,8 @@ $.extend(muk, {
                             header: "Refined by",
                             openIcon: "glyphicon glyphicon-chevron-down",
                             closeIcon: "glyphicon glyphicon-chevron-up",
-                            layout: "right"
+                            layout: "right",
+                            open: true
                         })
                     }),
                     edges.newORTermSelector({
@@ -476,7 +477,8 @@ $.extend(muk, {
                             hideEmpty: true,
                             openIcon: "glyphicon glyphicon-chevron-down",
                             closeIcon: "glyphicon glyphicon-chevron-up",
-                            layout: "right"
+                            layout: "right",
+                            open: true
                         })
                     }),
                     edges.newORTermSelector({
@@ -491,7 +493,8 @@ $.extend(muk, {
                             hideEmpty: true,
                             openIcon: "glyphicon glyphicon-chevron-down",
                             closeIcon: "glyphicon glyphicon-chevron-up",
-                            layout: "right"
+                            layout: "right",
+                            open: true
                         })
                     }),
                     edges.newNumericRangeEntry({
@@ -503,7 +506,8 @@ $.extend(muk, {
                         renderer : edges.bs3.newNumericRangeEntryRenderer({
                             openIcon: "glyphicon glyphicon-chevron-down",
                             closeIcon: "glyphicon glyphicon-chevron-up",
-                            layout: "right"
+                            layout: "right",
+                            open: true
                         })
                     }),
                     edges.newORTermSelector({
@@ -522,7 +526,8 @@ $.extend(muk, {
                             hideEmpty: false,
                             openIcon: "glyphicon glyphicon-chevron-down",
                             closeIcon: "glyphicon glyphicon-chevron-up",
-                            layout: "right"
+                            layout: "right",
+                            open: true
                         })
                     }),
                     edges.newMultiDateRangeEntry({
@@ -546,7 +551,8 @@ $.extend(muk, {
                                     "calendar year" : "01-01"
                                 },
                                 {"This " : 0, "Last " : 1}
-                            )
+                            ),
+                            open: true
                         })
                     }),
                     edges.newFilterSetter({
@@ -615,7 +621,8 @@ $.extend(muk, {
                             intro: "Show records where:",
                             openIcon: "glyphicon glyphicon-chevron-down",
                             closeIcon: "glyphicon glyphicon-chevron-up",
-                            layout: "right"
+                            layout: "right",
+                            open: true
                         })
                     }),
                     edges.newPager({
