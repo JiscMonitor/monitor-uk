@@ -16,12 +16,12 @@
 
     <div class="row">
         <div class="col-md-offset-4 col-md-4">
-            <button class="btn btn-primary" id="login" type="submit" style="width: 100%; font-size: 30px; line-height: 30px">
-                Log me in!
+            <button class="btn btn-primary jisc-btn" id="login" type="submit">
+                log in
             </button>
-            <br><br><p><a href="{{url_for('account.forgot')}}">I forgot my username/password</a></p>
+            <br><br><p><a href="{{url_for('account.forgot')}}" style="text-decoration: underline">I forgot my username/password</a></p>
 
-            <p>Don't have an account? <a href="mailto:{{ config.get('MONITOR_ACCOUNT_REQUEST_EMAIL') }}">Contact us</a> to request one.</p>
+            <p>Don't have an account? <a href="mailto:{{ config.get('MONITOR_ACCOUNT_REQUEST_EMAIL') }}" style="text-decoration: underline">Contact us</a> to request one.</p>
 
         </div>
     </div>
