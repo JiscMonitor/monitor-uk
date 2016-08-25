@@ -607,7 +607,8 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
-                            controls: false,
+                            showValues: true,
+                            controls: true,
                             stacked: true,
                             color: muk.funder.chartColours,
                             valueFormat: muk.toIntFormat(),
@@ -621,7 +622,8 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
-                            controls: false,
+                            showValues: true,
+                            controls: true,
                             stacked: true,
                             color: muk.funder.chartColours,
                             valueFormat: muk.toGBPIntFormat(),
@@ -636,7 +638,7 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
-                            showValues: false,
+                            showValues: true,
                             controls: true,
                             stacked: true,
                             color: muk.funder.chartColours,
