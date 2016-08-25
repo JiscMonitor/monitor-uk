@@ -211,6 +211,39 @@ $.extend(muk, {
             "unknown" : "Unknown"
         },
 
+        storyQuery : function(edge) {
+            // clone the current query, which will be the basis for the averages query
+            var query = edge.cloneQuery();
+
+            // remove the funder constraints, but keep any others
+            query.removeMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
+
+            // remove any existing aggregations, we don't need them
+            query.clearAggregations();
+
+            // add the new aggregation which will actually get the data
+            query.addAggregation(
+                es.newStatsAggregation({
+                name: "total_stats",
+                field: "index.amount_inc_vat"
+                })
+            );
+            
+            query.addAggregation(
+                es.newCardinalityAggregation({
+                    name: "funder_count",
+                    field: "record.rioxxterms:project.funder_name.exact"
+                })
+            );
+
+            // finally set the size and from parameters
+            query.size = 0;
+            query.from = 0;
+
+            // return the secondary query
+            return query;
+        },
+
         newStory : function (params) {
             if (!params) { params = {} }
             muk.funder.Story.prototype = edges.newComponent(params);
@@ -227,7 +260,7 @@ $.extend(muk, {
                 this.avgExp = false;
                 this.avgAPC = false;
 
-                var results = this.edge.preflightResults.uk_mean;
+                var results = this.edge.secondaryResults.uk_mean;
                 var stats = results.aggregation("total_stats");
                 var pubs = results.aggregation("funder_count");
 
@@ -509,29 +542,14 @@ $.extend(muk, {
                 )
             }
 
-            var preflight = es.newQuery({size: 0});
-            preflight.addAggregation(
-                es.newStatsAggregation({
-                    name: "total_stats",
-                    field: "index.amount_inc_vat"
-                })
-            );
-
-            preflight.addAggregation(
-                es.newCardinalityAggregation({
-                    name: "funder_count",
-                    field: "record.rioxxterms:project.funder_name.exact"
-                })
-            );
-
             var e = edges.newEdge({
                 selector: selector,
                 template: muk.funder.newFunderReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 baseQuery : base_query,
                 openingQuery : opening_query,
-                preflightQueries : {
-                    uk_mean : preflight
+                secondaryQueries : {
+                    uk_mean : muk.funder.storyQuery
                 },
                 components: [
                     edges.newMultiDateRangeEntry({
