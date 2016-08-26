@@ -13,14 +13,17 @@
 }
 
 .muk-publisher-report-template-filter-header {
-    color: #777777;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #bbbbbb;
+    margin-bottom: 12px;
+    font-size: 0.9em;
+    letter-spacing: 3px;
+    color: #9a9a9a;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
 }
 
 .muk-publisher-report-template-filter {
-    margin-top: 20px;
+    font-family: 'Stag Sans Web Light', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 12px;
     margin-bottom: 20px;
 }
 

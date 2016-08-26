@@ -125,7 +125,7 @@ $.extend(muk, {
                     }
                 }
 
-                var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;FILTER</div></div></div>';
+                var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;FILTER</div></div></div>';
 
                 var template = '<div class="' + panelClass + '">\
                     <div class="' + topClass + '">' + topContainers + '</div>\
@@ -219,6 +219,39 @@ $.extend(muk, {
             "unknown" : "Unknown"
         },
 
+        storyQuery : function(edge) {
+            // clone the current query, which will be the basis for the averages query
+            var query = edge.cloneQuery();
+
+            // remove the funder constraints, but keep any others
+            query.removeMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
+
+            // remove any existing aggregations, we don't need them
+            query.clearAggregations();
+
+            // add the new aggregation which will actually get the data
+            query.addAggregation(
+                es.newStatsAggregation({
+                name: "total_stats",
+                field: "index.amount_inc_vat"
+                })
+            );
+            
+            query.addAggregation(
+                es.newCardinalityAggregation({
+                    name: "funder_count",
+                    field: "record.rioxxterms:project.funder_name.exact"
+                })
+            );
+
+            // finally set the size and from parameters
+            query.size = 0;
+            query.from = 0;
+
+            // return the secondary query
+            return query;
+        },
+
         newStory : function (params) {
             if (!params) { params = {} }
             muk.funder.Story.prototype = edges.newComponent(params);
@@ -235,7 +268,7 @@ $.extend(muk, {
                 this.avgExp = false;
                 this.avgAPC = false;
 
-                var results = this.edge.preflightResults.uk_mean;
+                var results = this.edge.secondaryResults.uk_mean;
                 var stats = results.aggregation("total_stats");
                 var pubs = results.aggregation("funder_count");
 
@@ -260,9 +293,9 @@ $.extend(muk, {
             };
         },
 
-        stackedBarClean : function(data_series) {
+        stackedBarClean : function(data_series, splice_for_brevity) {
             // Clean up some things in a data series that a stacked chart doesn't handle very well.
-            // fixme: this code was written in the dead of night, there may be a more sensible way of doing this (or with real data it might not be required)
+
             // discard empty series and find a list of inner labels to sort
             var labels = new Set();
             var i = data_series.length;
@@ -277,8 +310,9 @@ $.extend(muk, {
                 }
             }
 
-            var sorted_labels = Array.from(labels).sort();
+            var sorted_labels = splice_for_brevity ? Array.from(labels).splice(0,10).sort() : Array.from(labels).sort();
 
+            // Construct a new series
             var clean_series = [];
             for (var a = 0; a < data_series.length; a++) {
                 var k = data_series[a].key;
@@ -290,13 +324,12 @@ $.extend(muk, {
                     var l = sorted_labels[b];
                     var current_labels_value = undefined;
 
-                    // apply the existing value if we have it
+                    // apply the existing value if we have it, or push a zero value so it's not missing from the series
                     for (var c = 0; c < vs.length; c++) {
                         if (vs[c].label == l) {
                             current_labels_value = {label: l, value: vs[c].value, series: a, key: k}
                         }
                     }
-
                     if (current_labels_value === undefined){
                         cs["values"].push({label: l, value: 0, series: a, key: k})
                     } else {
@@ -318,7 +351,7 @@ $.extend(muk, {
             }
 
             // we need to make sure that we only extract data for funders that are in the filter list
-            var fundFilters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
+            var fund_filters = ch.edge.currentQuery.listMust(es.newTermsFilter({field: "record.rioxxterms:project.funder_name.exact"}));
 
             var oahyb_buckets = ch.edge.result.buckets("oahybrid");
 
@@ -338,8 +371,8 @@ $.extend(muk, {
                     // if the funder in the aggregation is not in the filter list ignore it
                     // (this can happen for records where there's more than one funder on the APC)
                     var skip = false;
-                    for (var j = 0; j < fundFilters.length; j++) {
-                        var filt = fundFilters[j];
+                    for (var j = 0; j < fund_filters.length; j++) {
+                        var filt = fund_filters[j];
                         if (!filt.has_term(fkey)) {
                             skip = true;
                             break;
@@ -352,23 +385,25 @@ $.extend(muk, {
                     var value = valueFunction(fbucket);
                     series["values"].push({label: fkey, value: value})
                 }
-
                 data_series.push(series);
             }
-            return data_series;
+
+            // To avoid crowding the graph initially, if we have no filters applied, abridge the data shown
+            if (ch.edge.currentQuery.listMust().length > 0) {
+                return muk.funder.stackedBarClean(data_series, false)
+            } else {
+                return muk.funder.stackedBarClean(data_series, true)
+            }
         },
 
         apcCountDF : function(ch) {
-            var ds = muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
-            return muk.funder.stackedBarClean(ds)
+            return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
         },
         apcExpenditureDF : function(ch) {
-            var ds = muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.sum }});
-            return muk.funder.stackedBarClean(ds)
+            return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.sum }});
         },
         avgAPCDF : function(ch) {
-            var ds = muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.avg }});
-            return muk.funder.stackedBarClean(ds)
+            return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.avg }});
         },
 
         tableData : function(charts) {
@@ -450,14 +485,14 @@ $.extend(muk, {
             if (!params) {params = {} }
 
             // first thing to do is determine if the user's institution is in the dataset
-            var check_query = es.newQuery();
+            var check_query = es.newQuery({size :0});
             check_query.addMust(
                 es.newTermsFilter({
                     field: "record.jm:apc.organisation_name.exact",
                     values: [myInstituion]
                 })
             );
-            check_query.size = 0;
+
             es.doQuery({
                 search_url: octopus.config.public_query_endpoint,
                 queryobj: check_query.objectify(),
@@ -486,12 +521,12 @@ $.extend(muk, {
                 es.newTermsAggregation({
                     name: "oahybrid",
                     field: "record.dc:source.oa_type.exact",
-                    size: 0,      // actually, the size of this will be tightly controlled by the filters so this is just a random large-ish number
+                    size: 0,
                     aggs: [
                         es.newTermsAggregation({
                             name: "funder",
                             field: "record.rioxxterms:project.funder_name.exact",
-                            size: 0, // again, size will be constrained by the filters
+                            size: 10000,
                             aggs: [
                                 es.newStatsAggregation({
                                     name: "funder_stats",
@@ -515,28 +550,14 @@ $.extend(muk, {
                 )
             }
 
-            var preflight = es.newQuery({size: 0});
-            preflight.addAggregation(
-                es.newStatsAggregation({
-                    name: "total_stats",
-                    field: "index.amount_inc_vat"
-                })
-            );
-            preflight.addAggregation(
-                es.newCardinalityAggregation({
-                    name: "funder_count",
-                    field: "record.rioxxterms:project.funder_name.exact"
-                })
-            );
-
             var e = edges.newEdge({
                 selector: selector,
                 template: muk.funder.newFunderReportTemplate(),
                 search_url: octopus.config.public_query_endpoint, // "http://localhost:9200/muk/public/_search",
                 baseQuery : base_query,
                 openingQuery : opening_query,
-                preflightQueries : {
-                    uk_mean : preflight
+                secondaryQueries : {
+                    uk_mean : muk.funder.storyQuery
                 },
                 components: [
                     edges.newMultiDateRangeEntry({
@@ -593,6 +614,7 @@ $.extend(muk, {
                         id : "oa_type",
                         field : "record.dc:source.oa_type.exact",
                         display : "Journal type",
+                        lifecycle: "update",
                         category: "lhs",
                         orderBy: "count",
                         orderDir: "desc",
@@ -611,7 +633,8 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
-                            controls: false,
+                            showValues: true,
+                            controls: true,
                             stacked: true,
                             color: muk.funder.chartColours,
                             valueFormat: muk.toIntFormat(),
@@ -625,7 +648,8 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
-                            controls: false,
+                            showValues: true,
+                            controls: true,
                             stacked: true,
                             color: muk.funder.chartColours,
                             valueFormat: muk.toGBPIntFormat(),
@@ -640,7 +664,7 @@ $.extend(muk, {
                         category : "tab",
                         renderer : edges.nvd3.newHorizontalMultibarRenderer({
                             noDataMessage: "No data to display",
-                            showValues: false,
+                            showValues: true,
                             controls: true,
                             stacked: true,
                             color: muk.funder.chartColours,
