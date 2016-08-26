@@ -100,7 +100,7 @@ $.extend(muk, {
                     }
                 }
 
-                var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;FILTER</div></div></div>';
+                var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;FILTER</div></div></div>';
 
                 var template = '<div class="' + panelClass + '"> \
                     <div class="' + loadingClass + '">' + loadContainers + '</div>\

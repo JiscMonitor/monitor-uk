@@ -14,8 +14,12 @@
 }
 
 .muk-institution-report-template-filter-header {
-    color: #777777;
     margin-bottom: 12px;
+    font-size: 0.9em;
+    letter-spacing: 3px;
+    color: #9a9a9a;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
 }
 
 .muk-institution-report-template-filter {
