@@ -79,7 +79,7 @@ $.extend(muk, {
                     var linkId = edges.css_id(this.namespace, "link-" + tab.id);
 
                     this.tabIds.push(tab.id);
-                    tabLabels += '<li><a href="#" id="' + linkId + '" data-id="' + tab.id + '"><strong>' + tab.display + '</strong></a></li>';
+                    tabLabels += '<li><a href="#" id="' + linkId + '" data-id="' + tab.id + '">' + tab.display + '</a></li>';
                     tabContents += '<div class="' + tabContainerClass + '" id="' + containerId + '">\
                             <div class="row">\
                                 <div class="col-md-12"> \
@@ -88,7 +88,7 @@ $.extend(muk, {
                             </div>\
                         </div>';
                 }
-                tabLabels = '<ul class="nav nav-tabs navbar-right">' + tabLabels + '</ul>';
+                tabLabels = 'Show:&nbsp;&nbsp;<ul class="nav nav-tabs navbar-right">' + tabLabels + '</ul>';
 
                 // the story entries
                 var stories = edge.category("story");
