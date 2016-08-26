@@ -1,6 +1,7 @@
 from octopus.modules.infosys.models import InfoSysCrud
 from octopus.modules.crud.models import AuthorisationException
 from octopus.core import app
+from octopus.lib import dataobj
 
 from service.models.core import Request, PublicAPC             # because we're all in the models directory, have to be specific about the imports, or we'll have a circular dependency
 from service.api import PublicApi, RequestApi
@@ -9,7 +10,7 @@ from copy import deepcopy
 import json
 
 class ApiRequest(InfoSysCrud):
-    def __init__(self, raw=None, headers=None, account=None):
+    def __init__(self, raw=None, headers=None, account=None, validate=True):
         # first clean out the json-ld stuff that might be in raw
         if raw is not None and "@context" in raw:
             del raw["@context"]
@@ -22,7 +23,7 @@ class ApiRequest(InfoSysCrud):
         self.public_record = None
 
         # just call update, as it's the same operation as construction
-        self.update(raw, headers)
+        self.update(raw, headers, validate)
 
         super(ApiRequest, self).__init__(raw, headers, account)
 
@@ -81,7 +82,7 @@ class ApiRequest(InfoSysCrud):
                 raise AuthorisationException("You may only request delete on a record where you have previously provided data")
         self.request = RequestApi.delete(self.raw, account=self.account, public_id=self.public_id)
 
-    def update(self, data, headers=None):
+    def update(self, data, headers=None, validate=True):
         # clean up the json-ld stuff that might be in the data
         if data is not None and "@context" in data:
             del data["@context"]
@@ -90,6 +91,25 @@ class ApiRequest(InfoSysCrud):
             self.request = Request()
         if data is not None:
             self.request.record = data      # this will throw a DataSchemaException for the API layer to catch
+
+        # we also need to do some API-specific validation here
+        if data is not None and validate:
+            # must have at least one identifier
+            idents = self.request.identifiers
+            if idents is None or len(idents) == 0:
+                raise dataobj.DataStructureException("There must be at least one identifier associated with a record")
+
+            # must have at least one APC record
+            apcs = self.request.apc_records
+            if apcs is None or len(apcs) == 0:
+                raise dataobj.DataStructureException("There must be at least one APC entry associated with a record")
+
+            # each APC must have the amount_gbp_inc_vat set
+            for apc in apcs:
+                amount = apc.get("amount_inc_vat_gbp")
+                if amount is None:
+                    raise dataobj.DataStructureException("All APC entries must contain a valid value in the field 'amount_inc_vat_gbp'")
+
         self.raw = data
 
     def append(self, data, headers=None):
@@ -118,7 +138,7 @@ class ApiRequest(InfoSysCrud):
 
     @classmethod
     def _make_from_public(cls, pub, account):
-        req = ApiRequest(pub.clean_record, account=account)
+        req = ApiRequest(pub.clean_record, account=account, validate=False)
         req.public_id = pub.id
         req.public_record = pub
         return req

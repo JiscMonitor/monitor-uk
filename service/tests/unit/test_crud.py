@@ -253,7 +253,7 @@ class TestCrud(ESTestCase):
 
         # just make a quick check to be sure that if no DOI is present, we get the right kind of info in the public_id
         source2 = RequestFixtureFactory.record()
-        del source2["dc:identifier"]
+        source2["dc:identifier"] = [{"type" : "pmcid", "id" : "PMC1234"}]
         req2 = ApiRequest(source2, account=acc)
         req2.save()
 
@@ -265,3 +265,57 @@ class TestCrud(ESTestCase):
 
         dr = req.deleted_response()
         assert dr.get("public_id") == req.id
+
+    def test_10_validate(self):
+        acc = MonitorUKAccount()
+        acc.save()
+
+        source = RequestFixtureFactory.record()
+
+        # first prove that our source record validates
+        csource = deepcopy(source)
+        csource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        req = ApiRequest(csource, account=acc)
+        assert req.raw == csource
+
+        # 1 - a record with no identifiers
+        asource = deepcopy(source)
+        del asource["dc:identifier"]
+        asource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        with self.assertRaises(dataobj.DataStructureException):
+            req = ApiRequest(asource, account=acc)
+
+        # 2 - a record with no apc
+        asource = deepcopy(source)
+        del asource["jm:apc"]
+        asource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        with self.assertRaises(dataobj.DataStructureException):
+            req = ApiRequest(asource, account=acc)
+
+        # 3 - an apc with no inc vat amount
+        asource = deepcopy(source)
+        del asource["jm:apc"][0]["amount_inc_vat_gbp"]
+        asource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        with self.assertRaises(dataobj.DataStructureException):
+            req = ApiRequest(asource, account=acc)
+
+        # 4 - a record with a date in the wrong format
+        asource = deepcopy(source)
+        asource["dcterms:dateAccepted"] = "sometime last week"
+        asource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        with self.assertRaises(dataobj.DataStructureException):
+            req = ApiRequest(asource, account=acc)
+
+        # 5 - a record with an unparseable number
+        asource = deepcopy(source)
+        asource["jm:apc"][0]["amount_inc_vat_gbp"] = "three fifty"
+        asource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        with self.assertRaises(dataobj.DataStructureException):
+            req = ApiRequest(asource, account=acc)
+
+        # 6 - a record with an invalid currency code
+        asource = deepcopy(source)
+        asource["jm:apc"][0]["currency"] = "XXX"
+        asource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
+        with self.assertRaises(dataobj.DataStructureException):
+            req = ApiRequest(asource, account=acc)

@@ -84,6 +84,7 @@ class TestLantern(ESTestCase):
             del target["last_updated"]
             del target["record"]["jm:provenance"] # because it's too wordy to compare
             del target["record"]["jm:apc"] # the apc is unaffected, so no need to compare
+            del target["admin"]["lantern_lookup"] # difficult to predict what the timestamp would be
 
             del expected["record"]["jm:apc"]
 

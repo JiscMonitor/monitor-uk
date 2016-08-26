@@ -42,6 +42,10 @@ class RecordMethods(dataobj.DataObj):
     def url(self):
         return self._get_first_identifier("url")
 
+    @property
+    def identifiers(self):
+        return self._get_list("record.dc:identifier")
+
     def _get_first_identifier(self, type):
         for ident in self._get_list("record.dc:identifier"):
             if ident.get("type") == type:
