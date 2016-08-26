@@ -7,10 +7,6 @@
     background: #f6a828;
 }
 
-.nav>li>a:focus, .nav>li>a:hover, .side-nav ul ul>li>a:focus, .side-nav ul ul>li>a:hover {
-    text-decoration: none;
-}
-
 .muk-funder-report-template-filters {
     padding: 10px;
     background: #eeeeee;
