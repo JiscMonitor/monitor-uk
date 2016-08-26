@@ -400,7 +400,7 @@ $.extend(muk, {
             // pre-size the data series array, so that we can just populate it in the right order later
             var offset = data_series.length;
             for (var i = 0; i < selected.length; i++) {
-                data_series.push(false);
+                data_series.push({key: selected[i], values: []});
             }
 
             var reportOn = [];
