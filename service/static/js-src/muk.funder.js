@@ -23,7 +23,14 @@ $.extend(muk, {
 
             this.draw = function (edge) {
                 this.edge = edge;
-                
+
+                var intro = 'See the amount of APCs, total APC expenditure, or average APC cost for several funders for a given period. Filter by institution or journal type. Use this report to:\
+                <ul>\
+                    <li>Compare number of APCs funded by funders</li>\
+                    <li>See funding expenditure for a specific institution</li>\
+                    <li>Break down how funds are spent by journal type</li>\
+                </ul>';
+
                 // main report
                 var panelClass = edges.css_classes(this.namespace, "panel");
                 var topClass = edges.css_classes(this.namespace, "top");
@@ -55,13 +62,14 @@ $.extend(muk, {
                 }
 
                 // the top strap controls
-                var topstrap = edge.category("top");
+                var topstrap = edge.category("top-right");
                 var topContainers = "";
                 if (topstrap.length > 0) {
                     for (var i = 0; i < topstrap.length; i++) {
                         topContainers += '<div class="row"><div class="col-md-12"><div id="' + topstrap[i].id + '"></div></div></div>';
                     }
                 }
+                topContainers = '<div class="row"><div class="col-md-8 report-intro-text">' + intro + '</div><div class="col-md-4">' + topContainers + '</div></div>';
 
                 // the left-hand-side controls
                 var lhs = edge.category("lhs");
@@ -554,14 +562,14 @@ $.extend(muk, {
                 components: [
                     edges.newMultiDateRangeEntry({
                         id : "date_range",
-                        display: "Report Period:",
+                        display: "REPORT PERIOD:<br>",
                         fields : [
                             {field : "record.rioxxterms:publication_date", display: "Publication Date"},
                             {field : "record.jm:apc.date_applied", display: "APC Application"},
                             {field : "record.jm:apc.date_paid", display: "APC Paid"}
                         ],
                         autoLookupRange: true,
-                        category : "top",
+                        category : "top-right",
                         renderer : edges.bs3.newBSMultiDateRange({
                             ranges : muk.yearRanges({
                                     "academic year" : "09-01",

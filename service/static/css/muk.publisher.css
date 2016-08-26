@@ -116,3 +116,12 @@
 .select2-drop-active {
     border-color: #cccccc !important;
 }
+
+#date_range {
+    padding: 10px;
+    background: #eeeeee;
+}
+
+.edges-bs3-bs-multi-date-range-select {
+    margin: 10px 0px;
+}

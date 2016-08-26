@@ -199,7 +199,7 @@
     margin-bottom: 15px;
 }
 
-.jisc-btn {
+.jisc-btn, .applyBtn, .cancelBtn {
     display: inline-block;
     box-sizing: border-box;
     border-width: 1px;
@@ -216,10 +216,11 @@
     background-color: #00557f;
 }
 
-.jisc-btn-danger {
-    border-color: #E74C3C;
+.jisc-btn-danger, .cancelBtn {
+    border-color: #E74C3C !important;
     color: #ffffff;
-    background-color: #E74C3C;
+    background-color: #E74C3C !important;
+    background-image: none;
 }
 
 .jisc-btn-clear {
@@ -252,4 +253,3 @@ div.error input {
     margin-top: 29px;
     text-align: right;
 }
-
