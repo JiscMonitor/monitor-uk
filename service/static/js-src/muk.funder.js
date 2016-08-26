@@ -1,14 +1,18 @@
 $.extend(muk, {
     funder: {
+        chartColours : ["#66bdbe", "#a6d6d6", "#7867a3", "#d90d4c", "#6bcf65"],
+
+        valueMap : {
+            "oa" : "Pure OA",
+            "hybrid" : "Hybrid",
+            "unknown" : "Unknown"
+        },
 
         newFunderReportTemplate: function (params) {
             if (!params) { params = {} }
             muk.funder.FunderReportTemplate.prototype = edges.newTemplate(params);
             return new muk.funder.FunderReportTemplate(params);
         },
-
-        chartColours : ["#66bdbe", "#a6d6d6", "#7867a3", "#d90d4c", "#6bcf65"],
-
         FunderReportTemplate: function (params) {
             // later we'll store the edge instance here
             this.edge = false;
@@ -212,12 +216,6 @@ $.extend(muk, {
                 this.activateTab(id);
             };
         },
-        
-        valueMap : {
-            "oa" : "Pure OA",
-            "hybrid" : "Hybrid",
-            "unknown" : "Unknown"
-        },
 
         storyQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
@@ -388,12 +386,8 @@ $.extend(muk, {
                 data_series.push(series);
             }
 
-            // To avoid crowding the graph initially, if we have no filters applied, abridge the data shown
-            if (ch.edge.currentQuery.listMust().length > 0) {
-                return muk.funder.stackedBarClean(data_series, false)
-            } else {
-                return muk.funder.stackedBarClean(data_series, true)
-            }
+            // To avoid crowding the graph, if we have no funder filters applied, abridge the data shown
+            return muk.funder.stackedBarClean(data_series, fund_filters.length === 0);
         },
 
         apcCountDF : function(ch) {
