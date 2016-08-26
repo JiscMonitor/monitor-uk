@@ -99,3 +99,16 @@
 .edges-bs3-bs-multi-date-range-select {
     margin: 10px 0px;
 }
+
+.edges-bs3-tabular-results-tablediv {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+#edges-bs3-tabular-results-download-data_table {
+    text-decoration: underline;
+}
+
+.edges-bs3-tabular-results-table td, .edges-bs3-tabular-results-table th  {
+    border: 1px solid #e4e4e4;
+}

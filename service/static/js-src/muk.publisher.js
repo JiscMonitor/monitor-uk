@@ -724,7 +724,7 @@ $.extend(muk, {
                         tabularise: muk.publisher.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "Metric", display: ""},
+                                {field: "Metric", display: "Publisher"},
                                 {field: "UK Average", display: "UK Average"}
                             ],
                             displayListedOnly: false,

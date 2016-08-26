@@ -685,7 +685,7 @@ $.extend(muk, {
                         tabularise: muk.funder.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "Metric", display: ""}
+                                {field: "Metric", display: "Funder"}
                             ],
                             displayListedOnly: false,
                             download: true,

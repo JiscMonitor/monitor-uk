@@ -656,7 +656,7 @@ $.extend(muk, {
                         tabularise: muk.institution.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "Institution", display: ""}
+                                {field: "Institution", display: "Institution"}
                             ],
                             displayListedOnly: false,
                             download: true,
