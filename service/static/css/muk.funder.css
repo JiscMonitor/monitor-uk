@@ -7,6 +7,10 @@
     background: #f6a828;
 }
 
+.nav>li>a:focus, .nav>li>a:hover, .side-nav ul ul>li>a:focus, .side-nav ul ul>li>a:hover {
+    text-decoration: none;
+}
+
 .muk-funder-report-template-filters {
     padding: 10px;
     background: #eeeeee;
@@ -42,6 +46,9 @@
 
 .muk-funder-report-template-tab-bar {
     border-bottom: 2px solid #eeeeee;
+    text-align: right;
+    line-height: 44px;
+    color: #999999;
 }
 
 .muk-funder-report-template-tab-bar li {
@@ -52,18 +59,21 @@
     border-left: 2px solid #eeeeee;
     border-right: 2px solid #eeeeee;
     border-top: 2px solid #0e90d2;
+    border-bottom: 3px solid white;
 }
 
 .muk-funder-report-template-tab-bar li.active>a:hover {
     border-left: 2px solid #eeeeee;
     border-right: 2px solid #eeeeee;
     border-top: 2px solid #0e90d2;
+    border-bottom: 3px solid white;
 }
 
 .muk-funder-report-template-tab-bar li.active>a:focus {
     border-left: 2px solid #eeeeee;
     border-right: 2px solid #eeeeee;
     border-top: 2px solid #0e90d2;
+    border-bottom: 3px solid white;
 }
 
 .muk-funder-report-template-tab-container {
