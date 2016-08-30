@@ -1,4 +1,7 @@
 # -*- coding: UTF-8 -*-
+"""
+Fixtures for testing Lantern
+"""
 
 from copy import deepcopy
 
@@ -6,14 +9,26 @@ class LanternFixtureFactory(object):
 
     @classmethod
     def record(cls):
+        """
+        An example record as would be returned by the Lantern API
+        :return:
+        """
         return deepcopy(LANTERN_RECORD)
 
     @classmethod
     def xwalk_result(cls):
+        """
+        The expected output of crosswalking the record from the Lantern API to a standard Enhancement
+        :return:
+        """
         return deepcopy(XWALK_RESULT)
 
     @classmethod
     def interesting_dois(cls):
+        """
+        List DOIs which return useful real-world results from Lantern
+        :return:
+        """
         # these two dois return a complete spread of data when sent to Lantern
         return [
             "10.1002/ana.24026",
@@ -22,6 +37,12 @@ class LanternFixtureFactory(object):
 
     @classmethod
     def expected_enhancement_record(cls, doi):
+        """
+        Get the expected enhancement reocrd for a given, known, DOI
+
+        :param doi:
+        :return:
+        """
         return deepcopy(EXPECTED_ENHANCEMENTS.get(doi, {}))
 
 EXPECTED_ENHANCEMENTS = {

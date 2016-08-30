@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>service.models.core</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="service-module.html">Package&nbsp;service</a> ::
+        <a href="service.models-module.html">Package&nbsp;models</a> ::
+        Module&nbsp;core
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="service.models.core-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module core</h1><p class="nomargin-top"><span class="codelink"><a href="service.models.core-pysrc.html">source&nbsp;code</a></span></p>
+All the central APC-focussed model objects
+
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Classes"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core.ModelException-class.html" class="summary-name">ModelException</a><br />
+      Exception class for any custom exceptions raised from these models
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core.RecordMethods-class.html" class="summary-name">RecordMethods</a><br />
+      Super-class which defines methods useful for interrogating model objects which contain APC record data
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core.Publishable-class.html" class="summary-name">Publishable</a><br />
+      Methods that must be supported by model objects which can be published
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core.Request-class.html" class="summary-name">Request</a><br />
+      Request object to represent incoming APC records, to be published or merged with existing public records
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core.Enhancement-class.html" class="summary-name">Enhancement</a><br />
+      Enhancement object to represent enhancements to existing APC records, to be merged with existing public records
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core.PublicAPC-class.html" class="summary-name">PublicAPC</a><br />
+      PublicAPC object to represent the published, canonical APC record
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#REQUEST_INDEX_RULES" class="summary-name">REQUEST_INDEX_RULES</a> = <code title="[{&quot;index_field&quot;: &quot;doi&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;functio\
+n&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [&quot;$.record.'dc:identifier'[@.type is 'do\
+i'].id&quot;]}}, {&quot;index_field&quot;: &quot;pmcid&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;unicod\
+e&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [&quot;$.record.'dc:identifier'[\
+@.type is 'pmcid'].id&quot;]}}, {&quot;index_field&quot;: &quot;pmid&quot;, &quot;struct_args&quot;: {&quot;co\
+erce&quot;: &quot;unicode&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [&quot;$.record.'d\
+c:identifier'[@.type is 'pmid'].id&quot;]}}, {&quot;index_field&quot;: &quot;url&quot;, &quot;struct\
+_args&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [\
+...">[{&quot;index_field&quot;: &quot;doi&quot;, &quot;struct_args&quot;: {<code class="variable-ellipsis">...</code></code><br />
+      Rules for how to index the data in the Request object
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ENHANCEMENT_INDEX_RULES"></a><span class="summary-name">ENHANCEMENT_INDEX_RULES</span> = <code title="[]">[]</code><br />
+      Rules for how to index the data in the Enhancement object
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#PUBLIC_INDEX_RULES" class="summary-name">PUBLIC_INDEX_RULES</a> = <code title="[{&quot;index_field&quot;: &quot;additional_costs&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;float&quot;\
+}, &quot;function&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.additional_\
+costs&quot;]}}, {&quot;index_field&quot;: &quot;vat&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;float&quot;}, \
+&quot;function&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.vat_gbp&quot;]}}, {\
+&quot;index_field&quot;: &quot;amount_ex_vat&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;float&quot;}, &quot;f\
+unction&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.amount_ex_vat_gb\
+p&quot;]}}, {&quot;index_field&quot;: &quot;amount_inc_vat&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;fl\
+oat&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.amount_\
+...">[{&quot;index_field&quot;: &quot;additional_costs&quot;, &quot;str<code class="variable-ellipsis">...</code></code><br />
+      Rules for how to index the data in the PublicAPC object
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#PUBLIC_ADMIN_STRUCT" class="summary-name">PUBLIC_ADMIN_STRUCT</a> = <code title="{&quot;fields&quot;: {&quot;lantern_lookup&quot;: {&quot;coerce&quot;: &quot;utcdatetime&quot;}}, &quot;lists&quot;: {&quot;a\
+pc_owners&quot;: {&quot;contains&quot;: &quot;object&quot;}}, &quot;structs&quot;: {&quot;apc_owners&quot;: {&quot;field\
+s&quot;: {&quot;owner&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;ref&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}}}}}">{&quot;fields&quot;: {&quot;lantern_lookup&quot;: {&quot;coerce&quot;:<code class="variable-ellipsis">...</code></code><br />
+      Schema for admin area of PublicAPC record
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#REQUEST_ADMIN_STRUCT" class="summary-name">REQUEST_ADMIN_STRUCT</a> = <code title="{&quot;fields&quot;: {&quot;owner&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;action&quot;: {&quot;coerce&quot;: &quot;unic\
+ode&quot;, &quot;allowed_values&quot;: [u&quot;update&quot;, u&quot;delete&quot;]}, &quot;public_id&quot;: {&quot;coerce\
+&quot;: &quot;unicode&quot;}}}">{&quot;fields&quot;: {&quot;owner&quot;: {&quot;coerce&quot;: &quot;unicod<code class="variable-ellipsis">...</code></code><br />
+      Schema for admin area of Request record
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#ENHANCEMENT_ADMIN_STRUCT" class="summary-name">ENHANCEMENT_ADMIN_STRUCT</a> = <code title="{&quot;fields&quot;: {&quot;public_id&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}}}">{&quot;fields&quot;: {&quot;public_id&quot;: {&quot;coerce&quot;:<code class="variable-ellipsis">...</code></code><br />
+      Schema for admin area of Enhancement record
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#CORE_STRUCT" class="summary-name">CORE_STRUCT</a> = <code title="{&quot;fields&quot;: {&quot;dc:title&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;dcterms:dateAccepted&quot;:\
+ {&quot;coerce&quot;: &quot;utcdatetime&quot;}, &quot;dcterms:dateSubmitted&quot;: {&quot;coerce&quot;: &quot;utcda\
+tetime&quot;}, &quot;rioxxterms:publication_date&quot;: {&quot;coerce&quot;: &quot;utcdatetime&quot;}, &quot;r\
+ioxxterms:type&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;rioxxterms:version&quot;: {&quot;coerce\
+&quot;: &quot;unicode&quot;}}, &quot;lists&quot;: {&quot;ali:license_ref&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;\
+dc:identifier&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;dc:subject&quot;: {&quot;contains&quot;: &quot;fi\
+eld&quot;, &quot;coerce&quot;: &quot;unicode&quot;}, &quot;jm:apc&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;jm:lice\
+nse_received&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;jm:provenance&quot;: {&quot;contains&quot;: &quot;\
+...">{&quot;fields&quot;: {&quot;dc:title&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;<code class="variable-ellipsis">...</code></code><br />
+      Schema core bibliographic record, re-used across all core objects
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="service.models.core-module.html#RECORD_MERGE_RULES" class="summary-name">RECORD_MERGE_RULES</a> = <code title="{&quot;copy_if_missing&quot;: [&quot;dcterms:dateSubmitted&quot;, &quot;dcterms:dateAccepted&quot;, \
+&quot;rioxxterms:publication_date&quot;, &quot;dc:identifier&quot;, &quot;rioxxterms:type&quot;, &quot;dc\
+:title&quot;, &quot;dc:subject&quot;, &quot;rioxxterms:author&quot;, &quot;rioxxterms:contributor&quot;, \
+&quot;dcterms:publisher&quot;, &quot;dc:source&quot;, &quot;rioxxterms:project&quot;, &quot;ali:license_r\
+ef&quot;, &quot;ali:free_to_read&quot;, &quot;jm:license_received&quot;, &quot;jm:repository&quot;, &quot;jm:p\
+rovenance&quot;, &quot;rioxxterms:version&quot;, &quot;ali:free_to_read&quot;], &quot;override&quot;: [],\
+ &quot;list_append&quot;: {&quot;dc:identifier&quot;: {&quot;dedupe&quot;: True, &quot;match&quot;: [{&quot;must&quot;: \
+[&quot;$.type&quot;, &quot;$.id&quot;]}]}, &quot;dc:subject&quot;: {&quot;dedupe&quot;: True}, &quot;rioxxterms:aut\
+...">{&quot;copy_if_missing&quot;: [&quot;dcterms:dateSubmitt<code class="variable-ellipsis">...</code></code><br />
+      Dictionary merge rules for core record schema
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="REQUEST_INDEX_RULES"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">REQUEST_INDEX_RULES</h3>
+  Rules for how to index the data in the Request object
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+[{&quot;index_field&quot;: &quot;doi&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;functio<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+n&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [&quot;$.record.'dc:identifier'[@.type is 'do<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+i'].id&quot;]}}, {&quot;index_field&quot;: &quot;pmcid&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;unicod<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+e&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [&quot;$.record.'dc:identifier'[<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+@.type is 'pmcid'].id&quot;]}}, {&quot;index_field&quot;: &quot;pmid&quot;, &quot;struct_args&quot;: {&quot;co<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+erce&quot;: &quot;unicode&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [&quot;$.record.'d<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+c:identifier'[@.type is 'pmid'].id&quot;]}}, {&quot;index_field&quot;: &quot;url&quot;, &quot;struct<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+_args&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;opath&quot;, &quot;args&quot;: [<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PUBLIC_INDEX_RULES"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PUBLIC_INDEX_RULES</h3>
+  Rules for how to index the data in the PublicAPC object
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+[{&quot;index_field&quot;: &quot;additional_costs&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;float&quot;<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+}, &quot;function&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.additional_<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+costs&quot;]}}, {&quot;index_field&quot;: &quot;vat&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;float&quot;}, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;function&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.vat_gbp&quot;]}}, {<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;index_field&quot;: &quot;amount_ex_vat&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;float&quot;}, &quot;f<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+unction&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.amount_ex_vat_gb<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+p&quot;]}}, {&quot;index_field&quot;: &quot;amount_inc_vat&quot;, &quot;struct_args&quot;: {&quot;coerce&quot;: &quot;fl<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+oat&quot;}, &quot;function&quot;: {&quot;name&quot;: &quot;add&quot;, &quot;args&quot;: [&quot;$.record.'jm:apc'.amount_<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PUBLIC_ADMIN_STRUCT"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PUBLIC_ADMIN_STRUCT</h3>
+  Schema for admin area of PublicAPC record
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;fields&quot;: {&quot;lantern_lookup&quot;: {&quot;coerce&quot;: &quot;utcdatetime&quot;}}, &quot;lists&quot;: {&quot;a<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+pc_owners&quot;: {&quot;contains&quot;: &quot;object&quot;}}, &quot;structs&quot;: {&quot;apc_owners&quot;: {&quot;field<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+s&quot;: {&quot;owner&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;ref&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}}}}}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="REQUEST_ADMIN_STRUCT"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">REQUEST_ADMIN_STRUCT</h3>
+  Schema for admin area of Request record
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;fields&quot;: {&quot;owner&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;action&quot;: {&quot;coerce&quot;: &quot;unic<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ode&quot;, &quot;allowed_values&quot;: [u&quot;update&quot;, u&quot;delete&quot;]}, &quot;public_id&quot;: {&quot;coerce<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;: &quot;unicode&quot;}}}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ENHANCEMENT_ADMIN_STRUCT"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ENHANCEMENT_ADMIN_STRUCT</h3>
+  Schema for admin area of Enhancement record
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;fields&quot;: {&quot;public_id&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}}}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="CORE_STRUCT"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">CORE_STRUCT</h3>
+  Schema core bibliographic record, re-used across all core objects
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;fields&quot;: {&quot;dc:title&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;dcterms:dateAccepted&quot;:<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ {&quot;coerce&quot;: &quot;utcdatetime&quot;}, &quot;dcterms:dateSubmitted&quot;: {&quot;coerce&quot;: &quot;utcda<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+tetime&quot;}, &quot;rioxxterms:publication_date&quot;: {&quot;coerce&quot;: &quot;utcdatetime&quot;}, &quot;r<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ioxxterms:type&quot;: {&quot;coerce&quot;: &quot;unicode&quot;}, &quot;rioxxterms:version&quot;: {&quot;coerce<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;: &quot;unicode&quot;}}, &quot;lists&quot;: {&quot;ali:license_ref&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+dc:identifier&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;dc:subject&quot;: {&quot;contains&quot;: &quot;fi<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+eld&quot;, &quot;coerce&quot;: &quot;unicode&quot;}, &quot;jm:apc&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;jm:lice<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nse_received&quot;: {&quot;contains&quot;: &quot;object&quot;}, &quot;jm:provenance&quot;: {&quot;contains&quot;: &quot;<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="RECORD_MERGE_RULES"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">RECORD_MERGE_RULES</h3>
+  Dictionary merge rules for core record schema
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;copy_if_missing&quot;: [&quot;dcterms:dateSubmitted&quot;, &quot;dcterms:dateAccepted&quot;, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;rioxxterms:publication_date&quot;, &quot;dc:identifier&quot;, &quot;rioxxterms:type&quot;, &quot;dc<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+:title&quot;, &quot;dc:subject&quot;, &quot;rioxxterms:author&quot;, &quot;rioxxterms:contributor&quot;, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;dcterms:publisher&quot;, &quot;dc:source&quot;, &quot;rioxxterms:project&quot;, &quot;ali:license_r<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ef&quot;, &quot;ali:free_to_read&quot;, &quot;jm:license_received&quot;, &quot;jm:repository&quot;, &quot;jm:p<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rovenance&quot;, &quot;rioxxterms:version&quot;, &quot;ali:free_to_read&quot;], &quot;override&quot;: [],<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ &quot;list_append&quot;: {&quot;dc:identifier&quot;: {&quot;dedupe&quot;: True, &quot;match&quot;: [{&quot;must&quot;: <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+[&quot;$.type&quot;, &quot;$.id&quot;]}]}, &quot;dc:subject&quot;: {&quot;dedupe&quot;: True}, &quot;rioxxterms:aut<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 30 20:01:38 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

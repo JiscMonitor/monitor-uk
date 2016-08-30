@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>config.service</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="config-module.html">Package&nbsp;config</a> ::
+        Module&nbsp;service
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="config.service-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="config.service-module.html">Module config.service</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring">Main service configuration, overrides default Octopus configurations and adds application specific ones</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-comment">##################################################</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-comment"># overrides for the webapp deployment</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable config.service.DEBUG=config.service-module.html#DEBUG"><a title="config.service.DEBUG" class="py-name" href="#" onclick="return doclink('link-0', 'DEBUG', 'link-0');">DEBUG</a></tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-string">""" Run the web server in debug mode"""</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable config.service.PORT=config.service-module.html#PORT"><a title="config.service.PORT" class="py-name" href="#" onclick="return doclink('link-1', 'PORT', 'link-1');">PORT</a></tt> <tt class="py-op">=</tt> <tt class="py-number">5000</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-string">""" Port to run the web server on"""</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable config.service.SSL=config.service-module.html#SSL"><a title="config.service.SSL" class="py-name" href="#" onclick="return doclink('link-2', 'SSL', 'link-2');">SSL</a></tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-string">""" Is SSL enabled"""</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Variable config.service.THREADED=config.service-module.html#THREADED"><a title="config.service.THREADED" class="py-name" href="#" onclick="return doclink('link-3', 'THREADED', 'link-3');">THREADED</a></tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-string">""" Should the server run in multi-threaded mode (almost always should be True)"""</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-comment">############################################</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-comment"># important overrides for the ES module</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-comment"># elasticsearch back-end connection settings</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt id="link-4" class="py-name" targets="Variable config.service.ELASTIC_SEARCH_HOST=config.service-module.html#ELASTIC_SEARCH_HOST"><a title="config.service.ELASTIC_SEARCH_HOST" class="py-name" href="#" onclick="return doclink('link-4', 'ELASTIC_SEARCH_HOST', 'link-4');">ELASTIC_SEARCH_HOST</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"http://localhost:9200"</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-string">""" Elasticsearch Host URL"""</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable config.service.ELASTIC_SEARCH_INDEX=config.service-module.html#ELASTIC_SEARCH_INDEX"><a title="config.service.ELASTIC_SEARCH_INDEX" class="py-name" href="#" onclick="return doclink('link-5', 'ELASTIC_SEARCH_INDEX', 'link-5');">ELASTIC_SEARCH_INDEX</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"muk"</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-string">""" Application index name """</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt id="link-6" class="py-name" targets="Variable config.service.ELASTIC_SEARCH_VERSION=config.service-module.html#ELASTIC_SEARCH_VERSION"><a title="config.service.ELASTIC_SEARCH_VERSION" class="py-name" href="#" onclick="return doclink('link-6', 'ELASTIC_SEARCH_VERSION', 'link-6');">ELASTIC_SEARCH_VERSION</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"1.7.5"</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-string">""" Elasticsearch version.   Do not use 0.x.  Code probably works with 2.x but has not been tested """</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-comment"># Classes from which to retrieve ES mappings to be used in this application</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"><tt class="py-comment"># (note that if ELASTIC_SEARCH_DEFAULT_MAPPINGS is sufficient, you don't need to</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"><tt class="py-comment"># add anything here</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"><tt id="link-7" class="py-name" targets="Variable config.service.ELASTIC_SEARCH_MAPPINGS=config.service-module.html#ELASTIC_SEARCH_MAPPINGS"><a title="config.service.ELASTIC_SEARCH_MAPPINGS" class="py-name" href="#" onclick="return doclink('link-7', 'ELASTIC_SEARCH_MAPPINGS', 'link-7');">ELASTIC_SEARCH_MAPPINGS</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">    <tt class="py-string">"octopus.modules.account.dao.BasicAccountDAO"</tt><tt class="py-op">,</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"><tt class="py-op">]</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line"><tt class="py-string">""" List of DAOs whose mappings are required to be created at first startup """</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"><tt class="py-comment">############################################</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"><tt class="py-comment">## mail server configuration</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"><tt id="link-8" class="py-name" targets="Variable config.service.MAIL_FROM_ADDRESS=config.service-module.html#MAIL_FROM_ADDRESS"><a title="config.service.MAIL_FROM_ADDRESS" class="py-name" href="#" onclick="return doclink('link-8', 'MAIL_FROM_ADDRESS', 'link-8');">MAIL_FROM_ADDRESS</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"no-reply@jisc.ac.uk"</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"><tt class="py-string">""" address from which email from this service will appear to originate """</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt id="link-9" class="py-name" targets="Variable config.service.MAIL_SUBJECT_PREFIX=config.service-module.html#MAIL_SUBJECT_PREFIX"><a title="config.service.MAIL_SUBJECT_PREFIX" class="py-name" href="#" onclick="return doclink('link-9', 'MAIL_SUBJECT_PREFIX', 'link-9');">MAIL_SUBJECT_PREFIX</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"[Monitor UK] "</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-string">""" Text string to prefix to every email which comes from this application """</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt class="py-comment"># Settings for Flask-Mail. Set in local.cfg</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt id="link-10" class="py-name" targets="Variable config.service.MAIL_SERVER=config.service-module.html#MAIL_SERVER"><a title="config.service.MAIL_SERVER" class="py-name" href="#" onclick="return doclink('link-10', 'MAIL_SERVER', 'link-10');">MAIL_SERVER</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt>          <tt class="py-comment"># default localhost</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt class="py-string">""" Mail server for outgoing mail - set in local.cfg """</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt id="link-11" class="py-name" targets="Variable config.service.MAIL_PORT=config.service-module.html#MAIL_PORT"><a title="config.service.MAIL_PORT" class="py-name" href="#" onclick="return doclink('link-11', 'MAIL_PORT', 'link-11');">MAIL_PORT</a></tt> <tt class="py-op">=</tt> <tt class="py-number">25</tt>              <tt class="py-comment"># default 25</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt class="py-string">""" Mail port for outgoing mail - set in local.cfg """</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"><tt id="link-12" class="py-name" targets="Variable config.service.MAIL_USERNAME=config.service-module.html#MAIL_USERNAME"><a title="config.service.MAIL_USERNAME" class="py-name" href="#" onclick="return doclink('link-12', 'MAIL_USERNAME', 'link-12');">MAIL_USERNAME</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt>              <tt class="py-comment"># default None</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"><tt class="py-string">""" Mail server username, if required - set in local.cfg """</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"><tt id="link-13" class="py-name" targets="Variable config.service.MAIL_PASSWORD=config.service-module.html#MAIL_PASSWORD"><a title="config.service.MAIL_PASSWORD" class="py-name" href="#" onclick="return doclink('link-13', 'MAIL_PASSWORD', 'link-13');">MAIL_PASSWORD</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt>              <tt class="py-comment"># default None</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"><tt class="py-string">""" Mail server password, if required - set in local.cfg """</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"><tt class="py-comment">#######################################################</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-comment"># Command line scripts</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"><tt class="py-comment"># if you want to disable the user modification script once admin has been added, comment out the line beginning "usermod"</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"><tt id="link-14" class="py-name" targets="Variable config.service.CLI_SCRIPTS=config.service-module.html#CLI_SCRIPTS"><a title="config.service.CLI_SCRIPTS" class="py-name" href="#" onclick="return doclink('link-14', 'CLI_SCRIPTS', 'link-14');">CLI_SCRIPTS</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">    <tt class="py-string">"usermod"</tt> <tt class="py-op">:</tt> <tt class="py-string">"octopus.modules.account.scripts.UserMod"</tt><tt class="py-op">,</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">    <tt class="py-string">"start_scheduler"</tt> <tt class="py-op">:</tt> <tt class="py-string">"octopus.modules.scheduler.cli.StartScheduler"</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-comment">############################################</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"><tt class="py-comment"># important overrides for account module</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt id="link-15" class="py-name" targets="Variable config.service.ACCOUNT_ENABLE=config.service-module.html#ACCOUNT_ENABLE"><a title="config.service.ACCOUNT_ENABLE" class="py-name" href="#" onclick="return doclink('link-15', 'ACCOUNT_ENABLE', 'link-15');">ACCOUNT_ENABLE</a></tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"><tt class="py-string">""" Is the account module enabled - required for this application """</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt id="link-16" class="py-name" targets="Variable config.service.SECRET_KEY=config.service-module.html#SECRET_KEY"><a title="config.service.SECRET_KEY" class="py-name" href="#" onclick="return doclink('link-16', 'SECRET_KEY', 'link-16');">SECRET_KEY</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"super-secret-key"</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-string">""" Secret key to use in user authentication - set this in local.cfg """</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt id="link-17" class="py-name" targets="Variable config.service.ACCOUNT_LIST_USERS=config.service-module.html#ACCOUNT_LIST_USERS"><a title="config.service.ACCOUNT_LIST_USERS" class="py-name" href="#" onclick="return doclink('link-17', 'ACCOUNT_LIST_USERS', 'link-17');">ACCOUNT_LIST_USERS</a></tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-string">""" Account module allows user listing """</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt class="py-comment"># list of fields to be inserted into the _source part of a query on the account index.</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-comment"># This prevents us from sending information like api keys or hashed passwords to the front-end</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt id="link-18" class="py-name" targets="Variable config.service.ACCOUNT_LIST_USERS_INCLUDE_SOURCE=config.service-module.html#ACCOUNT_LIST_USERS_INCLUDE_SOURCE"><a title="config.service.ACCOUNT_LIST_USERS_INCLUDE_SOURCE" class="py-name" href="#" onclick="return doclink('link-18', 'ACCOUNT_LIST_USERS_INCLUDE_SOURCE', 'link-18');">ACCOUNT_LIST_USERS_INCLUDE_SOURCE</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-string">"id"</tt><tt class="py-op">,</tt> <tt class="py-string">"email"</tt><tt class="py-op">,</tt> <tt class="py-string">"created_date"</tt><tt class="py-op">,</tt> <tt class="py-string">"last_updated"</tt><tt class="py-op">,</tt> <tt class="py-string">"role"</tt><tt class="py-op">,</tt> <tt class="py-string">"organisation"</tt><tt class="py-op">,</tt> <tt class="py-string">"org_role"</tt><tt class="py-op">,</tt> <tt class="py-string">"name"</tt><tt class="py-op">]</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-string">""" When users are listed, this list limits the fields that are returned, as a security measure """</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt id="link-19" class="py-name" targets="Variable config.service.ACCOUNT_MODEL=config.service-module.html#ACCOUNT_MODEL"><a title="config.service.ACCOUNT_MODEL" class="py-name" href="#" onclick="return doclink('link-19', 'ACCOUNT_MODEL', 'link-19');">ACCOUNT_MODEL</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"service.models.MonitorUKAccount"</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-string">""" Model object to use to represent user accounts """</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"><tt id="link-20" class="py-name" targets="Variable config.service.ACCOUNT_USER_FORM_CONTEXT=config.service-module.html#ACCOUNT_USER_FORM_CONTEXT"><a title="config.service.ACCOUNT_USER_FORM_CONTEXT" class="py-name" href="#" onclick="return doclink('link-20', 'ACCOUNT_USER_FORM_CONTEXT', 'link-20');">ACCOUNT_USER_FORM_CONTEXT</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"service.forms.account.MonitorUKUserFormContext"</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt class="py-string">""" Form context class to provide user account form """</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt id="link-21" class="py-name" targets="Variable config.service.ACCOUNT_USER_FORM_ADMIN_CONTEXT=config.service-module.html#ACCOUNT_USER_FORM_ADMIN_CONTEXT"><a title="config.service.ACCOUNT_USER_FORM_ADMIN_CONTEXT" class="py-name" href="#" onclick="return doclink('link-21', 'ACCOUNT_USER_FORM_ADMIN_CONTEXT', 'link-21');">ACCOUNT_USER_FORM_ADMIN_CONTEXT</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"service.forms.account.MonitorUKUserAdminFormContext"</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-string">""" Form context class to provide user admin form """</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt id="link-22" class="py-name" targets="Variable config.service.ACCOUNT_ACTIVATE_FORM_CONTEXT=config.service-module.html#ACCOUNT_ACTIVATE_FORM_CONTEXT"><a title="config.service.ACCOUNT_ACTIVATE_FORM_CONTEXT" class="py-name" href="#" onclick="return doclink('link-22', 'ACCOUNT_ACTIVATE_FORM_CONTEXT', 'link-22');">ACCOUNT_ACTIVATE_FORM_CONTEXT</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"service.forms.account.MonitorUKActivateFormContext"</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt class="py-string">""" Form context class to provide account activation form """</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"><tt id="link-23" class="py-name" targets="Variable config.service.ACCOUNT_DEFAULT_ROLES=config.service-module.html#ACCOUNT_DEFAULT_ROLES"><a title="config.service.ACCOUNT_DEFAULT_ROLES" class="py-name" href="#" onclick="return doclink('link-23', 'ACCOUNT_DEFAULT_ROLES', 'link-23');">ACCOUNT_DEFAULT_ROLES</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">,</tt> <tt class="py-string">"read_apc"</tt><tt class="py-op">]</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"><tt class="py-string">""" Default roles added to all users that are created via the account system """</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"><tt id="link-24" class="py-name" targets="Variable config.service.CLIENTJS_ACCOUNT_LIST_ENDPOINT=config.service-module.html#CLIENTJS_ACCOUNT_LIST_ENDPOINT"><a title="config.service.CLIENTJS_ACCOUNT_LIST_ENDPOINT" class="py-name" href="#" onclick="return doclink('link-24', 'CLIENTJS_ACCOUNT_LIST_ENDPOINT', 'link-24');">CLIENTJS_ACCOUNT_LIST_ENDPOINT</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"/account_query/account"</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"><tt class="py-string">""" URL path to the account list query endpoint (needs to tie up with an equivalent query endpoint configuration in QUERY_ROUTE below) """</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"><tt class="py-comment"># You will also need to specify the query route as follows</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"><tt id="link-25" class="py-name" targets="Variable config.service.QUERY_ROUTE=config.service-module.html#QUERY_ROUTE"><a title="config.service.QUERY_ROUTE" class="py-name" href="#" onclick="return doclink('link-25', 'QUERY_ROUTE', 'link-25');">QUERY_ROUTE</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">    <tt class="py-string">"account_query"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">        <tt class="py-string">"account"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">            <tt class="py-string">"role"</tt> <tt class="py-op">:</tt> <tt class="py-string">"list-users"</tt><tt class="py-op">,</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">            <tt class="py-string">"filters"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">                 <tt class="py-string">"octopus.modules.account.dao.query_filter"</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">             <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">            <tt class="py-string">"dao"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.models.MonitorUKAccount"</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">        <tt class="py-op">}</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">    <tt class="py-string">"query"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">        <tt class="py-string">"apc"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">            <tt class="py-string">"role"</tt> <tt class="py-op">:</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">            <tt class="py-string">"filters"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">                <tt class="py-comment"># "service.search.report_query_filter"</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">            <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">            <tt class="py-string">"dao"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.search.StaticPublicDAOProxy"</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">        <tt class="py-op">}</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">    <tt class="py-op">}</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-string">""" Definitions of query endpoints.  Here we define two: one for listing user accounts, only accessible to administrators, and one for general search queries """</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"><tt class="py-comment">###############################################</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line"><tt class="py-comment"># CRUD API configuration</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line"> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line"><tt id="link-26" class="py-name" targets="Variable config.service.CRUD=config.service-module.html#CRUD"><a title="config.service.CRUD" class="py-name" href="#" onclick="return doclink('link-26', 'CRUD', 'link-26');">CRUD</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">    <tt class="py-string">"apc"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">        <tt class="py-string">"model"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.models.crud.ApiRequest"</tt><tt class="py-op">,</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">        <tt class="py-string">"create"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">            <tt class="py-string">"enable"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">            <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">            <tt class="py-string">"response"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">                <tt class="py-string">"location"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line">        <tt class="py-string">"retrieve"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">            <tt class="py-string">"enable"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">            <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">]</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">        <tt class="py-string">"update"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">            <tt class="py-string">"enable"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">            <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">            <tt class="py-string">"response"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line">                <tt class="py-string">"location"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">        <tt class="py-string">"append"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">            <tt class="py-string">"enable"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">            <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">            <tt class="py-string">"response"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">                <tt class="py-string">"location"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line">        <tt class="py-string">"delete"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line">            <tt class="py-string">"enable"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line">            <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">        <tt class="py-op">}</tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">    <tt class="py-op">}</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line"><tt class="py-string">""" Definitions of the CRUD endpoint.  This configures service.models.crud.ApiRequest to handle CRUD requests for APCs """</tt> </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line"> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line"><tt class="py-comment">##############################################################</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line"><tt class="py-comment"># Public Search API Configuration</tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line"> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line"><tt class="py-comment"># The search configuration for each mount point</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line"><tt id="link-27" class="py-name" targets="Variable config.service.SEARCHAPI=config.service-module.html#SEARCHAPI"><a title="config.service.SEARCHAPI" class="py-name" href="#" onclick="return doclink('link-27', 'SEARCHAPI', 'link-27');">SEARCHAPI</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line">    <tt class="py-string">"public"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">        <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line">        <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"read_apc"</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line">        <tt class="py-string">"default_page_size"</tt> <tt class="py-op">:</tt> <tt class="py-number">10</tt><tt class="py-op">,</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">        <tt class="py-string">"max_page_size"</tt> <tt class="py-op">:</tt> <tt class="py-number">100</tt><tt class="py-op">,</tt> </tt>
+<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line">        <tt class="py-string">"search_no_mod"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line">            <tt class="py-string">"created_date"</tt><tt class="py-op">,</tt> </tt>
+<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">            <tt class="py-string">"last_updated"</tt> </tt>
+<a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line">        <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line">        <tt class="py-string">"search_prefix"</tt> <tt class="py-op">:</tt> <tt class="py-string">"record."</tt><tt class="py-op">,</tt> </tt>
+<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line">        <tt class="py-string">"search_subs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">            <tt class="py-string">"id"</tt> <tt class="py-op">:</tt> <tt class="py-string">"id.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line">            <tt class="py-string">"doi"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.doi.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line">            <tt class="py-string">"pmcid"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.pmcid.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line">            <tt class="py-string">"pmid"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.pmid.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line">            <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.url.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line">            <tt class="py-string">"issn"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.issn.exact"</tt> </tt>
+<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line">        <tt class="py-string">"sort_prefix"</tt> <tt class="py-op">:</tt> <tt class="py-string">"record."</tt><tt class="py-op">,</tt> </tt>
+<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line">        <tt class="py-string">"sort_subs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line">            <tt class="py-string">"dc:title"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.ascii_unpunc_title.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">            <tt class="py-string">"record.dc:title"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.ascii_unpunc_title.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line">            <tt class="py-string">"apc_total_amount_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.apc_total_amount_gbp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line">            <tt class="py-string">"apc_total_vat_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.apc_total_vat_gbp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line">            <tt class="py-string">"apc_total_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.apc_total_gbp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line">            <tt class="py-string">"sum_total_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.sum_total_gbp"</tt> </tt>
+<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line">        <tt class="py-string">"query_builder"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.queries.PublicSearchQuery"</tt><tt class="py-op">,</tt> </tt>
+<a name="L209"></a><tt class="py-lineno">209</tt>  <tt class="py-line">        <tt class="py-string">"dao"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.search.StaticPublicDAOProxy"</tt><tt class="py-op">,</tt> </tt>
+<a name="L210"></a><tt class="py-lineno">210</tt>  <tt class="py-line">        <tt class="py-string">"results_filter"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.search.public_filter"</tt> </tt>
+<a name="L211"></a><tt class="py-lineno">211</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L212"></a><tt class="py-lineno">212</tt>  <tt class="py-line"> </tt>
+<a name="L213"></a><tt class="py-lineno">213</tt>  <tt class="py-line">    <tt class="py-string">"private"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L214"></a><tt class="py-lineno">214</tt>  <tt class="py-line">        <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L215"></a><tt class="py-lineno">215</tt>  <tt class="py-line">        <tt class="py-string">"roles"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"write_apc"</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L216"></a><tt class="py-lineno">216</tt>  <tt class="py-line">        <tt class="py-string">"default_page_size"</tt> <tt class="py-op">:</tt> <tt class="py-number">10</tt><tt class="py-op">,</tt> </tt>
+<a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line">        <tt class="py-string">"max_page_size"</tt> <tt class="py-op">:</tt> <tt class="py-number">100</tt><tt class="py-op">,</tt> </tt>
+<a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line">        <tt class="py-string">"search_no_mod"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line">            <tt class="py-string">"created_date"</tt><tt class="py-op">,</tt> </tt>
+<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line">            <tt class="py-string">"last_updated"</tt> </tt>
+<a name="L221"></a><tt class="py-lineno">221</tt>  <tt class="py-line">        <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L222"></a><tt class="py-lineno">222</tt>  <tt class="py-line">        <tt class="py-string">"search_prefix"</tt> <tt class="py-op">:</tt> <tt class="py-string">"record."</tt><tt class="py-op">,</tt> </tt>
+<a name="L223"></a><tt class="py-lineno">223</tt>  <tt class="py-line">        <tt class="py-string">"search_subs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L224"></a><tt class="py-lineno">224</tt>  <tt class="py-line">            <tt class="py-string">"id"</tt> <tt class="py-op">:</tt> <tt class="py-string">"id.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L225"></a><tt class="py-lineno">225</tt>  <tt class="py-line">            <tt class="py-string">"doi"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.doi.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L226"></a><tt class="py-lineno">226</tt>  <tt class="py-line">            <tt class="py-string">"pmcid"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.pmcid.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L227"></a><tt class="py-lineno">227</tt>  <tt class="py-line">            <tt class="py-string">"pmid"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.pmid.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L228"></a><tt class="py-lineno">228</tt>  <tt class="py-line">            <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.url.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L229"></a><tt class="py-lineno">229</tt>  <tt class="py-line">            <tt class="py-string">"issn"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.issn.exact"</tt> </tt>
+<a name="L230"></a><tt class="py-lineno">230</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L231"></a><tt class="py-lineno">231</tt>  <tt class="py-line">        <tt class="py-string">"sort_prefix"</tt> <tt class="py-op">:</tt> <tt class="py-string">"record."</tt><tt class="py-op">,</tt> </tt>
+<a name="L232"></a><tt class="py-lineno">232</tt>  <tt class="py-line">        <tt class="py-string">"sort_subs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L233"></a><tt class="py-lineno">233</tt>  <tt class="py-line">            <tt class="py-string">"dc:title"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.ascii_unpunc_title.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L234"></a><tt class="py-lineno">234</tt>  <tt class="py-line">            <tt class="py-string">"record.dc:title"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.ascii_unpunc_title.exact"</tt><tt class="py-op">,</tt> </tt>
+<a name="L235"></a><tt class="py-lineno">235</tt>  <tt class="py-line">            <tt class="py-string">"apc_total_amount_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.apc_total_amount_gbp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L236"></a><tt class="py-lineno">236</tt>  <tt class="py-line">            <tt class="py-string">"apc_total_vat_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.apc_total_vat_gbp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L237"></a><tt class="py-lineno">237</tt>  <tt class="py-line">            <tt class="py-string">"apc_total_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.apc_total_gbp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L238"></a><tt class="py-lineno">238</tt>  <tt class="py-line">            <tt class="py-string">"sum_total_gbp"</tt> <tt class="py-op">:</tt> <tt class="py-string">"index.sum_total_gbp"</tt> </tt>
+<a name="L239"></a><tt class="py-lineno">239</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L240"></a><tt class="py-lineno">240</tt>  <tt class="py-line">        <tt class="py-string">"query_builder"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.queries.PrivateSearchQuery"</tt><tt class="py-op">,</tt> </tt>
+<a name="L241"></a><tt class="py-lineno">241</tt>  <tt class="py-line">        <tt class="py-string">"dao"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.search.StaticPublicDAOProxy"</tt><tt class="py-op">,</tt> </tt>
+<a name="L242"></a><tt class="py-lineno">242</tt>  <tt class="py-line">        <tt class="py-string">"results_filter"</tt> <tt class="py-op">:</tt> <tt class="py-string">"service.search.private_filter"</tt> </tt>
+<a name="L243"></a><tt class="py-lineno">243</tt>  <tt class="py-line">    <tt class="py-op">}</tt> </tt>
+<a name="L244"></a><tt class="py-lineno">244</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L245"></a><tt class="py-lineno">245</tt>  <tt class="py-line"><tt class="py-string">""" Search API configuration, enabling a public search of all public records, and a private search of all records owned by an authenticated user """</tt> </tt>
+<a name="L246"></a><tt class="py-lineno">246</tt>  <tt class="py-line"> </tt>
+<a name="L247"></a><tt class="py-lineno">247</tt>  <tt class="py-line"><tt class="py-comment">#######################################################</tt> </tt>
+<a name="L248"></a><tt class="py-lineno">248</tt>  <tt class="py-line"><tt class="py-comment">## Task scheduler configuration</tt> </tt>
+<a name="L249"></a><tt class="py-lineno">249</tt>  <tt class="py-line"> </tt>
+<a name="L250"></a><tt class="py-lineno">250</tt>  <tt class="py-line"><tt id="link-28" class="py-name" targets="Variable config.service.SCHEDULER_TASKS=config.service-module.html#SCHEDULER_TASKS"><a title="config.service.SCHEDULER_TASKS" class="py-name" href="#" onclick="return doclink('link-28', 'SCHEDULER_TASKS', 'link-28');">SCHEDULER_TASKS</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> </tt>
+<a name="L251"></a><tt class="py-lineno">251</tt>  <tt class="py-line">    <tt class="py-comment"># every 10 seconds trigger the request processing task - this converts requests for updates into public apc records</tt> </tt>
+<a name="L252"></a><tt class="py-lineno">252</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-number">10</tt><tt class="py-op">,</tt> <tt class="py-string">"seconds"</tt><tt class="py-op">,</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-string">"service.tasks.process_updates"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L253"></a><tt class="py-lineno">253</tt>  <tt class="py-line"> </tt>
+<a name="L254"></a><tt class="py-lineno">254</tt>  <tt class="py-line">    <tt class="py-comment"># every hour trigger the lantern lookup - this sends any new records out to Lantern for enhancement</tt> </tt>
+<a name="L255"></a><tt class="py-lineno">255</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">,</tt> <tt class="py-string">"hours"</tt><tt class="py-op">,</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-string">"service.tasks.lantern_jobs"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L256"></a><tt class="py-lineno">256</tt>  <tt class="py-line"> </tt>
+<a name="L257"></a><tt class="py-lineno">257</tt>  <tt class="py-line">    <tt class="py-comment"># every hour trigger the lantern job checker - this will pull in any updates from Lantern</tt> </tt>
+<a name="L258"></a><tt class="py-lineno">258</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">,</tt> <tt class="py-string">"hours"</tt><tt class="py-op">,</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-string">"service.tasks.lantern_check"</tt><tt class="py-op">)</tt> </tt>
+<a name="L259"></a><tt class="py-lineno">259</tt>  <tt class="py-line"><tt class="py-op">]</tt> </tt>
+<a name="L260"></a><tt class="py-lineno">260</tt>  <tt class="py-line"><tt class="py-string">""" Asynchronous job scheduling.  Schedules updates via the API every 10 seconds, and synchronisation with Lantern on a longer cycle """</tt> </tt>
+<a name="L261"></a><tt class="py-lineno">261</tt>  <tt class="py-line"> </tt>
+<a name="L262"></a><tt class="py-lineno">262</tt>  <tt class="py-line"> </tt>
+<a name="L263"></a><tt class="py-lineno">263</tt>  <tt class="py-line"><tt class="py-comment">##############################################</tt> </tt>
+<a name="L264"></a><tt class="py-lineno">264</tt>  <tt class="py-line"><tt class="py-comment">## App specific config</tt> </tt>
+<a name="L265"></a><tt class="py-lineno">265</tt>  <tt class="py-line"> </tt>
+<a name="L266"></a><tt class="py-lineno">266</tt>  <tt class="py-line"><tt class="py-comment"># if the workflow state does not have a "last request" date recorded, what is the date it should report</tt> </tt>
+<a name="L267"></a><tt class="py-lineno">267</tt>  <tt class="py-line"><tt class="py-comment"># (basically, this just needs to be earlier than the service went live.  We use the start of the unix epoch by default)</tt> </tt>
+<a name="L268"></a><tt class="py-lineno">268</tt>  <tt class="py-line"><tt id="link-29" class="py-name" targets="Variable config.service.WORKFLOW_STATE_EARLIEST_DATE=config.service-module.html#WORKFLOW_STATE_EARLIEST_DATE"><a title="config.service.WORKFLOW_STATE_EARLIEST_DATE" class="py-name" href="#" onclick="return doclink('link-29', 'WORKFLOW_STATE_EARLIEST_DATE', 'link-29');">WORKFLOW_STATE_EARLIEST_DATE</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"1970-01-01T00:00:00Z"</tt> </tt>
+<a name="L269"></a><tt class="py-lineno">269</tt>  <tt class="py-line"><tt class="py-string">""" When a workflow state is first created, what is the default earliest date """</tt> </tt>
+<a name="L270"></a><tt class="py-lineno">270</tt>  <tt class="py-line"> </tt>
+<a name="L271"></a><tt class="py-lineno">271</tt>  <tt class="py-line"><tt id="link-30" class="py-name" targets="Variable config.service.API_JSON_LD_CONTEXT=config.service-module.html#API_JSON_LD_CONTEXT"><a title="config.service.API_JSON_LD_CONTEXT" class="py-name" href="#" onclick="return doclink('link-30', 'API_JSON_LD_CONTEXT', 'link-30');">API_JSON_LD_CONTEXT</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L272"></a><tt class="py-lineno">272</tt>  <tt class="py-line">    <tt class="py-string">"jm"</tt><tt class="py-op">:</tt> <tt class="py-string">"http://jiscmonitor.jiscinvolve.org/"</tt><tt class="py-op">,</tt> </tt>
+<a name="L273"></a><tt class="py-lineno">273</tt>  <tt class="py-line">    <tt class="py-string">"dc"</tt><tt class="py-op">:</tt> <tt class="py-string">"http://purl.org/dc/elements/1.1/"</tt><tt class="py-op">,</tt> </tt>
+<a name="L274"></a><tt class="py-lineno">274</tt>  <tt class="py-line">    <tt class="py-string">"dcterms"</tt><tt class="py-op">:</tt> <tt class="py-string">"http://purl.org/dc/terms/"</tt><tt class="py-op">,</tt> </tt>
+<a name="L275"></a><tt class="py-lineno">275</tt>  <tt class="py-line">    <tt class="py-string">"rioxxterms"</tt><tt class="py-op">:</tt> <tt class="py-string">"http://rioxx.net/v2-0-beta-1/"</tt><tt class="py-op">,</tt> </tt>
+<a name="L276"></a><tt class="py-lineno">276</tt>  <tt class="py-line">    <tt class="py-string">"ali"</tt> <tt class="py-op">:</tt> <tt class="py-string">"http://www.niso.org/schemas/ali/1.0/jsonld.json"</tt> </tt>
+<a name="L277"></a><tt class="py-lineno">277</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L278"></a><tt class="py-lineno">278</tt>  <tt class="py-line"><tt class="py-string">""" Defines the JSON-LD @context properties for use in the API """</tt> </tt>
+<a name="L279"></a><tt class="py-lineno">279</tt>  <tt class="py-line"> </tt>
+<a name="L280"></a><tt class="py-lineno">280</tt>  <tt class="py-line"><tt class="py-comment"># Email address to be presented on the login page for the user to contact if they wish to request an account</tt> </tt>
+<a name="L281"></a><tt class="py-lineno">281</tt>  <tt class="py-line"><tt id="link-31" class="py-name" targets="Variable config.service.MONITOR_ACCOUNT_REQUEST_EMAIL=config.service-module.html#MONITOR_ACCOUNT_REQUEST_EMAIL"><a title="config.service.MONITOR_ACCOUNT_REQUEST_EMAIL" class="py-name" href="#" onclick="return doclink('link-31', 'MONITOR_ACCOUNT_REQUEST_EMAIL', 'link-31');">MONITOR_ACCOUNT_REQUEST_EMAIL</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"monitor+account@jisc.ac.uk"</tt> </tt>
+<a name="L282"></a><tt class="py-lineno">282</tt>  <tt class="py-line"><tt class="py-string">""" Email address users should contact if they would like an account with Monitor UK """</tt> </tt>
+<a name="L283"></a><tt class="py-lineno">283</tt>  <tt class="py-line"> </tt>
+<a name="L284"></a><tt class="py-lineno">284</tt>  <tt class="py-line"><tt id="link-32" class="py-name" targets="Variable config.service.PRIMARY_NAVIGATION=config.service-module.html#PRIMARY_NAVIGATION"><a title="config.service.PRIMARY_NAVIGATION" class="py-name" href="#" onclick="return doclink('link-32', 'PRIMARY_NAVIGATION', 'link-32');">PRIMARY_NAVIGATION</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> </tt>
+<a name="L285"></a><tt class="py-lineno">285</tt>  <tt class="py-line">    <tt class="py-op">{</tt> </tt>
+<a name="L286"></a><tt class="py-lineno">286</tt>  <tt class="py-line">        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Search"</tt><tt class="py-op">,</tt> </tt>
+<a name="L287"></a><tt class="py-lineno">287</tt>  <tt class="py-line">        <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L288"></a><tt class="py-lineno">288</tt>  <tt class="py-line">            <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"search"</tt><tt class="py-op">,</tt> </tt>
+<a name="L289"></a><tt class="py-lineno">289</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L290"></a><tt class="py-lineno">290</tt>  <tt class="py-line">        <tt class="py-string">"visibility"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L291"></a><tt class="py-lineno">291</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L292"></a><tt class="py-lineno">292</tt>  <tt class="py-line">            <tt class="py-string">"anonymous"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L293"></a><tt class="py-lineno">293</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L294"></a><tt class="py-lineno">294</tt>  <tt class="py-line">        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L295"></a><tt class="py-lineno">295</tt>  <tt class="py-line">        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L296"></a><tt class="py-lineno">296</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L297"></a><tt class="py-lineno">297</tt>  <tt class="py-line">    <tt class="py-op">{</tt> </tt>
+<a name="L298"></a><tt class="py-lineno">298</tt>  <tt class="py-line">        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Reports"</tt><tt class="py-op">,</tt> </tt>
+<a name="L299"></a><tt class="py-lineno">299</tt>  <tt class="py-line">        <tt class="py-string">"visibility"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L300"></a><tt class="py-lineno">300</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L301"></a><tt class="py-lineno">301</tt>  <tt class="py-line">            <tt class="py-string">"anonymous"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L302"></a><tt class="py-lineno">302</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L303"></a><tt class="py-lineno">303</tt>  <tt class="py-line">        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L304"></a><tt class="py-lineno">304</tt>  <tt class="py-line">        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L305"></a><tt class="py-lineno">305</tt>  <tt class="py-line">        <tt class="py-string">"subnav"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L306"></a><tt class="py-lineno">306</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L307"></a><tt class="py-lineno">307</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Publisher"</tt><tt class="py-op">,</tt> </tt>
+<a name="L308"></a><tt class="py-lineno">308</tt>  <tt class="py-line">                <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L309"></a><tt class="py-lineno">309</tt>  <tt class="py-line">                    <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"publisher"</tt> </tt>
+<a name="L310"></a><tt class="py-lineno">310</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L311"></a><tt class="py-lineno">311</tt>  <tt class="py-line">                <tt class="py-string">"visibility"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L312"></a><tt class="py-lineno">312</tt>  <tt class="py-line">                    <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L313"></a><tt class="py-lineno">313</tt>  <tt class="py-line">                    <tt class="py-string">"anonymous"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L314"></a><tt class="py-lineno">314</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L315"></a><tt class="py-lineno">315</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L316"></a><tt class="py-lineno">316</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L317"></a><tt class="py-lineno">317</tt>  <tt class="py-line">            <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L318"></a><tt class="py-lineno">318</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L319"></a><tt class="py-lineno">319</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt><tt class="py-op">:</tt> <tt class="py-string">"Funder"</tt><tt class="py-op">,</tt> </tt>
+<a name="L320"></a><tt class="py-lineno">320</tt>  <tt class="py-line">                <tt class="py-string">"url"</tt><tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L321"></a><tt class="py-lineno">321</tt>  <tt class="py-line">                    <tt class="py-string">"url_for"</tt><tt class="py-op">:</tt> <tt class="py-string">"funder"</tt> </tt>
+<a name="L322"></a><tt class="py-lineno">322</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L323"></a><tt class="py-lineno">323</tt>  <tt class="py-line">                <tt class="py-string">"visibility"</tt><tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L324"></a><tt class="py-lineno">324</tt>  <tt class="py-line">                    <tt class="py-string">"auth"</tt><tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L325"></a><tt class="py-lineno">325</tt>  <tt class="py-line">                    <tt class="py-string">"anonymous"</tt><tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L326"></a><tt class="py-lineno">326</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L327"></a><tt class="py-lineno">327</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt><tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L328"></a><tt class="py-lineno">328</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt><tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L329"></a><tt class="py-lineno">329</tt>  <tt class="py-line">            <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L330"></a><tt class="py-lineno">330</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L331"></a><tt class="py-lineno">331</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt><tt class="py-op">:</tt> <tt class="py-string">"Institution"</tt><tt class="py-op">,</tt> </tt>
+<a name="L332"></a><tt class="py-lineno">332</tt>  <tt class="py-line">                <tt class="py-string">"url"</tt><tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L333"></a><tt class="py-lineno">333</tt>  <tt class="py-line">                    <tt class="py-string">"url_for"</tt><tt class="py-op">:</tt> <tt class="py-string">"institution"</tt> </tt>
+<a name="L334"></a><tt class="py-lineno">334</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L335"></a><tt class="py-lineno">335</tt>  <tt class="py-line">                <tt class="py-string">"visibility"</tt><tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L336"></a><tt class="py-lineno">336</tt>  <tt class="py-line">                    <tt class="py-string">"auth"</tt><tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L337"></a><tt class="py-lineno">337</tt>  <tt class="py-line">                    <tt class="py-string">"anonymous"</tt><tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L338"></a><tt class="py-lineno">338</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L339"></a><tt class="py-lineno">339</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt><tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L340"></a><tt class="py-lineno">340</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt><tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L341"></a><tt class="py-lineno">341</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L342"></a><tt class="py-lineno">342</tt>  <tt class="py-line">        <tt class="py-op">]</tt> </tt>
+<a name="L343"></a><tt class="py-lineno">343</tt>  <tt class="py-line">    <tt class="py-op">}</tt> </tt>
+<a name="L344"></a><tt class="py-lineno">344</tt>  <tt class="py-line"><tt class="py-op">]</tt> </tt>
+<a name="L345"></a><tt class="py-lineno">345</tt>  <tt class="py-line"><tt class="py-string">""" Definition for primary navigation, rendered on the left-hand side of the navigation bar """</tt> </tt>
+<a name="L346"></a><tt class="py-lineno">346</tt>  <tt class="py-line"> </tt>
+<a name="L347"></a><tt class="py-lineno">347</tt>  <tt class="py-line"><tt id="link-33" class="py-name" targets="Variable config.service.SECONDARY_NAVIGATION=config.service-module.html#SECONDARY_NAVIGATION"><a title="config.service.SECONDARY_NAVIGATION" class="py-name" href="#" onclick="return doclink('link-33', 'SECONDARY_NAVIGATION', 'link-33');">SECONDARY_NAVIGATION</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> </tt>
+<a name="L348"></a><tt class="py-lineno">348</tt>  <tt class="py-line">    <tt class="py-op">{</tt> </tt>
+<a name="L349"></a><tt class="py-lineno">349</tt>  <tt class="py-line">        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Your Account"</tt><tt class="py-op">,</tt> </tt>
+<a name="L350"></a><tt class="py-lineno">350</tt>  <tt class="py-line">        <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L351"></a><tt class="py-lineno">351</tt>  <tt class="py-line">            <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> </tt>
+<a name="L352"></a><tt class="py-lineno">352</tt>  <tt class="py-line">            <tt class="py-string">"current_user_kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L353"></a><tt class="py-lineno">353</tt>  <tt class="py-line">                <tt class="py-op">{</tt> </tt>
+<a name="L354"></a><tt class="py-lineno">354</tt>  <tt class="py-line">                    <tt class="py-string">"property"</tt> <tt class="py-op">:</tt> <tt class="py-string">"email"</tt><tt class="py-op">,</tt> </tt>
+<a name="L355"></a><tt class="py-lineno">355</tt>  <tt class="py-line">                    <tt class="py-string">"arg_name"</tt> <tt class="py-op">:</tt> <tt class="py-string">"username"</tt> </tt>
+<a name="L356"></a><tt class="py-lineno">356</tt>  <tt class="py-line">                <tt class="py-op">}</tt> </tt>
+<a name="L357"></a><tt class="py-lineno">357</tt>  <tt class="py-line">            <tt class="py-op">]</tt> </tt>
+<a name="L358"></a><tt class="py-lineno">358</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L359"></a><tt class="py-lineno">359</tt>  <tt class="py-line">        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L360"></a><tt class="py-lineno">360</tt>  <tt class="py-line">        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L361"></a><tt class="py-lineno">361</tt>  <tt class="py-line">        <tt class="py-string">"visibility"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L362"></a><tt class="py-lineno">362</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L363"></a><tt class="py-lineno">363</tt>  <tt class="py-line">            <tt class="py-string">"anonymous"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L364"></a><tt class="py-lineno">364</tt>  <tt class="py-line">        <tt class="py-op">}</tt> </tt>
+<a name="L365"></a><tt class="py-lineno">365</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L366"></a><tt class="py-lineno">366</tt>  <tt class="py-line">    <tt class="py-op">{</tt> </tt>
+<a name="L367"></a><tt class="py-lineno">367</tt>  <tt class="py-line">        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Admin"</tt><tt class="py-op">,</tt> </tt>
+<a name="L368"></a><tt class="py-lineno">368</tt>  <tt class="py-line">        <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L369"></a><tt class="py-lineno">369</tt>  <tt class="py-line">            <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"admin.index"</tt> </tt>
+<a name="L370"></a><tt class="py-lineno">370</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L371"></a><tt class="py-lineno">371</tt>  <tt class="py-line">        <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L372"></a><tt class="py-lineno">372</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.register"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L373"></a><tt class="py-lineno">373</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> <tt class="py-string">"kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"username"</tt> <tt class="py-op">:</tt> <tt class="py-string">""</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"startswith"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L374"></a><tt class="py-lineno">374</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L375"></a><tt class="py-lineno">375</tt>  <tt class="py-line">                <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">,</tt> </tt>
+<a name="L376"></a><tt class="py-lineno">376</tt>  <tt class="py-line">                <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> </tt>
+<a name="L377"></a><tt class="py-lineno">377</tt>  <tt class="py-line">                <tt class="py-string">"current_user_kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L378"></a><tt class="py-lineno">378</tt>  <tt class="py-line">                    <tt class="py-op">{</tt> </tt>
+<a name="L379"></a><tt class="py-lineno">379</tt>  <tt class="py-line">                        <tt class="py-string">"property"</tt> <tt class="py-op">:</tt> <tt class="py-string">"email"</tt><tt class="py-op">,</tt> </tt>
+<a name="L380"></a><tt class="py-lineno">380</tt>  <tt class="py-line">                        <tt class="py-string">"arg_name"</tt> <tt class="py-op">:</tt> <tt class="py-string">"username"</tt> </tt>
+<a name="L381"></a><tt class="py-lineno">381</tt>  <tt class="py-line">                    <tt class="py-op">}</tt> </tt>
+<a name="L382"></a><tt class="py-lineno">382</tt>  <tt class="py-line">                <tt class="py-op">]</tt> </tt>
+<a name="L383"></a><tt class="py-lineno">383</tt>  <tt class="py-line">            <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L384"></a><tt class="py-lineno">384</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.index"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L385"></a><tt class="py-lineno">385</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.login"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">,</tt> <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L386"></a><tt class="py-lineno">386</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">,</tt> <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L387"></a><tt class="py-lineno">387</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot_pending"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">,</tt> <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L388"></a><tt class="py-lineno">388</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.reset"</tt><tt class="py-op">,</tt> <tt class="py-string">"kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"reset_token"</tt> <tt class="py-op">:</tt> <tt class="py-string">""</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"startswith"</tt><tt class="py-op">,</tt> <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">}</tt> </tt>
+<a name="L389"></a><tt class="py-lineno">389</tt>  <tt class="py-line">        <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L390"></a><tt class="py-lineno">390</tt>  <tt class="py-line">        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L391"></a><tt class="py-lineno">391</tt>  <tt class="py-line">        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L392"></a><tt class="py-lineno">392</tt>  <tt class="py-line">        <tt class="py-string">"visibility"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L393"></a><tt class="py-lineno">393</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L394"></a><tt class="py-lineno">394</tt>  <tt class="py-line">            <tt class="py-string">"anonymous"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L395"></a><tt class="py-lineno">395</tt>  <tt class="py-line">            <tt class="py-string">"role"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt><tt class="py-string">"admin"</tt><tt class="py-op">]</tt> </tt>
+<a name="L396"></a><tt class="py-lineno">396</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L397"></a><tt class="py-lineno">397</tt>  <tt class="py-line">        <tt class="py-string">"always_show_subnav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L398"></a><tt class="py-lineno">398</tt>  <tt class="py-line">        <tt class="py-string">"subnav"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L399"></a><tt class="py-lineno">399</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L400"></a><tt class="py-lineno">400</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Manage&amp;nbsp;Users"</tt><tt class="py-op">,</tt> </tt>
+<a name="L401"></a><tt class="py-lineno">401</tt>  <tt class="py-line">                <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L402"></a><tt class="py-lineno">402</tt>  <tt class="py-line">                    <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.index"</tt> </tt>
+<a name="L403"></a><tt class="py-lineno">403</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L404"></a><tt class="py-lineno">404</tt>  <tt class="py-line">                <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L405"></a><tt class="py-lineno">405</tt>  <tt class="py-line">                    <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.register"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L406"></a><tt class="py-lineno">406</tt>  <tt class="py-line">                    <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> <tt class="py-string">"kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"username"</tt> <tt class="py-op">:</tt> <tt class="py-string">""</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"startswith"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L407"></a><tt class="py-lineno">407</tt>  <tt class="py-line">                    <tt class="py-op">{</tt> </tt>
+<a name="L408"></a><tt class="py-lineno">408</tt>  <tt class="py-line">                        <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">,</tt> </tt>
+<a name="L409"></a><tt class="py-lineno">409</tt>  <tt class="py-line">                        <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> </tt>
+<a name="L410"></a><tt class="py-lineno">410</tt>  <tt class="py-line">                        <tt class="py-string">"current_user_kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L411"></a><tt class="py-lineno">411</tt>  <tt class="py-line">                            <tt class="py-op">{</tt> </tt>
+<a name="L412"></a><tt class="py-lineno">412</tt>  <tt class="py-line">                                <tt class="py-string">"property"</tt> <tt class="py-op">:</tt> <tt class="py-string">"email"</tt><tt class="py-op">,</tt> </tt>
+<a name="L413"></a><tt class="py-lineno">413</tt>  <tt class="py-line">                                <tt class="py-string">"arg_name"</tt> <tt class="py-op">:</tt> <tt class="py-string">"username"</tt> </tt>
+<a name="L414"></a><tt class="py-lineno">414</tt>  <tt class="py-line">                            <tt class="py-op">}</tt> </tt>
+<a name="L415"></a><tt class="py-lineno">415</tt>  <tt class="py-line">                        <tt class="py-op">]</tt> </tt>
+<a name="L416"></a><tt class="py-lineno">416</tt>  <tt class="py-line">                    <tt class="py-op">}</tt> </tt>
+<a name="L417"></a><tt class="py-lineno">417</tt>  <tt class="py-line">                <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L418"></a><tt class="py-lineno">418</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L419"></a><tt class="py-lineno">419</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L420"></a><tt class="py-lineno">420</tt>  <tt class="py-line">                <tt class="py-string">"subnav"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L421"></a><tt class="py-lineno">421</tt>  <tt class="py-line">                    <tt class="py-op">{</tt> </tt>
+<a name="L422"></a><tt class="py-lineno">422</tt>  <tt class="py-line">                        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Create&amp;nbsp;User"</tt><tt class="py-op">,</tt> </tt>
+<a name="L423"></a><tt class="py-lineno">423</tt>  <tt class="py-line">                        <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L424"></a><tt class="py-lineno">424</tt>  <tt class="py-line">                            <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.register"</tt> </tt>
+<a name="L425"></a><tt class="py-lineno">425</tt>  <tt class="py-line">                        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L426"></a><tt class="py-lineno">426</tt>  <tt class="py-line">                        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L427"></a><tt class="py-lineno">427</tt>  <tt class="py-line">                        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L428"></a><tt class="py-lineno">428</tt>  <tt class="py-line">                        <tt class="py-string">"link_on_active"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L429"></a><tt class="py-lineno">429</tt>  <tt class="py-line">                    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L430"></a><tt class="py-lineno">430</tt>  <tt class="py-line">                    <tt class="py-op">{</tt> </tt>
+<a name="L431"></a><tt class="py-lineno">431</tt>  <tt class="py-line">                        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Edit User"</tt><tt class="py-op">,</tt> </tt>
+<a name="L432"></a><tt class="py-lineno">432</tt>  <tt class="py-line">                        <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L433"></a><tt class="py-lineno">433</tt>  <tt class="py-line">                            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> <tt class="py-string">"kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"username"</tt> <tt class="py-op">:</tt> <tt class="py-string">""</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"startswith"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L434"></a><tt class="py-lineno">434</tt>  <tt class="py-line">                            <tt class="py-op">{</tt> </tt>
+<a name="L435"></a><tt class="py-lineno">435</tt>  <tt class="py-line">                                <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">,</tt> </tt>
+<a name="L436"></a><tt class="py-lineno">436</tt>  <tt class="py-line">                                <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.username"</tt><tt class="py-op">,</tt> </tt>
+<a name="L437"></a><tt class="py-lineno">437</tt>  <tt class="py-line">                                <tt class="py-string">"current_user_kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L438"></a><tt class="py-lineno">438</tt>  <tt class="py-line">                                    <tt class="py-op">{</tt> </tt>
+<a name="L439"></a><tt class="py-lineno">439</tt>  <tt class="py-line">                                        <tt class="py-string">"property"</tt> <tt class="py-op">:</tt> <tt class="py-string">"email"</tt><tt class="py-op">,</tt> </tt>
+<a name="L440"></a><tt class="py-lineno">440</tt>  <tt class="py-line">                                        <tt class="py-string">"arg_name"</tt> <tt class="py-op">:</tt> <tt class="py-string">"username"</tt> </tt>
+<a name="L441"></a><tt class="py-lineno">441</tt>  <tt class="py-line">                                    <tt class="py-op">}</tt> </tt>
+<a name="L442"></a><tt class="py-lineno">442</tt>  <tt class="py-line">                                <tt class="py-op">]</tt> </tt>
+<a name="L443"></a><tt class="py-lineno">443</tt>  <tt class="py-line">                            <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L444"></a><tt class="py-lineno">444</tt>  <tt class="py-line">                            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.index"</tt><tt class="py-op">,</tt> <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L445"></a><tt class="py-lineno">445</tt>  <tt class="py-line">                            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.register"</tt><tt class="py-op">,</tt> <tt class="py-string">"action"</tt> <tt class="py-op">:</tt> <tt class="py-string">"deactivate"</tt><tt class="py-op">}</tt> </tt>
+<a name="L446"></a><tt class="py-lineno">446</tt>  <tt class="py-line">                        <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L447"></a><tt class="py-lineno">447</tt>  <tt class="py-line">                        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L448"></a><tt class="py-lineno">448</tt>  <tt class="py-line">                        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L449"></a><tt class="py-lineno">449</tt>  <tt class="py-line">                        <tt class="py-string">"link_on_active"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L450"></a><tt class="py-lineno">450</tt>  <tt class="py-line">                    <tt class="py-op">}</tt> </tt>
+<a name="L451"></a><tt class="py-lineno">451</tt>  <tt class="py-line">                <tt class="py-op">]</tt> </tt>
+<a name="L452"></a><tt class="py-lineno">452</tt>  <tt class="py-line">            <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L453"></a><tt class="py-lineno">453</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L454"></a><tt class="py-lineno">454</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Create User"</tt><tt class="py-op">,</tt> </tt>
+<a name="L455"></a><tt class="py-lineno">455</tt>  <tt class="py-line">                <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L456"></a><tt class="py-lineno">456</tt>  <tt class="py-line">                    <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.register"</tt><tt class="py-op">,</tt> </tt>
+<a name="L457"></a><tt class="py-lineno">457</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L458"></a><tt class="py-lineno">458</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L459"></a><tt class="py-lineno">459</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L460"></a><tt class="py-lineno">460</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L461"></a><tt class="py-lineno">461</tt>  <tt class="py-line">        <tt class="py-op">]</tt> </tt>
+<a name="L462"></a><tt class="py-lineno">462</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L463"></a><tt class="py-lineno">463</tt>  <tt class="py-line">    <tt class="py-op">{</tt> </tt>
+<a name="L464"></a><tt class="py-lineno">464</tt>  <tt class="py-line">        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Log In"</tt><tt class="py-op">,</tt> </tt>
+<a name="L465"></a><tt class="py-lineno">465</tt>  <tt class="py-line">        <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L466"></a><tt class="py-lineno">466</tt>  <tt class="py-line">            <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.login"</tt><tt class="py-op">,</tt> </tt>
+<a name="L467"></a><tt class="py-lineno">467</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L468"></a><tt class="py-lineno">468</tt>  <tt class="py-line">        <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L469"></a><tt class="py-lineno">469</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L470"></a><tt class="py-lineno">470</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot_pending"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L471"></a><tt class="py-lineno">471</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.reset"</tt><tt class="py-op">,</tt> <tt class="py-string">"kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"reset_token"</tt> <tt class="py-op">:</tt> <tt class="py-string">""</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"startswith"</tt><tt class="py-op">}</tt> </tt>
+<a name="L472"></a><tt class="py-lineno">472</tt>  <tt class="py-line">        <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L473"></a><tt class="py-lineno">473</tt>  <tt class="py-line">        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L474"></a><tt class="py-lineno">474</tt>  <tt class="py-line">        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L475"></a><tt class="py-lineno">475</tt>  <tt class="py-line">        <tt class="py-string">"visibility"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L476"></a><tt class="py-lineno">476</tt>  <tt class="py-line">            <tt class="py-string">"auth"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L477"></a><tt class="py-lineno">477</tt>  <tt class="py-line">            <tt class="py-string">"anonymous"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt> </tt>
+<a name="L478"></a><tt class="py-lineno">478</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L479"></a><tt class="py-lineno">479</tt>  <tt class="py-line">        <tt class="py-string">"subnav"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L480"></a><tt class="py-lineno">480</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L481"></a><tt class="py-lineno">481</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Forgotten Password"</tt><tt class="py-op">,</tt> </tt>
+<a name="L482"></a><tt class="py-lineno">482</tt>  <tt class="py-line">                <tt class="py-string">"url"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L483"></a><tt class="py-lineno">483</tt>  <tt class="py-line">                    <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot"</tt> </tt>
+<a name="L484"></a><tt class="py-lineno">484</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L485"></a><tt class="py-lineno">485</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L486"></a><tt class="py-lineno">486</tt>  <tt class="py-line">                <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L487"></a><tt class="py-lineno">487</tt>  <tt class="py-line">                    <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot_pending"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt> </tt>
+<a name="L488"></a><tt class="py-lineno">488</tt>  <tt class="py-line">                <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L489"></a><tt class="py-lineno">489</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L490"></a><tt class="py-lineno">490</tt>  <tt class="py-line">                <tt class="py-string">"subnav"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L491"></a><tt class="py-lineno">491</tt>  <tt class="py-line">                    <tt class="py-op">{</tt> </tt>
+<a name="L492"></a><tt class="py-lineno">492</tt>  <tt class="py-line">                        <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Password Reset"</tt><tt class="py-op">,</tt> </tt>
+<a name="L493"></a><tt class="py-lineno">493</tt>  <tt class="py-line">                        <tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot_pending"</tt><tt class="py-op">,</tt> </tt>
+<a name="L494"></a><tt class="py-lineno">494</tt>  <tt class="py-line">                        <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L495"></a><tt class="py-lineno">495</tt>  <tt class="py-line">                            <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.forgot_pending"</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"exact"</tt><tt class="py-op">}</tt> </tt>
+<a name="L496"></a><tt class="py-lineno">496</tt>  <tt class="py-line">                        <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L497"></a><tt class="py-lineno">497</tt>  <tt class="py-line">                        <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L498"></a><tt class="py-lineno">498</tt>  <tt class="py-line">                        <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L499"></a><tt class="py-lineno">499</tt>  <tt class="py-line">                        <tt class="py-string">"link_on_active"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L500"></a><tt class="py-lineno">500</tt>  <tt class="py-line">                    <tt class="py-op">}</tt> </tt>
+<a name="L501"></a><tt class="py-lineno">501</tt>  <tt class="py-line">                <tt class="py-op">]</tt> </tt>
+<a name="L502"></a><tt class="py-lineno">502</tt>  <tt class="py-line">            <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L503"></a><tt class="py-lineno">503</tt>  <tt class="py-line">            <tt class="py-op">{</tt> </tt>
+<a name="L504"></a><tt class="py-lineno">504</tt>  <tt class="py-line">                <tt class="py-string">"label"</tt> <tt class="py-op">:</tt> <tt class="py-string">"Reset your password"</tt><tt class="py-op">,</tt> </tt>
+<a name="L505"></a><tt class="py-lineno">505</tt>  <tt class="py-line">                <tt class="py-string">"match"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L506"></a><tt class="py-lineno">506</tt>  <tt class="py-line">                    <tt class="py-op">{</tt><tt class="py-string">"url_for"</tt> <tt class="py-op">:</tt> <tt class="py-string">"account.reset"</tt><tt class="py-op">,</tt> <tt class="py-string">"kwargs"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"reset_token"</tt> <tt class="py-op">:</tt> <tt class="py-string">""</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-string">"type"</tt> <tt class="py-op">:</tt> <tt class="py-string">"startswith"</tt><tt class="py-op">}</tt> </tt>
+<a name="L507"></a><tt class="py-lineno">507</tt>  <tt class="py-line">                <tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L508"></a><tt class="py-lineno">508</tt>  <tt class="py-line">                <tt class="py-string">"main_nav"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> </tt>
+<a name="L509"></a><tt class="py-lineno">509</tt>  <tt class="py-line">                <tt class="py-string">"breadcrumb"</tt> <tt class="py-op">:</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> </tt>
+<a name="L510"></a><tt class="py-lineno">510</tt>  <tt class="py-line">                <tt class="py-string">"link_on_active"</tt> <tt class="py-op">:</tt> <tt class="py-name">False</tt> </tt>
+<a name="L511"></a><tt class="py-lineno">511</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L512"></a><tt class="py-lineno">512</tt>  <tt class="py-line">        <tt class="py-op">]</tt> </tt>
+<a name="L513"></a><tt class="py-lineno">513</tt>  <tt class="py-line">    <tt class="py-op">}</tt> </tt>
+<a name="L514"></a><tt class="py-lineno">514</tt>  <tt class="py-line"><tt class="py-op">]</tt> </tt>
+<a name="L515"></a><tt class="py-lineno">515</tt>  <tt class="py-line"><tt class="py-string">""" Definition for secondary navigation, rendered on the right-hand side of the navigation bar """</tt> </tt>
+<a name="L516"></a><tt class="py-lineno">516</tt>  <tt class="py-line"> </tt>
+<a name="L517"></a><tt class="py-lineno">517</tt>  <tt class="py-line"><tt id="link-34" class="py-name" targets="Variable config.service.SITE_NAVIGATION=config.service-module.html#SITE_NAVIGATION"><a title="config.service.SITE_NAVIGATION" class="py-name" href="#" onclick="return doclink('link-34', 'SITE_NAVIGATION', 'link-34');">SITE_NAVIGATION</a></tt> <tt class="py-op">=</tt> <tt id="link-35" class="py-name"><a title="config.service.PRIMARY_NAVIGATION" class="py-name" href="#" onclick="return doclink('link-35', 'PRIMARY_NAVIGATION', 'link-32');">PRIMARY_NAVIGATION</a></tt> <tt class="py-op">+</tt> <tt id="link-36" class="py-name"><a title="config.service.SECONDARY_NAVIGATION" class="py-name" href="#" onclick="return doclink('link-36', 'SECONDARY_NAVIGATION', 'link-33');">SECONDARY_NAVIGATION</a></tt> </tt>
+<a name="L518"></a><tt class="py-lineno">518</tt>  <tt class="py-line"><tt class="py-string">""" Overall site navigation """</tt> </tt>
+<a name="L519"></a><tt class="py-lineno">519</tt>  <tt class="py-line"> </tt>
+<a name="L520"></a><tt class="py-lineno">520</tt>  <tt class="py-line"><tt class="py-comment"># Javascript endpoint configurations</tt> </tt>
+<a name="L521"></a><tt class="py-lineno">521</tt>  <tt class="py-line"><tt id="link-37" class="py-name" targets="Variable config.service.CLIENTJS_PUBLIC_QUERY_ENDPOINT=config.service-module.html#CLIENTJS_PUBLIC_QUERY_ENDPOINT"><a title="config.service.CLIENTJS_PUBLIC_QUERY_ENDPOINT" class="py-name" href="#" onclick="return doclink('link-37', 'CLIENTJS_PUBLIC_QUERY_ENDPOINT', 'link-37');">CLIENTJS_PUBLIC_QUERY_ENDPOINT</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"/query/apc"</tt> </tt>
+<a name="L522"></a><tt class="py-lineno">522</tt>  <tt class="py-line"><tt class="py-string">""" Public query endpoint, for use by reports and search interface.  Should be defined above in QUERY_ROUTES """</tt> </tt>
+<a name="L523"></a><tt class="py-lineno">523</tt>  <tt class="py-line"> </tt>
+<a name="L524"></a><tt class="py-lineno">524</tt>  <tt class="py-line"><tt class="py-comment">#################################################</tt> </tt>
+<a name="L525"></a><tt class="py-lineno">525</tt>  <tt class="py-line"><tt class="py-comment">## Settings for Lantern integration</tt> </tt>
+<a name="L526"></a><tt class="py-lineno">526</tt>  <tt class="py-line"> </tt>
+<a name="L527"></a><tt class="py-lineno">527</tt>  <tt class="py-line"><tt id="link-38" class="py-name" targets="Variable config.service.ENABLE_LANTERN=config.service-module.html#ENABLE_LANTERN"><a title="config.service.ENABLE_LANTERN" class="py-name" href="#" onclick="return doclink('link-38', 'ENABLE_LANTERN', 'link-38');">ENABLE_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+<a name="L528"></a><tt class="py-lineno">528</tt>  <tt class="py-line"><tt class="py-string">""" Is Lantern integration enabled """</tt> </tt>
+<a name="L529"></a><tt class="py-lineno">529</tt>  <tt class="py-line"> </tt>
+<a name="L530"></a><tt class="py-lineno">530</tt>  <tt class="py-line"><tt class="py-comment"># The list of paths to fields which trigger a lookup for a record in Lantern</tt> </tt>
+<a name="L531"></a><tt class="py-lineno">531</tt>  <tt class="py-line"><tt class="py-comment"># (uses objectpath notation)</tt> </tt>
+<a name="L532"></a><tt class="py-lineno">532</tt>  <tt class="py-line"><tt id="link-39" class="py-name" targets="Variable config.service.MISSING_FIELD_TRIGGERS_LANTERN=config.service-module.html#MISSING_FIELD_TRIGGERS_LANTERN"><a title="config.service.MISSING_FIELD_TRIGGERS_LANTERN" class="py-name" href="#" onclick="return doclink('link-39', 'MISSING_FIELD_TRIGGERS_LANTERN', 'link-39');">MISSING_FIELD_TRIGGERS_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt> </tt>
+<a name="L533"></a><tt class="py-lineno">533</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'rioxxterms:publication_date'"</tt><tt class="py-op">,</tt> </tt>
+<a name="L534"></a><tt class="py-lineno">534</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'rioxxterms:version'"</tt><tt class="py-op">,</tt> </tt>
+<a name="L535"></a><tt class="py-lineno">535</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.name"</tt><tt class="py-op">,</tt> </tt>
+<a name="L536"></a><tt class="py-lineno">536</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.identifier[@.type is 'issn'].id"</tt><tt class="py-op">,</tt> </tt>
+<a name="L537"></a><tt class="py-lineno">537</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.oa_type"</tt><tt class="py-op">,</tt> </tt>
+<a name="L538"></a><tt class="py-lineno">538</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.self_archiving.preprint.policy"</tt><tt class="py-op">,</tt> </tt>
+<a name="L539"></a><tt class="py-lineno">539</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.self_archiving.preprint.embargo"</tt><tt class="py-op">,</tt> </tt>
+<a name="L540"></a><tt class="py-lineno">540</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.self_archiving.postprint.policy"</tt><tt class="py-op">,</tt> </tt>
+<a name="L541"></a><tt class="py-lineno">541</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.self_archiving.postprint.embargo"</tt><tt class="py-op">,</tt> </tt>
+<a name="L542"></a><tt class="py-lineno">542</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.self_archiving.publisher.policy"</tt><tt class="py-op">,</tt> </tt>
+<a name="L543"></a><tt class="py-lineno">543</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'dc:source'.self_archiving.publisher.embargo"</tt><tt class="py-op">,</tt> </tt>
+<a name="L544"></a><tt class="py-lineno">544</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'rioxxterms:project'.funder_name"</tt><tt class="py-op">,</tt> </tt>
+<a name="L545"></a><tt class="py-lineno">545</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'ali:license_ref'.type"</tt><tt class="py-op">,</tt> </tt>
+<a name="L546"></a><tt class="py-lineno">546</tt>  <tt class="py-line">    <tt class="py-string">"$.record.'jm:repository'.repo_name"</tt> </tt>
+<a name="L547"></a><tt class="py-lineno">547</tt>  <tt class="py-line"><tt class="py-op">]</tt> </tt>
+<a name="L548"></a><tt class="py-lineno">548</tt>  <tt class="py-line"><tt class="py-string">""" List of fields in a PublicAPC, using objectpath notiation, which, if missing, trigger a request to Lantern for a record """</tt> </tt>
+<a name="L549"></a><tt class="py-lineno">549</tt>  <tt class="py-line"> </tt>
+<a name="L550"></a><tt class="py-lineno">550</tt>  <tt class="py-line"><tt class="py-comment"># batch sizes to send to Lantern.  Lantern permits up to 3000 per request, but we keep it low here for</tt> </tt>
+<a name="L551"></a><tt class="py-lineno">551</tt>  <tt class="py-line"><tt class="py-comment"># performance on our side</tt> </tt>
+<a name="L552"></a><tt class="py-lineno">552</tt>  <tt class="py-line"><tt id="link-40" class="py-name" targets="Variable config.service.BATCH_SIZE_LANTERN=config.service-module.html#BATCH_SIZE_LANTERN"><a title="config.service.BATCH_SIZE_LANTERN" class="py-name" href="#" onclick="return doclink('link-40', 'BATCH_SIZE_LANTERN', 'link-40');">BATCH_SIZE_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-number">1000</tt> </tt>
+<a name="L553"></a><tt class="py-lineno">553</tt>  <tt class="py-line"><tt class="py-string">""" Batch size for Lantern requests.  Maximum allowed his higher, this just gives us room to manoevre """</tt> </tt>
+<a name="L554"></a><tt class="py-lineno">554</tt>  <tt class="py-line"> </tt>
+<a name="L555"></a><tt class="py-lineno">555</tt>  <tt class="py-line"><tt class="py-comment"># length of time (in seconds) to wait before re-submitting a previously checked item</tt> </tt>
+<a name="L556"></a><tt class="py-lineno">556</tt>  <tt class="py-line"><tt class="py-comment"># default here is 6 months</tt> </tt>
+<a name="L557"></a><tt class="py-lineno">557</tt>  <tt class="py-line"><tt id="link-41" class="py-name" targets="Variable config.service.DATA_REFRESH_LANTERN=config.service-module.html#DATA_REFRESH_LANTERN"><a title="config.service.DATA_REFRESH_LANTERN" class="py-name" href="#" onclick="return doclink('link-41', 'DATA_REFRESH_LANTERN', 'link-41');">DATA_REFRESH_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-number">15552000</tt> </tt>
+<a name="L558"></a><tt class="py-lineno">558</tt>  <tt class="py-line"><tt class="py-string">""" Time period (in seconds) to wait before re-looking up a record in Lantern (the default is 6 months) """</tt> </tt>
+<a name="L559"></a><tt class="py-lineno">559</tt>  <tt class="py-line"> </tt>
+<a name="L560"></a><tt class="py-lineno">560</tt>  <tt class="py-line"><tt class="py-comment"># The minimum amount of time to wait between polling Lantern for updates on a previously submitted job</tt> </tt>
+<a name="L561"></a><tt class="py-lineno">561</tt>  <tt class="py-line"><tt id="link-42" class="py-name" targets="Variable config.service.JOB_LOOKUP_DELAY_LANTERN=config.service-module.html#JOB_LOOKUP_DELAY_LANTERN"><a title="config.service.JOB_LOOKUP_DELAY_LANTERN" class="py-name" href="#" onclick="return doclink('link-42', 'JOB_LOOKUP_DELAY_LANTERN', 'link-42');">JOB_LOOKUP_DELAY_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-number">3600</tt> </tt>
+<a name="L562"></a><tt class="py-lineno">562</tt>  <tt class="py-line"><tt class="py-string">""" Time period (in seconds) to wait before re-checking a submitted Lantern job """</tt> </tt>
+<a name="L563"></a><tt class="py-lineno">563</tt>  <tt class="py-line"> </tt>
+<a name="L564"></a><tt class="py-lineno">564</tt>  <tt class="py-line"><tt class="py-comment"># For the purposes of the functional/integration tests with Lantern, you can provide a test account email address and</tt> </tt>
+<a name="L565"></a><tt class="py-lineno">565</tt>  <tt class="py-line"><tt class="py-comment"># api key, via your local.cfg file</tt> </tt>
+<a name="L566"></a><tt class="py-lineno">566</tt>  <tt class="py-line"><tt id="link-43" class="py-name" targets="Variable config.service.TEST_ACCOUNT_EMAIL_LANTERN=config.service-module.html#TEST_ACCOUNT_EMAIL_LANTERN"><a title="config.service.TEST_ACCOUNT_EMAIL_LANTERN" class="py-name" href="#" onclick="return doclink('link-43', 'TEST_ACCOUNT_EMAIL_LANTERN', 'link-43');">TEST_ACCOUNT_EMAIL_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L567"></a><tt class="py-lineno">567</tt>  <tt class="py-line"><tt class="py-string">""" Your Lantern test account email address - set in local.cfg """</tt> </tt>
+<a name="L568"></a><tt class="py-lineno">568</tt>  <tt class="py-line"> </tt>
+<a name="L569"></a><tt class="py-lineno">569</tt>  <tt class="py-line"><tt id="link-44" class="py-name" targets="Variable config.service.TEST_API_KEY_LANTERN=config.service-module.html#TEST_API_KEY_LANTERN"><a title="config.service.TEST_API_KEY_LANTERN" class="py-name" href="#" onclick="return doclink('link-44', 'TEST_API_KEY_LANTERN', 'link-44');">TEST_API_KEY_LANTERN</a></tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L570"></a><tt class="py-lineno">570</tt>  <tt class="py-line"><tt class="py-string">""" Your Lantern test account api key - set in local.cfg """</tt> </tt>
+<a name="L571"></a><tt class="py-lineno">571</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 30 20:01:39 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

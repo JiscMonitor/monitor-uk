@@ -1,3 +1,8 @@
+"""
+Main web interface view, pulling together all the blueprints which make up the web component of the application
+
+This is the file you want to run if you want to start the front-end of the application
+"""
 from octopus.core import app, initialise, add_configuration
 
 if __name__ == "__main__":

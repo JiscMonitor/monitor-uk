@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>service.models.account</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="service-module.html">Package&nbsp;service</a> ::
+        <a href="service.models-module.html">Package&nbsp;models</a> ::
+        Module&nbsp;account
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="service.models.account-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="service.models.account-module.html">Module service.models.account</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring">Core system objects for user accounts</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">octopus</tt><tt class="py-op">.</tt><tt class="py-name">modules</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module service.forms.account=service.forms.account-module.html,Module service.models.account=service.models.account-module.html,Method service.models.lantern.LanternJob.account()=service.models.lantern.LanternJob-class.html#account"><a title="service.forms.account
+service.models.account
+service.models.lantern.LanternJob.account" class="py-name" href="#" onclick="return doclink('link-0', 'account', 'link-0');">account</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Package service.models=service.models-module.html,Module service.tests.fixtures.models=service.tests.fixtures.models-module.html"><a title="service.models
+service.tests.fixtures.models" class="py-name" href="#" onclick="return doclink('link-1', 'models', 'link-1');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">BasicAccount</tt><tt class="py-op">,</tt> <tt class="py-name">ContactableAccount</tt><tt class="py-op">,</tt> <tt class="py-name">APIAccount</tt><tt class="py-op">,</tt> <tt class="py-name">OrganisationAccount</tt> </tt>
+<a name="MonitorUKAccount"></a><div id="MonitorUKAccount-def"><a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt> <a class="py-toggle" href="#" id="MonitorUKAccount-toggle" onclick="return toggle('MonitorUKAccount');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html">MonitorUKAccount</a><tt class="py-op">(</tt><tt class="py-base-class">BasicAccount</tt><tt class="py-op">,</tt> <tt class="py-base-class">ContactableAccount</tt><tt class="py-op">,</tt> <tt class="py-base-class">APIAccount</tt><tt class="py-op">,</tt> <tt class="py-base-class">OrganisationAccount</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="MonitorUKAccount-expanded"><a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">    This account object composes itself</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring">    of the 4 types of account components that we want to support:</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">    * BasicAccount - must extend from this first, and provides all the essential account information</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">    * ContactableAccount - contains name, phone and geoloc for the user</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-docstring">    * APIAccount - supports api keys</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">    * OrganisationAccount - supports information about organisation name/role</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">    In addition, it contains support for integration with Lantern, by incorporating:</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">    {</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring">        "lantern_email" : "&lt;email address for lantern account&gt;",</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">        "lantern_api_key" : "&lt;api key lantern account&gt;"</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">    }</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">property</tt> </tt>
+<a name="MonitorUKAccount.lantern_email"></a><div id="MonitorUKAccount.lantern_email-def"><a name="L25"></a><tt class="py-lineno">25</tt> <a class="py-toggle" href="#" id="MonitorUKAccount.lantern_email-toggle" onclick="return toggle('MonitorUKAccount.lantern_email');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html#lantern_email">lantern_email</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount.lantern_email-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="MonitorUKAccount.lantern_email-expanded"><a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_get_single</tt><tt class="py-op">(</tt><tt class="py-string">"lantern_email"</tt><tt class="py-op">,</tt> <tt class="py-name">coerce</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_utf8_unicode</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">lantern_email</tt><tt class="py-op">.</tt><tt class="py-name">setter</tt> </tt>
+<a name="MonitorUKAccount.lantern_email"></a><div id="MonitorUKAccount.lantern_email-def"><a name="L29"></a><tt class="py-lineno">29</tt> <a class="py-toggle" href="#" id="MonitorUKAccount.lantern_email-toggle" onclick="return toggle('MonitorUKAccount.lantern_email');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html#lantern_email">lantern_email</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">val</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount.lantern_email-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="MonitorUKAccount.lantern_email-expanded"><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_set_single</tt><tt class="py-op">(</tt><tt class="py-string">"lantern_email"</tt><tt class="py-op">,</tt> <tt class="py-name">val</tt><tt class="py-op">,</tt> <tt class="py-name">coerce</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_utf8_unicode</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">property</tt> </tt>
+<a name="MonitorUKAccount.lantern_api_key"></a><div id="MonitorUKAccount.lantern_api_key-def"><a name="L33"></a><tt class="py-lineno">33</tt> <a class="py-toggle" href="#" id="MonitorUKAccount.lantern_api_key-toggle" onclick="return toggle('MonitorUKAccount.lantern_api_key');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html#lantern_api_key">lantern_api_key</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount.lantern_api_key-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="MonitorUKAccount.lantern_api_key-expanded"><a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_get_single</tt><tt class="py-op">(</tt><tt class="py-string">"lantern_api_key"</tt><tt class="py-op">,</tt> <tt class="py-name">coerce</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_utf8_unicode</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">lantern_api_key</tt><tt class="py-op">.</tt><tt class="py-name">setter</tt> </tt>
+<a name="MonitorUKAccount.lantern_api_key"></a><div id="MonitorUKAccount.lantern_api_key-def"><a name="L37"></a><tt class="py-lineno">37</tt> <a class="py-toggle" href="#" id="MonitorUKAccount.lantern_api_key-toggle" onclick="return toggle('MonitorUKAccount.lantern_api_key');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html#lantern_api_key">lantern_api_key</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">val</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount.lantern_api_key-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="MonitorUKAccount.lantern_api_key-expanded"><a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_set_single</tt><tt class="py-op">(</tt><tt class="py-string">"lantern_api_key"</tt><tt class="py-op">,</tt> <tt class="py-name">val</tt><tt class="py-op">,</tt> <tt class="py-name">coerce</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_utf8_unicode</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"> </tt>
+<a name="MonitorUKAccount.prep"></a><div id="MonitorUKAccount.prep-def"><a name="L40"></a><tt class="py-lineno">40</tt> <a class="py-toggle" href="#" id="MonitorUKAccount.prep-toggle" onclick="return toggle('MonitorUKAccount.prep');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html#prep">prep</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount.prep-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="MonitorUKAccount.prep-expanded"><a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-2" class="py-name" targets="Class service.models.account.MonitorUKAccount=service.models.account.MonitorUKAccount-class.html"><a title="service.models.account.MonitorUKAccount" class="py-name" href="#" onclick="return doclink('link-2', 'MonitorUKAccount', 'link-2');">MonitorUKAccount</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method service.models.account.MonitorUKAccount.prep()=service.models.account.MonitorUKAccount-class.html#prep,Method service.models.core.PublicAPC.prep()=service.models.core.PublicAPC-class.html#prep"><a title="service.models.account.MonitorUKAccount.prep
+service.models.core.PublicAPC.prep" class="py-name" href="#" onclick="return doclink('link-3', 'prep', 'link-3');">prep</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">api_key</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt> <tt class="py-keyword">and</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">activation_token</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">generate_api_key</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">    <tt class="py-comment">#################################################</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">    <tt class="py-comment">## additional data access methods</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">classmethod</tt> </tt>
+<a name="MonitorUKAccount.list_lantern_enabled"></a><div id="MonitorUKAccount.list_lantern_enabled-def"><a name="L49"></a><tt class="py-lineno">49</tt> <a class="py-toggle" href="#" id="MonitorUKAccount.list_lantern_enabled-toggle" onclick="return toggle('MonitorUKAccount.list_lantern_enabled');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.MonitorUKAccount-class.html#list_lantern_enabled">list_lantern_enabled</a><tt class="py-op">(</tt><tt class="py-param">cls</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">kwargs</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="MonitorUKAccount.list_lantern_enabled-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="MonitorUKAccount.list_lantern_enabled-expanded"><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-name">q</tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name" targets="Class service.models.account.LanternAPIQuery=service.models.account.LanternAPIQuery-class.html"><a title="service.models.account.LanternAPIQuery" class="py-name" href="#" onclick="return doclink('link-4', 'LanternAPIQuery', 'link-4');">LanternAPIQuery</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">cls</tt><tt class="py-op">.</tt><tt class="py-name">scroll</tt><tt class="py-op">(</tt><tt class="py-name">q</tt><tt class="py-op">=</tt><tt class="py-name">q</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Method service.models.account.LanternAPIQuery.query()=service.models.account.LanternAPIQuery-class.html#query,Method service.models.lantern.ActiveQuery.query()=service.models.lantern.ActiveQuery-class.html#query,Method service.queries.CreatedDateQueueQuery.query()=service.queries.CreatedDateQueueQuery-class.html#query,Method service.queries.IndexedIdentifierQuery.query()=service.queries.IndexedIdentifierQuery-class.html#query,Method service.queries.OwnerQuery.query()=service.queries.OwnerQuery-class.html#query,Method service.queries.PrivateSearchQuery.query()=service.queries.PrivateSearchQuery-class.html#query,Method service.queries.RequestByIndexedIdentifierQuery.query()=service.queries.RequestByIndexedIdentifierQuery-class.html#query,Class Method service.search.StaticPublicDAOProxy.query()=service.search.StaticPublicDAOProxy-class.html#query"><a title="service.models.account.LanternAPIQuery.query
+service.models.lantern.ActiveQuery.query
+service.queries.CreatedDateQueueQuery.query
+service.queries.IndexedIdentifierQuery.query
+service.queries.OwnerQuery.query
+service.queries.PrivateSearchQuery.query
+service.queries.RequestByIndexedIdentifierQuery.query
+service.search.StaticPublicDAOProxy.query" class="py-name" href="#" onclick="return doclink('link-5', 'query', 'link-5');">query</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-name">kwargs</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"> </tt>
+<a name="LanternAPIQuery"></a><div id="LanternAPIQuery-def"><a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt> <a class="py-toggle" href="#" id="LanternAPIQuery-toggle" onclick="return toggle('LanternAPIQuery');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="service.models.account.LanternAPIQuery-class.html">LanternAPIQuery</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LanternAPIQuery-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="LanternAPIQuery-expanded"><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line"><tt class="py-docstring">    Prepared query to list all accounts which have a Lantern Email and API key set</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="LanternAPIQuery.__init__"></a><div id="LanternAPIQuery.__init__-def"><a name="L58"></a><tt class="py-lineno">58</tt> <a class="py-toggle" href="#" id="LanternAPIQuery.__init__-toggle" onclick="return toggle('LanternAPIQuery.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.LanternAPIQuery-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LanternAPIQuery.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="LanternAPIQuery.__init__-expanded"><a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line"> </tt>
+<a name="LanternAPIQuery.query"></a><div id="LanternAPIQuery.query-def"><a name="L61"></a><tt class="py-lineno">61</tt> <a class="py-toggle" href="#" id="LanternAPIQuery.query-toggle" onclick="return toggle('LanternAPIQuery.query');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="service.models.account.LanternAPIQuery-class.html#query">query</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LanternAPIQuery.query-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="LanternAPIQuery.query-expanded"><a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">{</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">            <tt class="py-string">"query"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">                <tt class="py-string">"filtered"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">                    <tt class="py-string">"query"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"match_all"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">                    <tt class="py-string">"filter"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">                        <tt class="py-string">"bool"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">                            <tt class="py-string">"must"</tt> <tt class="py-op">:</tt> <tt class="py-op">[</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">                                <tt class="py-op">{</tt><tt class="py-string">"exists"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"field"</tt> <tt class="py-op">:</tt> <tt class="py-string">"lantern_api_key"</tt><tt class="py-op">}</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">                                <tt class="py-op">{</tt><tt class="py-string">"exists"</tt> <tt class="py-op">:</tt> <tt class="py-op">{</tt><tt class="py-string">"field"</tt> <tt class="py-op">:</tt> <tt class="py-string">"lantern_email"</tt><tt class="py-op">}</tt><tt class="py-op">}</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">                            <tt class="py-op">]</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">                        <tt class="py-op">}</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">                    <tt class="py-op">}</tt> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">                <tt class="py-op">}</tt> </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">            <tt class="py-op">}</tt> </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line">        <tt class="py-op">}</tt> </tt>
+</div></div><a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 30 20:01:39 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

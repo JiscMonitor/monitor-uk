@@ -1,3 +1,7 @@
+"""
+Tasks to be executed by the task scheduler
+"""
+
 from octopus.core import app
 from octopus.lib import dates
 
@@ -7,9 +11,7 @@ from service.lantern import LanternApi
 
 def process_updates():
     """
-    Function for binding the WorkflowApi to the scheduled task runner
-
-    :return:
+    Process all new Requests and all new Enhancements
     """
     print "[{x}] Processing Requests".format(x=dates.now())
     WorkflowApi.process_requests()
@@ -17,6 +19,9 @@ def process_updates():
 
 
 def lantern_jobs():
+    """
+    Create any new jobs with Lantern that are requried
+    """
     if not app.config.get("ENABLE_LANTERN", False):
         print "[{x}] Not sending Lantern jobs - interface disabled".format(x=dates.now())
         return
@@ -24,6 +29,9 @@ def lantern_jobs():
     LanternApi.make_new_jobs()
 
 def lantern_check():
+    """
+    Check any existing Lantern jobs
+    """
     if not app.config.get("ENABLE_LANTERN", False):
         print "[{x}] Not checking Lantern jobs - interface disabled".format(x=dates.now())
         return

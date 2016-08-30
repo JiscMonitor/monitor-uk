@@ -1,3 +1,6 @@
+"""
+Models associated with the CRUD API
+"""
 from octopus.modules.infosys.models import InfoSysCrud
 from octopus.modules.crud.models import AuthorisationException
 from octopus.core import app
@@ -10,7 +13,21 @@ from copy import deepcopy
 import json
 
 class ApiRequest(InfoSysCrud):
+    """
+    The main model object for handing incoming requests to the CRUD API.  This object provides
+    a proxy and validation for data coming in via the web API before it is converted to a true,
+    core system object
+    """
     def __init__(self, raw=None, headers=None, account=None, validate=True):
+        """
+        Make a new instance of an object around the incoming API data
+
+        :param raw:     the raw data supplied by the caller
+        :param headers:     the HTTP headers in the request
+        :param account:     the user account associated with the request
+        :param validate:    whether to aggressively validate the request
+        :return:
+        """
         # first clean out the json-ld stuff that might be in raw
         if raw is not None and "@context" in raw:
             del raw["@context"]
@@ -30,6 +47,9 @@ class ApiRequest(InfoSysCrud):
     @classmethod
     def pull(cls, id, account=None):
         """
+        Pull a record with the given id, in the context of the supplied account (response content may vary slightly
+        if the user owns the record)
+
         The id may be one of 2 things, in order of preference:
 
         1. The DOI
@@ -55,6 +75,11 @@ class ApiRequest(InfoSysCrud):
 
     @property
     def id(self):
+        """
+        Get the preferred id of the record
+
+        :return:
+        """
         ident = self.request.doi
         if ident is not None:
             return ident
@@ -63,6 +88,10 @@ class ApiRequest(InfoSysCrud):
         return None
 
     def json(self):
+        """
+        Get the record JSON, suitable for delivery over the web API
+        :return:
+        """
         if self.raw is not None:
             dumpable = deepcopy(self.raw)
             dumpable["@context"] = app.config.get("API_JSON_LD_CONTEXT")
@@ -70,9 +99,21 @@ class ApiRequest(InfoSysCrud):
         return None
 
     def save(self):
+        """
+        Save the incoming request.  This passes the (validated) data on to the RequestApi for processing
+
+        :return:
+        """
         self.request = RequestApi.update(self.raw, account=self.account, public_id=self.public_id)
 
     def delete(self):
+        """
+        Delete the associated object.
+
+        This passes to the RequestApi to raise a delete request, so does not necessarily happen immediately
+
+        :return:
+        """
         # only allow delete to be called on a record where the requester has a stake in it
         # in reality, this doesn't really matter, as a request with no stake will just have no
         # effect, but this may be a clearer reaction to the user's request, and also may cut down
@@ -83,6 +124,17 @@ class ApiRequest(InfoSysCrud):
         self.request = RequestApi.delete(self.raw, account=self.account, public_id=self.public_id)
 
     def update(self, data, headers=None, validate=True):
+        """
+        Pass new data to the object to update its contents
+
+        This carries out some validation of the incoming data (if requested), and populates this object with the
+        updated information.
+
+        :param data:
+        :param headers:
+        :param validate:
+        :return:
+        """
         # clean up the json-ld stuff that might be in the data
         if data is not None and "@context" in data:
             del data["@context"]
@@ -112,18 +164,37 @@ class ApiRequest(InfoSysCrud):
 
         self.raw = data
 
-    def append(self, data, headers=None):
-        self.update(data, headers)
+    def append(self, data, headers=None, validate=True):
+        """
+        Synonym for update
+
+        :param data:
+        :param headers:
+        :return:
+        """
+        self.update(data, headers, validate)
 
     def created_response(self):
+        """
+        Generate a response body to go along with a 201 (Created)
+        :return:
+        """
         resp = {"status" : "created"}
         return self._add_identifiers(resp)
 
     def updated_response(self):
+        """
+        Generate a response body to go along with a 200 (OK) in the context of successful update
+        :return:
+        """
         resp = {"status" : "updated"}
         return self._add_identifiers(resp)
 
     def deleted_response(self):
+        """
+        Generate a response body to go along witha  200 (OK) in the context of a successful delete
+        :return:
+        """
         resp = {"status" : "deleted"}
         return self._add_identifiers(resp)
 

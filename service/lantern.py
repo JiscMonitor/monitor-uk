@@ -1,3 +1,7 @@
+"""
+Module which handles all the Lantern integration needs
+"""
+
 from octopus.core import app
 from octopus.modules.lantern import client
 from octopus.lib import dates, dataobj
@@ -6,9 +10,20 @@ from service.models import MonitorUKAccount, PublicAPC, LanternJob, Enhancement
 
 
 class LanternApi(object):
+    """
+    Static class which provides methods for integrating with Lantern
+    """
 
     @classmethod
     def make_new_jobs(cls):
+        """
+        Send new requests to lantern, and record the jobs that are created.
+
+        This method looks for accounts who have Lantern credentials, looks for PublicAPC records belonging to those
+        accounts which could benefit from lookup in Lantern,
+
+        :return:
+        """
         dao = PublicAPC()
 
         gen = MonitorUKAccount.list_lantern_enabled(keepalive="1h")
@@ -50,6 +65,11 @@ class LanternApi(object):
 
     @classmethod
     def check_jobs(cls):
+        """
+        Check any existing Lantern jobs for progress, and process any that have completed
+
+        :return:
+        """
         dao = LanternJob()
 
         delay = app.config.get("JOB_LOOKUP_DELAY_LANTERN", 3600)
@@ -80,6 +100,12 @@ class LanternApi(object):
 
     @classmethod
     def _needs_lantern_data(cls, apc):
+        """
+        Check to see if the PublicAPC record could benefit from Lantern lookup
+
+        :param apc:
+        :return:
+        """
         refresh = app.config.get("DATA_REFRESH_LANTERN", 15552000)
         cutoff = dates.before_now(refresh)
         ds = apc.lantern_lookup_datestamp
@@ -101,6 +127,12 @@ class LanternApi(object):
 
     @classmethod
     def _get_identifiers(cls, apc):
+        """
+        Get the identifiers from the PublicAPC
+
+        :param apc:
+        :return:
+        """
         ident = {}
         if apc.doi:
             ident["DOI"] = apc.doi
@@ -114,6 +146,12 @@ class LanternApi(object):
 
     @classmethod
     def _batch(cls, identifiers):
+        """
+        Batch the identifiers up for submission
+
+        :param identifiers:
+        :return:
+        """
         size = app.config.get("BATCH_SIZE_LANTERN", 1000)
         batches = []
         lower = 0
@@ -127,6 +165,12 @@ class LanternApi(object):
 
     @classmethod
     def _xwalk(cls, result):
+        """
+        Crosswalk the Lantern result to an Enhancement object
+
+        :param result:
+        :return:
+        """
         journal_record = result.get("journal", {})
 
         # publication date

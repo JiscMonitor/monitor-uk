@@ -46,6 +46,8 @@ class TestCRUD(ESTestCase):
         os.remove(self.cfg_file)
 
     def test_01_create_retrieve_request(self):
+        # Create a record
+
         # create an account with the correct rights
         acc = models.MonitorUKAccount()
         acc.generate_api_key()
@@ -74,6 +76,8 @@ class TestCRUD(ESTestCase):
         assert resp2.status_code == 404
 
     def test_02_create_error(self):
+        # Create a record and receive an error
+
         # create an account with the correct rights
         acc = models.MonitorUKAccount()
         acc.generate_api_key()
@@ -103,6 +107,8 @@ class TestCRUD(ESTestCase):
         assert resp.status_code == 400
 
     def test_03_update_request(self):
+        # Create a record and then successfully update it
+
         # this is basically 2 consecutive creates for the same item - things get more interesting in the next
         # test when we publish the item in between ...
 
@@ -139,6 +145,8 @@ class TestCRUD(ESTestCase):
         # no point trying to retrieve it, as it still sits in the public space, where we can't access it
 
     def test_04_retrieve_update_public(self):
+        # Create a record, publish it, and then send an update
+
         pub_dao = models.PublicAPC()
 
         # create an account with the correct rights
@@ -209,6 +217,8 @@ class TestCRUD(ESTestCase):
         assert resp4.status_code == 403
 
     def test_05_update_error(self):
+        # Create and publish a record, then send an update which contains an error
+
         # create an account with the correct rights
         acc = models.MonitorUKAccount()
         acc.generate_api_key()
@@ -251,6 +261,8 @@ class TestCRUD(ESTestCase):
         assert resp.status_code == 400
 
     def test_06_delete_request(self):
+        # Create and publish a record, then issue a delete request
+
         pub_dao = models.PublicAPC()
 
         # create an account with the correct rights
@@ -299,6 +311,8 @@ class TestCRUD(ESTestCase):
         assert resp3.status_code == 404
 
     def test_07_delete_error(self):
+        # Create and publish a record, then issue a delete request with an error
+
         # create an account with the correct rights
         acc = models.MonitorUKAccount()
         acc.generate_api_key()

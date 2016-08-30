@@ -1,16 +1,34 @@
+"""
+Fixture factories for all the core model objects
+"""
 from copy import deepcopy
 
 class RequestFixtureFactory(object):
     @classmethod
     def example(cls):
+        """
+        Example Request data
+        :return:
+        """
         return deepcopy(EXAMPLE_REQUEST)
 
     @classmethod
     def record(cls):
+        """
+        Example record within a Request
+        :return:
+        """
         return deepcopy(EXAMPLE_RECORD)
 
     @classmethod
     def request_per_day(cls, prefix, days):
+        """
+        Generate a request dated on separate days, for the supplied number of days
+
+        :param prefix:  The year and month prefix (e.g. "2001-01")
+        :param days: the number of days (and thus the number of records)
+        :return: a list of records with different created and last updated dates
+        """
         sources = []
         for i in range(1, days + 1):
             day = ("0" if i < 10 else "") + str(i)
@@ -23,12 +41,24 @@ class RequestFixtureFactory(object):
         return sources
 
 class EnhancementFixtureFactory(object):
+
     @classmethod
     def example(cls):
+        """
+        An example enhancement
+        :return:
+        """
         return deepcopy(EXAMPLE_ENHANCMENT)
 
     @classmethod
     def request_per_day(cls, prefix, days):
+        """
+        Generate an enhancement dated on separate days, for the supplied number of days
+
+        :param prefix:  The year and month prefix (e.g. "2001-01")
+        :param days: the number of days (and thus the number of records)
+        :return: a list of records with different created and last updated dates
+        """
         sources = []
         for i in range(1, days + 1):
             day = ("0" if i < 10 else "") + str(i)
@@ -45,10 +75,23 @@ class PublicAPCFixtureFactory(object):
 
     @classmethod
     def example(cls):
+        """
+        An example PublicAPC data record
+        :return:
+        """
         return deepcopy(EXAMPLE_PUBLIC)
 
     @classmethod
     def make_record(cls, owner, title, date_submitted, date_accepted):
+        """
+        Make a record with the supplied parameters set
+
+        :param owner: owner of the apcs
+        :param title: title of the record
+        :param date_submitted: date submitted
+        :param date_accepted: date accepted
+        :return:
+        """
         source = PublicAPCFixtureFactory.example()
         del source["id"]
         del source["created_date"]
@@ -61,6 +104,14 @@ class PublicAPCFixtureFactory(object):
 
     @classmethod
     def skeleton(cls, doi, owner, non_apc_record_data=None):
+        """
+        Create a bare-bones, minimal record
+
+        :param doi: the doi
+        :param owner:  the owner
+        :param non_apc_record_data: any non-apc record data you want to incorporate
+        :return:
+        """
         if non_apc_record_data is None:
             non_apc_record_data = {}
         skel = {
@@ -95,24 +146,44 @@ class PublicAPCFixtureFactory(object):
 
     @classmethod
     def record_merge_source(cls):
+        """
+        Record to use as a source of a merge
+        :return:
+        """
         return deepcopy(MERGE_SOURCE)
 
     @classmethod
     def record_merge_target(cls):
+        """
+        Record to use as a target of a merge
+        :return:
+        """
         return deepcopy(MERGE_TARGET)
 
     @classmethod
     def record_merge_result(cls):
+        """
+        The expected result of merging the source and the target
+        :return:
+        """
         return deepcopy(MERGE_RESULT)
 
     @classmethod
     def apc_record(cls):
+        """
+        An example APC record
+        :return:
+        """
         return deepcopy(EXAMPLE_PUBLIC["record"]["jm:apc"][0])
 
 class WorkflowStateFixtureFactory(object):
 
     @classmethod
     def example(cls):
+        """
+        An example workflow state
+        :return:
+        """
         return deepcopy(WORKFLOW_STATE)
 
 WORKFLOW_STATE = {

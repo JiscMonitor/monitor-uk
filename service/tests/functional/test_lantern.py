@@ -1,5 +1,13 @@
 """
 Functional tests for Lantern integration
+
+This connects to the real Lantern service, so is sensitive to changes in the API or changes in the
+data from the real-world examples.
+
+You need to supply the following configuration in local.cfg for it to operate:
+
+TEST_ACCOUNT_EMAIL_LANTERN
+TEST_API_KEY_LANTERN
 """
 
 from octopus.modules.es.testindex import ESTestCase
@@ -24,6 +32,9 @@ class TestLantern(ESTestCase):
         app.config["JOB_LOOKUP_DELAY_LANTERN"] = self.lookup_delay
 
     def test_01_enhance(self):
+        # Create some PublicAPCs for a Lantern-enabled account and then check that jobs are created and completed successfully,
+        # generating enhancements
+
         acc = models.MonitorUKAccount()
         acc.email = "one@example.com"
         acc.lantern_email = app.config.get("TEST_ACCOUNT_EMAIL_LANTERN")

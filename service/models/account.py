@@ -1,3 +1,6 @@
+"""
+Core system objects for user accounts
+"""
 from octopus.modules.account.models import BasicAccount, ContactableAccount, APIAccount, OrganisationAccount
 
 class MonitorUKAccount(BasicAccount, ContactableAccount, APIAccount, OrganisationAccount):
@@ -16,7 +19,6 @@ class MonitorUKAccount(BasicAccount, ContactableAccount, APIAccount, Organisatio
         "lantern_email" : "<email address for lantern account>",
         "lantern_api_key" : "<api key lantern account>"
     }
-
     """
 
     @property
@@ -50,6 +52,9 @@ class MonitorUKAccount(BasicAccount, ContactableAccount, APIAccount, Organisatio
 
 
 class LanternAPIQuery(object):
+    """
+    Prepared query to list all accounts which have a Lantern Email and API key set
+    """
     def __init__(self):
         pass
 
@@ -61,7 +66,8 @@ class LanternAPIQuery(object):
                     "filter" : {
                         "bool" : {
                             "must" : [
-                                {"exists" : {"field" : "lantern_api_key"}}
+                                {"exists" : {"field" : "lantern_api_key"}},
+                                {"exists" : {"field" : "lantern_email"}}
                             ]
                         }
                     }

@@ -1,7 +1,15 @@
+"""
+Model objects representing workflow state for record and enhancement processing
+"""
+
 from octopus.modules.infosys import models
 from octopus.core import app
 
 class WorkflowState(models.InfoSysModel):
+    """
+    Model object for Workflow State, which records when a process was last run, and the identifiers that
+    were run during the final second of the timestamp (to allow disambiguation at next run)
+    """
     def __init__(self, full=None, *args, **kwargs):
         super(WorkflowState, self).__init__(type="workflow", record_struct=WORKFLOW_STRUCT, full=full)
 
@@ -35,3 +43,4 @@ WORKFLOW_STRUCT = {
         "already_processed" : {"contains" : "field", "coerce" : "unicode"}
     }
 }
+""" Schema for WorkflowState record structure"""

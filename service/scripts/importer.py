@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Importer for Jisc TCO spreadsheets.
+
+NOTE: this is primarily for testing, it has not been hardened for production use
+"""
 
 from octopus.core import app
 from octopus.lib import dataobj, http

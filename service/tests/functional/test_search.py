@@ -14,12 +14,8 @@ from octopus.lib import paths
 from service.tests import fixtures
 from service import models
 from service import web
-from service import api
 
-from copy import deepcopy
-
-import time
-import requests, json, os
+import requests, os
 
 
 class TestSearch(ESTestCase):
@@ -46,6 +42,8 @@ class TestSearch(ESTestCase):
         os.remove(self.cfg_file)
 
     def test_01_public_success(self):
+        # Successful query against the public search API
+
         # make a user account which can only read generically from public
         acc = models.MonitorUKAccount()
         acc.generate_api_key()
@@ -118,6 +116,8 @@ class TestSearch(ESTestCase):
         assert r1.get("dc:title") == "Title D", r1.get("dc:title")
 
     def test_02_public_error(self):
+        # query against the public search api which results in an error
+
         # make a user account which can only read generically from public
         acc2 = models.MonitorUKAccount()
         acc2.generate_api_key()
@@ -164,6 +164,8 @@ class TestSearch(ESTestCase):
         assert resp.status_code == 403
 
     def test_03_private_success(self):
+        # Successful query against the private search API
+
         # make user accounts with the correct usernames to query stuff we're about to create then search on
         acc = models.MonitorUKAccount()
         acc.id = "test1"
@@ -237,6 +239,8 @@ class TestSearch(ESTestCase):
         assert r1.get("dc:title") == "Title C", r1.get("dc:title")
 
     def test_04_private_error(self):
+        # Query against the private search API that results in an error
+
         # make a user account which can only read generically from public
         acc2 = models.MonitorUKAccount()
         acc2.generate_api_key()

@@ -1,14 +1,18 @@
-from octopus.modules.account.factory import AccountFactory
+"""
+Forms used to provide the user account UI
+"""
+
 from octopus.modules.account.forms import BasicUserForm, BasicUserFormXwalk, BasicUserFormContext
 from octopus.modules.form.context import FormContext, Renderer
-from octopus.modules.account import exceptions
-from flask.ext.login import current_user
 from wtforms.fields import StringField, HiddenField, PasswordField
 from wtforms import Form, validators
 
 ###########################################################
 
 class MonitorUKUserForm(BasicUserForm):
+    """
+    Defines the central user form for all users to complete
+    """
     name = StringField("Name", [validators.DataRequired()])
 
     organisation = StringField("Organisation", [validators.DataRequired()])
@@ -22,6 +26,9 @@ class MonitorUKUserForm(BasicUserForm):
     request_api_key = HiddenField("request_api_key", default="true")
 
 class MonitorUKUserAdminForm(MonitorUKUserForm):
+    """
+    Defines an extension to the central user form to add fields also editable by administrators
+    """
     user_roles = StringField("System Roles", [validators.Optional()])
 
     password = PasswordField("Your Admin Password", [validators.DataRequired()])
@@ -29,9 +36,18 @@ class MonitorUKUserAdminForm(MonitorUKUserForm):
 ###########################################################
 
 class MonitorUKUserFormXwalk(BasicUserFormXwalk):
+    """
+    Crosswalk for converting between the user form and the user account objects (in both directions)
+    """
 
     @classmethod
     def obj2form(cls, acc):
+        """
+        Convert a user account object to a dictionary suitable for use with the form
+
+        :param acc: user Account object
+        :return: dictionary of form data
+        """
         data = BasicUserFormXwalk.obj2form(acc)
 
         data["name"] = acc.name
@@ -44,6 +60,14 @@ class MonitorUKUserFormXwalk(BasicUserFormXwalk):
 
     @classmethod
     def form2obj(cls, form, acc=None):
+        """
+        Convert a form object to a user account object.  If a user account object is already supplied,
+        enhance that object
+
+        :param form:
+        :param acc:
+        :return:
+        """
         acc = BasicUserFormXwalk.form2obj(form, acc)
 
         if getattr(form, "name", None):
@@ -64,6 +88,12 @@ class MonitorUKUserFormXwalk(BasicUserFormXwalk):
         return acc
 
 class MonitorUKUserFormContext(BasicUserFormContext):
+    """
+    Form context definition for the main user form
+
+    This defines the behaviours of the user account form from initial seeding from the account object, through
+    to rendering, and reading the data back to the updated account object.
+    """
     def set_template(self):
         self.template = "account/user.html"
 
@@ -98,6 +128,11 @@ class MonitorUKUserFormContext(BasicUserFormContext):
             self.form.password.data = password
 
 class MonitorUKUserFormRenderer(Renderer):
+    """
+    Renderer definition for the user form.
+
+    Specifies the fields, the orders of those fields, and any additional rendering-related settings
+    """
     def __init__(self):
         super(MonitorUKUserFormRenderer, self).__init__()
 
@@ -178,15 +213,33 @@ class MonitorUKUserFormRenderer(Renderer):
 ##################################################
 
 class MonitorUKUserAdminFormXwalk(MonitorUKUserFormXwalk):
+    """
+    Crosswalk for converting between the user form and the user account objects (in both directions)
+    within the context of an administrator interaction
+    """
 
     @classmethod
     def obj2form(cls, acc):
+        """
+        Convert a user account object to a dictionary suitable for use with the admin form
+
+        :param acc: user Account object
+        :return: dictionary of form data
+        """
         data = MonitorUKUserFormXwalk.obj2form(acc)
         data["user_roles"] = ", ".join(acc.role)
         return data
 
     @classmethod
     def form2obj(cls, form, acc=None):
+        """
+        Convert an admin form object to a user account object.  If a user account object is already supplied,
+        enhance that object
+
+        :param form:
+        :param acc:
+        :return:
+        """
         acc = MonitorUKUserFormXwalk.form2obj(form, acc)
 
         if getattr(form, "user_roles", None):
@@ -195,6 +248,13 @@ class MonitorUKUserAdminFormXwalk(MonitorUKUserFormXwalk):
         return acc
 
 class MonitorUKUserAdminFormContext(BasicUserFormContext):
+    """
+    Form context definition for the admin user form
+
+    This defines the behaviours of the admin account form from initial seeding from the account object, through
+    to rendering, and reading the data back to the updated account object.
+    """
+
     def set_template(self):
         self.template = "account/user.html"
 
@@ -230,6 +290,11 @@ class MonitorUKUserAdminFormContext(BasicUserFormContext):
 
 
 class MonitorUKUserAdminFormRenderer(Renderer):
+    """
+    Renderer definition for the user admin form.
+
+    Specifies the fields, the orders of those fields, and any additional rendering-related settings
+    """
     def __init__(self):
         super(MonitorUKUserAdminFormRenderer, self).__init__()
 
@@ -306,6 +371,9 @@ class MonitorUKUserAdminFormRenderer(Renderer):
 
 
 class MonitorUKActivateForm(Form):
+    """
+    Defines the user activation form, with minimal information on it
+    """
     name = StringField("Name", [validators.DataRequired()])
 
     organisation = StringField("Organisation", [validators.DataRequired()])
@@ -320,6 +388,11 @@ class MonitorUKActivateForm(Form):
     confirm_new_password = PasswordField('Repeat Password', [validators.DataRequired()])
 
 class MonitorUKActivateFormContext(FormContext):
+    """
+    Form context definition for the activation form
+
+    This defines the behaviours of the activation form
+    """
     def set_template(self):
         self.template = "account/activate.html"
 
@@ -350,6 +423,11 @@ class MonitorUKActivateFormContext(FormContext):
         return super(MonitorUKActivateFormContext, self).render_template(template=template, account=self.source, **kwargs)
 
 class MonitorUKActivateFormRenderer(Renderer):
+    """
+    Renderer definition for the account activation form
+
+    Specifies the fields, the orders of those fields, and any additional rendering-related settings
+    """
     def __init__(self):
         super(MonitorUKActivateFormRenderer, self).__init__()
 

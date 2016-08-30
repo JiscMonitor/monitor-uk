@@ -1,3 +1,9 @@
+"""
+Functions and classes used to refine the behaviour of the standard search API
+
+Members of this module can be found referenced in the configuration config/service.py under SEARCHAPI
+"""
+
 from octopus.core import app
 from service import models
 from octopus.modules.es import sanitise

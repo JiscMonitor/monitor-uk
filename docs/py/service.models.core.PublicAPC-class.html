@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>service.models.core.PublicAPC</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="service-module.html">Package&nbsp;service</a> ::
+        <a href="service.models-module.html">Package&nbsp;models</a> ::
+        <a href="service.models.core-module.html">Module&nbsp;core</a> ::
+        Class&nbsp;PublicAPC
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="service.models.core.PublicAPC-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class PublicAPC</h1><p class="nomargin-top"><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_service__21" name="uml_class_diagram_for_service__21">
+<area shape="rect" id="node1_23" href="service.models.core.PublicAPC-class.html#__init__" title="service.models.core.PublicAPC.__init__" alt="" coords="17,280,281,300"/>
+<area shape="rect" id="node1_24" href="service.models.core.PublicAPC-class.html#prep" title="service.models.core.PublicAPC.prep" alt="" coords="17,300,281,320"/>
+<area shape="rect" id="node1_25" href="service.models.core.PublicAPC-class.html#clean_record" title="Return an instance of the record portion of the model, with all the administrative references cleaned out of it" alt="" coords="17,320,281,340"/>
+<area shape="rect" id="node1_26" href="service.models.core.PublicAPC-class.html#copy" title="Make a deep clone of the object :return: A totally new, but data&#45;identical, PublicAPC object" alt="" coords="17,340,281,360"/>
+<area shape="rect" id="node1_27" href="service.models.core.PublicAPC-class.html#overwrite" title="Overwrite the current internal data with the replacements internal data :param replacement: A PublicAPC :return:" alt="" coords="17,360,281,380"/>
+<area shape="rect" id="node1_28" href="service.models.core.PublicAPC-class.html#get_apc_refs" title="Get all the reference identifiers for APCs in the record associated with the given account id" alt="" coords="17,380,281,400"/>
+<area shape="rect" id="node1_29" href="service.models.core.PublicAPC-class.html#set_apc_ref" title="Record an APC reference for the given account id and reference in the admin data" alt="" coords="17,400,281,420"/>
+<area shape="rect" id="node1_30" href="service.models.core.PublicAPC-class.html#remove_apc_refs" title="remove all admin records of APC references for a given owner" alt="" coords="17,420,281,440"/>
+<area shape="rect" id="node1_31" href="service.models.core.PublicAPC-class.html#list_owners" title="List all the APC owners associated with this record" alt="" coords="17,440,281,460"/>
+<area shape="rect" id="node1_32" href="service.models.core.PublicAPC-class.html#get_apcs_by_owner" title="Get all the APC records owned by this owner" alt="" coords="17,460,281,480"/>
+<area shape="rect" id="node1_33" href="service.models.core.PublicAPC-class.html#add_apc_for_owner" title="Add an APC record, providing it with a unique reference, and binding it to this owner" alt="" coords="17,480,281,500"/>
+<area shape="rect" id="node1_34" href="service.models.core.PublicAPC-class.html#remove_apcs_by_owner" title="Remove all APCs that are owned by this account id" alt="" coords="17,500,281,520"/>
+<area shape="rect" id="node1_35" href="service.models.core.PublicAPC-class.html#lantern_lookup" title="service.models.core.PublicAPC.lantern_lookup" alt="" coords="17,520,281,540"/>
+<area shape="rect" id="node1_36" href="service.models.core.PublicAPC-class.html#list_by_owner" title="service.models.core.PublicAPC.list_by_owner" alt="" coords="17,560,281,580"/>
+<area shape="rect" id="node1" href="service.models.core.PublicAPC-class.html" title="PublicAPC object to represent the published, canonical APC record" alt="" coords="5,246,293,586"/>
+<area shape="rect" id="node2_37" href="service.models.core.RecordMethods-class.html#apc_records" title="service.models.core.RecordMethods.apc_records" alt="" coords="49,40,249,60"/>
+<area shape="rect" id="node2_38" href="service.models.core.RecordMethods-class.html#has_apcs" title="service.models.core.RecordMethods.has_apcs" alt="" coords="49,60,249,80"/>
+<area shape="rect" id="node2_39" href="service.models.core.RecordMethods-class.html#remove_apc_by_ref" title="service.models.core.RecordMethods.remove_apc_by_ref" alt="" coords="49,80,249,100"/>
+<area shape="rect" id="node2_40" href="service.models.core.RecordMethods-class.html#add_apc_record" title="service.models.core.RecordMethods.add_apc_record" alt="" coords="49,100,249,120"/>
+<area shape="rect" id="node2_41" href="service.models.core.RecordMethods-class.html#doi" title="service.models.core.RecordMethods.doi" alt="" coords="49,120,249,140"/>
+<area shape="rect" id="node2_42" href="service.models.core.RecordMethods-class.html#pmid" title="service.models.core.RecordMethods.pmid" alt="" coords="49,140,249,160"/>
+<area shape="rect" id="node2_43" href="service.models.core.RecordMethods-class.html#pmcid" title="service.models.core.RecordMethods.pmcid" alt="" coords="49,160,249,180"/>
+<area shape="rect" id="node2_44" href="service.models.core.RecordMethods-class.html#url" title="service.models.core.RecordMethods.url" alt="" coords="49,180,249,200"/>
+<area shape="rect" id="node2_45" href="service.models.core.RecordMethods-class.html#identifiers" title="service.models.core.RecordMethods.identifiers" alt="" coords="49,200,249,220"/>
+<area shape="rect" id="node2" href="service.models.core.RecordMethods-class.html" title="Super&#45;class which defines methods useful for interrogating model objects which contain APC record data" alt="" coords="37,6,261,226"/>
+</map>
+  <img src="uml_class_diagram_for_service__21.gif" alt='' usemap="#uml_class_diagram_for_service__21" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+PublicAPC object to represent the published, canonical APC record
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">full</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="prep"></a><span class="summary-sig-name">prep</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.prep">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#clean_record" class="summary-sig-name">clean_record</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return an instance of the record portion of the model, with all the administrative references cleaned out of it</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.clean_record">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="copy"></a><span class="summary-sig-name">copy</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Make a deep clone of the object
+:return: A totally new, but data-identical, PublicAPC object</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.copy">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="overwrite"></a><span class="summary-sig-name">overwrite</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">replacement</span>)</span><br />
+      Overwrite the current internal data with the replacements internal data
+:param replacement: A PublicAPC
+:return:</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.overwrite">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#get_apc_refs" class="summary-sig-name">get_apc_refs</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">account_id</span>)</span><br />
+      Get all the reference identifiers for APCs in the record associated with the given account id</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.get_apc_refs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#set_apc_ref" class="summary-sig-name">set_apc_ref</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">account_id</span>,
+        <span class="summary-sig-arg">ref</span>)</span><br />
+      Record an APC reference for the given account id and reference in the admin data</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.set_apc_ref">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#remove_apc_refs" class="summary-sig-name">remove_apc_refs</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">account_id</span>)</span><br />
+      remove all admin records of APC references for a given owner</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.remove_apc_refs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#list_owners" class="summary-sig-name">list_owners</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      List all the APC owners associated with this record</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.list_owners">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#get_apcs_by_owner" class="summary-sig-name">get_apcs_by_owner</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">owner</span>)</span><br />
+      Get all the APC records owned by this owner</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.get_apcs_by_owner">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#add_apc_for_owner" class="summary-sig-name">add_apc_for_owner</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">owner</span>,
+        <span class="summary-sig-arg">apc_record</span>)</span><br />
+      Add an APC record, providing it with a unique reference, and binding it to this owner</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.add_apc_for_owner">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#remove_apcs_by_owner" class="summary-sig-name">remove_apcs_by_owner</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">owner</span>)</span><br />
+      Remove all APCs that are owned by this account id</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.remove_apcs_by_owner">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#lantern_lookup" class="summary-sig-name">lantern_lookup</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">val</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.lantern_lookup">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#lantern_lookup_datestamp" class="summary-sig-name">lantern_lookup_datestamp</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.lantern_lookup_datestamp">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.PublicAPC-class.html#merge_records" class="summary-sig-name">merge_records</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">source</span>)</span><br />
+      Merge the source PublicAPC record with this one</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.merge_records">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="find_by_doi"></a><span class="summary-sig-name">find_by_doi</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">val</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.find_by_doi">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="find_by_pmid"></a><span class="summary-sig-name">find_by_pmid</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">val</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.find_by_pmid">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="find_by_pmcid"></a><span class="summary-sig-name">find_by_pmcid</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">val</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.find_by_pmcid">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="find_by_url"></a><span class="summary-sig-name">find_by_url</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">val</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.find_by_url">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="list_by_owner"></a><span class="summary-sig-name">list_by_owner</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">owner</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.list_by_owner">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="service.models.core.RecordMethods-class.html">RecordMethods</a></th></tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_get_first_identifier"></a><span class="summary-sig-name">_get_first_identifier</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">type</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods._get_first_identifier">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="add_apc_record"></a><span class="summary-sig-name">add_apc_record</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">apc_record</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.add_apc_record">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.RecordMethods-class.html#apc_records" class="summary-sig-name">apc_records</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">val</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.apc_records">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.RecordMethods-class.html#doi" class="summary-sig-name">doi</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.doi">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="has_apcs"></a><span class="summary-sig-name">has_apcs</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.has_apcs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.RecordMethods-class.html#identifiers" class="summary-sig-name">identifiers</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.identifiers">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.RecordMethods-class.html#pmcid" class="summary-sig-name">pmcid</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.pmcid">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.RecordMethods-class.html#pmid" class="summary-sig-name">pmid</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.pmid">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="remove_apc_by_ref"></a><span class="summary-sig-name">remove_apc_by_ref</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ref</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.remove_apc_by_ref">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="service.models.core.RecordMethods-class.html#url" class="summary-sig-name">url</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="service.models.core-pysrc.html#RecordMethods.url">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="clean_record"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clean_record</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.clean_record">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return an instance of the record portion of the model, with all the administrative references cleaned out of it</p>
+<p>Useful for, for example, getting a pristine record which can be served via a web API
+:return:</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_apc_refs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_apc_refs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">account_id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.get_apc_refs">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Get all the reference identifiers for APCs in the record associated with the given account id
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>account_id</code></strong></li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>list of reference ids</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_apc_ref"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_apc_ref</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">account_id</span>,
+        <span class="sig-arg">ref</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.set_apc_ref">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Record an APC reference for the given account id and reference in the admin data
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>account_id</code></strong></li>
+        <li><strong class="pname"><code>ref</code></strong></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="remove_apc_refs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">remove_apc_refs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">account_id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.remove_apc_refs">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>remove all admin records of APC references for a given owner</p>
+<p>Note, this does not remove the references from the APC records themselves</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>account_id</code></strong></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="list_owners"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">list_owners</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.list_owners">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  List all the APC owners associated with this record
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>list of account ids</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_apcs_by_owner"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_apcs_by_owner</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">owner</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.get_apcs_by_owner">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Get all the APC records owned by this owner
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>owner</code></strong></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="add_apc_for_owner"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">add_apc_for_owner</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">owner</span>,
+        <span class="sig-arg">apc_record</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.add_apc_for_owner">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Add an APC record, providing it with a unique reference, and binding it to this owner
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>owner</code></strong> - account id</li>
+        <li><strong class="pname"><code>apc_record</code></strong></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="remove_apcs_by_owner"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">remove_apcs_by_owner</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">owner</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.remove_apcs_by_owner">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Remove all APCs that are owned by this account id
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>owner</code></strong> - accound id</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lantern_lookup"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lantern_lookup</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">val</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.lantern_lookup">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@lantern_lookup.setter</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lantern_lookup_datestamp"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lantern_lookup_datestamp</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.lantern_lookup_datestamp">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="merge_records"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">merge_records</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">source</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="service.models.core-pysrc.html#PublicAPC.merge_records">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Merge the source PublicAPC record with this one
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>source</code></strong></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/JiscMonitor/monitor-uk">Monitor UK</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 30 20:01:38 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

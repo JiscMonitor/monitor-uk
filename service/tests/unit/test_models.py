@@ -1,3 +1,7 @@
+"""
+Unit tests for core system models
+"""
+
 from octopus.modules.es.testindex import ESTestCase
 
 from octopus.lib import dataobj, dictmerge, dates
@@ -7,7 +11,7 @@ from service.tests.fixtures import RequestFixtureFactory, PublicAPCFixtureFactor
 
 from copy import deepcopy
 import time
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 class TestModels(ESTestCase):
     def setUp(self):
@@ -17,12 +21,16 @@ class TestModels(ESTestCase):
         super(TestModels, self).tearDown()
 
     def test_01_constructs(self):
+        # Check all our constructs validate
+
         dataobj.construct_validate(core.CORE_STRUCT)
         dataobj.construct_validate(core.REQUEST_ADMIN_STRUCT)
         dataobj.construct_validate(core.PUBLIC_ADMIN_STRUCT)
         dictmerge.validate_rules(core.RECORD_MERGE_RULES)
 
     def test_02_request(self):
+        # Check we can instantiate and work with a Request
+
         # first make a blank one
         req = Request()
 
@@ -52,6 +60,8 @@ class TestModels(ESTestCase):
             req.record = {"random" : "stuff"}
 
     def test_03_public(self):
+        # Check we can instantiate and work with a PublicAPC
+
         # first make a blank one
         pub = PublicAPC()
 
@@ -79,6 +89,8 @@ class TestModels(ESTestCase):
             pub.record = {"random" : "stuff"}
 
     def test_04_record_methods(self):
+        # Check all the Record methods work
+
         classes = [Request, PublicAPC]
         source = RequestFixtureFactory.example()
         record = source.get("record")
@@ -116,6 +128,8 @@ class TestModels(ESTestCase):
             assert inst.has_apcs() is False
 
     def test_05_request_dao(self):
+        # Check the DAO methods on the Request object
+
         dao = Request()
 
         source = RequestFixtureFactory.example()
@@ -168,6 +182,8 @@ class TestModels(ESTestCase):
         assert len(res) == 0
 
     def test_06_public_dao(self):
+        # Check all the DAO methods on the PublicAPC object
+
         dao = PublicAPC()
 
         source = PublicAPCFixtureFactory.example()
@@ -212,6 +228,8 @@ class TestModels(ESTestCase):
         assert count == 1
 
     def test_07_request2public(self):
+        # Check the conversion of a Request to a PublicAPC
+
         source = RequestFixtureFactory.example()
         req = Request(source)
         pub = req.make_public_apc()
@@ -231,6 +249,8 @@ class TestModels(ESTestCase):
         assert refs[0] == setrefs[0]
 
     def test_08_public_apc_methods(self):
+        # Check all the PublcAPC object methods
+
         pub = PublicAPC()
 
         assert len(pub.get_apc_refs("11111")) == 0
@@ -288,6 +308,8 @@ class TestModels(ESTestCase):
         assert len(pub.get_apc_refs("22222")) == 0
 
     def test_09_merge_records(self):
+        # Check the merge of PublicAPC records
+
         merge_source = PublicAPCFixtureFactory.record_merge_source()
         merge_target = PublicAPCFixtureFactory.record_merge_target()
         result = PublicAPCFixtureFactory.record_merge_result()
@@ -311,6 +333,8 @@ class TestModels(ESTestCase):
             target.merge_records({"random" : "data"})
 
     def test_10_request_refs(self):
+        # Check that APC refs are handled correctly by Reuqests
+
         # first check that refs are stripped automatically on construction
         source = RequestFixtureFactory.example()
         source["record"]["jm:apc"][0]["ref"] = "1234567890"
@@ -326,6 +350,8 @@ class TestModels(ESTestCase):
         assert "ref" not in req.apc_records[0]
 
     def test_11_public_refs(self):
+        # Check that APC refs are handled correctly by PublicAPCs
+
         source = PublicAPCFixtureFactory.example()
         pub = PublicAPC(source)
 
@@ -333,6 +359,8 @@ class TestModels(ESTestCase):
         assert "ref" not in pub.clean_record.get("jm:apc")[0]
 
     def test_12_workflow_state(self):
+        # Check we can construct and work with WorkflowState objects
+
         # make a blank one just in case we need to
         wfs = WorkflowState()
 
@@ -362,6 +390,8 @@ class TestModels(ESTestCase):
             wfs = WorkflowState({"junk" : "data"})
 
     def test_13_request_iterator(self):
+        # Check we can iterate successfully over lists of Requests
+
         sources = RequestFixtureFactory.request_per_day("2001-01", 10)
 
         for s in sources:
@@ -385,6 +415,8 @@ class TestModels(ESTestCase):
         assert dates == comp
 
     def test_14_copy_overwrite(self):
+        # Check the copy and overwrite cloning methods work
+
         source = PublicAPCFixtureFactory.example()
         pub = PublicAPC(source)
 
@@ -405,6 +437,8 @@ class TestModels(ESTestCase):
         assert pub2.id == pub3.id
 
     def test_15_public_indexing(self):
+        # Check that public records are indexed correctly
+
         source = PublicAPCFixtureFactory.example()
         pub = PublicAPC(source)
 
@@ -435,6 +469,8 @@ class TestModels(ESTestCase):
         assert pub.data.get("index", {}).get("grand_total") == 3900
 
     def test_16_lantern_accounts(self):
+        # Check that we can detect lantern accounts
+
         acc1 = MonitorUKAccount()
         acc1.email = "one@example.com"
         acc1.save()
@@ -467,6 +503,7 @@ class TestModels(ESTestCase):
         assert count == 11
 
     def test_17_lantern_jobs(self):
+        # Check we can create and work with Lantern model objects
         lj = LanternJob()
         lj.job_id = "123456789"
         lj.account = "abcdefg"
@@ -485,6 +522,8 @@ class TestModels(ESTestCase):
             lj2.status = "other"
 
     def test_18_enhancement(self):
+        # Check we can create and work with Enhancement model objects
+
         # first make a blank one
         req = Enhancement()
 
@@ -510,6 +549,8 @@ class TestModels(ESTestCase):
             req.record = {"random" : "stuff"}
 
     def test_19_lantern_active_jobs(self):
+        # Check we can list active Lantern jobs
+
         lj1 = LanternJob()
         lj1.job_id = "123456789"
         lj1.account = "abcdefg"
@@ -550,6 +591,8 @@ class TestModels(ESTestCase):
         assert len(jobs) == 1
 
     def test_20_enhancement_iterator(self):
+        # Check we can successfully iterate over enhancements
+
         sources = EnhancementFixtureFactory.request_per_day("2001-01", 10)
 
         for s in sources:

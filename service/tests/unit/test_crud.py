@@ -1,3 +1,7 @@
+"""
+Unit tests for the CRUD API components
+"""
+
 from octopus.modules.es.testindex import ESTestCase
 from octopus.lib import dataobj
 from octopus.core import app
@@ -18,6 +22,8 @@ class TestCrud(ESTestCase):
         super(TestCrud, self).tearDown()
 
     def test_01_create(self):
+        # Create instances of the ApiRequest object
+
         # construct a blank one, just to make sure we can
         req = ApiRequest()
         assert req.raw is None
@@ -42,6 +48,8 @@ class TestCrud(ESTestCase):
             req = ApiRequest({"whatever" : "here"}, account=acc)
 
     def test_02_update(self):
+        # Do updates on the ApiRequest object
+
         source = RequestFixtureFactory.record()
         csource = deepcopy(source)
         csource["@context"] = app.config.get("API_JSON_LD_CONTEXT")
@@ -71,6 +79,8 @@ class TestCrud(ESTestCase):
             req.update({"whatever" : "here"})
 
     def test_03_pull_request(self):
+        # Pull a Request through the ApiRequest object
+
         acc = MonitorUKAccount()
         acc.id = "abcdefghij"
         acc.save(blocking=True)
@@ -91,6 +101,8 @@ class TestCrud(ESTestCase):
         assert result is None
 
     def test_04_pull_public(self):
+        # Pull a PublicAPC through the ApiRequest object
+
         acc = MonitorUKAccount()
         acc.id = "abcdefghij"
         acc.save()
@@ -118,6 +130,8 @@ class TestCrud(ESTestCase):
         assert result is not None
 
     def test_05_pull_then_update(self):
+        # Pull a record through the ApiRequest object and then udpate it
+
         acc = MonitorUKAccount()
         acc.id = "abcdefghij"
         acc.save(blocking=True)
@@ -135,6 +149,8 @@ class TestCrud(ESTestCase):
         assert result.account.id == acc.id
 
     def test_06_get_id(self):
+        # Get the operative ID of a record
+
         acc = MonitorUKAccount()
         acc.id = "abcdefghij"
         source = RequestFixtureFactory.record()
@@ -155,6 +171,8 @@ class TestCrud(ESTestCase):
         assert result.id == result.public_id
 
     def test_07_save_delete(self):
+        # Work through acycle of saves and deletes to observe the outputs
+
         source = RequestFixtureFactory.record()
         acc = MonitorUKAccount()
         acc.save(blocking=True)
@@ -200,6 +218,8 @@ class TestCrud(ESTestCase):
         assert req4.action == "delete"
 
     def test_08_append(self):
+        # Check that append works, which is the same as update
+
         source = RequestFixtureFactory.record()
         acc = MonitorUKAccount()
         acc.save()
@@ -226,6 +246,8 @@ class TestCrud(ESTestCase):
             req.append({"whatever" : "here"})
 
     def test_09_responses(self):
+        # Check that we get appropriate JSON responses
+
         source = RequestFixtureFactory.record()
         acc = MonitorUKAccount()
         acc.save(blocking=True)
@@ -267,6 +289,8 @@ class TestCrud(ESTestCase):
         assert dr.get("public_id") == req.id
 
     def test_10_validate(self):
+        # Check the various validation routines
+
         acc = MonitorUKAccount()
         acc.save()
 

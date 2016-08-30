@@ -1,3 +1,7 @@
+"""
+All the central APC-focussed model objects
+"""
+
 from octopus.modules.infosys.models import InfoSysModel
 from octopus.lib import dataobj, dictmerge
 from service import queries
@@ -5,9 +9,15 @@ import uuid
 from copy import deepcopy
 
 class ModelException(Exception):
+    """
+    Exception class for any custom exceptions raised from these models
+    """
     pass
 
 class RecordMethods(dataobj.DataObj):
+    """
+    Super-class which defines methods useful for interrogating model objects which contain APC record data
+    """
 
     @property
     def apc_records(self):
@@ -53,7 +63,11 @@ class RecordMethods(dataobj.DataObj):
         return None
 
 class Publishable(dataobj.DataObj):
+    """
+    Methods that must be supported by model objects which can be published
 
+    (the methods defined here will be during the publication process)
+    """
     @property
     def public_id(self):
         return self._get_single("admin.public_id")
@@ -69,6 +83,9 @@ class Publishable(dataobj.DataObj):
         raise NotImplementedError()
 
 class Request(InfoSysModel, RecordMethods, Publishable):
+    """
+    Request object to represent incoming APC records, to be published or merged with existing public records
+    """
     def __init__(self, full=None, *args, **kwargs):
         super(Request, self).__init__(type="request", record_struct=CORE_STRUCT, admin_struct=REQUEST_ADMIN_STRUCT, index_rules=REQUEST_INDEX_RULES, full=full)
         self.clear_refs()
@@ -134,10 +151,27 @@ class Request(InfoSysModel, RecordMethods, Publishable):
     ## Data Access methods
 
     def find_by_identifier(self, type, id, owner, size=1):
+        """
+        Locate all requests (up to the given size limit) that have the given identifier, ordered
+        by date of creation, most recent first
+
+        :param type:    identifier type, e.g. doi, pmcid
+        :param id:  identifier
+        :param owner:   owner whose Requests to restrain results to
+        :param size:    maximum number of records to return
+        :return:
+        """
         q = queries.RequestByIndexedIdentifierQuery(type, id, owner, size)
         return self.object_query(q=q.query())
 
     def list_all_since(self, since, page_size=1000):
+        """
+        List all Requests since the given date
+
+        :param since:   date from which to list Requests
+        :param page_size:   page size to use for the iterator - mostly you can leave this alone
+        :return: a generator which will allow you to iterate over the Requests
+        """
         q = queries.CreatedDateQueueQuery(since, page_size)
         # we use iterate rather than scroll because that way each request is a paged query, which has lower memory
         # requirements, and it means that the iteration is exhaustive, and includes items which were added to the
@@ -147,6 +181,10 @@ class Request(InfoSysModel, RecordMethods, Publishable):
 
 
 class Enhancement(InfoSysModel, RecordMethods, Publishable):
+    """
+    Enhancement object to represent enhancements to existing APC records, to be merged with existing public records
+    """
+
     def __init__(self, full=None, *args, **kwargs):
         super(Enhancement, self).__init__(type="enhancement", record_struct=CORE_STRUCT, admin_struct=ENHANCEMENT_ADMIN_STRUCT, index_rules=ENHANCEMENT_INDEX_RULES, full=full)
 
@@ -160,6 +198,13 @@ class Enhancement(InfoSysModel, RecordMethods, Publishable):
     ## Data Access methods
 
     def list_all_since(self, since, page_size=1000):
+        """
+        List all Enhancements since the given date
+
+        :param since:   date from which to list Requests
+        :param page_size:   page size to use for the iterator - mostly you can leave this alone
+        :return: a generator which will allow you to iterate over the Requests
+        """
         q = queries.CreatedDateQueueQuery(since, page_size)
         # we use iterate rather than scroll because that way each request is a paged query, which has lower memory
         # requirements, and it means that the iteration is exhaustive, and includes items which were added to the
@@ -168,6 +213,10 @@ class Enhancement(InfoSysModel, RecordMethods, Publishable):
         return self.iterate(q=q.query(), page_size=page_size)
 
 class PublicAPC(InfoSysModel, RecordMethods):
+    """
+    PublicAPC object to represent the published, canonical APC record
+    """
+
     def __init__(self, full=None, *args, **kwargs):
         super(PublicAPC, self).__init__(type="public", record_struct=CORE_STRUCT, admin_struct=PUBLIC_ADMIN_STRUCT, index_rules=PUBLIC_INDEX_RULES, full=full)
 
@@ -181,6 +230,12 @@ class PublicAPC(InfoSysModel, RecordMethods):
 
     @property
     def clean_record(self):
+        """
+        Return an instance of the record portion of the model, with all the administrative references cleaned out of it
+
+        Useful for, for example, getting a pristine record which can be served via a web API
+        :return:
+        """
         rec = deepcopy(self.record)
         for apc in rec.get("jm:apc", []):
             if "ref" in apc:
@@ -188,9 +243,18 @@ class PublicAPC(InfoSysModel, RecordMethods):
         return rec
 
     def copy(self):
+        """
+        Make a deep clone of the object
+        :return: A totally new, but data-identical, PublicAPC object
+        """
         return PublicAPC(deepcopy(self.data))
 
     def overwrite(self, replacement):
+        """
+        Overwrite the current internal data with the replacements internal data
+        :param replacement: A PublicAPC
+        :return:
+        """
         self.record = replacement.record
         self.admin = replacement.admin
 
@@ -198,35 +262,80 @@ class PublicAPC(InfoSysModel, RecordMethods):
     ## Methods for working with apc ref admin data
 
     def get_apc_refs(self, account_id):
+        """
+        Get all the reference identifiers for APCs in the record associated with the given account id
+
+        :param account_id:
+        :return: list of reference ids
+        """
         owners = self._get_single("admin.apc_owners")
         if owners is None:
             return []
         return [x.get("ref") for x in owners if x.get("owner") == account_id]
 
     def set_apc_ref(self, account_id, ref):
+        """
+        Record an APC reference for the given account id and reference in the admin data
+
+        :param account_id:
+        :param ref:
+        :return:
+        """
         ro = {"owner" : account_id, "ref" : ref}
         self._add_to_list_with_struct("admin.apc_owners", ro)
 
     def remove_apc_refs(self, account_id):
+        """
+        remove all admin records of APC references for a given owner
+
+        Note, this does not remove the references from the APC records themselves
+
+        :param account_id:
+        :return:
+        """
         self._delete_from_list("admin.apc_owners", matchsub={"owner" : account_id})
 
     def list_owners(self):
+        """
+        List all the APC owners associated with this record
+
+        :return: list of account ids
+        """
         return list(set([x.get("owner") for x in self._get_list("admin.apc_owners")]))
 
     ######################################################
     ## Methods for working with apc records
 
     def get_apcs_by_owner(self, owner):
+        """
+        Get all the APC records owned by this owner
+
+        :param owner:
+        :return:
+        """
         refs = self.get_apc_refs(owner)
         return [x for x in self.apc_records if x.get("ref") in refs]
 
     def add_apc_for_owner(self, owner, apc_record):
+        """
+        Add an APC record, providing it with a unique reference, and binding it to this owner
+
+        :param owner: account id
+        :param apc_record:
+        :return:
+        """
         if "ref" not in apc_record:
             apc_record["ref"] = uuid.uuid4()
         self.add_apc_record(apc_record)
         self.set_apc_ref(owner, apc_record.get("ref"))
 
     def remove_apcs_by_owner(self, owner):
+        """
+        Remove all APCs that are owned by this account id
+
+        :param owner: accound id
+        :return:
+        """
         refs = self.get_apc_refs(owner)
         for r in refs:
             self.remove_apc_by_ref(r)
@@ -251,6 +360,12 @@ class PublicAPC(InfoSysModel, RecordMethods):
     ## Merge capability
 
     def merge_records(self, source):
+        """
+        Merge the source PublicAPC record with this one
+
+        :param source:
+        :return:
+        """
         if not isinstance(source, PublicAPC):
             raise ModelException("Attempt to merge a PublicAPC with another kind of record")
         self.record = dictmerge.merge(source.record, self.record, RECORD_MERGE_RULES)
@@ -315,8 +430,10 @@ REQUEST_INDEX_RULES = [
         }
     }
 ]
+""" Rules for how to index the data in the Request object """
 
 ENHANCEMENT_INDEX_RULES = []
+""" Rules for how to index the data in the Enhancement object """
 
 PUBLIC_INDEX_RULES = [
     {
@@ -445,6 +562,7 @@ PUBLIC_INDEX_RULES = [
         }
     }
 ]
+""" Rules for how to index the data in the PublicAPC object """
 
 PUBLIC_ADMIN_STRUCT = {
     "fields" : {
@@ -462,6 +580,7 @@ PUBLIC_ADMIN_STRUCT = {
         }
     }
 }
+""" Schema for admin area of PublicAPC record """
 
 REQUEST_ADMIN_STRUCT = {
     "fields" : {
@@ -470,12 +589,14 @@ REQUEST_ADMIN_STRUCT = {
         "public_id" : {"coerce" : "unicode"}
     }
 }
+""" Schema for admin area of Request record """
 
 ENHANCEMENT_ADMIN_STRUCT = {
     "fields" : {
         "public_id" : {"coerce" : "unicode"}
     }
 }
+""" Schema for admin area of Enhancement record """
 
 CORE_STRUCT = {
     "fields" : {
@@ -751,6 +872,7 @@ CORE_STRUCT = {
         }
     }
 }
+""" Schema core bibliographic record, re-used across all core objects """
 
 RECORD_MERGE_RULES = {
     "copy_if_missing" : [
@@ -1005,3 +1127,4 @@ RECORD_MERGE_RULES = {
         }
     }
 }
+""" Dictionary merge rules for core record schema """

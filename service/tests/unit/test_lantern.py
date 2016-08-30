@@ -1,3 +1,7 @@
+"""
+Unit tests for Lantern components
+"""
+
 from octopus.modules.es.testindex import ESTestCase
 from octopus.modules.lantern import client
 from octopus.lib import dates
@@ -119,6 +123,8 @@ class TestLantern(ESTestCase):
         client.Lantern = self.old_lantern
 
     def test_01_needs_lantern(self):
+        # Check that we can tell when an object needs to be looked up in Lantern
+
         apc = {
             "record" : {
                 "rioxxterms:publication_date" : "2001-01-01",
@@ -260,6 +266,8 @@ class TestLantern(ESTestCase):
         assert needs is True
 
     def test_02_get_identifiers(self):
+        # Check we get the right identifiers from an object
+
         apc = {
             "record" : {
                 "dc:identifier" : [
@@ -282,6 +290,8 @@ class TestLantern(ESTestCase):
         assert idents is None
 
     def test_03_batch(self):
+        # check that batches are created correctly
+
         idents = [True] * 4444
         batches = LanternApi._batch(idents)
         assert len(batches) == 5
@@ -297,6 +307,8 @@ class TestLantern(ESTestCase):
         assert len(batches[0]) == 12
 
     def test_04_create_job(self):
+        # Check we can create jobs correctly
+
         acc1 = MonitorUKAccount()
         acc1.email = "one@example.com"
         acc1.save()
@@ -397,6 +409,8 @@ class TestLantern(ESTestCase):
 
 
     def test_05_low_quota(self):
+        # Check what happens when the use has a low quota on Lantern
+
         global QUOTA
         QUOTA = 1
 
@@ -435,6 +449,7 @@ class TestLantern(ESTestCase):
         assert len(job["list"]) == 1
 
     def test_06_xwalk(self):
+        # Check the Lantern to Enhancement crosswalk
         record = LanternFixtureFactory.record()
         result = LanternFixtureFactory.xwalk_result()
 
@@ -443,6 +458,8 @@ class TestLantern(ESTestCase):
         assert enhancement.data["record"] == result["record"]
 
     def test_07_check_jobs(self):
+        # Ensure that we can check existing jobs correctly
+
         acc = MonitorUKAccount()
         acc.email = "one@example.com"
         acc.lantern_email = "onelantern@example.com"

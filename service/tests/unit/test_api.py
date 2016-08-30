@@ -1,3 +1,7 @@
+"""
+Unit tests covering the Core API
+"""
+
 from octopus.modules.es.testindex import ESTestCase
 from octopus.modules.account.models import BasicAccount
 
@@ -34,7 +38,7 @@ def delete_mock(cls, *args, **kwargs):
 
 ################################################
 
-class TestModels(ESTestCase):
+class TestAPI(ESTestCase):
     def setUp(self):
         self.old_publish = PublicApi.publish
         self.old_remove = PublicApi.remove
@@ -45,14 +49,16 @@ class TestModels(ESTestCase):
         global DELETE_COUNTER
         DELETE_COUNTER = 0
 
-        super(TestModels, self).setUp()
+        super(TestAPI, self).setUp()
 
     def tearDown(self):
         PublicApi.publish = self.old_publish
         PublicApi.remove = self.old_remove
-        super(TestModels, self).tearDown()
+        super(TestAPI, self).tearDown()
 
     def test_01_request_update(self):
+        # Create an update Request
+
         record = RequestFixtureFactory.record()
 
         acc = BasicAccount()
@@ -75,6 +81,8 @@ class TestModels(ESTestCase):
         assert r21 is not None
 
     def test_01_request_delete(self):
+        # Create a delete request
+
         record = RequestFixtureFactory.record()
 
         acc = BasicAccount()
@@ -92,6 +100,8 @@ class TestModels(ESTestCase):
         assert r1.public_id == "01010101"
 
     def test_02_find_public_record(self):
+        # Find a public record with a variety of identifiers
+
         source = PublicAPCFixtureFactory.example()
         pub = PublicAPC(source)
         pub.save(blocking=True)
@@ -150,6 +160,8 @@ class TestModels(ESTestCase):
         assert pub11 is None
 
     def test_03_publish_new(self):
+        # Publish a new request
+
         source = RequestFixtureFactory.example()
         req = Request(source)
         pub = PublicApi.publish(req)
@@ -159,6 +171,8 @@ class TestModels(ESTestCase):
         assert pub2 is not None
 
     def test_04_merge_public_apcs(self):
+        # Merge two PublicAPC records together
+
         source_source = PublicAPCFixtureFactory.example()
         target_source = PublicAPCFixtureFactory.example()
 
@@ -241,6 +255,8 @@ class TestModels(ESTestCase):
         assert "ddddd" in refs
 
     def test_05_enhance_metadata(self):
+        # Enhance the bibliographic metadata on a PublicAPC record
+
         merge_source = PublicAPCFixtureFactory.record_merge_source()
         merge_target = PublicAPCFixtureFactory.record_merge_target()
         result = PublicAPCFixtureFactory.record_merge_result()
@@ -260,6 +276,8 @@ class TestModels(ESTestCase):
         assert target.get_apc_refs("22222") == []
 
     def test_06_publish_update(self):
+        # Publish an update to an existing PublicAPC
+
         merge_source = PublicAPCFixtureFactory.record_merge_source()
         merge_target = PublicAPCFixtureFactory.record_merge_target()
         apc_record = PublicAPCFixtureFactory.apc_record()
@@ -311,6 +329,8 @@ class TestModels(ESTestCase):
         assert record == result
 
     def test_07_separate_records(self):
+        # Separate an incoming Request from its corresponding PublicAPC
+
         apc_record = PublicAPCFixtureFactory.apc_record()
 
         req = Request()
@@ -327,6 +347,8 @@ class TestModels(ESTestCase):
         assert not pub.has_apcs()
 
     def test_08_remove_separate(self):
+        # Separate an incoming Request from its corresponding PublicAPC, leaving only one owner behind
+
         source = RequestFixtureFactory.example()
         req = Request(source)
         req.owner = "test"
@@ -350,6 +372,8 @@ class TestModels(ESTestCase):
         assert len(pub2.get_apcs_by_owner("abcdefg")) == 1
 
     def test_09_remove_permanent(self):
+        # Separate an incoming Request from its corresponding PublicAPC, leaving no owners, thus deleting the record
+
         source = RequestFixtureFactory.example()
         req = Request(source)
         req.owner = "test"
@@ -374,6 +398,8 @@ class TestModels(ESTestCase):
         assert pub2 is None
 
     def test_10_find_request(self):
+        # Find a Request through a number of routes
+
         source = RequestFixtureFactory.example()
         req = Request(source)
         req.save(blocking=True)
@@ -413,6 +439,8 @@ class TestModels(ESTestCase):
         assert result is None
 
     def test_11_process_requests_cycle(self):
+        # Run through the process of processing a Request into a PublicAPC
+
         source = RequestFixtureFactory.example()
         if "id" in source:
             del source["id"]
@@ -519,6 +547,8 @@ class TestModels(ESTestCase):
 
 
     def test_11_process_requests_exception(self):
+        # What happens when the process_reuests method fails for a variety of reasons
+
         sources = RequestFixtureFactory.request_per_day("2001-01", 9)
 
         dois = ["10.1234/first", "10.1234/second", "10.1234/third"]
@@ -565,6 +595,8 @@ class TestModels(ESTestCase):
         assert len(wfs.already_processed) == 1
 
     def test_12_publish_enhancement(self):
+        # Publish an Enhancement where no public record exists
+
         source = EnhancementFixtureFactory.example()
         en = Enhancement(source)
         pub = PublicApi.publish(en)
@@ -576,6 +608,8 @@ class TestModels(ESTestCase):
         assert len(pubs) == 0
 
     def test_13_process_ehnancements_cycle(self):
+        # Run through the process of processing an enhancement
+
         source = EnhancementFixtureFactory.example()
         if "id" in source:
             del source["id"]
@@ -638,6 +672,8 @@ class TestModels(ESTestCase):
         assert wfs.already_processed == [en.id, en2.id]  # processed records should have been appended
 
     def test_14_process_enhancements_exception(self):
+        # What happens when processing an enhancement fails
+
         sources = EnhancementFixtureFactory.request_per_day("2001-01", 9)
 
         dois = ["10.1234/first", "10.1234/second", "10.1234/third"]

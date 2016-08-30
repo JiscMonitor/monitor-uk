@@ -1,7 +1,16 @@
+"""
+A set of pre-prepared, useful queries, to be applied to the various index types
+"""
 from octopus.modules.es.dao import SearchAPIQuery
 
 class IndexedIdentifierQuery(object):
+    """
+    Prepared query for listing records with an identifier of a given type.
 
+    Suitable for objects which index their identifier types as
+
+    index.<type> = <val>
+    """
     def __init__(self, type, val):
         self.type = type
         self.val = val
@@ -19,7 +28,9 @@ class IndexedIdentifierQuery(object):
         }
 
 class RequestByIndexedIdentifierQuery(object):
-
+    """
+    Prepared query for listing Requests with a given identifier (of a specified type), owned by a specified user
+    """
     def __init__(self, type, val, owner, size=10):
         self.type = type
         self.val = val
@@ -42,7 +53,11 @@ class RequestByIndexedIdentifierQuery(object):
         }
 
 class CreatedDateQueueQuery(object):
+    """
+    Prepared query for listing all records which have a created date after the given date
 
+    Results are ordered by created_date, most oldest first
+    """
     def __init__(self, since, size=1000):
         self.size = size
         self.since = since
@@ -61,6 +76,9 @@ class CreatedDateQueueQuery(object):
         }
 
 class OwnerQuery(object):
+    """
+    Prepared query for listing records which are owned by a specific user account
+    """
     def __init__(self, owner):
         self.owner = owner
 
@@ -84,8 +102,7 @@ class PublicSearchQuery(SearchAPIQuery):
 
 class PrivateSearchQuery(SearchAPIQuery):
     """
-    This class just gives us a place to hang any changes to the default SearchAPIQuery for public
-    requests
+    Applies a constraint to the SearchAPIQuery, limiting it only to results owned by the specified user
     """
     def query(self):
         q = {
