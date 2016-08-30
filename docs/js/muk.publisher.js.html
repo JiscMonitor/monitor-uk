@@ -1,4 +1,32 @@
-/** @namespace muk */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: muk.publisher.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: muk.publisher.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** @namespace muk */
 $.extend(muk, {
     /** @namespace muk.publisher */
     publisher: {
@@ -55,10 +83,10 @@ $.extend(muk, {
                 this.edge = edge;
 
                 var intro = 'See the amount of APCs, total APC expenditure, or average APC cost for several publishers for a given period. Compare institutions and filter by journal type. Examples of how to use this report:\
-                    <ul>\
-                        <li>Compare APC number and expenditure with different publishers for similar institutions</li>\
-                        <li>Compare average APC for different publishers</li>\
-                    </ul>';
+                    &lt;ul>\
+                        &lt;li>Compare APC number and expenditure with different publishers for similar institutions&lt;/li>\
+                        &lt;li>Compare average APC for different publishers&lt;/li>\
+                    &lt;/ul>';
 
                 var panelClass = edges.css_classes(this.namespace, "panel");
                 var topClass = edges.css_classes(this.namespace, "top");
@@ -77,8 +105,8 @@ $.extend(muk, {
                 var loading = edge.category("loading");
                 var loadContainers = "";
                 if (loading.length > 0) {
-                    for (var i = 0; i < loading.length; i++) {
-                        loadContainers += '<div class="row"><div class="col-md-12"><div id="' + loading[i].id + '"></div></div></div>';
+                    for (var i = 0; i &lt; loading.length; i++) {
+                        loadContainers += '&lt;div class="row">&lt;div class="col-md-12">&lt;div id="' + loading[i].id + '">&lt;/div>&lt;/div>&lt;/div>';
                     }
                 }
 
@@ -86,26 +114,26 @@ $.extend(muk, {
                 var topstrap = edge.category("top-right");
                 var topContainers = "";
                 if (topstrap.length > 0) {
-                    for (var i = 0; i < topstrap.length; i++) {
-                        topContainers += '<div class="row"><div class="col-md-12"><div id="' + topstrap[i].id + '"></div></div></div>';
+                    for (var i = 0; i &lt; topstrap.length; i++) {
+                        topContainers += '&lt;div class="row">&lt;div class="col-md-12">&lt;div id="' + topstrap[i].id + '">&lt;/div>&lt;/div>&lt;/div>';
                     }
                 }
-                topContainers = '<div class="row"><div class="col-md-8 report-intro-text">' + intro + '</div><div class="col-md-4">' + topContainers + '</div></div>';
+                topContainers = '&lt;div class="row">&lt;div class="col-md-8 report-intro-text">' + intro + '&lt;/div>&lt;div class="col-md-4">' + topContainers + '&lt;/div>&lt;/div>';
 
                 // the comparison boxes
                 var compare = edge.category("compare");
                 var compareContainers = "";
                 if (compare.length > 0) {
-                    for (var i = 0; i < compare.length; i++) {
-                        compareContainers += '<div class="row"><div class="col-md-12"><div id="' + compare[i].id + '"></div></div></div>';
+                    for (var i = 0; i &lt; compare.length; i++) {
+                        compareContainers += '&lt;div class="row">&lt;div class="col-md-12">&lt;div id="' + compare[i].id + '">&lt;/div>&lt;/div>&lt;/div>';
                     }
                 }
 
                 // the left-hand-side controls
                 var lhs = edge.category("lhs");
                 var controlContainers = "";
-                for (var i = 0; i < lhs.length; i++) {
-                    controlContainers += '<div class="' + filterClass + '" id="' + lhs[i].id + '"></div>';
+                for (var i = 0; i &lt; lhs.length; i++) {
+                    controlContainers += '&lt;div class="' + filterClass + '" id="' + lhs[i].id + '">&lt;/div>';
                 }
 
                 // the navigation tabs themselves
@@ -114,29 +142,29 @@ $.extend(muk, {
                 var tabLabels = "";
                 var tabContents = "";
 
-                for (var i = 0; i < tabs.length; i++) {
+                for (var i = 0; i &lt; tabs.length; i++) {
                     var tab = tabs[i];
                     var containerId = edges.css_id(this.namespace, "tab-" + tab.id);
                     var linkId = edges.css_id(this.namespace, "link-" + tab.id);
 
                     this.tabIds.push(tab.id);
-                    tabLabels += '<li><a href="#" id="' + linkId + '" data-id="' + tab.id + '">' + tab.display + '</a></li>';
-                    tabContents += '<div class="' + tabContainerClass + '" id="' + containerId + '">\
-                            <div class="row">\
-                                <div class="col-md-12"> \
-                                    <div class="' + tabClass + '" id="' + tab.id + '"></div>\
-                                </div> \
-                            </div>\
-                        </div>';
+                    tabLabels += '&lt;li>&lt;a href="#" id="' + linkId + '" data-id="' + tab.id + '">' + tab.display + '&lt;/a>&lt;/li>';
+                    tabContents += '&lt;div class="' + tabContainerClass + '" id="' + containerId + '">\
+                            &lt;div class="row">\
+                                &lt;div class="col-md-12"> \
+                                    &lt;div class="' + tabClass + '" id="' + tab.id + '">&lt;/div>\
+                                &lt;/div> \
+                            &lt;/div>\
+                        &lt;/div>';
                 }
-                tabLabels = 'Show:&nbsp;&nbsp;<ul class="nav nav-tabs navbar-right">' + tabLabels + '</ul>';
+                tabLabels = 'Show:&amp;nbsp;&amp;nbsp;&lt;ul class="nav nav-tabs navbar-right">' + tabLabels + '&lt;/ul>';
 
                 // the story entries
                 var stories = edge.category("story");
                 var storyContainers = "";
                 if (stories.length > 0) {
-                    for (var i = 0; i < stories.length; i++) {
-                        storyContainers += '<div class="row"><div class="col-md-12"><div id="' + stories[i].id + '"></div></div></div>';
+                    for (var i = 0; i &lt; stories.length; i++) {
+                        storyContainers += '&lt;div class="row">&lt;div class="col-md-12">&lt;div id="' + stories[i].id + '">&lt;/div>&lt;/div>&lt;/div>';
                     }
                 }
 
@@ -144,38 +172,38 @@ $.extend(muk, {
                 var data = edge.category("data");
                 var dataContainers = "";
                 if (data.length > 0) {
-                    for (var i = 0; i < data.length; i++) {
-                        dataContainers += '<div class="row"><div class="col-md-12"><div id="' + data[i].id + '"></div></div></div>';
+                    for (var i = 0; i &lt; data.length; i++) {
+                        dataContainers += '&lt;div class="row">&lt;div class="col-md-12">&lt;div id="' + data[i].id + '">&lt;/div>&lt;/div>&lt;/div>';
                     }
                 }
 
-                var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;FILTER</div></div></div>';
+                var filterHeader = '&lt;div class="' + filterHeaderClass + '">&lt;div class="row">&lt;div class="col-md-12">&lt;span class="glyphicon glyphicon-filter">&lt;/span>&amp;nbsp;FILTER&lt;/div>&lt;/div>&lt;/div>';
 
-                var template = '<div class="' + panelClass + '"> \
-                    <div class="' + loadingClass + '">' + loadContainers + '</div>\
-                    <div class="' + topClass + '">' + topContainers + '</div>\
-                    <div class="' + topClass + '">' + compareContainers + '</div>\
-                    <div class="row">\
-                        <div class="col-md-3">\
-                            <div class="' + filtersClass + '">' + filterHeader + controlContainers + '</div>\
-                        </div>\
-                        <div class="col-md-9">\
-                            <div class="' + tabViewClass + '">\
-                                <div class="' + tabLabelBarClass + '"><div class="row"><div class="col-md-12">' + tabLabels + '</div></div></div>\
+                var template = '&lt;div class="' + panelClass + '"> \
+                    &lt;div class="' + loadingClass + '">' + loadContainers + '&lt;/div>\
+                    &lt;div class="' + topClass + '">' + topContainers + '&lt;/div>\
+                    &lt;div class="' + topClass + '">' + compareContainers + '&lt;/div>\
+                    &lt;div class="row">\
+                        &lt;div class="col-md-3">\
+                            &lt;div class="' + filtersClass + '">' + filterHeader + controlContainers + '&lt;/div>\
+                        &lt;/div>\
+                        &lt;div class="col-md-9">\
+                            &lt;div class="' + tabViewClass + '">\
+                                &lt;div class="' + tabLabelBarClass + '">&lt;div class="row">&lt;div class="col-md-12">' + tabLabels + '&lt;/div>&lt;/div>&lt;/div>\
                                 ' + tabContents + '\
-                            </div>\
-                        </div>\
-                    </div>\
-                    <div class="' + storyClass + '">' + storyContainers + '</div>\
-                    <div class="' + dataClass + '">' + dataContainers + '</div>\
-                </div>';
+                            &lt;/div>\
+                        &lt;/div>\
+                    &lt;/div>\
+                    &lt;div class="' + storyClass + '">' + storyContainers + '&lt;/div>\
+                    &lt;div class="' + dataClass + '">' + dataContainers + '&lt;/div>\
+                &lt;/div>';
 
                 edge.context.html(template);
 
                 // hide the graphs while while they are rendered
                 // (note we use this approach, as setting display:none produces weird effects
                 // in space-conscious displays like graphs
-                for (var i = 0; i < this.tabIds.length; i++) {
+                for (var i = 0; i &lt; this.tabIds.length; i++) {
                     var tabSelector = edges.css_id_selector(this.namespace, "tab-" + this.tabIds[i]);
                     this.hideOffScreen(tabSelector);
                 }
@@ -185,7 +213,7 @@ $.extend(muk, {
                 this.activateTab(startWith);
 
                 // now bind the click handler to the tabs
-                for (var i = 0; i < this.tabIds.length; i++) {
+                for (var i = 0; i &lt; this.tabIds.length; i++) {
                     var linkSelector = edges.css_id_selector(this.namespace, "link-" + this.tabIds[i]);
                     edges.on(linkSelector, "click", this, "tabClicked");
                 }
@@ -231,7 +259,7 @@ $.extend(muk, {
              */
             this.activateTab = function (activate) {
                 var tabs = this.edge.category("tab");
-                for (var i = 0; i < tabs.length; i++) {
+                for (var i = 0; i &lt; tabs.length; i++) {
                     var tab = tabs[i];
                     var tabSelector = edges.css_id_selector(this.namespace, "tab-" + tab.id);
                     var linkSelector = edges.css_id_selector(this.namespace, "link-" + tab.id);
@@ -300,9 +328,9 @@ $.extend(muk, {
                     return;
                 }
 
-                var story = "<p>In this time period, a publisher receives an average of <strong>{{x}}</strong> APCs, ";
-                story += "the average total expenditure on a publisher is <strong>£{{y}}</strong>, ";
-                story += "and the average cost UK cost for for an APC is <strong>£{{z}}</strong></p>";
+                var story = "&lt;p>In this time period, a publisher receives an average of &lt;strong>{{x}}&lt;/strong> APCs, ";
+                story += "the average total expenditure on a publisher is &lt;strong>£{{y}}&lt;/strong>, ";
+                story += "and the average cost UK cost for for an APC is &lt;strong>£{{z}}&lt;/strong>&lt;/p>";
 
                 story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
                     .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
@@ -330,7 +358,7 @@ $.extend(muk, {
                 if (ibuckets.length > 0) {
                     var terms = [];
                     var pbuckets = ibuckets[0].publisher.buckets;
-                    for (var i = 0; i < pbuckets.length; i++) {
+                    for (var i = 0; i &lt; pbuckets.length; i++) {
                         var pbucket = pbuckets[i];
                         var pub = pbucket.key;
                         terms.push(pub);
@@ -430,13 +458,13 @@ $.extend(muk, {
             avgSeries["values"] = [];
 
             var avgPubFilters = ch.edge.realisedSecondaryQueries.avg.listMust(es.newTermsFilter({field: "record.dcterms:publisher.name.exact"}));
-            for (var i = 0; i < avgPubFilters.length; i++) {
+            for (var i = 0; i &lt; avgPubFilters.length; i++) {
                 var filt = avgPubFilters[i];
                 var pubs = filt.values;
-                for (var j = 0; j < pubs.length; j++) {
+                for (var j = 0; j &lt; pubs.length; j++) {
                     var pub = pubs[j];
                     var buckets = ch.edge.secondaryResults.avg.buckets("publishers");
-                    for (var k = 0; k < buckets.length; k++) {
+                    for (var k = 0; k &lt; buckets.length; k++) {
                         var bucket = buckets[k];
                         if (bucket.key === pub) {
                             var value = avgFunction(bucket);
@@ -457,20 +485,20 @@ $.extend(muk, {
 
             // pre-size the data series array, so that we can just populate it in the right order later
             var offset = data_series.length;
-            for (var i = 0; i < selected.length; i++) {
+            for (var i = 0; i &lt; selected.length; i++) {
                 data_series.push({key: selected[i], values: []});
             }
 
             var reportOn = [];
             var inst_buckets = ch.edge.result.buckets("institution");
-            for (var i = 0; i < inst_buckets.length; i++) {
+            for (var i = 0; i &lt; inst_buckets.length; i++) {
                 var ibucket = inst_buckets[i];
                 var ikey = ibucket.key;
 
                 // if the institution in the aggregation is not in the filter list ignore it
                 // (this can happen for records where there's more than one institution on the APC)
                 var skip = false;
-                for (var j = 0; j < instFilters.length; j++) {
+                for (var j = 0; j &lt; instFilters.length; j++) {
                     var filt = instFilters[j];
                     if (!filt.has_term(ikey)) {
                         skip = true;
@@ -486,7 +514,7 @@ $.extend(muk, {
                 series["values"] = [];
 
                 var pub_buckets = ibucket["publisher"].buckets;
-                for (var j = 0; j < pub_buckets.length; j++) {
+                for (var j = 0; j &lt; pub_buckets.length; j++) {
                     var pbucket = pub_buckets[j];
                     var pkey = pbucket.key;
 
@@ -499,7 +527,7 @@ $.extend(muk, {
 
                     // since publisher isn't a repeated field, this shouldn't happen, but best to be definitive
                     skip = false;
-                    for (var k = 0; k < pubFilters.length; k++) {
+                    for (var k = 0; k &lt; pubFilters.length; k++) {
                         var filt = pubFilters[k];
                         if (!filt.has_term(pkey)) {
                             skip = true;
@@ -551,16 +579,16 @@ $.extend(muk, {
             var formatter = muk.toIntFormat();
 
             var rows = {};
-            for (var i = 0; i < charts.length; i++) {
+            for (var i = 0; i &lt; charts.length; i++) {
                 var chart = charts[i];
                 if (!chart.dataSeries) {
                     continue;
                 }
                 var dataSeries = chart.dataSeries;
-                for (var j = 0; j < dataSeries.length; j++) {
+                for (var j = 0; j &lt; dataSeries.length; j++) {
                     var ds = dataSeries[j];
                     var inst = ds.key;
-                    for (var k = 0; k < ds.values.length; k++) {
+                    for (var k = 0; k &lt; ds.values.length; k++) {
                         var val = ds.values[k];
                         var pub = val.label;
                         var num = val.value;
@@ -581,7 +609,7 @@ $.extend(muk, {
             rowNames.sort();
 
             var table = [];
-            for (var i = 0; i < rowNames.length; i++) {
+            for (var i = 0; i &lt; rowNames.length; i++) {
                 var obj = rows[rowNames[i]];
                 obj["Metric"] = rowNames[i];
                 table.push(obj);
@@ -645,7 +673,7 @@ $.extend(muk, {
             );
 
             var opening_query = es.newQuery();
-            if (myInstituion && myInstituion != "") {
+            if (myInstituion &amp;&amp; myInstituion != "") {
                 opening_query.addMust(
                     es.newTermsFilter({
                         field: "record.jm:apc.organisation_name.exact",
@@ -667,7 +695,7 @@ $.extend(muk, {
                 components: [
                     edges.newMultiDateRangeEntry({
                         id : "date_range",
-                        display: "REPORT PERIOD:<br>",
+                        display: "REPORT PERIOD:&lt;br>",
                         fields : [
                             {field : "record.rioxxterms:publication_date", display: "Publication Date"},
                             {field : "record.jm:apc.date_applied", display: "APC Application"},
@@ -695,9 +723,9 @@ $.extend(muk, {
                         renderer : edges.bs3.newNSeparateORTermSelectorRenderer({
                             n: 3,
                             properties : [
-                                {label: "Compare", unselected: "<choose an institution>"},
-                                {label : "with", unselected : "<add another>"},
-                                {label : "and", unselected : "<add another>"}
+                                {label: "Compare", unselected: "&lt;choose an institution>"},
+                                {label : "with", unselected : "&lt;add another>"},
+                                {label : "and", unselected : "&lt;add another>"}
                             ],
                             select2: true
                         })
@@ -801,3 +829,26 @@ $.extend(muk, {
         }
     }
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="muk.publisher.PublisherReportTemplate.html">PublisherReportTemplate</a></li><li><a href="muk.publisher.Story.html">Story</a></li></ul><h3>Namespaces</h3><ul><li><a href="muk.html">muk</a></li><li><a href="muk.funder.html">funder</a></li><li><a href="muk.institution.html">institution</a></li><li><a href="muk.publisher.html">publisher</a></li><li><a href="muk.search.html">search</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 30 2016 11:50:56 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,4 +1,32 @@
-/** @namespace muk */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: muk.search.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: muk.search.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** @namespace muk */
 $.extend(muk, {
     /** @namespace muk.search */
     search : {
@@ -31,75 +59,75 @@ $.extend(muk, {
                 var panelClass = edges.css_classes(this.namespace, "panel");
                 var refineClass = edges.css_classes(this.namespace, "refine");
 
-                var frag = '<div class="' + containerClass + '">\
-                    <div class="row"><div class="col-md-12"><div class="' + searchClass + '">{{SEARCH}}</div></div></div>\
-                    <div class="row"><div class="col-md-12"><div class="' + searchingClass + '">{{SEARCHING}}</div></div></div>\
-                    <div class="' + panelClass + '"><div class="row">\
-                        <div class="col-md-3"><div class="' + facetsClass + '"><div class="' + refineClass + '">Refine</div>{{FACETS}}</div></div>\
-                        <div class="col-md-9">\
-                            <div class="row">\
-                                <div class="col-md-6"><div class="' + countClass + '">{{RESULTCOUNT}}</div></div>\
-                                <div class="col-md-6"><div class="' + sortClass + '">{{SORT}}</div></div>\
-                            </div>\
-                            <div class="row">\
-                                <div class="col-md-12"><div class="' + resultsClass + '">{{RESULTS}}</div></div>\
-                            </div>\
-                            <div class="row">\
-                                <div class="col-md-12"><div class="' + itemsClass + '">{{ITEMSPERPAGE}}</div></div>\
-                            </div>\
-                            <div class="row">\
-                                <div class="col-md-12"><div class="' + pagerClass + '">{{PAGER}}</div></div>\
-                            </div>\
-                        </div>\
-                    </div></div>\
-                </div>';
+                var frag = '&lt;div class="' + containerClass + '">\
+                    &lt;div class="row">&lt;div class="col-md-12">&lt;div class="' + searchClass + '">{{SEARCH}}&lt;/div>&lt;/div>&lt;/div>\
+                    &lt;div class="row">&lt;div class="col-md-12">&lt;div class="' + searchingClass + '">{{SEARCHING}}&lt;/div>&lt;/div>&lt;/div>\
+                    &lt;div class="' + panelClass + '">&lt;div class="row">\
+                        &lt;div class="col-md-3">&lt;div class="' + facetsClass + '">&lt;div class="' + refineClass + '">Refine&lt;/div>{{FACETS}}&lt;/div>&lt;/div>\
+                        &lt;div class="col-md-9">\
+                            &lt;div class="row">\
+                                &lt;div class="col-md-6">&lt;div class="' + countClass + '">{{RESULTCOUNT}}&lt;/div>&lt;/div>\
+                                &lt;div class="col-md-6">&lt;div class="' + sortClass + '">{{SORT}}&lt;/div>&lt;/div>\
+                            &lt;/div>\
+                            &lt;div class="row">\
+                                &lt;div class="col-md-12">&lt;div class="' + resultsClass + '">{{RESULTS}}&lt;/div>&lt;/div>\
+                            &lt;/div>\
+                            &lt;div class="row">\
+                                &lt;div class="col-md-12">&lt;div class="' + itemsClass + '">{{ITEMSPERPAGE}}&lt;/div>&lt;/div>\
+                            &lt;/div>\
+                            &lt;div class="row">\
+                                &lt;div class="col-md-12">&lt;div class="' + pagerClass + '">{{PAGER}}&lt;/div>&lt;/div>\
+                            &lt;/div>\
+                        &lt;/div>\
+                    &lt;/div>&lt;/div>\
+                &lt;/div>';
 
                 var searchFrag = "";
                 var searches = edge.category("search");
-                for (var i = 0; i < searches.length; i++) {
-                    searchFrag += '<div id="' + searches[i].id + '"></div>';
+                for (var i = 0; i &lt; searches.length; i++) {
+                    searchFrag += '&lt;div id="' + searches[i].id + '">&lt;/div>';
                 }
 
                 var searchingFrag = "";
                 var searchings = edge.category("searching-notification");
-                for (var i = 0; i < searchings.length; i++) {
-                    searchingFrag += '<div id="' + searchings[i].id + '"></div>';
+                for (var i = 0; i &lt; searchings.length; i++) {
+                    searchingFrag += '&lt;div id="' + searchings[i].id + '">&lt;/div>';
                 }
 
                 var facets = edge.category("facet");
                 var facetsFrag = "";
-                for (var i = 0; i < facets.length; i++) {
-                    facetsFrag += '<div class="' + facetClass + '"><div id="' + facets[i].id + '"></div></div>';
+                for (var i = 0; i &lt; facets.length; i++) {
+                    facetsFrag += '&lt;div class="' + facetClass + '">&lt;div id="' + facets[i].id + '">&lt;/div>&lt;/div>';
                 }
 
                 var countFrag = "";
                 var counts = edge.category("count");
-                for (var i = 0; i < counts.length; i++) {
-                    countFrag += '<div id="' + counts[i].id + '"></div>';
+                for (var i = 0; i &lt; counts.length; i++) {
+                    countFrag += '&lt;div id="' + counts[i].id + '">&lt;/div>';
                 }
 
                 var sortFrag = "";
                 var sorts = edge.category("sort");
-                for (var i = 0; i < sorts.length; i++) {
-                    sortFrag += '<div id="' + sorts[i].id + '"></div>';
+                for (var i = 0; i &lt; sorts.length; i++) {
+                    sortFrag += '&lt;div id="' + sorts[i].id + '">&lt;/div>';
                 }
 
                 var resultsFrag = "";
                 var results = edge.category("results");
-                for (var i = 0; i < results.length; i++) {
-                    resultsFrag += '<div id="' + results[i].id + '"></div>';
+                for (var i = 0; i &lt; results.length; i++) {
+                    resultsFrag += '&lt;div id="' + results[i].id + '">&lt;/div>';
                 }
 
                 var itemsFrag = "";
                 var items = edge.category("items");
-                for (var i = 0; i < items.length; i++) {
-                    itemsFrag += '<div id="' + items[i].id + '"></div>';
+                for (var i = 0; i &lt; items.length; i++) {
+                    itemsFrag += '&lt;div id="' + items[i].id + '">&lt;/div>';
                 }
 
                 var pagerFrag = "";
                 var pagers = edge.category("pager");
-                for (var i = 0; i < pagers.length; i++) {
-                    pagerFrag += '<div id="' + pagers[i].id + '"></div>';
+                for (var i = 0; i &lt; pagers.length; i++) {
+                    pagerFrag += '&lt;div id="' + pagers[i].id + '">&lt;/div>';
                 }
 
                 frag = frag.replace(/{{SEARCH}}/g, searchFrag)
@@ -141,21 +169,21 @@ $.extend(muk, {
                 }
 
                 var results = this.component.results;
-                if (results && results.length > 0) {
+                if (results &amp;&amp; results.length > 0) {
                     // list the css classes we'll require
                     var recordClasses = edges.css_classes(this.namespace, "record", this);
 
                     // now call the result renderer on each result to build the records
                     frag = "";
-                    for (var i = 0; i < results.length; i++) {
+                    for (var i = 0; i &lt; results.length; i++) {
                         var rec = this._renderResult(results[i]);
-                        frag += '<div class="row"><div class="col-md-12"><div class="' + recordClasses + '">' + rec + '</div></div></div>';
+                        frag += '&lt;div class="row">&lt;div class="col-md-12">&lt;div class="' + recordClasses + '">' + rec + '&lt;/div>&lt;/div>&lt;/div>';
                     }
                 }
 
                 // finally stick it all together into the container
                 var containerClasses = edges.css_classes(this.namespace, "container", this);
-                var container = '<div class="' + containerClasses + '">' + frag + '</div>';
+                var container = '&lt;div class="' + containerClasses + '">' + frag + '&lt;/div>';
                 this.component.context.html(container);
 
                 // now bind the "more"/"less" buttons
@@ -210,15 +238,15 @@ $.extend(muk, {
 
                 var orgList = [];
                 var fundList = [];
-                for (var i = 0; i < apcs.length; i++) {
+                for (var i = 0; i &lt; apcs.length; i++) {
                     var org = edges.objVal("organisation_name", apcs[i], false);
-                    if (org !== false && $.inArray(org, orgList) === -1) {
+                    if (org !== false &amp;&amp; $.inArray(org, orgList) === -1) {
                         orgList.push(org);
                     }
                     var funds = edges.objVal("fund", apcs[i], []);
-                    for (var j = 0; j < funds.length; j++) {
+                    for (var j = 0; j &lt; funds.length; j++) {
                         var fname = funds[j].name;
-                        if (fname && $.inArray(fname, fundList) === -1) {
+                        if (fname &amp;&amp; $.inArray(fname, fundList) === -1) {
                             fundList.push(fname);
                         }
                     }
@@ -227,7 +255,7 @@ $.extend(muk, {
                 var funds = fundList.join(", ");
 
                 var issnList = [];
-                for (var i = 0; i < journal_ids.length; i++) {
+                for (var i = 0; i &lt; journal_ids.length; i++) {
                     var jid = journal_ids[i];
                     if (jid.type === "issn") {
                         issnList.push(jid.id);
@@ -236,54 +264,54 @@ $.extend(muk, {
                 var issnFrag = "";
                 var journalWidth = "10";
                 if (issnList.length > 0) {
-                    issnFrag = '<div class="col-md-8">(<span class="' + inlineLabelClass + '">ISSN:</span>&nbsp;<span class="' + valueClass + '">' + edges.escapeHtml(issnList.join(", ")) + '</span>)</div>';
+                    issnFrag = '&lt;div class="col-md-8">(&lt;span class="' + inlineLabelClass + '">ISSN:&lt;/span>&amp;nbsp;&lt;span class="' + valueClass + '">' + edges.escapeHtml(issnList.join(", ")) + '&lt;/span>)&lt;/div>';
                     journalWidth = "2";
                 }
 
                 var funderList = [];
-                for (var i = 0; i < projects.length; i++) {
+                for (var i = 0; i &lt; projects.length; i++) {
                     var fname = projects[i].funder_name;
-                    if (fname && $.inArray(fname, funderList) === -1) {
+                    if (fname &amp;&amp; $.inArray(fname, funderList) === -1) {
                         funderList.push(fname);
                     }
                 }
                 var funders = funderList.join(", ");
 
                 var licenceList = [];
-                for (var i = 0; i < license_ref.length; i++) {
+                for (var i = 0; i &lt; license_ref.length; i++) {
                     var lname = license_ref[i].type;
-                    if (lname && $.inArray(lname, licenceList) === -1) {
+                    if (lname &amp;&amp; $.inArray(lname, licenceList) === -1) {
                         licenceList.push(lname);
                     }
                 }
                 var licences = licenceList.join(", ");
 
                 // the body of the bibliographic records
-                var biblio = '<div class="' + biblioRowClass + '"><div class="row">\
-                    <div class="col-md-2"><span class="' + labelClass + '">Publisher</span></div>\
-                    <div class="col-md-10"><span class="' + valueClass + '">' + edges.escapeHtml(publisher) + '</span></div>\
-                </div></div>\
-                <div class="' + biblioRowClass + '"><div class="row">\
-                    <div class="col-md-2"><span class="' + labelClass + '">Journal</span></div>\
-                    <div class="col-md-' + journalWidth + '"><span class="' + valueClass + '">' + edges.escapeHtml(journal) + '</span></div>\
+                var biblio = '&lt;div class="' + biblioRowClass + '">&lt;div class="row">\
+                    &lt;div class="col-md-2">&lt;span class="' + labelClass + '">Publisher&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-10">&lt;span class="' + valueClass + '">' + edges.escapeHtml(publisher) + '&lt;/span>&lt;/div>\
+                &lt;/div>&lt;/div>\
+                &lt;div class="' + biblioRowClass + '">&lt;div class="row">\
+                    &lt;div class="col-md-2">&lt;span class="' + labelClass + '">Journal&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-' + journalWidth + '">&lt;span class="' + valueClass + '">' + edges.escapeHtml(journal) + '&lt;/span>&lt;/div>\
                     ' + issnFrag + '\
-                </div></div>\
-                <div class="' + biblioRowClass + '"><div class="row">\
-                    <div class="col-md-2"><span class="' + labelClass + '">Organisation</span></div>\
-                    <div class="col-md-10"><span class="' + valueClass + '">' + edges.escapeHtml(orgs) + '</span></div>\
-                </div></div>\
-                <div class="' + biblioRowClass + '"><div class="row">\
-                    <div class="col-md-2"><span class="' + labelClass + '">Funder</span></div>\
-                    <div class="col-md-2"><span class="' + valueClass + '">' + edges.escapeHtml(funders) + '</span></div>\
-                    <div class="col-md-2"><span class="' + labelClass + '">Paid from fund</span></div>\
-                    <div class="col-md-2"><span class="' + valueClass + '">' + edges.escapeHtml(funds) + '</span></div>\
-                    <div class="col-md-2"><span class="' + labelClass + '">Licence</span></div>\
-                    <div class="col-md-2"><span class="' + valueClass + '">' + edges.escapeHtml(licences) + '</span></div>\
-                </div></div>';
+                &lt;/div>&lt;/div>\
+                &lt;div class="' + biblioRowClass + '">&lt;div class="row">\
+                    &lt;div class="col-md-2">&lt;span class="' + labelClass + '">Organisation&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-10">&lt;span class="' + valueClass + '">' + edges.escapeHtml(orgs) + '&lt;/span>&lt;/div>\
+                &lt;/div>&lt;/div>\
+                &lt;div class="' + biblioRowClass + '">&lt;div class="row">\
+                    &lt;div class="col-md-2">&lt;span class="' + labelClass + '">Funder&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-2">&lt;span class="' + valueClass + '">' + edges.escapeHtml(funders) + '&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-2">&lt;span class="' + labelClass + '">Paid from fund&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-2">&lt;span class="' + valueClass + '">' + edges.escapeHtml(funds) + '&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-2">&lt;span class="' + labelClass + '">Licence&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-2">&lt;span class="' + valueClass + '">' + edges.escapeHtml(licences) + '&lt;/span>&lt;/div>\
+                &lt;/div>&lt;/div>';
 
                 // details about the individual apcs
                 var apc = "";
-                for (var i = 0; i < apcs.length; i++) {
+                for (var i = 0; i &lt; apcs.length; i++) {
                     var apc_record = apcs[i];
                     var inst = edges.objVal("organisation_name", apc_record, "Unknown Organisation");
                     var total = edges.objVal("amount_inc_vat_gbp", apc_record, false);
@@ -297,7 +325,7 @@ $.extend(muk, {
                     }
 
                     var fund_names = [];
-                    for (var j = 0; j < funds.length; j++) {
+                    for (var j = 0; j &lt; funds.length; j++) {
                         var fund = funds[j];
                         var fund_name = edges.objVal("name", fund, "Unknown Fund");
                         fund_names.push(fund_name);
@@ -311,39 +339,39 @@ $.extend(muk, {
                         date = day + " " + month + " " + year;
                     }
 
-                    apc += '<div class="row">\
-                        <div class="col-md-12">\
-                            <span class="' + valueClass + '">' + edges.escapeHtml(inst) + '</span> \
+                    apc += '&lt;div class="row">\
+                        &lt;div class="col-md-12">\
+                            &lt;span class="' + valueClass + '">' + edges.escapeHtml(inst) + '&lt;/span> \
                             paid \
-                            <span class="' + valueClass + '">' + edges.escapeHtml(total) + '</span> \
+                            &lt;span class="' + valueClass + '">' + edges.escapeHtml(total) + '&lt;/span> \
                             on \
-                            <span class="' + valueClass + '">' + edges.escapeHtml(date) + '</span> \
+                            &lt;span class="' + valueClass + '">' + edges.escapeHtml(date) + '&lt;/span> \
                             from fund(s): \
-                            <span class="' + valueClass + '">' + edges.escapeHtml(fund_names.join(", ")) + '</span> \
-                        </div>\
-                    </div>';
+                            &lt;span class="' + valueClass + '">' + edges.escapeHtml(fund_names.join(", ")) + '&lt;/span> \
+                        &lt;/div>\
+                    &lt;/div>';
                 }
 
 
                 // the main layout template, and all the extra bells and whistles
-                var frag = '<div class="row"> \
-                    <div class="col-md-10"><span class="' + titleClass + '">' + edges.escapeHtml(title) + '</span></div>\
-                    <div class="col-md-2"><div class="' + rightClass + '"><span class="' + costClass + '">' + edges.escapeHtml(cost) + '</span><br>\
-                        <span class="' + vatClass + '">(inc VAT)</span>\
-                    </div></div>\
-                </div>\
-                <div class="' + biblioClass + '"><div class="row"> \
-                    <div class="col-md-12">{{BIBLIO}}</div>\
-                </div></div>\
-                <div class="' + moreBoxClass + '" id="' + moreBoxId + '"><div class="row"> \
-                    <div class="col-md-12"><div class="' + innerMoreClass + '">{{APCS}}</div></div>\
-                </div></div>\
-                <div id="' + moreLinkBoxId + '" class="' + moreLinkBoxClass + '"><div class="row"> \
-                    <div class="col-md-12"><div class="' + innerMoreLinkClass + '"><a href="#" class="' + moreLinkClass + '" data-id="' + id + '">More</a></div></div>\
-                </div></div>\
-                <div id="' + lessLinkBoxId + '" class="' + lessLinkBoxClass + '"><div class="row"> \
-                    <div class="col-md-12"><div class="' + innerLessLinkClass + '"><a href="#" class="' + lessLinkClass + '" data-id="' + id + '">Less</a></div></div>\
-                </div></div>';
+                var frag = '&lt;div class="row"> \
+                    &lt;div class="col-md-10">&lt;span class="' + titleClass + '">' + edges.escapeHtml(title) + '&lt;/span>&lt;/div>\
+                    &lt;div class="col-md-2">&lt;div class="' + rightClass + '">&lt;span class="' + costClass + '">' + edges.escapeHtml(cost) + '&lt;/span>&lt;br>\
+                        &lt;span class="' + vatClass + '">(inc VAT)&lt;/span>\
+                    &lt;/div>&lt;/div>\
+                &lt;/div>\
+                &lt;div class="' + biblioClass + '">&lt;div class="row"> \
+                    &lt;div class="col-md-12">{{BIBLIO}}&lt;/div>\
+                &lt;/div>&lt;/div>\
+                &lt;div class="' + moreBoxClass + '" id="' + moreBoxId + '">&lt;div class="row"> \
+                    &lt;div class="col-md-12">&lt;div class="' + innerMoreClass + '">{{APCS}}&lt;/div>&lt;/div>\
+                &lt;/div>&lt;/div>\
+                &lt;div id="' + moreLinkBoxId + '" class="' + moreLinkBoxClass + '">&lt;div class="row"> \
+                    &lt;div class="col-md-12">&lt;div class="' + innerMoreLinkClass + '">&lt;a href="#" class="' + moreLinkClass + '" data-id="' + id + '">More&lt;/a>&lt;/div>&lt;/div>\
+                &lt;/div>&lt;/div>\
+                &lt;div id="' + lessLinkBoxId + '" class="' + lessLinkBoxClass + '">&lt;div class="row"> \
+                    &lt;div class="col-md-12">&lt;div class="' + innerLessLinkClass + '">&lt;a href="#" class="' + lessLinkClass + '" data-id="' + id + '">Less&lt;/a>&lt;/div>&lt;/div>\
+                &lt;/div>&lt;/div>';
 
                 frag = frag.replace(/{{BIBLIO}}/g, biblio)
                     .replace(/{{APCS}}/g, apc);
@@ -655,7 +683,7 @@ $.extend(muk, {
                             showRecordCount: false,
                             showPageNavigation: false,
                             sizePrefix: "Show ",
-                            sizeSuffix: "&nbsp;&nbsp;&nbsp;&nbsp;items per page"
+                            sizeSuffix: "&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;items per page"
                         })
                     }),
                     edges.newPager({
@@ -681,3 +709,26 @@ $.extend(muk, {
         }
     }
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="muk.publisher.PublisherReportTemplate.html">PublisherReportTemplate</a></li><li><a href="muk.publisher.Story.html">Story</a></li></ul><h3>Namespaces</h3><ul><li><a href="muk.html">muk</a></li><li><a href="muk.funder.html">funder</a></li><li><a href="muk.institution.html">institution</a></li><li><a href="muk.publisher.html">publisher</a></li><li><a href="muk.search.html">search</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 30 2016 11:50:56 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
