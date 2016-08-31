@@ -3,12 +3,34 @@ $.extend(muk, {
     /** @namespace muk.institution */
     institution: {
 
+        /**
+         * Use this to construct the {@link muk.institution.InstitutionReportTemplate}
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @returns {muk.institution.InstitutionReportTemplate}
+         */
         newInstitutionReportTemplate: function (params) {
             if (!params) { params = {} }
             muk.institution.InstitutionReportTemplate.prototype = edges.newTemplate(params);
             return new muk.institution.InstitutionReportTemplate(params);
         },
+        /**
+         * <p>The Institution Report Template main class.</p>
+         *
+         * <p>This class is responsible for rendering and maintaining the state of the overall UI template for the
+         * institution report.</p>
+         *
+         * <p>You should construct this using {@link muk.institution.newInstitutionReportTemplate}</p>
+         *
+         * @constructor
+         * @memberof muk.institution
+         * @extends edges.Template
+         */
         InstitutionReportTemplate: function (params) {
+            ////////////////////////////////////////
+            // internal state members
+
             // later we'll store the edge instance here
             this.edge = false;
 
@@ -18,8 +40,16 @@ $.extend(muk, {
             // ids of the tabs that are in the layout
             this.tabIds = [];
 
+            // namespace for css classes and ids
             this.namespace = "muk-institution-report-template";
 
+            /**
+             * Draw the template into the page.  This will draw the template into the page element identified
+             * by edge.context
+             *
+             * @type {Function}
+             * @param edge {Edge} The Edge instance requesting the draw
+             */
             this.draw = function (edge) {
                 this.edge = edge;
 
@@ -151,6 +181,12 @@ $.extend(muk, {
                 }
             };
 
+            /**
+             * Hide the element identified by the selector off screen
+             *
+             * @type {Function}
+             * @param {String} selector the jquery selector for the element to move off screen
+             */
             this.hideOffScreen = function (selector) {
                 if (selector in this.hidden) {
                     return
@@ -160,6 +196,12 @@ $.extend(muk, {
                 el.css("position", "absolute").css("margin-left", -9999);
             };
 
+            /**
+             * Bring the element identified by the selector on screen
+             *
+             * @type {Function}
+             * @param {String} selector the jquery selector for the element to move off screen
+             */
             this.bringIn = function (selector) {
                 if (!this.hidden[selector]) {
                     return;
@@ -171,6 +213,12 @@ $.extend(muk, {
                 delete this.hidden[selector];
             };
 
+            /**
+             * Activate the tab with the given Edges component id
+             *
+             * @type {Function}
+             * @param {String} activate the component id for the tabbed component
+             */
             this.activateTab = function (activate) {
                 var tabs = this.edge.category("tab");
                 for (var i = 0; i < tabs.length; i++) {
@@ -187,18 +235,45 @@ $.extend(muk, {
                 }
             };
 
+            /**
+             * Event handler which is activated when a tab header is clicked, and acts to call
+             * {@link muk.institution.InstitutionReportTemplate#activateTab}
+             *
+             * @type {Function}
+             * @param {DOM} element DOM element on which the event occurred (the tab header link)
+             */
             this.tabClicked = function (element) {
                 var id = $(element).attr("data-id");
                 this.activateTab(id);
             };
         },
 
+        /**
+         * Use this to construct the {@link muk.institution.Story}
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @returns {muk.institution.Story}
+         */
         newStory : function (params) {
             if (!params) { params = {} }
             muk.institution.Story.prototype = edges.newComponent(params);
             return new muk.institution.Story(params);
         },
+        /**
+         * <p>Component class which extracts averaging information from the various ES queries, and presents a human-readable
+         * story-like interface to the information</p>
+         *
+         * <p>You should construct this using {@link muk.institution.newStory}</p>
+         *
+         * @constructor
+         * @memberof muk.institution
+         * @extends edges.Component
+         */
         Story : function(params) {
+            /////////////////////////////////////
+            // internal state
+
             this.countMax = false;
             this.countAvg = false;
             this.totalMin = false;
@@ -208,6 +283,11 @@ $.extend(muk, {
             this.avgMax = false;
             this.avgAvg = false;
 
+            /**
+             * Synchronise the internal state variables with the latest data from the query lifecycle
+             *
+             * @type {Function}
+             */
             this.synchronise = function() {
                 this.countMax = false;
                 this.countAvg = false;
@@ -262,6 +342,15 @@ $.extend(muk, {
                 this.avgAvg = general.avg;
             };
 
+            /**
+             * <p>Draw the component to the screen.  This will draw the HTML to the element identified by the
+             * component's context.</p>
+             *
+             * <p>Note that as this is a simple component for a one-off purpose we do not separate the draw features
+             * out to a renderer, we draw directly within this class.</p>
+             *
+             * @type {Function}
+             */
             this.draw = function() {
                 if (this.countMax === false ||
                         this.countAvg === false ||
@@ -280,7 +369,7 @@ $.extend(muk, {
                 story += "<p>The smallest average APC for an institution was <strong>£{{f}}</strong>, the largest average was <strong>£{{g}}</strong>, and the overall average APC cost is <strong>£{{h}}</strong></p>";
 
                 var format = muk.toIntFormat();
-                // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
+                //  usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
                 story = story.replace(/{{a}}/g, format(this.countMax))
                     .replace(/{{b}}/g, format(this.countAvg))
                     .replace(/{{c}}/g, format(this.totalMin))
@@ -294,6 +383,15 @@ $.extend(muk, {
             };
         },
 
+        /**
+         * Function which can generate the secondary query for calculating averages within the date range specified
+         * by the report.
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {Edge} edge the edge which is calling this function
+         * @returns {es.Query} the ES query object which collects the relevant ageraging information
+         */
         averagesQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
             var query = edge.cloneQuery();
@@ -341,6 +439,24 @@ $.extend(muk, {
             return query;
         },
 
+        /**
+         * <p>Graph Data Function which converts the current query results into a suitable data series to be used by Charts</p>
+         *
+         * <p>This function is generic, and is used under-the-hood by the specific Chart data functions defined in this module.</p>
+         *
+         * <p>Its role is to query the "institution" aggregation in the current result set (<strong>params.chart.edge.result</strong>), and for each institution for which
+         * there exists a filter in the current query (or, the first 10 institutions, if no filters exist) it will apply
+         * the <strong>valueFunction</strong> to the aggregation and its nested stats aggregation.  It will then map the returned value to
+         * the name of the institution and add it as a value to the data series.</p>
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {Object} params an object containing the allowed parameters for this function (see below)
+         * @param {edges.Chart} params.chart    the chart instance for whom the data is being prepared
+         * @param {Function} params.valueFunction  for extracting the suitable data from the "institution" aggregation or any nested aggregations.  It will be applied to each bucket in the "institution" aggregation, and the returned value taken as the series value
+         * @param {String} params.seriesKey name of the series being created
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
@@ -410,16 +526,58 @@ $.extend(muk, {
             return data_series;
         },
 
+        /**
+         * Graph Data Function which extracts a data series for the APC count chart.  This will generate a data series
+         * with the key "Number of APCs", and the value from the "doc_count" field of the institution aggregation
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         apcCountDF : function(ch) {
             return muk.institution.reportDF({chart: ch, seriesKey: "Number of APCs", valueFunction: function(bucket) { return bucket.doc_count }});
         },
+
+        /**
+         * Graph Data Function which extracts a data series for the APC Total Expenditure chart.  This will generate a data series
+         * with the key "Total expenditure", and the value from the "sum" field of the nested "institution_stats" aggregation in the institution aggregation
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         apcExpenditureDF : function(ch) {
             return muk.institution.reportDF({chart: ch, seriesKey: "Total expenditure", valueFunction: function(bucket) { return bucket.institution_stats.sum }});
         },
+
+        /**
+         * Graph Data Function which extracts a data series for the Average APC Cost chart.  This will generate a data series
+         * with the key "Average APC Cost", and the value from the "avg" field of the nested "institution_stats" aggregation in the institution aggregation
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         avgAPCDF : function(ch) {
             return muk.institution.reportDF({chart: ch, seriesKey: "Average APC Cost",  valueFunction: function(bucket) { return bucket.institution_stats.avg }});
         },
 
+        /**
+         * <p>Table Data Function which takes the charts for whom to tabularise the data and returns a table grid as a list
+         * of key/value objects to be used by edges.TabularResultsRenderer</p>
+         *
+         * <p>Each output row represents an institution, and the keys are "Institution", "APC Count", "Total expenditure" and "Average APC Cost"</p>
+         *
+         * <p>Output rows are ordered by Institution name.</p>
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {Array} charts list of edges.Chart objects from which to extract data series for tabularisation
+         * @returns {Array} list of key/value pair objects suitable for tabular display
+         */
         tableData : function(charts) {
             var seriesNames = {
                 "apc_count" : "APC Count",
@@ -443,7 +601,6 @@ $.extend(muk, {
                         var inst = val.label;
                         var num = val.value;
 
-                        // var rowId = inst + " - " + seriesNames[chart.id];
                         var row = {};
                         if (inst in rows) {
                             row = rows[inst];
@@ -469,6 +626,21 @@ $.extend(muk, {
             return table;
         },
 
+        /**
+         * <p>Primary entry point to the Institution report for pages wishing to present it.</p>
+         *
+         * <p>Call this function with the appropriate arguments, and it will render the institution report into the specified page element</p>
+         *
+         * <p>This function will first query the ES index to determine whether the current user's institution is present in the dataset.
+         * If it is not, it will set the global variable <strong>myInstitution</strong> to false. It then proceeds to call {@link muk.institution.makeInstitutionReport2}</p>
+         *
+         * <p>This function expects the global variable <strong>myInstitution</strong> to be set</p>
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {Object} [params={}]   Object containing all the parameters for this report
+         * @param {String} [params.selector="#muk_institution"]     jquery selector for page element in which to render the report
+         */
         makeInstitutionReport : function(params) {
             if (!params) {params = {} }
 
@@ -497,6 +669,22 @@ $.extend(muk, {
             });
         },
 
+        /**
+         * <p>Second part of the initialisation process for the Institution Report.  Do not call this directly, you should call
+         * {@link muk.institution.makeInstitutionReport} instead.</p>
+         *
+         * <p>This function will construct the appropriate edges.Edge instance for the Institution Report, and record it at
+         * {@link muk.activeEdges}</p>
+         *
+         * <p>This function expects the global variable <strong>myInstitution</strong> to be set.  If it is set to false, the report will
+         * default to having no institution constraint, but if it is set to a value, that value will be used to constrain
+         * the user's initial view.</p>
+         *
+         * @type {Function}
+         * @memberof muk.institution
+         * @param {Object} [params={}]   Object containing all the parameters for this report
+         * @param {String} [params.selector="#muk_institution"]     jquery selector for page element in which to render the report
+         */
         makeInstitutionReport2 : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_institution");
@@ -521,8 +709,6 @@ $.extend(muk, {
                 })
             );
 
-            // FIXME: actually we need to first find out if the institution is listed, and only then load the
-            // relevant opening query
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
