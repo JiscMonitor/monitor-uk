@@ -260,6 +260,7 @@ $.extend(muk, {
             muk.institution.Story.prototype = edges.newComponent(params);
             return new muk.institution.Story(params);
         },
+        
         /**
          * <p>Component class which extracts averaging information from the various ES queries, and presents a human-readable
          * story-like interface to the information</p>
@@ -390,7 +391,7 @@ $.extend(muk, {
          * @type {Function}
          * @memberof muk.institution
          * @param {Edge} edge the edge which is calling this function
-         * @returns {es.Query} the ES query object which collects the relevant ageraging information
+         * @returns {es.Query} the ES query object which collects the relevant averaging information
          */
         averagesQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
@@ -835,7 +836,7 @@ $.extend(muk, {
                     muk.institution.newStory({
                         id: "story",
                         category: "story"
-                    }), // FIXME: not clear what the story is
+                    }),
                     edges.newChartsTable({
                         id: "data_table",
                         display: "Raw Data",

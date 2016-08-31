@@ -3,19 +3,31 @@ $.extend(muk, {
 
     /** @namespace muk.funder */
     funder: {
-        chartColours : ["#66bdbe", "#a6d6d6", "#7867a3", "#d90d4c", "#6bcf65"],
-
-        valueMap : {
-            "oa" : "Pure OA",
-            "hybrid" : "Hybrid",
-            "unknown" : "Unknown"
-        },
-
+        /**
+         * Use this to construct the {@link muk.funder.FunderReportTemplate}
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @returns {muk.funder.FunderReportTemplate}
+         */
         newFunderReportTemplate: function (params) {
             if (!params) { params = {} }
             muk.funder.FunderReportTemplate.prototype = edges.newTemplate(params);
             return new muk.funder.FunderReportTemplate(params);
         },
+        
+        /**
+         * <p>The Funder Report Template main class.</p>
+         *
+         * <p>This class is responsible for rendering and maintaining the state of the overall UI template for the
+         * funder report.</p>
+         *
+         * <p>You should construct this using {@link muk.funder.newFunderReportTemplate}</p>
+         *
+         * @constructor
+         * @memberof muk.funder
+         * @extends edges.Template
+         */
         FunderReportTemplate: function (params) {
             // later we'll store the edge instance here
             this.edge = false;
@@ -26,8 +38,16 @@ $.extend(muk, {
             // ids of the tabs that are in the layout
             this.tabIds = [];
 
+            // namespace for css classes and ids
             this.namespace = "muk-funder-report-template";
 
+            /**
+             * Draw the template into the page.  This will draw the template into the page element identified
+             * by edge.context
+             *
+             * @type {Function}
+             * @param edge {Edge} The Edge instance requesting the draw
+             */
             this.draw = function (edge) {
                 this.edge = edge;
 
@@ -178,6 +198,12 @@ $.extend(muk, {
                 }
             };
 
+            /**
+             * Hide the element identified by the selector off screen
+             *
+             * @type {Function}
+             * @param {String} selector the jquery selector for the element to move off screen
+             */
             this.hideOffScreen = function (selector) {
                 if (selector in this.hidden) {
                     return
@@ -187,6 +213,12 @@ $.extend(muk, {
                 el.css("position", "absolute").css("margin-left", -9999);
             };
 
+            /**
+             * Bring the element identified by the selector on screen
+             *
+             * @type {Function}
+             * @param {String} selector the jquery selector for the element to move off screen
+             */
             this.bringIn = function (selector) {
                 if (!this.hidden[selector]) {
                     return;
@@ -198,6 +230,12 @@ $.extend(muk, {
                 delete this.hidden[selector];
             };
 
+            /**
+             * Activate the tab with the given Edges component id
+             *
+             * @type {Function}
+             * @param {String} activate the component id for the tabbed component
+             */
             this.activateTab = function (activate) {
                 var tabs = this.edge.category("tab");
                 for (var i = 0; i < tabs.length; i++) {
@@ -214,12 +252,118 @@ $.extend(muk, {
                 }
             };
 
+            /**
+             * Event handler which is activated when a tab header is clicked, and acts to call
+             * {@link muk.institution.InstitutionReportTemplate#activateTab}
+             *
+             * @type {Function}
+             * @param {DOM} element DOM element on which the event occurred (the tab header link)
+             */
             this.tabClicked = function (element) {
                 var id = $(element).attr("data-id");
                 this.activateTab(id);
             };
         },
 
+        /**
+         * A series of colours shared between the charts.
+         * @type {Array.<string>}
+         */
+        chartColours : ["#66bdbe", "#a6d6d6", "#7867a3", "#d90d4c", "#6bcf65"],
+
+        /**
+         * Mapping from data values to display strings, used by both charts.
+         * @type {Object.<string, string>}
+         */
+        valueMap : {
+            "oa" : "Pure OA",
+            "hybrid" : "Hybrid",
+            "unknown" : "Unknown"
+        },
+
+        /**
+         * Use this to construct the {@link muk.funder.Story}
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @returns {muk.funder.Story}
+         */
+        newStory : function (params) {
+            if (!params) { params = {} }
+            muk.funder.Story.prototype = edges.newComponent(params);
+            return new muk.funder.Story(params);
+        },
+
+        /**
+         * <p>Component class which extracts averaging information from the various ES queries, and presents a human-readable
+         * story-like interface to the information</p>
+         *
+         * <p>You should construct this using {@link muk.funder.newStory}</p>
+         *
+         * @constructor
+         * @memberof muk.funder
+         * @extends edges.Component
+         */
+        Story : function(params) {
+            /////////////////////////////////////
+            // internal state
+            this.avgCount = false;
+            this.avgExp = false;
+            this.avgAPC = false;
+
+            /**
+             * Synchronise the internal state variables with the latest data from the query lifecycle
+             *
+             * @type {Function}
+             */
+            this.synchronise = function() {
+                this.avgCount = false;
+                this.avgExp = false;
+                this.avgAPC = false;
+
+                var results = this.edge.secondaryResults.uk_mean;
+                var stats = results.aggregation("total_stats");
+                var pubs = results.aggregation("funder_count");
+
+                this.avgCount = stats.count / pubs.value;
+                this.avgExp = stats.sum / pubs.value;
+                this.avgAPC = stats.avg;
+            };
+
+            /**
+             * <p>Draw the component to the screen.  This will draw the HTML to the element identified by the
+             * component's context.</p>
+             *
+             * <p>Note that as this is a simple component for a one-off purpose we do not separate the draw features
+             * out to a renderer, we draw directly within this class.</p>
+             *
+             * @type {Function}
+             */
+            this.draw = function() {
+                if (!this.avgCount || !this.avgExp || !this.avgAPC) {
+                    this.context.html("");
+                    return;
+                }
+
+                // usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
+                var story = "<p>On average, a funder pays for <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
+                story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
+                    .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
+                    .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
+
+                this.context.html(story);
+            };
+        },
+
+        /**
+         * Function which can generate the secondary query for calculating averages within the date range specified
+         * by the report.
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Edge} edge the edge which is calling this function
+         * @returns {es.Query} the ES query object which collects the relevant averaging information
+         */
         storyQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
             var query = edge.cloneQuery();
@@ -230,14 +374,13 @@ $.extend(muk, {
             // remove any existing aggregations, we don't need them
             query.clearAggregations();
 
-            // add the new aggregation which will actually get the data
+            // add the new aggregations which will actually get the data
             query.addAggregation(
                 es.newStatsAggregation({
                 name: "total_stats",
                 field: "index.amount_inc_vat"
                 })
             );
-            
             query.addAggregation(
                 es.newCardinalityAggregation({
                     name: "funder_count",
@@ -253,95 +396,26 @@ $.extend(muk, {
             return query;
         },
 
-        newStory : function (params) {
-            if (!params) { params = {} }
-            muk.funder.Story.prototype = edges.newComponent(params);
-            return new muk.funder.Story(params);
-        },
-        
-        Story : function(params) {
-            this.avgCount = false;
-            this.avgExp = false;
-            this.avgAPC = false;
-
-            this.synchronise = function() {
-                this.avgCount = false;
-                this.avgExp = false;
-                this.avgAPC = false;
-
-                var results = this.edge.secondaryResults.uk_mean;
-                var stats = results.aggregation("total_stats");
-                var pubs = results.aggregation("funder_count");
-
-                this.avgCount = stats.count / pubs.value;
-                this.avgExp = stats.sum / pubs.value;
-                this.avgAPC = stats.avg;
-            };
-
-            this.draw = function() {
-                if (!this.avgCount || !this.avgExp || !this.avgAPC) {
-                    this.context.html("");
-                    return;
-                }
-
-                // FIXME: usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
-                var story = "<p>On average, a funder pays for <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
-                story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
-                    .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
-                    .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
-
-                this.context.html(story);
-            };
-        },
-
-        stackedBarClean : function(data_series, splice_for_brevity) {
-            // Clean up some things in a data series that a stacked chart doesn't handle very well.
-
-            // discard empty series and find a list of inner labels to sort
-            var labels = new Set();
-            var i = data_series.length;
-            while (i--) {
-                var s = data_series[i];
-                if (!s.values.length) {
-                    data_series.splice(i, 1)
-                } else {
-                    for (var j = 0; j < s.values.length; j++) {
-                        labels.add(s.values[j].label)
-                    }
-                }
-            }
-
-            var sorted_labels = splice_for_brevity ? Array.from(labels).splice(0,10).sort() : Array.from(labels).sort();
-
-            // Construct a new series
-            var clean_series = [];
-            for (var a = 0; a < data_series.length; a++) {
-                var k = data_series[a].key;
-                var vs = data_series[a].values;
-                var cs = {};
-                cs["key"] = k;
-                cs["values"] = [];
-                for (var b = 0; b < sorted_labels.length; b++) {
-                    var l = sorted_labels[b];
-                    var current_labels_value = undefined;
-
-                    // apply the existing value if we have it, or push a zero value so it's not missing from the series
-                    for (var c = 0; c < vs.length; c++) {
-                        if (vs[c].label == l) {
-                            current_labels_value = {label: l, value: vs[c].value, series: a, key: k}
-                        }
-                    }
-                    if (current_labels_value === undefined){
-                        cs["values"].push({label: l, value: 0, series: a, key: k})
-                    } else {
-                        cs["values"].push(current_labels_value)
-                    }
-                }
-                clean_series.push(cs)
-            }
-            return clean_series
-        },
-
+        /**
+         * <p>Graph Data Function which converts the current query results into a suitable data series to be used by multibar charts.</p>
+         *
+         * <p>This function is generic, and is used under-the-hood by the specific Chart data functions defined in this module.</p>
+         *
+         * <p>Its role is to query the "oahybrid" aggregation (the type of the journal) then the "funder" aggregation in the current result set (<strong>params.chart.edge.result</strong>),
+         * and for each type for which there exists a filter in the current query it will apply the <strong>valueFunction</strong> to the aggregation and its nested stats aggregation.
+         * It will then map the returned value to the name of the type and add it as a value to the data series.</p>
+         *
+         * <p>Its result is passed to {@link muk.funder.stackedBarClean}, which will splice the result if there are no funder filters set, to give a
+         * top-10 overview rather than all of the data if no funders have been selected for comparison.</p>
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Object} params an object containing the allowed parameters for this function (see below)
+         * @param {edges.Chart} params.chart    the chart instance for whom the data is being prepared
+         * @param {Function} params.valueFunction  for extracting the suitable data from the "oahybrid" aggregation or any nested aggregations.  It will be applied to each bucket in the "oahybrid" aggregation, and the returned value taken as the series value
+         * @param {String} params.seriesKey name of the series being created
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
@@ -393,16 +467,119 @@ $.extend(muk, {
             return muk.funder.stackedBarClean(data_series, fund_filters.length === 0);
         },
 
+        /**
+         * <p>Perform further cleanup to the report data series, which stacked bar charts in nvd3 need to render without errors.</p>
+         *
+         * <p>The function discards empty series, sorts the labels, then rebuilds a series while including zero values for those that are missing from the original series.
+         * The end result is of the same shape as the incoming series, but there are no missing data points. In order to prevent the chart default view from looking too
+         * cluttered, this function also splices the data to only show the top 10 if the parameter splice_for_brevity is true.</p>
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Array} data_series
+         * @param {boolean} splice_for_brevity whether to abridge the data for a default view when no filters selected
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
+        stackedBarClean : function(data_series, splice_for_brevity) {
+            // Clean up some things in a data series that a stacked chart doesn't handle very well.
+
+            // discard empty series and find a list of inner labels to sort
+            var labels = new Set();
+            var i = data_series.length;
+            while (i--) {
+                var s = data_series[i];
+                if (!s.values.length) {
+                    data_series.splice(i, 1)
+                } else {
+                    for (var j = 0; j < s.values.length; j++) {
+                        labels.add(s.values[j].label)
+                    }
+                }
+            }
+
+            var sorted_labels = splice_for_brevity ? Array.from(labels).splice(0,10).sort() : Array.from(labels).sort();
+
+            // Construct a new series
+            var clean_series = [];
+            for (var a = 0; a < data_series.length; a++) {
+                var k = data_series[a].key;
+                var vs = data_series[a].values;
+                var cs = {};
+                cs["key"] = k;
+                cs["values"] = [];
+                for (var b = 0; b < sorted_labels.length; b++) {
+                    var l = sorted_labels[b];
+                    var current_labels_value = undefined;
+
+                    // apply the existing value if we have it, or push a zero value so it's not missing from the series
+                    for (var c = 0; c < vs.length; c++) {
+                        if (vs[c].label == l) {
+                            current_labels_value = {label: l, value: vs[c].value, series: a, key: k}
+                        }
+                    }
+                    if (current_labels_value === undefined){
+                        cs["values"].push({label: l, value: 0, series: a, key: k})
+                    } else {
+                        cs["values"].push(current_labels_value)
+                    }
+                }
+                clean_series.push(cs)
+            }
+            return clean_series
+        },
+
+        /**
+         * Graph Data Function which extracts a data series for the APC count chart.  This will generate a data series
+         * with the key "Number of APCs", and the value from the "doc_count" field of the funder aggregation
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         apcCountDF : function(ch) {
             return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.doc_count }});
         },
+
+        /**
+         * Graph Data Function which extracts a data series for the APC Total Expenditure chart.  This will generate a data series
+         * with the key "Total expenditure", and the value from the "sum" field of the nested "funder_stats" aggregation in the funder aggregation
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         apcExpenditureDF : function(ch) {
             return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.sum }});
         },
+
+        /**
+         * Graph Data Function which extracts a data series for the Average APC Cost chart.  This will generate a data series
+         * with the key "Average APC Cost", and the value from the "avg" field of the nested "funder_stats" aggregation in the funder aggregation
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         avgAPCDF : function(ch) {
             return muk.funder.reportDF({chart: ch, valueFunction: function(bucket) { return bucket.funder_stats.avg }});
         },
 
+        /**
+         * <p>Table Data Function which takes the charts for whom to tabularise the data and returns a table grid as a list
+         * of key/value objects to be used by edges.TabularResultsRenderer</p>
+         *
+         * <p>Each output row represents an funder, and the keys are "Funder", "APC Count", "Total expenditure" and "Average APC Cost"</p>
+         *
+         * <p>Output rows are ordered by Funder name.</p>
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Array} charts list of edges.Chart objects from which to extract data series for tabularisation
+         * @returns {Array} list of key/value pair objects suitable for tabular display
+         */
         tableData : function(charts) {
             var seriesNames = {
                 "apc_count" : "APC Count",
@@ -450,7 +627,16 @@ $.extend(muk, {
             }
             return table;
         },
-
+        
+        /**
+         * Graph Data Function which extracts a data series for the summary pie chart.  This will generate a data series
+         * with the key "oavshybrid", and the value from the "doc_count" field of the nested terms aggregation by OA type.
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         pieDF : function(ch) {
             var buckets = ch.edge.result.data.aggregations['oavshybrid'].buckets;
 
@@ -467,6 +653,14 @@ $.extend(muk, {
             return [series];
         },
 
+        /**
+         * Table Data Function for the pie chart. Returns a table grid as a list of key/value objects to be used by edges.TabularResultsRenderer
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Array} charts list of edges.Chart objects from which to extract data series for tabularisation (only 1st will be read)
+         * @returns {Array} list of key/value pair objects suitable for tabular display
+         */
         pieTable : function(charts) {
             var ds = charts[0].dataSeries[0].values;        // pie charts only have one series.
 
@@ -478,6 +672,21 @@ $.extend(muk, {
             return ds;
         },
         
+        /**
+         * <p>Primary entry point to the Funder report for pages wishing to present it.</p>
+         *
+         * <p>Call this function with the appropriate arguments, and it will render the funder report into the specified page element</p>
+         *
+         * <p>This function will first query the ES index to determine whether the current user's institution is present in the dataset.
+         * If it is not, it will set the global variable <strong>myInstitution</strong> to false. It then proceeds to call {@link muk.funder.makeInstitutionReport2}</p>
+         *
+         * <p>This function expects the global variable <strong>myInstitution</strong> to be set</p>
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Object} [params={}]   Object containing all the parameters for this report
+         * @param {String} [params.selector="#muk_funder"]     jquery selector for page element in which to render the report
+         */
         makeFunderReport : function(params) {
             if (!params) {params = {} }
 
@@ -506,14 +715,31 @@ $.extend(muk, {
             });
         },
 
-
+        /**
+         * <p>Second part of the initialisation process for the Funder Report.  Do not call this directly, you should call
+         * {@link muk.funder.makeFunderReport} instead.</p>
+         *
+         * <p>This function will construct the appropriate edges.Edge instance for the Funder Report, and record it at
+         * {@link muk.activeEdges}</p>
+         * 
+         * <p>Both the main report and the inset pie chart are generated by this function, as two separate edges.</p>
+         *
+         * <p>This function expects the global variable <strong>myInstitution</strong> to be set.  If it is set to false, the report will
+         * default to having no institution constraint, but if it is set to a value, that value will be used to constrain
+         * the user's initial view.</p>
+         *
+         * @type {Function}
+         * @memberof muk.funder
+         * @param {Object} [params={}]   Object containing all the parameters for this report
+         * @param {String} [params.selector="#muk_funder"]     jquery selector for page element in which to render the report
+         */
         makeFunderReport2 : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_funder");
 
             var base_query = es.newQuery({size: 0});
 
-            // Aggregate by institution, type and funder
+            // Aggregate by type and funder
             base_query.addAggregation(
                 es.newTermsAggregation({
                     name: "oahybrid",
@@ -535,8 +761,6 @@ $.extend(muk, {
                 })
             );
             
-            // FIXME: actually we need to first find out if the institution is listed, and only then load the
-            // relevant opening query
             var opening_query = es.newQuery();
             if (myInstituion && myInstituion != "") {
                 opening_query.addMust(
