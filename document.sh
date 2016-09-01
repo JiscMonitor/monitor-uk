@@ -9,6 +9,7 @@
 # sudo apt-get install python-epydoc
 
 JSDOC=~/node_modules/jsdoc/jsdoc.js
+#JSDOC=node_modules/jsdoc/jsdoc.js
 
 # node $JSDOC -d ~/Code/External/monitor-uk/docs/js/ ~/Code/External/monitor-uk/service/static/js-src/muk.publisher.js ~/Code/External/monitor-uk/service/static/js-src/muk.search.js
 
