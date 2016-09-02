@@ -2,17 +2,48 @@ $.extend(muk, {
     /** @namespace muk.search */
     search : {
 
+        /**
+         * Use this to construct the {@link muk.search.SearchTemplate}
+         *
+         * @type {Function}
+         * @memberof muk.search
+         * @returns {muk.search.SearchTemplate}
+         */
         newSearchTemplate: function (params) {
             if (!params) { params = {} }
             muk.search.SearchTemplate.prototype = edges.newTemplate(params);
             return new muk.search.SearchTemplate(params);
         },
+
+        /**
+         * <p>The Search Template main class.</p>
+         *
+         * <p>This class is responsible for rendering and maintaining the state of the overall UI template for the
+         * search interface.</p>
+         *
+         * <p>You should construct this using {@link muk.search.newSearchTemplate}</p>
+         *
+         * @constructor
+         * @memberof muk.search
+         * @extends edges.Template
+         */
         SearchTemplate: function (params) {
+            ///////////////////////////////////////////
+            // internal state
+
             // later we'll store the edge instance here
             this.edge = false;
 
+            // namespace for css classes and ids
             this.namespace = "muk-search-template";
 
+            /**
+             * Draw the template into the page.  This will draw the template into the page element identified
+             * by edge.context
+             *
+             * @type {Function}
+             * @param edge {Edge} The Edge instance requesting the draw
+             */
             this.draw = function (edge) {
                 this.edge = edge;
 
@@ -114,25 +145,57 @@ $.extend(muk, {
             };
         },
 
+        /**
+         * Use this to construct the {@link muk.search.APCRenderer}
+         *
+         * @type {Function}
+         * @memberof muk.search
+         * @param {Object} [params={}]  parameters for the renderer
+         * @param {String} [params.noResultsText="No results to display"]   text to display if there are no results in the result set
+         * @returns {muk.search.APCRenderer}
+         */
         newAPCRenderer : function(params) {
             if (!params) { params = {} }
             muk.search.APCRenderer.prototype = edges.newRenderer(params);
             return new muk.search.APCRenderer(params);
         },
+
+        /**
+         * <p>Custom renderer for rendering the search results list in the form required to present the appropriate
+         * APC information</p>
+         *
+         * <p>You should construct this using {@link muk.search.newAPCRenderer}</p>
+         *
+         * @constructor
+         * @memberof muk.search
+         * @param {Object} params  parameters for the renderer
+         * @param {String} [params.noResultsText="No results to display"]   text to display if there are no results in the result set
+         */
         APCRenderer : function(params) {
             //////////////////////////////////////////////
             // parameters that can be passed in
 
             // what to display when there are no results
-            this.noResultsText = params.noResultsText || "No results to display";
+            this.noResultsText = edges.getParam(params.noResultsText, "No results to display");
 
             //////////////////////////////////////////////
             // variables for internal state
 
+            // namespace for css classes and ids
             this.namespace = "muk-search-apc";
 
+            // Names of the months, in order, for use when formatting dates
             this.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+            /**
+             * <p>Draw the component into the page.  This will draw the component into the page element identified
+             * by this.component.context.</p>
+             *
+             * <p>This function draws the overall frame for the result set, and then delegates each individual record
+             * to {@link muk.search.APCRenderer#_renderResult}</p>
+             *
+             * @type {Function}
+             */
             this.draw = function() {
                 var frag = this.noResultsText;
                 if (this.component.results === false) {
@@ -165,6 +228,13 @@ $.extend(muk, {
                 edges.on(lessSelector, "click", this, "showLess");
             };
 
+            /**
+             * Create and return the HTML for an individual result
+             *
+             * @param {Object} res  a result record from the ES results
+             * @returns {String} The HTML fragment to be rendered into the page
+             * @private
+             */
             this._renderResult = function(res) {
                 var id = edges.objVal("id", res);
 
@@ -350,6 +420,12 @@ $.extend(muk, {
                 return frag;
             };
 
+            /**
+             * Event handler for when an individual result has it's "more" link clicked.  Causes that section
+             * of the page to expand.
+             *
+             * @param {DOM} element   the link element clicked
+             */
             this.showMore = function(element) {
                 var e = this.component.jq(element);
                 var id = e.attr("data-id");
@@ -363,6 +439,12 @@ $.extend(muk, {
                 this.component.jq(lessLinkBoxSelector).show();
             };
 
+            /**
+             * Event handler for when an individual result has it's "less" link clicked.  Causes that section
+             * of the page to contract.
+             *
+             * @param {DOM} element   the link element clicked
+             */
             this.showLess = function(element) {
                 var e = this.component.jq(element);
                 var id = e.attr("data-id");
@@ -377,6 +459,16 @@ $.extend(muk, {
             }
         },
 
+        /**
+         * Format a given date range for display and use in data-* elements
+         *
+         * @memberof muk.search
+         * @param {Object} params   parameters for this function
+         * @param {String} params.field      field from which the data came (currently unused)
+         * @param {String|Date} params.from From date.  If a string, must work with "new Date(string)"
+         * @param {String|Date} params.from To date   If a string, must work with "new Date(string)"
+         * @returns {Object}  {to: {String|Date}, from: {String|Date}, display: {String}} to and from are as you passed in
+         */
         formatDateRange : function(params) {
             var field = params.field;
             var from = params.from;
@@ -395,6 +487,16 @@ $.extend(muk, {
             return {to: to, from: from, display: "From " + fs + " to " + ts };
         },
 
+        /**
+         * <p>Primary entry point to the Search interface for pages wishing to present it.</p>
+         *
+         * <p>Call this function with the appropriate arguments, and it will render the search interface into the specified page element</p>
+         *
+         * @type {Function}
+         * @memberof muk.search
+         * @param {Object} [params={}]   Object containing all the parameters for this search
+         * @param {String} [params.selector="#muk_search"]     jquery selector for page element in which to render the search
+         */
         makeSearch : function(params) {
             if (!params) { params = {} }
             var selector = edges.getParam(params.selector, "#muk_search");

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: PublisherReportTemplate</title>
+    <title>JSDoc: Class: APCRenderer</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: PublisherReportTemplate</h1>
+    <h1 class="page-title">Class: APCRenderer</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="muk.html">muk</a><a href="muk.publisher.html">.publisher</a>.</span>PublisherReportTemplate</h2>
+            <span class="ancestors"><a href="muk.html">muk</a><a href="muk.search.html">.search</a>.</span>APCRenderer</h2>
         
     
 </header>
@@ -41,19 +41,17 @@
 
     
 
-    <h4 class="name" id="PublisherReportTemplate"><span class="type-signature"></span>new PublisherReportTemplate<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="APCRenderer"><span class="type-signature"></span>new APCRenderer<span class="signature">(params)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>The Publisher Report Template main class.</p>
+    <p>Custom renderer for rendering the search results list in the form required to present the appropriate
+APC information</p>
 
-<p>This class is responsible for rendering and maintaining the state of the overall UI template for the
-publisher report.</p>
-
-<p>You should construct this using <a href="muk.publisher.html#.newPublisherReportTemplate">muk.publisher.newPublisherReportTemplate</a></p>
+<p>You should construct this using <a href="muk.search.html#.newAPCRenderer">muk.search.newAPCRenderer</a></p>
 </div>
 
 
@@ -62,6 +60,124 @@ publisher report.</p>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">parameters for the renderer
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>noResultsText</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "No results to display"
+                
+                </td>
+            
+
+            <td class="description last">text to display if there are no results in the result set</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -97,7 +213,7 @@ publisher report.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line28">line 28</a>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -127,17 +243,6 @@ publisher report.</p>
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>edges.Template</li>
-    </ul>
-
-
-    
 
     
 
@@ -157,14 +262,14 @@ publisher report.</p>
 
     
 
-    <h4 class="name" id="activateTab"><span class="type-signature"></span>activateTab<span class="signature">(activate)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="_renderResult"><span class="type-signature">(private) </span>_renderResult<span class="signature">(res)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
 
 
 
 <div class="description">
-    Activate the tab with the given Edges component id
+    Create and return the HTML for an individual result
 </div>
 
 
@@ -200,86 +305,108 @@ publisher report.</p>
 
         <tr>
             
-                <td class="name"><code>activate</code></td>
+                <td class="name"><code>res</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a result record from the ES results</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line238">line 238</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The HTML fragment to be rendered into the page
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
 <span class="param-type">String</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the component id for the tabbed component</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line229">line 229</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -288,14 +415,18 @@ publisher report.</p>
 
     
 
-    <h4 class="name" id="bringIn"><span class="type-signature"></span>bringIn<span class="signature">(selector)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="draw"><span class="type-signature"></span>draw<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Bring the element identified by the selector on screen
+    <p>Draw the component into the page.  This will draw the component into the page element identified
+by this.component.context.</p>
+
+<p>This function draws the overall frame for the result set, and then delegates each individual record
+to <a href="muk.search.APCRenderer.html#_renderResult">muk.search.APCRenderer#_renderResult</a></p>
 </div>
 
 
@@ -306,55 +437,6 @@ publisher report.</p>
 
 
 
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>selector</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the jquery selector for the element to move off screen</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
 
 
 
@@ -388,7 +470,7 @@ publisher report.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line212">line 212</a>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line199">line 199</a>
     </li></ul></dd>
     
 
@@ -419,278 +501,15 @@ publisher report.</p>
 
     
 
-    <h4 class="name" id="draw"><span class="type-signature"></span>draw<span class="signature">(edge)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="showLess"><span class="type-signature"></span>showLess<span class="signature">(element)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Draw the template into the page.  This will draw the template into the page element identified
-by edge.context
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>edge</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Edge</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The Edge instance requesting the draw</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line51">line 51</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="hideOffScreen"><span class="type-signature"></span>hideOffScreen<span class="signature">(selector)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Hide the element identified by the selector off screen
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>selector</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the jquery selector for the element to move off screen</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line197">line 197</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="tabClicked"><span class="type-signature"></span>tabClicked<span class="signature">(element)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Event handler which is activated when a tab header is clicked, and acts to call
-<a href="muk.publisher.PublisherReportTemplate.html#activateTab">muk.publisher.PublisherReportTemplate#activateTab</a>
+    Event handler for when an individual result has it's "less" link clicked.  Causes that section
+of the page to contract.
 </div>
 
 
@@ -742,7 +561,7 @@ by edge.context
 
             
 
-            <td class="description last">DOM element on which the event occurred (the tab header link)</td>
+            <td class="description last">the link element clicked</td>
         </tr>
 
     
@@ -783,7 +602,139 @@ by edge.context
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line252">line 252</a>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line448">line 448</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="showMore"><span class="type-signature"></span>showMore<span class="signature">(element)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Event handler for when an individual result has it's "more" link clicked.  Causes that section
+of the page to expand.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">DOM</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the link element clicked</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line429">line 429</a>
     </li></ul></dd>
     
 

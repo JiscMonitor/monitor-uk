@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Story</title>
+    <title>JSDoc: Class: SearchTemplate</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Story</h1>
+    <h1 class="page-title">Class: SearchTemplate</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="muk.html">muk</a><a href="muk.institution.html">.institution</a>.</span>Story</h2>
+            <span class="ancestors"><a href="muk.html">muk</a><a href="muk.search.html">.search</a>.</span>SearchTemplate</h2>
         
     
 </header>
@@ -41,17 +41,19 @@
 
     
 
-    <h4 class="name" id="Story"><span class="type-signature"></span>new Story<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SearchTemplate"><span class="type-signature"></span>new SearchTemplate<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Component class which extracts averaging information from the various ES queries, and presents a human-readable
-story-like interface to the information</p>
+    <p>The Search Template main class.</p>
 
-<p>You should construct this using <a href="muk.institution.html#.newStory">muk.institution.newStory</a></p>
+<p>This class is responsible for rendering and maintaining the state of the overall UI template for the
+search interface.</p>
+
+<p>You should construct this using <a href="muk.search.html#.newSearchTemplate">muk.search.newSearchTemplate</a></p>
 </div>
 
 
@@ -95,7 +97,7 @@ story-like interface to the information</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.institution.js.html">muk.institution.js</a>, <a href="muk.institution.js.html#line273">line 273</a>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -131,7 +133,7 @@ story-like interface to the information</p>
 
 
     <ul>
-        <li>edges.Component</li>
+        <li>edges.Template</li>
     </ul>
 
 
@@ -155,18 +157,15 @@ story-like interface to the information</p>
 
     
 
-    <h4 class="name" id="draw"><span class="type-signature"></span>draw<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="draw"><span class="type-signature"></span>draw<span class="signature">(edge)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Draw the component to the screen.  This will draw the HTML to the element identified by the
-component's context.</p>
-
-<p>Note that as this is a simple component for a one-off purpose we do not separate the draw features
-out to a renderer, we draw directly within this class.</p>
+    Draw the template into the page.  This will draw the template into the page element identified
+by edge.context
 </div>
 
 
@@ -177,86 +176,53 @@ out to a renderer, we draw directly within this class.</p>
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.institution.js.html">muk.institution.js</a>, <a href="muk.institution.js.html#line354">line 354</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>edge</code></td>
             
 
+            <td class="type">
+            
+                
+<span class="param-type">Edge</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The Edge instance requesting the draw</td>
+        </tr>
+
     
-
-    <h4 class="name" id="synchronise"><span class="type-signature"></span>synchronise<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Synchronise the internal state variables with the latest data from the query lifecycle
-</div>
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -292,7 +258,7 @@ out to a renderer, we draw directly within this class.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="muk.institution.js.html">muk.institution.js</a>, <a href="muk.institution.js.html#line291">line 291</a>
+        <a href="muk.search.js.html">muk.search.js</a>, <a href="muk.search.js.html#line47">line 47</a>
     </li></ul></dd>
     
 

@@ -1,7 +1,8 @@
 {
 	"opts": {
 		"destination": "./docs/js/",
-		"recurse": true
+		"recurse": true,
+		"private" : true
 	},
     "tags": {
         "allowUnknownTags": true,
