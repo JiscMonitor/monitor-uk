@@ -15,33 +15,31 @@ $.extend(muk, {
             return new muk.publisher.PublisherReportTemplate(params);
         },
         /**
-         * The Publisher Report Template main class.
+         * <p>The Publisher Report Template main class.</p>
          *
-         * You should construct this using {@link muk.publisher.newPublisherReportTemplate}
+         * <p>This class is responsible for rendering and maintaining the state of the overall UI template for the
+         * publisher report.</p>
+         *
+         * <p>You should construct this using {@link muk.publisher.newPublisherReportTemplate}</p>
          *
          * @constructor
          * @memberof muk.publisher
-         * @params
+         * @extends edges.Template
          */
         PublisherReportTemplate: function (params) {
-            /**
-             * later we'll store the edge instance here
-             * @type {Boolean}
-             */
+            //////////////////////////////////////
+            // internal state
+
+            // the edge instance that calls this template
             this.edge = false;
 
-            /**
-             * Register of the bits of the template that are currently hidden off-screen
-             * @type {{}}
-             */
+            // bits that are hidden off-screen
             this.hidden = {};
 
-            /**
-             * List of ids of the tabs that are currently available in the layout
-             * @type {Array}
-             */
+            // ids of the tabs that are in the layout
             this.tabIds = [];
 
+            // namespace for css classes and ids
             this.namespace = "muk-publisher-report-template";
 
             /**
@@ -49,7 +47,7 @@ $.extend(muk, {
              * by edge.context
              *
              * @type {Function}
-             * @param edge {Edge} The instance of the edge requesting the draw
+             * @param edge {Edge} The Edge instance requesting the draw
              */
             this.draw = function (edge) {
                 this.edge = edge;
@@ -261,6 +259,8 @@ $.extend(muk, {
         /**
          * Use this to construct the {@link muk.publisher.Story}
          *
+         * @type {Function}
+         * @memberof muk.publisher
          * @returns {muk.publisher.Story}
          */
         newStory : function (params) {
@@ -269,16 +269,28 @@ $.extend(muk, {
             return new muk.publisher.Story(params);
         },
         /**
-         * Create a new Story object, which can be used to render a human-readable story into the report
+         * <p>Component class which extracts averaging information from the various ES queries, and presents a human-readable
+         * story-like interface to the information</p>
+         *
+         * <p>You should construct this using {@link muk.publisher.newStory}</p>
          *
          * @constructor
          * @memberof muk.publisher
+         * @extends edges.Component
          */
         Story : function(params) {
+
+            /////////////////////////////////////
+            // internal state
             this.avgCount = false;
             this.avgExp = false;
             this.avgAPC = false;
 
+            /**
+             * Synchronise the internal state variables with the latest data from the query lifecycle
+             *
+             * @type {Function}
+             */
             this.synchronise = function() {
                 this.avgCount = false;
                 this.avgExp = false;
@@ -294,6 +306,15 @@ $.extend(muk, {
                 this.avgAPC = stats.avg;
             };
 
+            /**
+             * <p>Draw the component to the screen.  This will draw the HTML to the element identified by the
+             * component's context.</p>
+             *
+             * <p>Note that as this is a simple component for a one-off purpose we do not separate the draw features
+             * out to a renderer, we draw directly within this class.</p>
+             *
+             * @type {Function}
+             */
             this.draw = function() {
                 if (!this.avgCount || !this.avgExp || !this.avgAPC) {
                     this.context.html("");
@@ -312,6 +333,16 @@ $.extend(muk, {
             };
         },
 
+        /**
+         * Function which can generate the secondary query for calculating averages within the date range specified
+         * by the report, for the publishers which are listed in the current filters, ignoring all other filters.  This gives publisher averages
+         * within the date range.
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {Edge} edge the edge which is calling this function
+         * @returns {es.Query} the ES query object which collects the relevant averaging information
+         */
         averagesQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
             var query = edge.cloneQuery();
@@ -371,6 +402,16 @@ $.extend(muk, {
             return query;
         },
 
+        /**
+         * Function which can generate the secondary query for calculating averages within the date range specified
+         * by the report, ignoring all other filters that may be applied.  This gives global averages within the date
+         * range.
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {Edge} edge the edge which is calling this function
+         * @returns {es.Query} the ES query object which collects the relevant averaging information
+         */
         globalAveragesQuery : function(edge) {
             // clone the current query, which will be the basis for the averages query
             var query = edge.cloneQuery();
@@ -409,6 +450,30 @@ $.extend(muk, {
             return query;
         },
 
+        /**
+         * <p>Graph Data Function which converts the current query results into a suitable data series to be used by Charts</p>
+         *
+         * <p>This function is generic, and is used under-the-hood by the specific Chart data functions defined in this module.</p>
+         *
+         * <p>This function carries out two distinct tasks in order to return the complete data series for the particular context in which it is used:</p>
+         *
+         * <ul>
+         *     <li>Calculates the UK average per publisher by examining the "publisher" aggregation from the secondary query.  It records only values for publishers
+         *     which are listed in the active filters for that secondary query, and it arrives at the value by applying the <strong>avgFunction</strong> to the
+         *     aggregation's bucket</li>
+         *     <li>Calculates the publisher values within the report's constraints by looking at the "institution" aggregation in the primary query for each
+         *     institution that appears in the active filters, and within that aggregation, examines the "publisher" nested aggregation (again, only if the
+         *     publisher appears in the active filters) and arrives at the value by applying the <strong>valueFunction</strong> to that nested aggregation</li>
+         * </ul>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {Object} params an object containing the allowed parameters for this function (see below)
+         * @param {edges.Chart} params.chart    the chart instance for whom the data is being prepared
+         * @param {Function} params.avgFunction  function which takes a bucket from the "publisher" aggregation in the secondary query, and returns the appropriate average value
+         * @param {Function} params.valueFunction function which takes a bucket from the "publisher" nested aggregation in the "institution" aggregation of the primary query, and returns the appropriate value
+         * @returns {Array} The data series, which will be a multi-element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         reportDF : function(params) {
             var ch = params.chart;
             var valueFunction = params.valueFunction;
@@ -522,18 +587,59 @@ $.extend(muk, {
             return data_series;
         },
 
+        /**
+         * Graph Data Function which extracts a data series for the APC count chart.  This will generate a data series consisting of:
+         *
+         * <ul>
+         *     <li>The "UK Average" per publisher, calculated by dividing the total number of records for that publisher by the number of institutions who have paid that publisher (within the secondary query constraints) </li>
+         *     <li>A series per institution, showing the total number of records paid to each (selected/relevant) publisher (within the primary query constraints)</li>
+         * </ul>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a multi-element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         apcCountDF : function(ch) {
             return muk.publisher.reportDF({chart: ch,
                 valueFunction: function(bucket) { return bucket.doc_count },
                 avgFunction : function(bucket) {return bucket.doc_count / bucket.institutions.value }
             });
         },
+
+        /**
+         * Graph Data Function which extracts a data series for the Total Expenditure chart.  This will generate a data series consisting of:
+         *
+         * <ul>
+         *     <li>The "UK Average" per publisher, calculated by dividing the total APC payments to that publisher by the number of institutions who have paid that publisher (within the secondary query constraints) </li>
+         *     <li>A series per institution, showing the total total APC payments to that publisher (within the primary query constraints)</li>
+         * </ul>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a multi-element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         apcExpenditureDF : function(ch) {
             return muk.publisher.reportDF({chart: ch,
                 valueFunction: function(bucket) { return bucket.publisher_stats.sum },
                 avgFunction: function(bucket) { return bucket.publisher_stats.sum / bucket.institutions.value }
             });
         },
+
+        /**
+         * Graph Data Function which extracts a data series for the Total Expenditure chart.  This will generate a data series consisting of:
+         *
+         * <ul>
+         *     <li>The "UK Average" per publisher, taking the average value of APCs paid (within the secondary query constraints) </li>
+         *     <li>A series per selected institution, showing the average value of APCs paid to that publisher (within the primary query constraints)</li>
+         * </ul>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {edges.Chart} ch    The chart instance calling this function
+         * @returns {Array} The data series, which will be a multi-element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+         */
         avgAPCDF : function(ch) {
             return muk.publisher.reportDF({chart: ch,
                 valueFunction: function(bucket) { return bucket.publisher_stats.avg },
@@ -541,6 +647,19 @@ $.extend(muk, {
             });
         },
 
+        /**
+         * <p>Table Data Function which takes the charts for whom to tabularise the data and returns a table grid as a list
+         * of key/value objects to be used by edges.TabularResultsRenderer</p>
+         *
+         * <p>Each output row represents a combination of Publisher + Metric Type</p>
+         *
+         * <p>Output rows are ordered alphabetically by Publisher + Metric Type</p>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {Array} charts list of edges.Chart objects from which to extract data series for tabularisation
+         * @returns {Array} list of key/value pair objects suitable for tabular display
+         */
         tableData : function(charts) {
             var seriesNames = {
                 "apc_count" : "APC Count",
@@ -590,6 +709,21 @@ $.extend(muk, {
             return table;
         },
 
+        /**
+         * <p>Primary entry point to the Publisher report for pages wishing to present it.</p>
+         *
+         * <p>Call this function with the appropriate arguments, and it will render the publisher report into the specified page element</p>
+         *
+         * <p>This function will first query the ES index to determine whether the current user's institution is present in the dataset.
+         * If it is not, it will set the global variable <strong>myInstitution</strong> to false. It then proceeds to call {@link muk.institution.makePublisherReport2}</p>
+         *
+         * <p>This function expects the global variable <strong>myInstitution</strong> to be set</p>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {Object} [params={}]   Object containing all the parameters for this report
+         * @param {String} [params.selector="#muk_publisher"]     jquery selector for page element in which to render the report
+         */
         makePublisherReport : function(params) {
             if (!params) {params = {} }
 
@@ -618,6 +752,22 @@ $.extend(muk, {
             });
         },
 
+        /**
+         * <p>Second part of the initialisation process for the Publisher Report.  Do not call this directly, you should call
+         * {@link muk.publisher.makePublisherReport} instead.</p>
+         *
+         * <p>This function will construct the appropriate edges.Edge instance for the Publisher Report, and record it at
+         * {@link muk.activeEdges}</p>
+         *
+         * <p>This function expects the global variable <strong>myInstitution</strong> to be set.  If it is set to false, the report will
+         * default to having no institution constraint, but if it is set to a value, that value will be used to constrain
+         * the user's initial view.</p>
+         *
+         * @type {Function}
+         * @memberof muk.publisher
+         * @param {Object} [params={}]   Object containing all the parameters for this report
+         * @param {String} [params.selector="#muk_publisher"]     jquery selector for page element in which to render the report
+         */
         makePublisherReport2 : function(params) {
             if (!params) {params = {} }
             var selector = edges.getParam(params.selector, "#muk_publisher");

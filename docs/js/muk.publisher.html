@@ -117,6 +117,1245 @@
 
     
 
+    <h4 class="name" id=".apcCountDF"><span class="type-signature">(static) </span>apcCountDF<span class="signature">(ch)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Graph Data Function which extracts a data series for the APC count chart.  This will generate a data series consisting of:
+
+<ul>
+    <li>The "UK Average" per publisher, calculated by dividing the total number of records for that publisher by the number of institutions who have paid that publisher (within the secondary query constraints) </li>
+    <li>A series per institution, showing the total number of records paid to each (selected/relevant) publisher (within the primary query constraints)</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">edges.Chart</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The chart instance calling this function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line603">line 603</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".apcExpenditureDF"><span class="type-signature">(static) </span>apcExpenditureDF<span class="signature">(ch)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Graph Data Function which extracts a data series for the Total Expenditure chart.  This will generate a data series consisting of:
+
+<ul>
+    <li>The "UK Average" per publisher, calculated by dividing the total APC payments to that publisher by the number of institutions who have paid that publisher (within the secondary query constraints) </li>
+    <li>A series per institution, showing the total total APC payments to that publisher (within the primary query constraints)</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">edges.Chart</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The chart instance calling this function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line623">line 623</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".averagesQuery"><span class="type-signature">(static) </span>averagesQuery<span class="signature">(edge)</span><span class="type-signature"> &rarr; {es.Query}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Function which can generate the secondary query for calculating averages within the date range specified
+by the report, for the publishers which are listed in the current filters, ignoring all other filters.  This gives publisher averages
+within the date range.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>edge</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Edge</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the edge which is calling this function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line346">line 346</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the ES query object which collects the relevant averaging information
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">es.Query</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".avgAPCDF"><span class="type-signature">(static) </span>avgAPCDF<span class="signature">(ch)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Graph Data Function which extracts a data series for the Total Expenditure chart.  This will generate a data series consisting of:
+
+<ul>
+    <li>The "UK Average" per publisher, taking the average value of APCs paid (within the secondary query constraints) </li>
+    <li>A series per selected institution, showing the average value of APCs paid to that publisher (within the primary query constraints)</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">edges.Chart</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The chart instance calling this function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line643">line 643</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The data series, which will be a single element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".globalAveragesQuery"><span class="type-signature">(static) </span>globalAveragesQuery<span class="signature">(edge)</span><span class="type-signature"> &rarr; {es.Query}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Function which can generate the secondary query for calculating averages within the date range specified
+by the report, ignoring all other filters that may be applied.  This gives global averages within the date
+range.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>edge</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Edge</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the edge which is calling this function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line415">line 415</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the ES query object which collects the relevant averaging information
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">es.Query</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".makePublisherReport"><span class="type-signature">(static) </span>makePublisherReport<span class="signature">(params<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Primary entry point to the Publisher report for pages wishing to present it.</p>
+
+<p>Call this function with the appropriate arguments, and it will render the publisher report into the specified page element</p>
+
+<p>This function will first query the ES index to determine whether the current user's institution is present in the dataset.
+If it is not, it will set the global variable <strong>myInstitution</strong> to false. It then proceeds to call muk.institution.makePublisherReport2</p>
+
+<p>This function expects the global variable <strong>myInstitution</strong> to be set</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">Object containing all the parameters for this report
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "#muk_publisher"
+                
+                </td>
+            
+
+            <td class="description last">jquery selector for page element in which to render the report</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line727">line 727</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".makePublisherReport2"><span class="type-signature">(static) </span>makePublisherReport2<span class="signature">(params<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Second part of the initialisation process for the Publisher Report.  Do not call this directly, you should call
+<a href="muk.publisher.html#.makePublisherReport">muk.publisher.makePublisherReport</a> instead.</p>
+
+<p>This function will construct the appropriate edges.Edge instance for the Publisher Report, and record it at
+<a href="muk.html#.activeEdges">muk.activeEdges</a></p>
+
+<p>This function expects the global variable <strong>myInstitution</strong> to be set.  If it is set to false, the report will
+default to having no institution constraint, but if it is set to a value, that value will be used to constrain
+the user's initial view.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">Object containing all the parameters for this report
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "#muk_publisher"
+                
+                </td>
+            
+
+            <td class="description last">jquery selector for page element in which to render the report</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line771">line 771</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id=".newPublisherReportTemplate"><span class="type-signature">(static) </span>newPublisherReportTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="muk.publisher.PublisherReportTemplate.html">muk.publisher.PublisherReportTemplate</a>}</span></h4>
 
     
@@ -213,6 +1452,525 @@
 
 
         
+            
+
+    
+
+    <h4 class="name" id=".newStory"><span class="type-signature">(static) </span>newStory<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="muk.publisher.Story.html">muk.publisher.Story</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Use this to construct the <a href="muk.publisher.Story.html">muk.publisher.Story</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line266">line 266</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="muk.publisher.Story.html">muk.publisher.Story</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".reportDF"><span class="type-signature">(static) </span>reportDF<span class="signature">(params)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Graph Data Function which converts the current query results into a suitable data series to be used by Charts</p>
+
+<p>This function is generic, and is used under-the-hood by the specific Chart data functions defined in this module.</p>
+
+<p>This function carries out two distinct tasks in order to return the complete data series for the particular context in which it is used:</p>
+
+<ul>
+    <li>Calculates the UK average per publisher by examining the "publisher" aggregation from the secondary query.  It records only values for publishers
+    which are listed in the active filters for that secondary query, and it arrives at the value by applying the <strong>avgFunction</strong> to the
+    aggregation's bucket</li>
+    <li>Calculates the publisher values within the report's constraints by looking at the "institution" aggregation in the primary query for each
+    institution that appears in the active filters, and within that aggregation, examines the "publisher" nested aggregation (again, only if the
+    publisher appears in the active filters) and arrives at the value by applying the <strong>valueFunction</strong> to that nested aggregation</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">an object containing the allowed parameters for this function (see below)
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chart</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">edges.Chart</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the chart instance for whom the data is being prepared</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>avgFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">function which takes a bucket from the "publisher" aggregation in the secondary query, and returns the appropriate average value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valueFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">function which takes a bucket from the "publisher" nested aggregation in the "institution" aggregation of the primary query, and returns the appropriate value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line477">line 477</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The data series, which will be a multi-element array containing an object of the form {key : <seriesKey>, values : [{label: <value label>, value: <value>}]}
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".tableData"><span class="type-signature">(static) </span>tableData<span class="signature">(charts)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Table Data Function which takes the charts for whom to tabularise the data and returns a table grid as a list
+of key/value objects to be used by edges.TabularResultsRenderer</p>
+
+<p>Each output row represents a combination of Publisher + Metric Type</p>
+
+<p>Output rows are ordered alphabetically by Publisher + Metric Type</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>charts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">list of edges.Chart objects from which to extract data series for tabularisation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="muk.publisher.js.html">muk.publisher.js</a>, <a href="muk.publisher.js.html#line663">line 663</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of key/value pair objects suitable for tabular display
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
     
 
     
@@ -228,13 +1986,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="muk.institution.InstitutionReportTemplate.html">InstitutionReportTemplate</a></li><li><a href="muk.institution.Story.html">Story</a></li><li><a href="muk.publisher.PublisherReportTemplate.html">PublisherReportTemplate</a></li><li><a href="muk.publisher.Story.html">Story</a></li></ul><h3>Namespaces</h3><ul><li><a href="muk.html">muk</a></li><li><a href="muk.funder.html">funder</a></li><li><a href="muk.institution.html">institution</a></li><li><a href="muk.publisher.html">publisher</a></li><li><a href="muk.search.html">search</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="muk.funder.FunderReportTemplate.html">FunderReportTemplate</a></li><li><a href="muk.funder.Story.html">Story</a></li><li><a href="muk.institution.InstitutionReportTemplate.html">InstitutionReportTemplate</a></li><li><a href="muk.institution.Story.html">Story</a></li><li><a href="muk.publisher.PublisherReportTemplate.html">PublisherReportTemplate</a></li><li><a href="muk.publisher.Story.html">Story</a></li></ul><h3>Namespaces</h3><ul><li><a href="muk.html">muk</a></li><li><a href="muk.funder.html">funder</a></li><li><a href="muk.institution.html">institution</a></li><li><a href="muk.publisher.html">publisher</a></li><li><a href="muk.search.html">search</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Aug 31 2016 14:39:41 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Sep 02 2016 14:36:09 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>
