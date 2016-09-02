@@ -5,10 +5,25 @@
 
 {% block content %}
 
-    <div class="inner">
-        <div class="article-full">
-            <p>Admin area</p>
-        </div>
+    <div class="inner report-intro-text">
+        <h2>Creating a new user</h2>
+
+        <p>To create a new user, select "<a href="{{ url_for("account.register") }}">Create User</a>" from here or from the pull-down on the top right.  Then enter the
+        user's email address, and they will be sent an authentication token URL, which they should follow to activate their account.</p>
+
+        <p>Users have a fixed window of time to activate their account, after which point the activation token will expire, and their
+        account will need to be re-created.  To re-create the account, delete it (see below) and then create it again as per the above
+        instructions.</p>
+
+        <h2>Editing/Deleting an Existing User</h2>
+
+        <p>To edit existing users, select "<a href="{{ url_for("account.index") }}">Manage Users</a>" from here or from the pull-down on the top right.  Search for the user accounts using
+        the search controls on that page, and select "Edit" next to the account you wish to modify.</p>
+
+        <p>You may modify any of the user's properties except their password.  Once you have modified a user's properties, you need to enter your admin password in
+        the password box, then you can click "Update".  You may also regenerate the user's API key for them, or delete their account; in both cases you will need
+        to enter your admin password.</p>
+
     </div>
     <!-- .inner -->
 
