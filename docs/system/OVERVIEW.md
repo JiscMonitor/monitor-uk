@@ -23,3 +23,14 @@ the Workflow Engine and contributed to the Public Dataset.
 * For more information on the data in the system, see the [Data Models Documentation](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/system/DATA_MODELS.md)
 
 * For more information on the workflow processes, see the [Workflow Documentation](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/system/WORKFLOWS.md)
+
+* Code documentation can be found by checking out the repository and pointing your browser at the following locations
+
+    file:///path/to/monitoruk/docs/js/index.html
+    
+    file:///path/to/monitoruk/docs/py/index.html
+    
+* For information on the API, see
+
+    * [Contribution API](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/API/CONTRIBUTION.md)
+    * [Search API](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/API/SEARCH.md)

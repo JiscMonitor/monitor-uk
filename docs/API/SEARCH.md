@@ -1,5 +1,8 @@
 # Search API
 
+The Search API provides both general public (though still authenticated) access to the public dataset, as well as access
+to an organisation's own content through a private API.
+
 ## Public
 
 This provides access to the entire public dataset, and allows queries on the bibliographic record data
@@ -20,8 +23,8 @@ You must have a valid user account, and have the role "write_apc" to use this en
 
 ## Allowed Parameters
 
-* api_key - Your API key.  Required
-* q - The query string.  Required
+* api_key - Your API key.  Required.  If you do not provide this you will receive a 401
+* q - The query string.  Required.  If you do not provide this you will receive a 400
 * page - The page number of the result set you want to see.  Defaults to 1.
 * pageSize - The number of results you want to see.  Defaults to 10.  Maximum size allowed is 100.
 * sortBy - The field you want to sort the results by.  If omitted, the results are sorted according to relevance to your query.
@@ -85,13 +88,6 @@ Some of the Elasticsearch query syntax has been disabled in order to prevent que
 
 * Proximity Searches. https://www.elastic.co/guide/en/elasticsearch/reference/1.4/query-dsl-query-string-query.html#_proximity_searches
 
-### Field names for searching
-
-| Search field | .exact | | range | Notes |
-| --- | --- | --- | --- |
-| TODO | TODO | TODO | TODO |
-
-
 ## Sorting
 
 Each request can take a "sortBy" and a "sortDir" url parameter, which can be of the form of one of:
@@ -102,12 +98,29 @@ The field in sortBy again uses the json dot notation.
 
 If specifying the direction, it must be one of "asc" or "desc". If no direction is supplied then "asc" is used.
 
-Note that for fields which may contain multiple values (i.e. arrays), the sort will use the "smallest" value in that field to sort by (depending on the definition of "smallest" for that field type)
+Note that for fields which may contain multiple values (i.e. arrays), the sort will use the "smallest" value in that field to sort by 
+(depending on the definition of "smallest" for that field type)
 
-### Field names for sorting
+## Results Format
 
-| Sort field | Notes |
-| --- | --- |
-| TODO | TODO |
+When you receive the results of a successful search, they will be formatted as follows:
 
+```
+{
+    "pageSize": 10,
+    "timestamp": "2016-09-02T16:38:40Z",
+    "query": "My Query",
+    "total": 298,
+    "page": 1
+    "results": [
+        {JSON Record Body}
+    ],
+}
+```
 
+* pageSize - the number of records you requested per page.  This may not be the same as the number of records in the results array, if you are on the last page
+* timestamp - the server's time stamp for when it processed your query
+* query - the query string you sent to the server
+* total - the total number of individual results
+* page - the current page number in the result set that you are looking at
+* results - list of the records which match the search, a set of JSON documents, each conforming to our schema (see [Contribution API](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/API/CONTRIBUTION.md) for details)
