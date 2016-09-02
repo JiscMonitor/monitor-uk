@@ -17,12 +17,7 @@ the provided APC record:
 
 ![Create/Update](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/WorkflowCreate.png)
 
-The asynchronous step to obtain compliance information involve the identifiers in the public 
-item to a set to be sent to the [Lantern](http://lantern.cottagelabs.com) compliance system (FIXME: exact nature of interaction tbd).  
-These will be batch processed at appropriate intervals, and the resulting data re-incorporated into the public record.  
-Each time a modification is made to a public record, the OA compliance status will be checked again.
-
-Merging the new/updated record with an existing public record is as follws:
+Merging the new/updated record with an existing public record is as follows:
 
 ![Merge](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/WorkflowMerge.png)
 
@@ -30,8 +25,8 @@ The updated record contains APCs from one institution (who delivered the update)
 institutions.  We remove any existing APCs from the institution doing the update, then replace them with the new APCs 
 we’ve been told about.  Finally some basic bibliographic metadata enhancement takes place.
 
-**Note that this process means that it is not possible to replace incorrectly set bibliographic data via the 
-institutional API.**
+**Note that this process means that it is not currently possible to replace incorrectly set bibliographic data via the 
+institutional API, when the record comprises of APCs from more than one institution.**
 
 ## Delete
 
@@ -46,3 +41,18 @@ latter case.**
 
 Separating an institution’s details from the existing record simply means removing any APC entries supplied by that institution, 
 and leaving the remaining entries from other institutions untouched.
+
+
+## Enhance
+
+Records in the public dataset are available for enhancement by 3rd party services (in particular, [Lantern](https://lantern.cottagelabs.com), at this stage). 
+
+Enhancement is carried out in several stages.  The first stage is to determin which items require enhancement, and to send their identifiers out to 
+Lantern for processing:
+
+![Create Jobs](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/LanternJobCreation.png)
+
+Once a job has been created, it is continually monitored until such time as it completes, then an Enhancement is created, which
+is later merged with the public record, in a similar way to how information coming in from institutions is handled:
+
+![Monitor Jobs](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/MonitorLanternJobs.png)
