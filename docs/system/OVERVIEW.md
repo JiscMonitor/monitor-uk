@@ -34,3 +34,5 @@ the Workflow Engine and contributed to the Public Dataset.
 
     * [Contribution API](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/API/CONTRIBUTION.md)
     * [Search API](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/API/SEARCH.md)
+    
+* For information on running the system tests, see [Test Information](https://github.com/JiscMonitor/monitor-uk/blob/develop/service/tests/README.md)

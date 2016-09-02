@@ -3,7 +3,7 @@ Functional tests for the API.
 
 This test suite will work fine against a standard MUK install on the local machine with the default accounts.
 
-If you want to run it in a different environment you will need to modify some of the constants used in this test.
+If you want to run it in a different environment you may need to modify some of the constants used in this test.
 """
 
 from octopus.modules.es.testindex import ESTestCase
