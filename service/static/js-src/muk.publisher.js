@@ -1,4 +1,3 @@
-/** @namespace muk */
 $.extend(muk, {
     /** @namespace muk.publisher */
     publisher: {

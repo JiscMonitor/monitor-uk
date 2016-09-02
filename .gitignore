@@ -8,5 +8,5 @@ dist/*
 local.cfg
 
 .idea/
-
+node_modules
 
