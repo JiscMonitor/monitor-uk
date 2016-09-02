@@ -1,0 +1,2593 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>service.api API documentation</title>
+    <meta name="description" content="This module contains all the core system API, for all interactions with the aggregation.
+
+If you nee..." />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <style type="text/css">
+  
+* {
+  box-sizing: border-box;
+}
+/*! normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/**
+ * 1. Prevent system color scheme's background color being used in Firefox, IE,
+ *    and Opera.
+ * 2. Prevent system color scheme's text color being used in Firefox, IE, and
+ *    Opera.
+ * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 4. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    background: #fff; /* 1 */
+    color: #000; /* 2 */
+    font-size: 100%; /* 3 */
+    -webkit-text-size-adjust: 100%; /* 4 */
+    -ms-text-size-adjust: 100%; /* 4 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+
+body {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+
+b,
+strong {
+    font-weight: bold;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+p,
+pre {
+    margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+
+q {
+    quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+dl,
+menu,
+ol,
+ul {
+    margin: 1em 0;
+}
+
+dd {
+    margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+
+img {
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+
+figure {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+
+form {
+    margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+
+legend {
+    border: 0; /* 1 */
+    padding: 0;
+    white-space: normal; /* 2 */
+    *margin-left: -7px; /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* 1 */
+    margin: 0; /* 2 */
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+button,
+input {
+    line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+    *overflow: visible;  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+  </style>
+
+  <style type="text/css">
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background: #fff;
+    font-family: "Source Sans Pro", "Helvetica Neueue", Helvetica, sans;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6em;
+  }
+  #content {
+    width: 70%;
+    max-width: 850px;
+    float: left;
+    padding: 30px 60px;
+    border-left: 1px solid #ddd;
+  }
+  #sidebar {
+    width: 25%;
+    float: left;
+    padding: 30px;
+    overflow: hidden;
+  }
+  #nav {
+    font-size: 130%;
+    margin: 0 0 15px 0;
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: .85em;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    font-size: .75em;
+    padding: 5px 30px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+    #footer p {
+      margin: 0 0 0 30px;
+      display: inline-block;
+    }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin: 0 0 .50em 0;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    margin: 1em 0 .50em 0;
+  }
+
+  h3 {
+    margin: 25px 0 10px 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 105%;
+  }
+
+  a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+  }
+
+  a:hover {
+    color: #e08524;
+    transition: color .3s ease-in-out;
+  }
+
+  pre, code, .mono, .name {
+    font-family: "Ubuntu Mono", "Cousine", "DejaVu Sans Mono", monospace;
+  }
+
+  .title .name {
+    font-weight: bold;
+  }
+  .section-title {
+    margin-top: 2em;
+  }
+  .ident {
+    color: #900;
+  }
+
+  code {
+    background: #f9f9f9;
+  } 
+
+  pre {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 0 #f3f3f3;
+    margin: 0 30px;
+    padding: 15px 30px;
+  }
+
+  .codehilite {
+    margin: 0 30px 10px 30px;
+  }
+
+    .codehilite pre {
+      margin: 0;
+    }
+    .codehilite .err { background: #ff3300; color: #fff !important; } 
+
+  table#module-list {
+    font-size: 110%;
+  }
+
+    table#module-list tr td:first-child {
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    table#module-list td {
+      vertical-align: top;
+      padding-bottom: 8px;
+    }
+
+      table#module-list td p {
+        margin: 0 0 7px 0;
+      }
+
+  .def {
+    display: table;
+  }
+
+    .def p {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .def p:first-child {
+      white-space: nowrap;
+    }
+
+    .def p:last-child {
+      width: 100%;
+    }
+
+
+  #index {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    ul#index .class_name {
+      /* font-size: 110%; */
+      font-weight: bold;
+    }
+    #index ul {
+      margin: 0;
+    }
+
+  .item {
+    margin: 0 0 15px 0;
+  }
+
+    .item .class {
+      margin: 0 0 25px 30px;
+    }
+
+      .item .class ul.class_list {
+        margin: 0 0 20px 0;
+      }
+
+    .item .name {
+      background: #fafafa;
+      margin: 0;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 40%;
+    }
+      .item .name:hover {
+        background: #f6f6f6;
+      }
+
+    .item .empty_desc {
+      margin: 0 0 5px 0;
+      padding: 0;
+    }
+
+    .item .inheritance {
+      margin: 3px 0 0 30px;
+    }
+
+    .item .inherited {
+      color: #666;
+    }
+
+    .item .desc {
+      padding: 0 8px;
+      margin: 0;
+    }
+
+      .item .desc p {
+        margin: 0 0 10px 0;
+      }
+
+    .source_cont {
+      margin: 0;
+      padding: 0;
+    }
+
+    .source_link a {
+      background: #ffc300;
+      font-weight: 400;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 1px 1px 0 #f4b700;
+      
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: background .3s ease-in-out;
+    }
+      .source_link a:hover {
+        background: #FF7200;
+        text-shadow: none;
+        transition: background .3s ease-in-out;
+      }
+
+    .source {
+      display: none;
+      max-height: 600px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+
+      .source .codehilite {
+        margin: 0;
+      }
+
+  .desc h1, .desc h2, .desc h3 {
+    font-size: 100% !important;
+  }
+  .clear {
+    clear: both;
+  }
+
+  @media all and (max-width: 950px) {
+    #sidebar {
+      width: 35%;
+    }
+    #content {
+      width: 65%;
+    }
+  }
+  @media all and (max-width: 650px) {
+    #top {
+      display: none;
+    }
+    #sidebar {
+      float: none;
+      width: auto;
+    }
+    #content {
+      float: none;
+      width: auto;
+      padding: 30px;
+    }
+
+    #index ul {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+    #index ul li {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    #footer {
+      text-align: left;
+    }
+    #footer p {
+      display: block;
+      margin: inherit;
+    }
+  }
+
+  /*****************************/
+
+  </style>
+
+
+  <style type="text/css">
+  
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+  function toggle(id, $link) {
+    $node = document.getElementById(id);
+    if (!$node)
+    return;
+    if (!$node.style.display || $node.style.display == 'none') {
+    $node.style.display = 'block';
+    $link.innerHTML = 'Hide source &nequiv;';
+    } else {
+    $node.style.display = 'none';
+    $link.innerHTML = 'Show source &equiv;';
+    }
+  }
+  </script>
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+  <div id="sidebar">
+    <h1>Index</h1>
+    <ul id="index">
+
+
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#service.api.PublicApi">PublicApi</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#service.api.PublicApi.enhance_metadata">enhance_metadata</a></li>
+    <li class="mono"><a href="#service.api.PublicApi.find_public_record">find_public_record</a></li>
+    <li class="mono"><a href="#service.api.PublicApi.find_public_record_by_identifier">find_public_record_by_identifier</a></li>
+    <li class="mono"><a href="#service.api.PublicApi.merge_public_apcs">merge_public_apcs</a></li>
+    <li class="mono"><a href="#service.api.PublicApi.publish">publish</a></li>
+    <li class="mono"><a href="#service.api.PublicApi.remove">remove</a></li>
+    <li class="mono"><a href="#service.api.PublicApi.separate_records">separate_records</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#service.api.RequestAPIException">RequestAPIException</a></span>
+        
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#service.api.RequestApi">RequestApi</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#service.api.RequestApi.delete">delete</a></li>
+    <li class="mono"><a href="#service.api.RequestApi.find_request_by_identifier">find_request_by_identifier</a></li>
+    <li class="mono"><a href="#service.api.RequestApi.update">update</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#service.api.WorkflowApi">WorkflowApi</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#service.api.WorkflowApi.process_enhancements">process_enhancements</a></li>
+    <li class="mono"><a href="#service.api.WorkflowApi.process_requests">process_requests</a></li>
+  </ul>
+
+        </li>
+      </ul>
+    </li>
+
+    </ul>
+  </div>
+
+    <article id="content">
+      
+  
+
+  
+
+
+  <header id="section-intro">
+  <h1 class="title"><span class="name">service.api</span> module</h1>
+  <p>This module contains all the core system API, for all interactions with the aggregation.</p>
+<p>If you need to do something with the data in the aggregation, you should endeavour to use the functions provided
+here, as it will enforce all the correct workflows</p>
+  
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api', this);">Show source &equiv;</a></p>
+  <div id="source-service.api" class="source">
+    <pre><code>"""
+This module contains all the core system API, for all interactions with the aggregation.
+
+If you need to do something with the data in the aggregation, you should endeavour to use the functions provided
+here, as it will enforce all the correct workflows
+"""
+from service.models import Request, PublicAPC, WorkflowState, Enhancement
+from octopus.core import app
+
+
+class RequestAPIException(Exception):
+    """
+    Exception class for any exceptions thrown by the RequestApi
+    """
+    pass
+
+class RequestApi(object):
+    """
+    Static class for providing methods for working with the Requests for change which come into the system
+    """
+
+    @classmethod
+    def update(cls, record, account, public_id=None):
+        """
+        Record an "update" request, with the associated record data, requested by the given account
+
+        :param record: The raw dict data (e.g. coming from the web API) which makes up the body of the request
+        :param account: the account to carry out the request on behalf of
+        :param public_id: The public id of a public record for which this is an update
+        :return: the Request object that was created
+        """
+        if record is None:
+            raise RequestAPIException("You can't call 'update' with a NoneType record argument")
+        if account is None:
+            raise RequestAPIException("You can't call 'update' with a NoneType account argument")
+
+        req = Request()
+        req.record = record
+        req.owner = account.id
+        req.action = "update"
+        if public_id is not None:
+            req.public_id = public_id
+
+        req.save()
+        return req
+
+    @classmethod
+    def delete(cls, record, account, public_id=None):
+        """
+        Record a "delete" request, with the associated (minimal) record data, requested by the given account
+
+        Delete requests need only come with enough record data to identify the public record
+
+        :param record: The mimimal record data for identifying the record
+        :param account:    the account to carry out the request on behalf of
+        :param public_id:  the public id of a public record for which this is a delete request
+        :return: the Request object that was created
+        """
+        if record is None:
+            raise RequestAPIException("You can't call 'delete' with a NoneType record argument")
+        if account is None:
+            raise RequestAPIException("You can't call 'delete' with a NoneType account argument")
+
+        req = Request()
+        req.record = record
+        req.owner = account.id
+        req.action = "delete"
+        if public_id is not None:
+            req.public_id = public_id
+
+        req.save()
+        return req
+
+    @classmethod
+    def find_request_by_identifier(cls, type, id, owner):
+        """
+        Find a request by the identifier, within the scope of a given owner
+
+        :param type: the type of identifier (e.g. doi, pmcid, url, etc)
+        :param id: the identifier
+        :param owner: the owner of the request
+        :return: The most recent request owned by that owner with that identifier
+        """
+        dao = Request()
+        results = dao.find_by_identifier(type, id, owner)
+        # results are ordered by date, so we want the latest one
+        if len(results) > 0:
+            return results[0]
+        return None
+
+class PublicApi(object):
+    """
+    Static class for providing methods for working with the Public records in the aggregation
+    """
+
+    ####################################################
+    ## primary workflow entry points to the Public APC API
+
+    @classmethod
+    def publish(cls, source):
+        """
+        Publish a given Publishable object to the Public aggregation space.
+
+        This method will create a Public APC record, and merge it with any existing, corresponding public
+        record.  Note that if no public record exists, and the source does not contain an APC record, it will
+        not be saved (though you will still get back a copy of the created object)
+
+        :param source: a Request or Enhancement (or anything else that implements the Publishable interface)
+        :return: the PublicAPC record that was created
+        """
+        pub = PublicApi.find_public_record(source)
+
+        if pub is not None:
+            pub = PublicApi.merge_public_apcs(source.make_public_apc(), pub)
+            pub.save()
+        else:
+            pub = source.make_public_apc()
+            if pub.has_apcs():
+                pub.save()
+
+        return pub
+
+    @classmethod
+    def remove(cls, req):
+        """
+        Remove all data associated with the given Request object from the Public space.
+
+        Requests must identify an existing public record, and if they do, any APC data which is associated with
+        that record which originates from the Request will be removed.  If this leaves no APC data in the Public space,
+        the PublicAPC record will be deleted
+
+        :param req: a Request object
+        :return: None
+        """
+        pub = PublicApi.find_public_record(req)
+
+        # if this is a request to remove something that doesn't exist, there's no more to do
+        if pub is None:
+            return
+
+        PublicApi.separate_records(req, pub)
+
+        if pub.has_apcs():
+            pub.save()
+        else:
+            pub.delete()
+
+    ####################################################
+    ## supporting methods for the Public APC API
+
+    @classmethod
+    def find_public_record(cls, req):
+        """
+        Find a single public record which could be considered the same as the document in the
+        supplied request.
+
+        This will look at identifiers in the following order of precedence:
+
+        1. by public id
+        2. By DOI
+        3. By PMID
+        4. By PMCID
+        5. By URL
+
+        If more than one match is made at any point, a warning will be written to the logs, and the
+        first result (which is basically arbitrary) will be returned.
+
+        :param req: Request object containing data to be used to find the public record
+        :return:    The public record, or None if no candidate found
+        """
+
+        dao = PublicAPC()
+
+        if req.public_id is not None:
+            pub = dao.pull(req.public_id)
+            if pub is not None:
+                return pub
+
+        if req.doi is not None:
+            pub = PublicApi.find_public_record_by_identifier("doi", req.doi)
+            if pub is not None:
+                return pub
+
+        if req.pmid is not None:
+            pub = PublicApi.find_public_record_by_identifier("pmid", req.pmid)
+            if pub is not None:
+                return pub
+
+        if req.pmcid is not None:
+            pub = PublicApi.find_public_record_by_identifier("pmcid", req.pmcid)
+            if pub is not None:
+                return pub
+
+        if req.url is not None:
+            pub = PublicApi.find_public_record_by_identifier("url", req.url)
+            if pub is not None:
+                return pub
+
+        # if we get to here, there is no record for this id
+        return None
+
+    @classmethod
+    def find_public_record_by_identifier(cls, type, id):
+        """
+        Find a single public record which corresponds to the given identifier.  If more than one record are present,
+        this will return the first one encountered, which is essentially random.
+
+        :param type: the identifier type (e.g. doi, pmid, pmcid, url)
+        :param id: the identifier
+        :return: a PublicAPC record if one is found otherwise None
+        """
+        dao = PublicAPC()
+
+        if type == "doi":
+            pubs = dao.find_by_doi(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for DOI {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "pmid":
+            pubs = dao.find_by_pmid(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for PMID {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "pmcid":
+            pubs = dao.find_by_pmcid(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for PMCID {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "url":
+            pubs = dao.find_by_url(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for URL {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+    @classmethod
+    def merge_public_apcs(cls, source, target):
+        """
+        Merge the source record into the target record.  Both records should be PublicAPC instances
+
+        What gets returned from this is savable as the replacement public record - the target record passed
+        in is not modified in place
+
+        :param source:  the source PublicAPC record
+        :param target:  the target PublicAPC record
+        :return:    a new PublicAPC record which can be taken to replace the target
+        """
+        # first make a copy of the target, which is the thing we'll eventually return
+        target = target.copy()
+
+        source_owners = source.list_owners()
+        for o in source_owners:
+            target.remove_apcs_by_owner(o)
+
+        # if there are no apcs left, this means that the source record is definitive
+        if len(target.apc_records) == 0:
+            target.overwrite(source)
+            return target
+
+        for o in source_owners:
+            source_apcs = source.get_apcs_by_owner(o)
+            for apc in source_apcs:
+                target.add_apc_for_owner(o, apc)
+
+        target = PublicApi.enhance_metadata(source, target)
+
+        return target
+
+    @classmethod
+    def separate_records(cls, source, target):
+        """
+        Separate the source record data from the target record
+
+        Essentially, this just removes any APCs from the target that were owned by the source owner
+
+        This method acts on the target in-place.
+
+        :param source:  The source record to separate from the target
+        :param target: The target record
+        :return: None.
+        """
+        # ok, this method turned out to be a lot easier than expected!
+        # we're not currently attempting to roll-back any metadata contributions,
+        # but if we were, this is the place to do it.
+        target.remove_apcs_by_owner(source.owner)
+
+    @classmethod
+    def enhance_metadata(cls, source, target):
+        """
+        Enhance the bibliographic metadata in the target with metadata from the source
+
+        This method acts on the target in-place
+
+        :param source: the source PublicAPC record to obtain new bibliographic data from
+        :param target: the target PublicAPC record to enhance
+        :return: the target record
+        """
+        target.merge_records(source)
+        return target
+
+class WorkflowApi(object):
+    """
+    Static class for providing methods for enforcing the data processing workflows
+    """
+
+    @classmethod
+    def process_requests(cls):
+        """
+        Go through any new requests (since this method last ran) and process them.  This will apply the creates,
+        updates and deletes to the public space
+
+        :return:
+        """
+        # first, pick up our current state from storage
+        workflow_dao = WorkflowState()
+        wfs = workflow_dao.pull("requests")
+
+        # if we don't have a current state, make one
+        if wfs is None:
+            wfs = WorkflowState()
+            wfs.id = "requests"
+
+        # get the oldest page of requests and process them
+        dao = Request()
+        requests = dao.list_all_since(wfs.last_request)     # produces a generator
+
+        for r in requests:
+            try:
+                # if the request was created at the time of the last request processed, it is possible it arrived
+                # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+                # we also need to check to see whether it was one of the ids processed during that second
+                if r.created_date == wfs.last_request and wfs.is_processed(r.id):
+                    # if it was created at that time, and it was one of the ones processed, we can skip it
+                    continue
+
+                # if the request is from a later time, or was not processed during the last run, then do the usual
+                # processing
+                if r.action == "update":
+                    PublicApi.publish(r)
+                elif r.action == "delete":
+                    PublicApi.remove(r)
+
+                # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+                # request which came in during that same second, but was not processed at the time because it was at the
+                # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+                # which have now been processed
+                if r.created_date == wfs.last_request:
+                    wfs.add_processed(r.id)
+                else:
+                    # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                    wfs.last_request = r.created_date
+                    wfs.already_processed = [r.id]
+            except:
+                wfs.save(blocking=True)
+                raise
+
+        wfs.save(blocking=True)
+
+    @classmethod
+    def process_enhancements(cls):
+        """
+        Go through any new Enhancements (since this method last ran) and process them.
+
+        :return:
+        """
+        # first, pick up our current state from storage
+        workflow_dao = WorkflowState()
+        wfs = workflow_dao.pull("enhancements")
+
+        # if we don't have a current state, make one
+        if wfs is None:
+            wfs = WorkflowState()
+            wfs.id = "enhancements"
+
+        # get the oldest page of enhancements and process them
+        dao = Enhancement()
+        enhancements = dao.list_all_since(wfs.last_request)     # produces a generator
+
+        for e in enhancements:
+            try:
+                # if the request was created at the time of the last request processed, it is possible it arrived
+                # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+                # we also need to check to see whether it was one of the ids processed during that second
+                if e.created_date == wfs.last_request and wfs.is_processed(e.id):
+                    # if it was created at that time, and it was one of the ones processed, we can skip it
+                    continue
+
+                # if the request is from a later time, or was not processed during the last run, then do the usual
+                # processing, which in this case is just to publish the data, and let the merge handle it
+                PublicApi.publish(e)
+
+                # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+                # request which came in during that same second, but was not processed at the time because it was at the
+                # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+                # which have now been processed
+                if e.created_date == wfs.last_request:
+                    wfs.add_processed(e.id)
+                else:
+                    # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                    wfs.last_request = e.created_date
+                    wfs.already_processed = [e.id]
+            except:
+                wfs.save(blocking=True)
+                raise
+
+        wfs.save(blocking=True)
+</code></pre>
+  </div>
+
+  </header>
+
+  <section id="section-items">
+
+
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="service.api.PublicApi" class="name">class <span class="ident">PublicApi</span></p>
+      
+  
+    <div class="desc"><p>Static class for providing methods for working with the Public records in the aggregation</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi" class="source">
+    <pre><code>class PublicApi(object):
+    """
+    Static class for providing methods for working with the Public records in the aggregation
+    """
+
+    ####################################################
+    ## primary workflow entry points to the Public APC API
+
+    @classmethod
+    def publish(cls, source):
+        """
+        Publish a given Publishable object to the Public aggregation space.
+
+        This method will create a Public APC record, and merge it with any existing, corresponding public
+        record.  Note that if no public record exists, and the source does not contain an APC record, it will
+        not be saved (though you will still get back a copy of the created object)
+
+        :param source: a Request or Enhancement (or anything else that implements the Publishable interface)
+        :return: the PublicAPC record that was created
+        """
+        pub = PublicApi.find_public_record(source)
+
+        if pub is not None:
+            pub = PublicApi.merge_public_apcs(source.make_public_apc(), pub)
+            pub.save()
+        else:
+            pub = source.make_public_apc()
+            if pub.has_apcs():
+                pub.save()
+
+        return pub
+
+    @classmethod
+    def remove(cls, req):
+        """
+        Remove all data associated with the given Request object from the Public space.
+
+        Requests must identify an existing public record, and if they do, any APC data which is associated with
+        that record which originates from the Request will be removed.  If this leaves no APC data in the Public space,
+        the PublicAPC record will be deleted
+
+        :param req: a Request object
+        :return: None
+        """
+        pub = PublicApi.find_public_record(req)
+
+        # if this is a request to remove something that doesn't exist, there's no more to do
+        if pub is None:
+            return
+
+        PublicApi.separate_records(req, pub)
+
+        if pub.has_apcs():
+            pub.save()
+        else:
+            pub.delete()
+
+    ####################################################
+    ## supporting methods for the Public APC API
+
+    @classmethod
+    def find_public_record(cls, req):
+        """
+        Find a single public record which could be considered the same as the document in the
+        supplied request.
+
+        This will look at identifiers in the following order of precedence:
+
+        1. by public id
+        2. By DOI
+        3. By PMID
+        4. By PMCID
+        5. By URL
+
+        If more than one match is made at any point, a warning will be written to the logs, and the
+        first result (which is basically arbitrary) will be returned.
+
+        :param req: Request object containing data to be used to find the public record
+        :return:    The public record, or None if no candidate found
+        """
+
+        dao = PublicAPC()
+
+        if req.public_id is not None:
+            pub = dao.pull(req.public_id)
+            if pub is not None:
+                return pub
+
+        if req.doi is not None:
+            pub = PublicApi.find_public_record_by_identifier("doi", req.doi)
+            if pub is not None:
+                return pub
+
+        if req.pmid is not None:
+            pub = PublicApi.find_public_record_by_identifier("pmid", req.pmid)
+            if pub is not None:
+                return pub
+
+        if req.pmcid is not None:
+            pub = PublicApi.find_public_record_by_identifier("pmcid", req.pmcid)
+            if pub is not None:
+                return pub
+
+        if req.url is not None:
+            pub = PublicApi.find_public_record_by_identifier("url", req.url)
+            if pub is not None:
+                return pub
+
+        # if we get to here, there is no record for this id
+        return None
+
+    @classmethod
+    def find_public_record_by_identifier(cls, type, id):
+        """
+        Find a single public record which corresponds to the given identifier.  If more than one record are present,
+        this will return the first one encountered, which is essentially random.
+
+        :param type: the identifier type (e.g. doi, pmid, pmcid, url)
+        :param id: the identifier
+        :return: a PublicAPC record if one is found otherwise None
+        """
+        dao = PublicAPC()
+
+        if type == "doi":
+            pubs = dao.find_by_doi(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for DOI {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "pmid":
+            pubs = dao.find_by_pmid(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for PMID {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "pmcid":
+            pubs = dao.find_by_pmcid(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for PMCID {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+        if type == "url":
+            pubs = dao.find_by_url(id)
+            if len(pubs) > 1:
+                app.logger.warn(u"Multiple public records found for URL {x}".format(x=id))
+                return None
+            if len(pubs) > 0:
+                return pubs[0]
+
+    @classmethod
+    def merge_public_apcs(cls, source, target):
+        """
+        Merge the source record into the target record.  Both records should be PublicAPC instances
+
+        What gets returned from this is savable as the replacement public record - the target record passed
+        in is not modified in place
+
+        :param source:  the source PublicAPC record
+        :param target:  the target PublicAPC record
+        :return:    a new PublicAPC record which can be taken to replace the target
+        """
+        # first make a copy of the target, which is the thing we'll eventually return
+        target = target.copy()
+
+        source_owners = source.list_owners()
+        for o in source_owners:
+            target.remove_apcs_by_owner(o)
+
+        # if there are no apcs left, this means that the source record is definitive
+        if len(target.apc_records) == 0:
+            target.overwrite(source)
+            return target
+
+        for o in source_owners:
+            source_apcs = source.get_apcs_by_owner(o)
+            for apc in source_apcs:
+                target.add_apc_for_owner(o, apc)
+
+        target = PublicApi.enhance_metadata(source, target)
+
+        return target
+
+    @classmethod
+    def separate_records(cls, source, target):
+        """
+        Separate the source record data from the target record
+
+        Essentially, this just removes any APCs from the target that were owned by the source owner
+
+        This method acts on the target in-place.
+
+        :param source:  The source record to separate from the target
+        :param target: The target record
+        :return: None.
+        """
+        # ok, this method turned out to be a lot easier than expected!
+        # we're not currently attempting to roll-back any metadata contributions,
+        # but if we were, this is the place to do it.
+        target.remove_apcs_by_owner(source.owner)
+
+    @classmethod
+    def enhance_metadata(cls, source, target):
+        """
+        Enhance the bibliographic metadata in the target with metadata from the source
+
+        This method acts on the target in-place
+
+        :param source: the source PublicAPC record to obtain new bibliographic data from
+        :param target: the target PublicAPC record to enhance
+        :return: the target record
+        """
+        target.merge_records(source)
+        return target
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#service.api.PublicApi">PublicApi</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.enhance_metadata">
+    <p>def <span class="ident">enhance_metadata</span>(</p><p>cls, source, target)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Enhance the bibliographic metadata in the target with metadata from the source</p>
+<p>This method acts on the target in-place</p>
+<p>:param source: the source PublicAPC record to obtain new bibliographic data from
+:param target: the target PublicAPC record to enhance
+:return: the target record</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.enhance_metadata', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.enhance_metadata" class="source">
+    <pre><code>@classmethod
+def enhance_metadata(cls, source, target):
+    """
+    Enhance the bibliographic metadata in the target with metadata from the source
+    This method acts on the target in-place
+    :param source: the source PublicAPC record to obtain new bibliographic data from
+    :param target: the target PublicAPC record to enhance
+    :return: the target record
+    """
+    target.merge_records(source)
+    return target
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.find_public_record">
+    <p>def <span class="ident">find_public_record</span>(</p><p>cls, req)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Find a single public record which could be considered the same as the document in the
+supplied request.</p>
+<p>This will look at identifiers in the following order of precedence:</p>
+<ol>
+<li>by public id</li>
+<li>By DOI</li>
+<li>By PMID</li>
+<li>By PMCID</li>
+<li>By URL</li>
+</ol>
+<p>If more than one match is made at any point, a warning will be written to the logs, and the
+first result (which is basically arbitrary) will be returned.</p>
+<p>:param req: Request object containing data to be used to find the public record
+:return:    The public record, or None if no candidate found</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.find_public_record', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.find_public_record" class="source">
+    <pre><code>@classmethod
+def find_public_record(cls, req):
+    """
+    Find a single public record which could be considered the same as the document in the
+    supplied request.
+    This will look at identifiers in the following order of precedence:
+    1. by public id
+    2. By DOI
+    3. By PMID
+    4. By PMCID
+    5. By URL
+    If more than one match is made at any point, a warning will be written to the logs, and the
+    first result (which is basically arbitrary) will be returned.
+    :param req: Request object containing data to be used to find the public record
+    :return:    The public record, or None if no candidate found
+    """
+    dao = PublicAPC()
+    if req.public_id is not None:
+        pub = dao.pull(req.public_id)
+        if pub is not None:
+            return pub
+    if req.doi is not None:
+        pub = PublicApi.find_public_record_by_identifier("doi", req.doi)
+        if pub is not None:
+            return pub
+    if req.pmid is not None:
+        pub = PublicApi.find_public_record_by_identifier("pmid", req.pmid)
+        if pub is not None:
+            return pub
+    if req.pmcid is not None:
+        pub = PublicApi.find_public_record_by_identifier("pmcid", req.pmcid)
+        if pub is not None:
+            return pub
+    if req.url is not None:
+        pub = PublicApi.find_public_record_by_identifier("url", req.url)
+        if pub is not None:
+            return pub
+    # if we get to here, there is no record for this id
+    return None
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.find_public_record_by_identifier">
+    <p>def <span class="ident">find_public_record_by_identifier</span>(</p><p>cls, type, id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Find a single public record which corresponds to the given identifier.  If more than one record are present,
+this will return the first one encountered, which is essentially random.</p>
+<p>:param type: the identifier type (e.g. doi, pmid, pmcid, url)
+:param id: the identifier
+:return: a PublicAPC record if one is found otherwise None</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.find_public_record_by_identifier', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.find_public_record_by_identifier" class="source">
+    <pre><code>@classmethod
+def find_public_record_by_identifier(cls, type, id):
+    """
+    Find a single public record which corresponds to the given identifier.  If more than one record are present,
+    this will return the first one encountered, which is essentially random.
+    :param type: the identifier type (e.g. doi, pmid, pmcid, url)
+    :param id: the identifier
+    :return: a PublicAPC record if one is found otherwise None
+    """
+    dao = PublicAPC()
+    if type == "doi":
+        pubs = dao.find_by_doi(id)
+        if len(pubs) > 1:
+            app.logger.warn(u"Multiple public records found for DOI {x}".format(x=id))
+            return None
+        if len(pubs) > 0:
+            return pubs[0]
+    if type == "pmid":
+        pubs = dao.find_by_pmid(id)
+        if len(pubs) > 1:
+            app.logger.warn(u"Multiple public records found for PMID {x}".format(x=id))
+            return None
+        if len(pubs) > 0:
+            return pubs[0]
+    if type == "pmcid":
+        pubs = dao.find_by_pmcid(id)
+        if len(pubs) > 1:
+            app.logger.warn(u"Multiple public records found for PMCID {x}".format(x=id))
+            return None
+        if len(pubs) > 0:
+            return pubs[0]
+    if type == "url":
+        pubs = dao.find_by_url(id)
+        if len(pubs) > 1:
+            app.logger.warn(u"Multiple public records found for URL {x}".format(x=id))
+            return None
+        if len(pubs) > 0:
+            return pubs[0]
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.merge_public_apcs">
+    <p>def <span class="ident">merge_public_apcs</span>(</p><p>cls, source, target)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Merge the source record into the target record.  Both records should be PublicAPC instances</p>
+<p>What gets returned from this is savable as the replacement public record - the target record passed
+in is not modified in place</p>
+<p>:param source:  the source PublicAPC record
+:param target:  the target PublicAPC record
+:return:    a new PublicAPC record which can be taken to replace the target</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.merge_public_apcs', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.merge_public_apcs" class="source">
+    <pre><code>@classmethod
+def merge_public_apcs(cls, source, target):
+    """
+    Merge the source record into the target record.  Both records should be PublicAPC instances
+    What gets returned from this is savable as the replacement public record - the target record passed
+    in is not modified in place
+    :param source:  the source PublicAPC record
+    :param target:  the target PublicAPC record
+    :return:    a new PublicAPC record which can be taken to replace the target
+    """
+    # first make a copy of the target, which is the thing we'll eventually return
+    target = target.copy()
+    source_owners = source.list_owners()
+    for o in source_owners:
+        target.remove_apcs_by_owner(o)
+    # if there are no apcs left, this means that the source record is definitive
+    if len(target.apc_records) == 0:
+        target.overwrite(source)
+        return target
+    for o in source_owners:
+        source_apcs = source.get_apcs_by_owner(o)
+        for apc in source_apcs:
+            target.add_apc_for_owner(o, apc)
+    target = PublicApi.enhance_metadata(source, target)
+    return target
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.publish">
+    <p>def <span class="ident">publish</span>(</p><p>cls, source)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Publish a given Publishable object to the Public aggregation space.</p>
+<p>This method will create a Public APC record, and merge it with any existing, corresponding public
+record.  Note that if no public record exists, and the source does not contain an APC record, it will
+not be saved (though you will still get back a copy of the created object)</p>
+<p>:param source: a Request or Enhancement (or anything else that implements the Publishable interface)
+:return: the PublicAPC record that was created</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.publish', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.publish" class="source">
+    <pre><code>@classmethod
+def publish(cls, source):
+    """
+    Publish a given Publishable object to the Public aggregation space.
+    This method will create a Public APC record, and merge it with any existing, corresponding public
+    record.  Note that if no public record exists, and the source does not contain an APC record, it will
+    not be saved (though you will still get back a copy of the created object)
+    :param source: a Request or Enhancement (or anything else that implements the Publishable interface)
+    :return: the PublicAPC record that was created
+    """
+    pub = PublicApi.find_public_record(source)
+    if pub is not None:
+        pub = PublicApi.merge_public_apcs(source.make_public_apc(), pub)
+        pub.save()
+    else:
+        pub = source.make_public_apc()
+        if pub.has_apcs():
+            pub.save()
+    return pub
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.remove">
+    <p>def <span class="ident">remove</span>(</p><p>cls, req)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Remove all data associated with the given Request object from the Public space.</p>
+<p>Requests must identify an existing public record, and if they do, any APC data which is associated with
+that record which originates from the Request will be removed.  If this leaves no APC data in the Public space,
+the PublicAPC record will be deleted</p>
+<p>:param req: a Request object
+:return: None</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.remove', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.remove" class="source">
+    <pre><code>@classmethod
+def remove(cls, req):
+    """
+    Remove all data associated with the given Request object from the Public space.
+    Requests must identify an existing public record, and if they do, any APC data which is associated with
+    that record which originates from the Request will be removed.  If this leaves no APC data in the Public space,
+    the PublicAPC record will be deleted
+    :param req: a Request object
+    :return: None
+    """
+    pub = PublicApi.find_public_record(req)
+    # if this is a request to remove something that doesn't exist, there's no more to do
+    if pub is None:
+        return
+    PublicApi.separate_records(req, pub)
+    if pub.has_apcs():
+        pub.save()
+    else:
+        pub.delete()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.PublicApi.separate_records">
+    <p>def <span class="ident">separate_records</span>(</p><p>cls, source, target)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Separate the source record data from the target record</p>
+<p>Essentially, this just removes any APCs from the target that were owned by the source owner</p>
+<p>This method acts on the target in-place.</p>
+<p>:param source:  The source record to separate from the target
+:param target: The target record
+:return: None.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.PublicApi.separate_records', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.PublicApi.separate_records" class="source">
+    <pre><code>@classmethod
+def separate_records(cls, source, target):
+    """
+    Separate the source record data from the target record
+    Essentially, this just removes any APCs from the target that were owned by the source owner
+    This method acts on the target in-place.
+    :param source:  The source record to separate from the target
+    :param target: The target record
+    :return: None.
+    """
+    # ok, this method turned out to be a lot easier than expected!
+    # we're not currently attempting to roll-back any metadata contributions,
+    # but if we were, this is the place to do it.
+    target.remove_apcs_by_owner(source.owner)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="service.api.RequestAPIException" class="name">class <span class="ident">RequestAPIException</span></p>
+      
+  
+    <div class="desc"><p>Exception class for any exceptions thrown by the RequestApi</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.RequestAPIException', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.RequestAPIException" class="source">
+    <pre><code>class RequestAPIException(Exception):
+    """
+    Exception class for any exceptions thrown by the RequestApi
+    """
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#service.api.RequestAPIException">RequestAPIException</a></li>
+          <li>exceptions.Exception</li>
+          <li>exceptions.BaseException</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Class variables</h3>
+            <div class="item">
+            <p id="service.api.RequestAPIException.args" class="name">var <span class="ident">args</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="service.api.RequestAPIException.message" class="name">var <span class="ident">message</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="service.api.RequestApi" class="name">class <span class="ident">RequestApi</span></p>
+      
+  
+    <div class="desc"><p>Static class for providing methods for working with the Requests for change which come into the system</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.RequestApi', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.RequestApi" class="source">
+    <pre><code>class RequestApi(object):
+    """
+    Static class for providing methods for working with the Requests for change which come into the system
+    """
+
+    @classmethod
+    def update(cls, record, account, public_id=None):
+        """
+        Record an "update" request, with the associated record data, requested by the given account
+
+        :param record: The raw dict data (e.g. coming from the web API) which makes up the body of the request
+        :param account: the account to carry out the request on behalf of
+        :param public_id: The public id of a public record for which this is an update
+        :return: the Request object that was created
+        """
+        if record is None:
+            raise RequestAPIException("You can't call 'update' with a NoneType record argument")
+        if account is None:
+            raise RequestAPIException("You can't call 'update' with a NoneType account argument")
+
+        req = Request()
+        req.record = record
+        req.owner = account.id
+        req.action = "update"
+        if public_id is not None:
+            req.public_id = public_id
+
+        req.save()
+        return req
+
+    @classmethod
+    def delete(cls, record, account, public_id=None):
+        """
+        Record a "delete" request, with the associated (minimal) record data, requested by the given account
+
+        Delete requests need only come with enough record data to identify the public record
+
+        :param record: The mimimal record data for identifying the record
+        :param account:    the account to carry out the request on behalf of
+        :param public_id:  the public id of a public record for which this is a delete request
+        :return: the Request object that was created
+        """
+        if record is None:
+            raise RequestAPIException("You can't call 'delete' with a NoneType record argument")
+        if account is None:
+            raise RequestAPIException("You can't call 'delete' with a NoneType account argument")
+
+        req = Request()
+        req.record = record
+        req.owner = account.id
+        req.action = "delete"
+        if public_id is not None:
+            req.public_id = public_id
+
+        req.save()
+        return req
+
+    @classmethod
+    def find_request_by_identifier(cls, type, id, owner):
+        """
+        Find a request by the identifier, within the scope of a given owner
+
+        :param type: the type of identifier (e.g. doi, pmcid, url, etc)
+        :param id: the identifier
+        :param owner: the owner of the request
+        :return: The most recent request owned by that owner with that identifier
+        """
+        dao = Request()
+        results = dao.find_by_identifier(type, id, owner)
+        # results are ordered by date, so we want the latest one
+        if len(results) > 0:
+            return results[0]
+        return None
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#service.api.RequestApi">RequestApi</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="service.api.RequestApi.delete">
+    <p>def <span class="ident">delete</span>(</p><p>cls, record, account, public_id=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Record a "delete" request, with the associated (minimal) record data, requested by the given account</p>
+<p>Delete requests need only come with enough record data to identify the public record</p>
+<p>:param record: The mimimal record data for identifying the record
+:param account:    the account to carry out the request on behalf of
+:param public_id:  the public id of a public record for which this is a delete request
+:return: the Request object that was created</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.RequestApi.delete', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.RequestApi.delete" class="source">
+    <pre><code>@classmethod
+def delete(cls, record, account, public_id=None):
+    """
+    Record a "delete" request, with the associated (minimal) record data, requested by the given account
+    Delete requests need only come with enough record data to identify the public record
+    :param record: The mimimal record data for identifying the record
+    :param account:    the account to carry out the request on behalf of
+    :param public_id:  the public id of a public record for which this is a delete request
+    :return: the Request object that was created
+    """
+    if record is None:
+        raise RequestAPIException("You can't call 'delete' with a NoneType record argument")
+    if account is None:
+        raise RequestAPIException("You can't call 'delete' with a NoneType account argument")
+    req = Request()
+    req.record = record
+    req.owner = account.id
+    req.action = "delete"
+    if public_id is not None:
+        req.public_id = public_id
+    req.save()
+    return req
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.RequestApi.find_request_by_identifier">
+    <p>def <span class="ident">find_request_by_identifier</span>(</p><p>cls, type, id, owner)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Find a request by the identifier, within the scope of a given owner</p>
+<p>:param type: the type of identifier (e.g. doi, pmcid, url, etc)
+:param id: the identifier
+:param owner: the owner of the request
+:return: The most recent request owned by that owner with that identifier</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.RequestApi.find_request_by_identifier', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.RequestApi.find_request_by_identifier" class="source">
+    <pre><code>@classmethod
+def find_request_by_identifier(cls, type, id, owner):
+    """
+    Find a request by the identifier, within the scope of a given owner
+    :param type: the type of identifier (e.g. doi, pmcid, url, etc)
+    :param id: the identifier
+    :param owner: the owner of the request
+    :return: The most recent request owned by that owner with that identifier
+    """
+    dao = Request()
+    results = dao.find_by_identifier(type, id, owner)
+    # results are ordered by date, so we want the latest one
+    if len(results) > 0:
+        return results[0]
+    return None
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.RequestApi.update">
+    <p>def <span class="ident">update</span>(</p><p>cls, record, account, public_id=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Record an "update" request, with the associated record data, requested by the given account</p>
+<p>:param record: The raw dict data (e.g. coming from the web API) which makes up the body of the request
+:param account: the account to carry out the request on behalf of
+:param public_id: The public id of a public record for which this is an update
+:return: the Request object that was created</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.RequestApi.update', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.RequestApi.update" class="source">
+    <pre><code>@classmethod
+def update(cls, record, account, public_id=None):
+    """
+    Record an "update" request, with the associated record data, requested by the given account
+    :param record: The raw dict data (e.g. coming from the web API) which makes up the body of the request
+    :param account: the account to carry out the request on behalf of
+    :param public_id: The public id of a public record for which this is an update
+    :return: the Request object that was created
+    """
+    if record is None:
+        raise RequestAPIException("You can't call 'update' with a NoneType record argument")
+    if account is None:
+        raise RequestAPIException("You can't call 'update' with a NoneType account argument")
+    req = Request()
+    req.record = record
+    req.owner = account.id
+    req.action = "update"
+    if public_id is not None:
+        req.public_id = public_id
+    req.save()
+    return req
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="service.api.WorkflowApi" class="name">class <span class="ident">WorkflowApi</span></p>
+      
+  
+    <div class="desc"><p>Static class for providing methods for enforcing the data processing workflows</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.WorkflowApi', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.WorkflowApi" class="source">
+    <pre><code>class WorkflowApi(object):
+    """
+    Static class for providing methods for enforcing the data processing workflows
+    """
+
+    @classmethod
+    def process_requests(cls):
+        """
+        Go through any new requests (since this method last ran) and process them.  This will apply the creates,
+        updates and deletes to the public space
+
+        :return:
+        """
+        # first, pick up our current state from storage
+        workflow_dao = WorkflowState()
+        wfs = workflow_dao.pull("requests")
+
+        # if we don't have a current state, make one
+        if wfs is None:
+            wfs = WorkflowState()
+            wfs.id = "requests"
+
+        # get the oldest page of requests and process them
+        dao = Request()
+        requests = dao.list_all_since(wfs.last_request)     # produces a generator
+
+        for r in requests:
+            try:
+                # if the request was created at the time of the last request processed, it is possible it arrived
+                # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+                # we also need to check to see whether it was one of the ids processed during that second
+                if r.created_date == wfs.last_request and wfs.is_processed(r.id):
+                    # if it was created at that time, and it was one of the ones processed, we can skip it
+                    continue
+
+                # if the request is from a later time, or was not processed during the last run, then do the usual
+                # processing
+                if r.action == "update":
+                    PublicApi.publish(r)
+                elif r.action == "delete":
+                    PublicApi.remove(r)
+
+                # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+                # request which came in during that same second, but was not processed at the time because it was at the
+                # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+                # which have now been processed
+                if r.created_date == wfs.last_request:
+                    wfs.add_processed(r.id)
+                else:
+                    # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                    wfs.last_request = r.created_date
+                    wfs.already_processed = [r.id]
+            except:
+                wfs.save(blocking=True)
+                raise
+
+        wfs.save(blocking=True)
+
+    @classmethod
+    def process_enhancements(cls):
+        """
+        Go through any new Enhancements (since this method last ran) and process them.
+
+        :return:
+        """
+        # first, pick up our current state from storage
+        workflow_dao = WorkflowState()
+        wfs = workflow_dao.pull("enhancements")
+
+        # if we don't have a current state, make one
+        if wfs is None:
+            wfs = WorkflowState()
+            wfs.id = "enhancements"
+
+        # get the oldest page of enhancements and process them
+        dao = Enhancement()
+        enhancements = dao.list_all_since(wfs.last_request)     # produces a generator
+
+        for e in enhancements:
+            try:
+                # if the request was created at the time of the last request processed, it is possible it arrived
+                # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+                # we also need to check to see whether it was one of the ids processed during that second
+                if e.created_date == wfs.last_request and wfs.is_processed(e.id):
+                    # if it was created at that time, and it was one of the ones processed, we can skip it
+                    continue
+
+                # if the request is from a later time, or was not processed during the last run, then do the usual
+                # processing, which in this case is just to publish the data, and let the merge handle it
+                PublicApi.publish(e)
+
+                # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+                # request which came in during that same second, but was not processed at the time because it was at the
+                # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+                # which have now been processed
+                if e.created_date == wfs.last_request:
+                    wfs.add_processed(e.id)
+                else:
+                    # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                    wfs.last_request = e.created_date
+                    wfs.already_processed = [e.id]
+            except:
+                wfs.save(blocking=True)
+                raise
+
+        wfs.save(blocking=True)
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#service.api.WorkflowApi">WorkflowApi</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="service.api.WorkflowApi.process_enhancements">
+    <p>def <span class="ident">process_enhancements</span>(</p><p>cls)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Go through any new Enhancements (since this method last ran) and process them.</p>
+<p>:return:</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.WorkflowApi.process_enhancements', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.WorkflowApi.process_enhancements" class="source">
+    <pre><code>@classmethod
+def process_enhancements(cls):
+    """
+    Go through any new Enhancements (since this method last ran) and process them.
+    :return:
+    """
+    # first, pick up our current state from storage
+    workflow_dao = WorkflowState()
+    wfs = workflow_dao.pull("enhancements")
+    # if we don't have a current state, make one
+    if wfs is None:
+        wfs = WorkflowState()
+        wfs.id = "enhancements"
+    # get the oldest page of enhancements and process them
+    dao = Enhancement()
+    enhancements = dao.list_all_since(wfs.last_request)     # produces a generator
+    for e in enhancements:
+        try:
+            # if the request was created at the time of the last request processed, it is possible it arrived
+            # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+            # we also need to check to see whether it was one of the ids processed during that second
+            if e.created_date == wfs.last_request and wfs.is_processed(e.id):
+                # if it was created at that time, and it was one of the ones processed, we can skip it
+                continue
+            # if the request is from a later time, or was not processed during the last run, then do the usual
+            # processing, which in this case is just to publish the data, and let the merge handle it
+            PublicApi.publish(e)
+            # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+            # request which came in during that same second, but was not processed at the time because it was at the
+            # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+            # which have now been processed
+            if e.created_date == wfs.last_request:
+                wfs.add_processed(e.id)
+            else:
+                # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                wfs.last_request = e.created_date
+                wfs.already_processed = [e.id]
+        except:
+            wfs.save(blocking=True)
+            raise
+    wfs.save(blocking=True)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="service.api.WorkflowApi.process_requests">
+    <p>def <span class="ident">process_requests</span>(</p><p>cls)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Go through any new requests (since this method last ran) and process them.  This will apply the creates,
+updates and deletes to the public space</p>
+<p>:return:</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-service.api.WorkflowApi.process_requests', this);">Show source &equiv;</a></p>
+  <div id="source-service.api.WorkflowApi.process_requests" class="source">
+    <pre><code>@classmethod
+def process_requests(cls):
+    """
+    Go through any new requests (since this method last ran) and process them.  This will apply the creates,
+    updates and deletes to the public space
+    :return:
+    """
+    # first, pick up our current state from storage
+    workflow_dao = WorkflowState()
+    wfs = workflow_dao.pull("requests")
+    # if we don't have a current state, make one
+    if wfs is None:
+        wfs = WorkflowState()
+        wfs.id = "requests"
+    # get the oldest page of requests and process them
+    dao = Request()
+    requests = dao.list_all_since(wfs.last_request)     # produces a generator
+    for r in requests:
+        try:
+            # if the request was created at the time of the last request processed, it is possible it arrived
+            # before or after the cut-off.  As we don't have any more than second-level granularity in the timing,
+            # we also need to check to see whether it was one of the ids processed during that second
+            if r.created_date == wfs.last_request and wfs.is_processed(r.id):
+                # if it was created at that time, and it was one of the ones processed, we can skip it
+                continue
+            # if the request is from a later time, or was not processed during the last run, then do the usual
+            # processing
+            if r.action == "update":
+                PublicApi.publish(r)
+            elif r.action == "delete":
+                PublicApi.remove(r)
+            # now, revisit the timing of this request.  If the time is the same as the last request date, this is a
+            # request which came in during that same second, but was not processed at the time because it was at the
+            # wrong end of the second.  In that case, we just need to add the id to the list of records from that second
+            # which have now been processed
+            if r.created_date == wfs.last_request:
+                wfs.add_processed(r.id)
+            else:
+                # otherwise, this is a whole new second, and we can forget everything that went before and start afresh.
+                wfs.last_request = r.created_date
+                wfs.already_processed = [r.id]
+        except:
+            wfs.save(blocking=True)
+            raise
+    wfs.save(blocking=True)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+
+  </section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>
