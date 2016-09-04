@@ -1,5 +1,7 @@
 # For Developers
 
+For production deployment guidance, see ```DEPLOY.md```.
+
 ## Dependencies
 
 * Ubuntu 14.04 - all dev has been done under this version of linux, but it ought to work under all flavours.
@@ -39,6 +41,8 @@ Create your virtualenv and activate it
 
     virtualenv /path/to/venv
     source /path/tovenv/bin/activate
+    
+(To disable the virtualenv later, use the ```deactivate``` command.)
 
 Install the dependencies and this app in the correct order:
 
@@ -49,11 +53,11 @@ Create your local config by copying the template local config
 
     cp monitor-uk/template.local.cfg monitor-uk/local.cfg
 
-Then open that file up for editing, and set any parameters for your local deployment.
+Then open that file up for editing, and set any parameters for your local deployment, such as ElasticSearch and mail configurations.
 
 ## Startup
 
-Ensure that Elasticsearch is running, and the local.cfg points to the correct location
+Ensure that Elasticsearch is running, the ```local.cfg``` points to the correct location, and your virtualenv is active.
 
 Start the web app with:
 
@@ -70,11 +74,12 @@ First create the user account with the basic information:
 
     python magnificent-octopus/octopus/bin/run.py usermod -e <your email> -p <password> -r admin
 
-Then log in as this user from
+Then log in as this user in the running web app from:
 
     /account/login
-    
+
+(The app will be accessible where configured in the ```local.cfg``` file, by default this is ```http://localhost:5000```)
+
 Then visit "Your Account" and populate the remaining required information
 
     /account/<your email>
-    
