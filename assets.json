@@ -1,0 +1,144 @@
+{
+	"parameters" : {
+		"uglify" : "/home/richard/node_modules/uglify-js/bin/uglifyjs",
+		"r_file" : "magnificent-octopus/octopus/static/vendor/edges_build/build/r.js",
+		"tmp_dir" : "tmp",
+		"node" : "/home/richard/.nvm/versions/node/v5.0.0/bin/node",
+		"cleanup" : false
+	},
+	"base_paths" : {
+		"edges_vendor" : "magnificent-octopus/octopus/static/vendor/edges_build/vendor",
+		"edges_js" : "magnificent-octopus/octopus/static/vendor/edges_build/src",
+		"edges_css" : "magnificent-octopus/octopus/static/vendor/edges_build/css",
+		"muk_js" : "service/static/js-src",
+		"muk_css" : "service/static/css",
+		"muk_js_out" : "service/static/js"
+	},
+	"assets" : {
+		"edges.core" : ["edges_js", "edges.js"],
+		"edges.csv" : ["edges_js", "edges.csv.js"],
+		"edges.jquery" : ["edges_js", "edges.jquery.js"],
+		"es" : ["edges_js", "es.js"],
+		"edges.charts" : ["edges_js", "components/charts.js"],
+		"edges.ranges" : ["edges_js", "components/ranges.js"],
+		"edges.search" : ["edges_js", "components/search.js"],
+		"edges.selectors" : ["edges_js", "components/selectors.js"],
+		"edges.bsmultidaterange" : ["edges_js", "renderers/bs3.BSMultiDateRange.js"],
+		"edges.nseparate" : ["edges_js", "renderers/bs3.NSeparateORTermSelectorRenderer.js"],
+		"edges.orterms" : ["edges_js", "renderers/bs3.ORTermSelectorRenderer.js"],
+		"edges.searching" : ["edges_js", "renderers/bs3.SearchingNotificationRenderer.js"],
+		"edges.tabularresults" : ["edges_js", "renderers/bs3.TabularResultsRenderer.js"],
+		"edges.nvd3" : ["edges_js", "renderers/nvd3.edges.js"],
+		"muk.core" : ["muk_js", "muk.js"],
+		"muk.funder" : ["muk_js", "muk.funder.js"],
+
+		"d3" : ["edges_vendor", "d3-v3/d3.min.js"],
+		"nvd3" : ["edges_vendor", "nvd3-1.8.1/nv.d3.js"],
+		"papaparse" : ["edges_vendor", "PapaParse-4.1.2/papaparse.min.js"],
+		"moment" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/moment.min.js"],
+		"daterangepicker" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.js"],
+
+		"edges.bsmultidaterange.css" : ["edges_css", "bs3.BSMultiDateRange.css"],
+		"edges.nseparate.css" : ["edges_css", "bs3.NSeparateORTermSelectorRenderer.css"],
+		"edges.orterms.css" : ["edges_css", "bs3.ORTermSelectorRenderer.css"],
+		"edges.searching.css" : ["edges_css", "bs3.SearchingNotificationRenderer.css"],
+		"edges.tabularresults.css" : ["edges_css", "bs3.TabularResultsRenderer.css"],
+		"muk.funder.css" : ["muk_css", "muk.funder.css"],
+
+		"nvd3.css" : ["edges_vendor", "nvd3-1.8.1/nv.d3.css"],
+		"daterangepicker.css" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.css"]
+	},
+	"dependencies" : {
+		"edges.core" : ["jquery", "edges.jquery", "jquery.ui", "es"],
+		"edges.csv" : ["edges.core", "jquery"],
+		"edges.jquery" : ["jquery"],
+		"es" : ["jquery"],
+		"edges.charts" : ["edges.core", "jquery"],
+		"edges.ranges" : ["edges.core", "jquery"],
+		"edges.search" : ["edges.core", "jquery"],
+		"edges.selectors" : ["edges.core", "jquery"],
+		"edges.bsmultidaterange" : ["edges.core", "jquery", "daterangepicker"],
+		"edges.nseparate" : ["edges.core", "jquery"],
+		"edges.orterms" : ["edges.core", "jquery"],
+		"edges.searching" : ["edges.core", "jquery"],
+		"edges.tabularresults" : ["edges.core", "jquery"],
+		"edges.nvd3" : ["edges.core", "jquery", "nvd3", "d3"],
+		"muk.core" : ["jquery", "moment"],
+		"muk.funder" : ["edges.core", "jquery", "muk.core"],
+		"d3" : [],
+		"nvd3" : ["d3"],
+		"papaparse" : [],
+		"moment" : [],
+		"daterangepicker" : ["jquery", "moment"],
+
+		"edges.bsmultidaterange.css" : [],
+		"edges.nseparate.css" : [],
+		"edges.orterms.css" : [],
+		"edges.searching.css" : [],
+		"edges.tabularresults.css" : [],
+		"muk.funder.css" : [
+			"edges.bsmultidaterange.css",
+			"edges.nseparate.css",
+			"edges.orterms.css",
+			"edges.searching.css",
+			"edges.tabularresults.css"
+		],
+		"nvd3.css" : [],
+		"daterangepicker.css" : []
+	},
+	"outputs" : {
+		"funder_core_js" : {
+			"out" : ["muk_js_out", "muk.funder.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"edges.core",
+				"edges.csv",
+				"edges.jquery",
+				"es",
+				"edges.charts",
+				"edges.ranges",
+				"edges.search",
+				"edges.selectors",
+				"edges.bsmultidaterange",
+				"edges.nseparate",
+				"edges.orterms",
+				"edges.searching",
+				"edges.tabularresults",
+				"edges.nvd3",
+				"muk.funder",
+				"muk.core"
+			]
+		},
+		"funder_dependency_js" : {
+			"out" : ["muk_js_out", "muk.funder.dep.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"d3",
+				"nvd3",
+				"papaparse",
+				"moment",
+				"daterangepicker"
+			]
+		},
+		"funder_core_css" : {
+			"out" : ["muk_css", "muk.funder.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"edges.bsmultidaterange.css",
+				"edges.nseparate.css",
+				"edges.orterms.css",
+				"edges.searching.css",
+				"edges.tabularresults.css",
+				"muk.funder.css"
+			]
+		},
+		"funder_dependency_css" : {
+			"out" : ["muk_css", "muk.funder.dep.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"nvd3.css",
+				"daterangepicker.css"
+			]
+		}
+	}
+}
