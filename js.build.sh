@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-bash magificent-octopus/octopus/lib/assets.py -c assets.json
+python magificent-octopus/octopus/lib/assets.py -c assets.json
