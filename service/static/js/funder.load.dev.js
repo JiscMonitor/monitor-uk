@@ -4,8 +4,8 @@ requirejs.config({
     baseUrl: '/static/',
     paths: {
         jquery: edges_base + 'vendor/jquery-1.11.1/jquery-1.11.1',
-        "jquery-ui" : edges_base + "vendor/jquery-ui-1.11.1/jquery-ui",
-        select2 : edges_base + "vendor/select2-3.5.1/select2.min",
+        // "jquery-ui" : edges_base + "vendor/jquery-ui-1.11.1/jquery-ui",
+        // select2 : edges_base + "vendor/select2-3.5.1/select2.min",
         d3: edges_base + "vendor/d3-v3/d3.min",
         nvd3: edges_base + "vendor/nvd3-1.8.1/nv.d3",
         moment : edges_base + "vendor/bootstrap-daterangepicker-2.1.22/moment",
@@ -37,7 +37,7 @@ requirejs.config({
 });
 
 requirejs(["jquery", "d3"], function() {
-    requirejs(["jquery-ui", "select2", "nvd3", "es", "edges-jquery", "daterangepicker"], function() {
+    requirejs(["nvd3", "es", "edges-jquery", "daterangepicker"], function() {
         requirejs(["edges"], function() {
             requirejs([
                 "edges.csv",
