@@ -35,12 +35,14 @@
 		"muk.core" : ["muk_js", "muk.js"],
 		"muk.funder" : ["muk_js", "muk.funder.js"],
 		"muk.institution" : ["muk_js", "muk.institution.js"],
+		"muk.publisher" : ["muk_js", "muk.publisher.js"],
 
 		"d3" : ["edges_vendor", "d3-v3/d3.min.js"],
 		"nvd3" : ["edges_vendor", "nvd3-1.8.1/nv.d3.js"],
 		"papaparse" : ["edges_vendor", "PapaParse-4.1.2/papaparse.min.js"],
 		"moment" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/moment.min.js"],
 		"daterangepicker" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.js"],
+		"select2" : ["edges_vendor", "select2-3.5.1/select2.min.js"],
 
 		"edges.bsmultidaterange.css" : ["edges_css", "bs3.BSMultiDateRange.css"],
 		"edges.nseparate.css" : ["edges_css", "bs3.NSeparateORTermSelectorRenderer.css"],
@@ -50,9 +52,12 @@
 		"edges.tabularresults.css" : ["edges_css", "bs3.TabularResultsRenderer.css"],
 		"muk.funder.css" : ["muk_css", "muk.funder.css"],
 		"muk.institution.css" : ["muk_css", "muk.institution.css"],
+		"muk.publisher.css" : ["muk_css", "muk.publisher.css"],
 
 		"nvd3.css" : ["edges_vendor", "nvd3-1.8.1/nv.d3.css"],
-		"daterangepicker.css" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.css"]
+		"daterangepicker.css" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.css"],
+		"select2.css" : ["edges_vendor", "select2-3.5.1/select2.css"],
+		"select2.bootstrap.css" : ["edges_vendor", "select2-3.5.1/select2-bootstrap.css"]
 	},
 	"dependencies" : {
 		"edges.core" : ["jquery", "edges.jquery", "jquery.ui", "es"],
@@ -73,6 +78,7 @@
 		"muk.core" : ["jquery", "moment"],
 		"muk.funder" : ["edges.core", "jquery", "muk.core"],
 		"muk.institution" : ["edges.core", "jquery", "muk.core"],
+		"muk.publisher" : ["edges.core", "jquery", "muk.core"],
 		"d3" : [],
 		"nvd3" : ["d3"],
 		"papaparse" : [],
@@ -103,8 +109,22 @@
 			"nvd3.css",
 			"daterangepicker.css"
 		],
+		"muk.publisher.css" : [
+			"edges.bsmultidaterange.css",
+			"edges.nseparate.css",
+			"edges.orterms.css",
+			"edges.refiningand.css",
+			"edges.searching.css",
+			"edges.tabularresults.css",
+			"nvd3.css",
+			"daterangepicker.css",
+			"select2.css",
+			"select2.bootstrap.css"
+		],
 		"nvd3.css" : [],
-		"daterangepicker.css" : []
+		"daterangepicker.css" : [],
+		"select2.css" : [],
+		"select2.bootstrap.css" : ["select2.css"]
 	},
 	"outputs" : {
 		"funder_core_js" : {
@@ -209,6 +229,64 @@
 		},
 		"institution_dependency_css" : {
 			"out" : ["muk_css", "muk.institution.dep.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"nvd3.css",
+				"daterangepicker.css"
+			]
+		},
+
+
+		"publisher_core_js" : {
+			"out" : ["muk_js_out", "muk.publisher.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"edges.core",
+				"edges.csv",
+				"edges.jquery",
+				"es",
+				"edges.charts",
+				"edges.ranges",
+				"edges.search",
+				"edges.selectors",
+				"edges.bsmultidaterange",
+				"edges.nseparate",
+				"edges.orterms",
+				"edges.refiningand",
+				"edges.searching",
+				"edges.tabularresults",
+				"edges.nvd3",
+				"muk.publisher",
+				"muk.core"
+			]
+		},
+		"publisher_dependency_js" : {
+			"out" : ["muk_js_out", "muk.publisher.dep.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"d3",
+				"nvd3",
+				"papaparse",
+				"moment",
+				"daterangepicker",
+				"select2"
+			]
+		},
+		"publisher_core_css" : {
+			"out" : ["muk_css", "muk.publisher.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"edges.bsmultidaterange.css",
+				"edges.nseparate.css",
+				"edges.orterms.css",
+				"edges.refiningand.css",
+				"edges.searching.css",
+				"edges.tabularresults.css",
+				"muk.publisher.css"
+			]
+		},
+		"publisher_dependency_css" : {
+			"out" : ["muk_css", "muk.publisher.dep.min.css"],
 			"pipeline" : "css",
 			"assets" : [
 				"nvd3.css",
