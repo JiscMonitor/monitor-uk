@@ -378,6 +378,8 @@ $.extend(muk, {
                         var month = this.months[dobj.getUTCMonth()];
                         var year = dobj.getUTCFullYear();
                         date = day + " " + month + " " + year;
+                    } else {
+                        date = "Unknown Date";
                     }
 
                     apc += '<div class="row">\
