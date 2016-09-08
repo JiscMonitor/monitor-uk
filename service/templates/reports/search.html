@@ -4,46 +4,31 @@
 {% block page_h1 %}Search for APC data on UK academic outputs{%  endblock %}
 
 {% block extra_css_top %}
-    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/jquery-ui-1.11.1/jquery-ui.css')}}"> -->
-    <!-- <link rel="stylesheet" href="{{url_for('static', filename='vendor/jquery-ui-1.11.1/jquery-ui.theme.css')}}"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2.css')}}"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2-bootstrap.css')}}"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/timepicker-0.3.3/jquery.ui.timepicker.css')}}"> -->
 
-    <!-- nvd3 styles -->
-    <!-- <link rel="stylesheet" href="../vendor/nvd3-1.8.1/nv.d3.css"> -->
-
+    {# Development assets
     <!-- datepicker styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/vendor/bootstrap-daterangepicker-2.1.22/daterangepicker.css')}}">
 
     <!-- edges styles -->
-    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.Facetview.css')}}">
-    <!-- <link rel="stylesheet" href="../css/bs3.Tabbed.css"> -->
-
-    <!-- <link rel="stylesheet" href="../css/bs3.BasicRangeSelectorRenderer.css"> -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.BSMultiDateRangeFacet.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.CompactSelectedFiltersRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.FacetFilterSetterRenderer.css')}}">
-    <!-- <link rel="stylesheet" href="../css/bs3.MultiDateRangeRenderer.css"> -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.NumberedPager.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.NumericRangeEntryRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.ORTermSelectorRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.PagerRenderer.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.RefiningANDTermSelectorRenderer.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.ResultsDisplayRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.SearchBoxRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.SearchingNotificationRenderer.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.SelectedFiltersRenderer.css')}}">
-
-    <!-- <link rel="stylesheet" href="../css/google.edges.css"> -->
-    <!-- <link rel="stylesheet" href="../css/edges.css"> -->
-    <!-- <link rel="stylesheet" href="../css/google.edges.css"> -->
-
-    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/edges_build/css/bs3.edges.css')}}"> -->
 
     <!-- MUK specific styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.APCRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.css')}}">
+    #}
+
+    {# Deployment assets #}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.dep.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.min.css')}}">
+    {# end Deployment assets #}
 {% endblock %}
 
 {% block content %}
@@ -58,6 +43,22 @@
 {% endblock %}
 
 {% block extra_js_bottom %}
+    {# Note that JQuery and JQuery UI are already loaded as standard by the base template #}
+
+    {# Development assets
     <script type="text/javascript" src="/static/vendor/edges_build/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
     <script data-main="{{ url_for("static", filename="js/search.load.dev") }}" src="{{ url_for("static", filename="vendor/edges_build/build/require.js") }}"></script>
+    #}
+
+    {# Deployment assets #}
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.dep.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.min.js") }}"></script>
+
+    <script type="application/javascript">
+        jQuery(document).ready(function($) {
+            muk.search.makeSearch();
+        });
+    </script>
+    {# end Deployment assets #}
+
 {% endblock%}
