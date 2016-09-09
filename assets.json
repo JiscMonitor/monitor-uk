@@ -1,15 +1,15 @@
 {
 	"parameters" : {
 		"uglify" : "/home/richard/node_modules/uglify-js/bin/uglifyjs",
-		"r_file" : "magnificent-octopus/octopus/static/vendor/edges_build/build/r.js",
+		"r_file" : "magnificent-octopus/octopus/static/vendor/edges/build/r.js",
 		"tmp_dir" : "tmp",
 		"node" : "/home/richard/.nvm/versions/node/v5.0.0/bin/node",
 		"cleanup" : false
 	},
 	"base_paths" : {
-		"edges_vendor" : "magnificent-octopus/octopus/static/vendor/edges_build/vendor",
-		"edges_js" : "magnificent-octopus/octopus/static/vendor/edges_build/src",
-		"edges_css" : "magnificent-octopus/octopus/static/vendor/edges_build/css",
+		"edges_vendor" : "magnificent-octopus/octopus/static/vendor/edges/vendor",
+		"edges_js" : "magnificent-octopus/octopus/static/vendor/edges/src",
+		"edges_css" : "magnificent-octopus/octopus/static/vendor/edges/css",
 		"muk_js" : "service/static/js-src",
 		"muk_css" : "service/static/css",
 		"muk_js_out" : "service/static/js"

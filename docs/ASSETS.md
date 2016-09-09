@@ -25,7 +25,7 @@ paths in the first section:
 ```json
 "parameters" : {
     "uglify" : "/home/user/node_modules/uglify-js/bin/uglifyjs",
-    "r_file" : "magnificent-octopus/octopus/static/vendor/edges_build/build/r.js",
+    "r_file" : "magnificent-octopus/octopus/static/vendor/edges/build/r.js",
     "tmp_dir" : "tmp",
     "node" : "/home/user/.nvm/versions/node/v5.0.0/bin/node",
     "cleanup" : false
@@ -52,7 +52,7 @@ The asset build configuration has the following structure:
 {
 	"parameters" : {
 		"uglify" : "/home/richard/node_modules/uglify-js/bin/uglifyjs",
-		"r_file" : "magnificent-octopus/octopus/static/vendor/edges_build/build/r.js",
+		"r_file" : "magnificent-octopus/octopus/static/vendor/edges/build/r.js",
 		"tmp_dir" : "tmp",
 		"node" : "/home/richard/.nvm/versions/node/v5.0.0/bin/node",
 		"cleanup" : false
@@ -99,17 +99,17 @@ For example, in the funder report:
 ```html
 {# Development assets
 <!-- nvd3 styles -->
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/vendor/nvd3-1.8.1/nv.d3.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/nvd3-1.8.1/nv.d3.css')}}">
 
 <!-- datepicker styles -->
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/vendor/bootstrap-daterangepicker-2.1.22/daterangepicker.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/daterangepicker.css')}}">
 
 <!-- edges styles -->
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.BSMultiDateRange.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.NSeparateORTermSelectorRenderer.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.ORTermSelectorRenderer.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.SearchingNotificationRenderer.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges_build/css/bs3.TabularResultsRenderer.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.BSMultiDateRange.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.NSeparateORTermSelectorRenderer.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.ORTermSelectorRenderer.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.SearchingNotificationRenderer.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.TabularResultsRenderer.css')}}">
 
 <!-- MUK specific styles -->
 <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.css')}}">
@@ -125,9 +125,9 @@ and
 
 ```html
 {# Development assets
-<script type="text/javascript" src="/static/vendor/edges_build/vendor/PapaParse-4.1.2/papaparse.min.js"></script>
-<script type="text/javascript" src="/static/vendor/edges_build/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
-<script data-main="{{ url_for("static", filename="js/funder.load.dev") }}" src="{{ url_for("static", filename="vendor/edges_build/build/require.js") }}"></script>
+<script type="text/javascript" src="/static/vendor/edges/vendor/PapaParse-4.1.2/papaparse.min.js"></script>
+<script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
+<script data-main="{{ url_for("static", filename="js/funder.load.dev") }}" src="{{ url_for("static", filename="vendor/edges/build/require.js") }}"></script>
 #}
 
 {# Deployment assets #}

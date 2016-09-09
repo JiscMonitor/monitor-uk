@@ -1,4 +1,4 @@
-var edges_base = "vendor/edges_build/";
+var edges_base = "vendor/edges/";
 
 requirejs.config({
     baseUrl: '/static/',
