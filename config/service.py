@@ -17,6 +17,9 @@ SSL = True
 THREADED = True
 """ Should the server run in multi-threaded mode (almost always should be True)"""
 
+VERSION = "1.0.0"
+""" Version number of the application, which is used in part to version the URLs to UI assets, for cache-busting purposes """
+
 ############################################
 # important overrides for the ES module
 

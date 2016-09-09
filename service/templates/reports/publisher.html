@@ -6,8 +6,8 @@
 {% block extra_css_top %}
     {# Note that as select2 css loads other assets using relative file paths, it can't be compiled to the minified css #}
     <!-- select2 styles -->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2-bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2-bootstrap.css')}}?v={{ config.get("VERSION", "x") }}">
 
     {# Development assets
     <!-- nvd3 styles -->
@@ -29,8 +29,8 @@
     #}
 
     {# Deployment assets #}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.dep.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.min.css')}}?v={{ config.get("VERSION", "x") }}">
     {# end Deployment assets #}
 {% endblock %}
 
@@ -60,8 +60,8 @@
     #}
 
     {# Deployment assets #}
-    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.publisher.dep.min.js") }}"></script>
-    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.publisher.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.publisher.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.publisher.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
 
     <script type="application/javascript">
         jQuery(document).ready(function($) {

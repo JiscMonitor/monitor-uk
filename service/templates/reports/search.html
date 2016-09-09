@@ -26,8 +26,8 @@
     #}
 
     {# Deployment assets #}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.dep.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.min.css')}}?v={{ config.get("VERSION", "x") }}">
     {# end Deployment assets #}
 {% endblock %}
 
@@ -51,8 +51,8 @@
     #}
 
     {# Deployment assets #}
-    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.dep.min.js") }}"></script>
-    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
 
     <script type="application/javascript">
         jQuery(document).ready(function($) {

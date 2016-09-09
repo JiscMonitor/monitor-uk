@@ -24,8 +24,8 @@
     #}
 
     {# Deployment assets #}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.dep.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.min.css')}}?v={{ config.get("VERSION", "x") }}">
     {# end Deployment assets #}
 
 {% endblock %}
@@ -56,8 +56,8 @@
     #}
 
     {# Deployment assets #}
-    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.funder.dep.min.js") }}"></script>
-    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.funder.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.funder.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.funder.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
 
     <script type="application/javascript">
         jQuery(document).ready(function($) {

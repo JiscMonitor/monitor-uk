@@ -147,3 +147,14 @@ When working in development, uncomment the "Development assets" section and comm
 You must ensure you keep these sections equivalent, which means adding in new stylesheets or javascript references as they are needed,
 updating the compilation configuration appropriately, and building the Deployment assets before release.
 
+
+## Versioning
+
+In order to bust user browser caches, each asset for production is appended with "?v=<version>", which doesn't have any effect
+ on the actual asset loaded, but which will force the user's browser to re-download the asset if the version number changes.
+ 
+You can control the version number by setting the config value VERSION in the service config or your local.cfg
+
+For example:
+
+    VERSION = 1.1.0
