@@ -89,7 +89,7 @@ you have a dependency such as jquery which is loaded everywhere by default anywa
 
 ## Development vs Deployment
 
-For the purposes of development, it is convenient for code inspection and debugging purposes to use the uncompiled versions of the assets.
+For the purposes of development, it is convenient for code inspection and debugging to use the uncompiled versions of the assets.
 
 In each of the template files for pages which contain javascript applications, there are two sections, one commented out (at the jinja template
 level), and one uncommented.

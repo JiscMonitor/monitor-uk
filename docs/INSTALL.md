@@ -1,12 +1,14 @@
 # For Developers
 
+Information about the JS and CSS assets, is in ```ASSETS.md``` - you need to choose between development and minified production assets.
+
 For production deployment guidance, see ```DEPLOY.md```.
 
 ## Dependencies
 
-* Ubuntu 14.04 - all dev has been done under this version of linux, but it ought to work under all flavours.
+* Ubuntu 14.04 - most dev has been done under this version of Linux, but it ought to work under all flavours.
 
-* OS X - installation requies xcode-select via ```xcode-select --install``` to compile libxml.
+* OS X - installation requires xcode-select via ```xcode-select --install``` to compile libxml.
 
 * Python 2.7 + pip, setuptools and virtualenv.  If you are using Ubuntu, python, pip and setuptools should already be installed, then you can do:
 
@@ -22,7 +24,9 @@ For production deployment guidance, see ```DEPLOY.md```.
     
     sudo apt-get install zlib1g-dev
 
-* Elasticsearch 1.x - the development has so far been done on ES 1.7.5, though any version on the 1.x branch should do.  Do not use 0.x.  2.x has not been tested, but may work.
+* ElasticSearch 1.x - the development has so far been done on ES 1.7.5, though any version on the 1.x branch should do.  Do not use 0.x.  2.x has not been tested, but may work.
+
+* Some non-essential functions depend on Node modules - see ```DEPENDS.md```.
 
 ## Installation
 
@@ -30,7 +34,7 @@ Clone the project:
 
     git clone https://github.com/JiscMonitor/monitor-uk.git
 
-get all the submodules
+Get all of the submodules:
 
     cd monitor-uk
     git submodule update --init --recursive

@@ -1,6 +1,8 @@
 # For DevOps
 
-See ```INSTALL/md``` for how to get the web app up and running.
+See ```INSTALL.md``` for how to get the web app up and running.
+
+For information regarding JS / CSS assets, see ```ASSETS.md```. It is recommended to use compiled / minified assets in production.
 
 The directory ```deploy``` at the project root contains configs used on the staging site during development, consisting of a continuous integration script ```ci.sh```, 
 as well as configuration files for ```nginx```` and ```supervisor```. You can use these as a starting point for your own deployment.
