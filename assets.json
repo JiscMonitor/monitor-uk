@@ -1,0 +1,404 @@
+{
+	"parameters" : {
+		"uglify" : "/home/richard/node_modules/uglify-js/bin/uglifyjs",
+		"r_file" : "magnificent-octopus/octopus/static/vendor/edges/build/r.js",
+		"tmp_dir" : "tmp",
+		"node" : "/home/richard/.nvm/versions/node/v5.0.0/bin/node",
+		"cleanup" : false
+	},
+	"base_paths" : {
+		"edges_vendor" : "magnificent-octopus/octopus/static/vendor/edges/vendor",
+		"edges_js" : "magnificent-octopus/octopus/static/vendor/edges/src",
+		"edges_css" : "magnificent-octopus/octopus/static/vendor/edges/css",
+		"muk_js" : "service/static/js-src",
+		"muk_css" : "service/static/css",
+		"muk_js_out" : "service/static/js"
+	},
+	"assets" : {
+		"jquery" : ["edges_vendor", "jquery-1.11.1/jquery-1.11.1.js"],
+
+		"edges.core" : ["edges_js", "edges.js"],
+		"edges.csv" : ["edges_js", "edges.csv.js"],
+		"edges.jquery" : ["edges_js", "edges.jquery.js"],
+		"es" : ["edges_js", "es.js"],
+		"edges.charts" : ["edges_js", "components/charts.js"],
+		"edges.ranges" : ["edges_js", "components/ranges.js"],
+		"edges.search" : ["edges_js", "components/search.js"],
+		"edges.selectors" : ["edges_js", "components/selectors.js"],
+		"edges.bsmultidaterange" : ["edges_js", "renderers/bs3.BSMultiDateRange.js"],
+		"edges.bsmultidatefacet" : ["edges_js", "renderers/bs3.BSMultiDateRangeFacet.js"],
+		"edges.compactfilters" : ["edges_js", "renderers/bs3.CompactSelectedFiltersRenderer.js"],
+		"edges.facetfiltersetter" : ["edges_js", "renderers/bs3.FacetFilterSetterRenderer.js"],
+		"edges.numberedpager" : ["edges_js", "renderers/bs3.NumberedPager.js"],
+		"edges.numericrange" : ["edges_js", "renderers/bs3.NumericRangeEntryRenderer.js"],
+		"edges.nseparate" : ["edges_js", "renderers/bs3.NSeparateORTermSelectorRenderer.js"],
+		"edges.orterms" : ["edges_js", "renderers/bs3.ORTermSelectorRenderer.js"],
+		"edges.pager" : ["edges_js", "renderers/bs3.PagerRenderer.js"],
+		"edges.refiningand" : ["edges_js", "renderers/bs3.RefiningANDTermSelectorRenderer.js"],
+		"edges.resultcount" : ["edges_js", "renderers/bs3.ResultCountRenderer.js"],
+		"edges.searchbox" : ["edges_js", "renderers/bs3.SearchBoxRenderer.js"],
+		"edges.searching" : ["edges_js", "renderers/bs3.SearchingNotificationRenderer.js"],
+		"edges.sort" : ["edges_js", "renderers/bs3.SortRenderer.js"],
+		"edges.tabularresults" : ["edges_js", "renderers/bs3.TabularResultsRenderer.js"],
+		"edges.nvd3" : ["edges_js", "renderers/nvd3.edges.js"],
+		"muk.core" : ["muk_js", "muk.js"],
+		"muk.funder" : ["muk_js", "muk.funder.js"],
+		"muk.institution" : ["muk_js", "muk.institution.js"],
+		"muk.publisher" : ["muk_js", "muk.publisher.js"],
+		"muk.search" : ["muk_js", "muk.search.js"],
+
+		"d3" : ["edges_vendor", "d3-v3/d3.min.js"],
+		"nvd3" : ["edges_vendor", "nvd3-1.8.1/nv.d3.js"],
+		"papaparse" : ["edges_vendor", "PapaParse-4.1.2/papaparse.min.js"],
+		"moment" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/moment.min.js"],
+		"daterangepicker" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.js"],
+		"select2" : ["edges_vendor", "select2-3.5.1/select2.min.js"],
+
+		"edges.bsmultidaterange.css" : ["edges_css", "bs3.BSMultiDateRange.css"],
+		"edges.bsmultidatefacet.css" : ["edges_css", "bs3.BSMultiDateRangeFacet.css"],
+		"edges.compactfilters.css" : ["edges_css", "bs3.CompactSelectedFiltersRenderer.css"],
+		"edges.facetfiltersetter.css" : ["edges_css", "bs3.FacetFilterSetterRenderer.css"],
+		"edges.numberedpager.css" : ["edges_css", "bs3.NumberedPager.css"],
+		"edges.numericrange.css" : ["edges_css", "bs3.NumericRangeEntryRenderer.css"],
+		"edges.nseparate.css" : ["edges_css", "bs3.NSeparateORTermSelectorRenderer.css"],
+		"edges.orterms.css" : ["edges_css", "bs3.ORTermSelectorRenderer.css"],
+		"edges.pager.css" : ["edges_css", "bs3.PagerRenderer.css"],
+		"edges.refiningand.css" : ["edges_css", "bs3.RefiningANDTermSelectorRenderer.css"],
+		"edges.searchbox.css" : ["edges_css", "bs3.SearchBoxRenderer.css"],
+		"edges.searching.css" : ["edges_css", "bs3.SearchingNotificationRenderer.css"],
+		"edges.tabularresults.css" : ["edges_css", "bs3.TabularResultsRenderer.css"],
+		"muk.apc.css" : ["muk_css", "muk.APCRenderer.css"],
+		"muk.funder.css" : ["muk_css", "muk.funder.css"],
+		"muk.institution.css" : ["muk_css", "muk.institution.css"],
+		"muk.publisher.css" : ["muk_css", "muk.publisher.css"],
+		"muk.search.css" : ["muk_css", "muk.search.css"],
+
+		"nvd3.css" : ["edges_vendor", "nvd3-1.8.1/nv.d3.css"],
+		"daterangepicker.css" : ["edges_vendor", "bootstrap-daterangepicker-2.1.22/daterangepicker.css"],
+		"select2.css" : ["edges_vendor", "select2-3.5.1/select2.css"],
+		"select2.bootstrap.css" : ["edges_vendor", "select2-3.5.1/select2-bootstrap.css"]
+	},
+	"dependencies" : {
+		"edges.core" : ["jquery", "edges.jquery", "jquery.ui", "es"],
+		"edges.csv" : ["edges.core", "jquery"],
+		"edges.jquery" : ["jquery"],
+		"es" : ["jquery"],
+		"edges.charts" : ["edges.core", "jquery"],
+		"edges.ranges" : ["edges.core", "jquery"],
+		"edges.search" : ["edges.core", "jquery"],
+		"edges.selectors" : ["edges.core", "jquery"],
+		"edges.bsmultidaterange" : ["edges.core", "jquery", "daterangepicker"],
+		"edges.bsmultidatefacet" : ["edges.core", "jquery"],
+		"edges.compactfilters" : ["edges.core", "jquery"],
+		"edges.facetfiltersetter" : ["edges.core", "jquery"],
+		"edges.numberedpager" : ["edges.core", "jquery"],
+		"edges.numericrange" : ["edges.core", "jquery"],
+		"edges.nseparate" : ["edges.core", "jquery"],
+		"edges.orterms" : ["edges.core", "jquery"],
+		"edges.pager" : ["edges.core", "jquery"],
+		"edges.refiningand" : ["edges.core", "jquery"],
+		"edges.resultcount" : ["edges.core", "jquery"],
+		"edges.searchbox" : ["edges.core", "jquery"],
+		"edges.searching" : ["edges.core", "jquery"],
+		"edges.sort" : ["edges.core", "jquery"],
+		"edges.tabularresults" : ["edges.core", "jquery"],
+		"edges.nvd3" : ["edges.core", "jquery", "nvd3", "d3"],
+		"muk.core" : ["jquery", "moment"],
+		"muk.funder" : ["edges.core", "jquery", "muk.core"],
+		"muk.institution" : ["edges.core", "jquery", "muk.core"],
+		"muk.publisher" : ["edges.core", "jquery", "muk.core"],
+		"muk.search" : ["edges.core", "jquery", "muk.core"],
+		"d3" : [],
+		"nvd3" : ["d3"],
+		"papaparse" : [],
+		"moment" : [],
+		"daterangepicker" : ["jquery", "moment"],
+
+		"edges.bsmultidaterange.css" : [],
+		"edges.bsmultidatefacet.css" : [],
+		"edges.compactfilters.css" : [],
+		"edges.facetfiltersetter.css" : [],
+		"edges.numberedpager.css" : [],
+		"edges.numericrange.css" : [],
+		"edges.nseparate.css" : [],
+		"edges.orterms.css" : [],
+		"edges.pager.css" : [],
+		"edges.refiningand.css" : [],
+		"edges.searchbox.css" : [],
+		"edges.searching.css" : [],
+		"edges.tabularresults.css" : [],
+		"muk.apc.css" : [],
+		"muk.funder.css" : [
+			"edges.bsmultidaterange.css",
+			"edges.nseparate.css",
+			"edges.orterms.css",
+			"edges.searching.css",
+			"edges.tabularresults.css",
+			"nvd3.css",
+			"daterangepicker.css"
+		],
+		"muk.institution.css" : [
+			"edges.bsmultidaterange.css",
+			"edges.orterms.css",
+			"edges.refiningand.css",
+			"edges.searching.css",
+			"edges.tabularresults.css",
+			"nvd3.css",
+			"daterangepicker.css"
+		],
+		"muk.publisher.css" : [
+			"edges.bsmultidaterange.css",
+			"edges.nseparate.css",
+			"edges.orterms.css",
+			"edges.refiningand.css",
+			"edges.searching.css",
+			"edges.tabularresults.css",
+			"nvd3.css",
+			"daterangepicker.css",
+			"select2.css",
+			"select2.bootstrap.css"
+		],
+		"muk.search.css" : [
+			"edges.bsmultidatefacet.css",
+			"edges.compactfilters.css",
+			"edges.facetfiltersetter.css",
+			"edges.numberedpager.css",
+			"edges.numericrange.css",
+			"edges.orterms.css",
+			"edges.pager.css",
+			"edges.searchbox.css",
+			"edges.searching.css"
+		],
+		"nvd3.css" : [],
+		"daterangepicker.css" : [],
+		"select2.css" : [],
+		"select2.bootstrap.css" : ["select2.css"]
+	},
+	"outputs" : {
+		"funder_core_js" : {
+			"out" : ["muk_js_out", "muk.funder.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"edges.core",
+				"edges.csv",
+				"edges.jquery",
+				"es",
+				"edges.charts",
+				"edges.ranges",
+				"edges.search",
+				"edges.selectors",
+				"edges.bsmultidaterange",
+				"edges.nseparate",
+				"edges.orterms",
+				"edges.searching",
+				"edges.tabularresults",
+				"edges.nvd3",
+				"muk.funder",
+				"muk.core"
+			]
+		},
+		"funder_dependency_js" : {
+			"out" : ["muk_js_out", "muk.funder.dep.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"d3",
+				"nvd3",
+				"papaparse",
+				"moment",
+				"daterangepicker"
+			]
+		},
+		"funder_core_css" : {
+			"out" : ["muk_css", "muk.funder.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"edges.bsmultidaterange.css",
+				"edges.nseparate.css",
+				"edges.orterms.css",
+				"edges.searching.css",
+				"edges.tabularresults.css",
+				"muk.funder.css"
+			]
+		},
+		"funder_dependency_css" : {
+			"out" : ["muk_css", "muk.funder.dep.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"nvd3.css",
+				"daterangepicker.css"
+			]
+		},
+
+
+		"institution_core_js" : {
+			"out" : ["muk_js_out", "muk.institution.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"edges.core",
+				"edges.csv",
+				"edges.jquery",
+				"es",
+				"edges.charts",
+				"edges.ranges",
+				"edges.search",
+				"edges.selectors",
+				"edges.bsmultidaterange",
+				"edges.orterms",
+				"edges.refiningand",
+				"edges.searching",
+				"edges.tabularresults",
+				"edges.nvd3",
+				"muk.institution",
+				"muk.core"
+			]
+		},
+		"institution_dependency_js" : {
+			"out" : ["muk_js_out", "muk.institution.dep.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"d3",
+				"nvd3",
+				"papaparse",
+				"moment",
+				"daterangepicker"
+			]
+		},
+		"institution_core_css" : {
+			"out" : ["muk_css", "muk.institution.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"edges.bsmultidaterange.css",
+				"edges.orterms.css",
+				"edges.refiningand.css",
+				"edges.searching.css",
+				"edges.tabularresults.css",
+				"muk.institution.css"
+			]
+		},
+		"institution_dependency_css" : {
+			"out" : ["muk_css", "muk.institution.dep.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"nvd3.css",
+				"daterangepicker.css"
+			]
+		},
+
+
+		"publisher_core_js" : {
+			"out" : ["muk_js_out", "muk.publisher.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"edges.core",
+				"edges.csv",
+				"edges.jquery",
+				"es",
+				"edges.charts",
+				"edges.ranges",
+				"edges.search",
+				"edges.selectors",
+				"edges.bsmultidaterange",
+				"edges.nseparate",
+				"edges.orterms",
+				"edges.refiningand",
+				"edges.searching",
+				"edges.tabularresults",
+				"edges.nvd3",
+				"muk.publisher",
+				"muk.core"
+			]
+		},
+		"publisher_dependency_js" : {
+			"out" : ["muk_js_out", "muk.publisher.dep.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"d3",
+				"nvd3",
+				"papaparse",
+				"moment",
+				"daterangepicker",
+				"select2"
+			]
+		},
+		"publisher_core_css" : {
+			"out" : ["muk_css", "muk.publisher.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"edges.bsmultidaterange.css",
+				"edges.nseparate.css",
+				"edges.orterms.css",
+				"edges.refiningand.css",
+				"edges.searching.css",
+				"edges.tabularresults.css",
+				"muk.publisher.css"
+			]
+		},
+		"publisher_dependency_css" : {
+			"out" : ["muk_css", "muk.publisher.dep.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"nvd3.css",
+				"daterangepicker.css"
+			]
+		},
+
+
+		"search_core_js" : {
+			"out" : ["muk_js_out", "muk.search.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"edges.core",
+				"edges.jquery",
+				"es",
+				"edges.ranges",
+				"edges.search",
+				"edges.selectors",
+				"edges.bsmultidatefacet",
+				"edges.orterms",
+				"edges.searching",
+				"edges.compactfilters",
+				"edges.facetfiltersetter",
+				"edges.numberedpager",
+				"edges.numericrange",
+				"edges.pager",
+				"edges.resultcount",
+				"edges.searchbox",
+				"edges.sort",
+				"muk.search",
+				"muk.core"
+			]
+		},
+		"search_dependency_js" : {
+			"out" : ["muk_js_out", "muk.search.dep.min.js"],
+			"pipeline" : "js",
+			"assets" : [
+				"moment",
+				"daterangepicker"
+			]
+		},
+		"search_core_css" : {
+			"out" : ["muk_css", "muk.search.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"edges.bsmultidatefacet.css",
+				"edges.compactfilters.css",
+				"edges.facetfiltersetter.css",
+				"edges.numberedpager.css",
+				"edges.numericrange.css",
+				"edges.orterms.css",
+				"edges.pager.css",
+				"edges.searchbox.css",
+				"edges.searching.css",
+				"muk.apc.css",
+				"muk.search.css"
+			]
+		},
+		"search_dependency_css" : {
+			"out" : ["muk_css", "muk.search.dep.min.css"],
+			"pipeline" : "css",
+			"assets" : [
+				"daterangepicker.css"
+			]
+		}
+	}
+}

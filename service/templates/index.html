@@ -1,12 +1,23 @@
 {% extends "base.html" %}
 
+{% block page_title %}Welcome{% endblock %}
+{% block page_h1 %}Welcome to Monitor UK{%  endblock %}
+
 {% block content %}
 
-Hello There
+    <div class="inner report-intro-text">
+        <p>The UK Aggregation of APC payments!</p>
+
+        <ul>
+            <li><a href="{{ url_for('search') }}">Search</a> our full database of APCs</li>
+            <li><a href="{{ url_for('publisher') }}">Interested in Publishers?</a> See the amount of APCs, total APC expenditure, or average APC cost for several publishers for a given period. Compare institutions and filter by journal type</li>
+            <li><a href="{{ url_for('funder') }}">Interested in Funders?</a> See the amount of APCs, total APC expenditure, or average APC cost for several funders for a given period. Filter by institution or journal type. </li>
+            <li><a href="{{ url_for('institution') }}">Interested in Institutions?</a> See the amount of APCs, total APC expenditure, or average APC cost for several institutions for a given period. Filter by publisher or journal type.</li>
+        </ul>
+
+    </div>
+    <!-- .inner -->
 
 {% endblock %}
 
-
-{% block extra_js_bottom %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/service.facetview.theme.js') }}"></script>
-{% endblock%}
+{% block extra_js_bottom %}{% endblock%}

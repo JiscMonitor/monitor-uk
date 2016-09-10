@@ -5,9 +5,10 @@ setup(
     version = '1.0.0',
     packages = find_packages(),
     install_requires = [
-        "octopus==1.0.0",
-        "esprit",
-        "Flask"
+        "octopus==1.0.0",                                                       # Skeleton web app modules and tools
+        "esprit",                                                               # For communicating with ElasticSearch
+        "Flask==0.10.1",                                                        # The web app framework
+        "pdoc"                                                                  # Used only for generating documentation
     ],
     url = 'http://cottagelabs.com/',
     author = 'Cottage Labs',

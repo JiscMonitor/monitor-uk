@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block page_title %}Your Account{% endblock %}
+{% block page_h1 %}Your Account{% endblock %}
+
+{% block content %}
+
+{% if current_user.id == account.id or current_user.is_super %}
+
+    {% if current_user.id != account.id %}
+        <div class="alert alert-danger"><strong>NOTE</strong> you are editing a user account that is not your own.  Be careful!</div>
+    {% endif %}
+
+    <div class="row">
+        <form id="user_details" method="post" action="{{url_for('account.username', username=account.email)}}">
+            <div class="col-md-offset-2 col-md-6 form-horizontal wide">
+                {% if current_user.id != account.id %}
+                    <h2>Edit the User's Details</h2>
+                {% else %}
+                    <h2>Edit Your Details</h2>
+                {% endif %}
+
+                {% autoescape off %}
+                {{ form_context.render_field_group("details") }}
+                {% endautoescape %}
+            </div>
+            <div class="col-md-offset-4 col-md-4 form-horizontal wide">
+                <button class="btn btn-primary update_button jisc-btn" id="update" type="submit" data-submit="user_details" data-holding="Updating">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div style="margin-top: 50px">
+    <div class="row">
+        <form id="api_key_reset" method="post" action="{{url_for('account.username', username=account.email)}}">
+            <div class="col-md-offset-2 col-md-6 form-horizontal wide">
+                <h2>API Key Management</h2>
+                <p><strong>Your current API Key:</strong><code>
+                    {% if account.api_key %}
+                        {{ account.api_key }}
+                    {% else %}
+                        You do not have an API key - generate one below
+                    {% endif %}
+                </code></p>
+                {% autoescape off %}
+                {{ form_context.render_field_group("api_key") }}
+                {% endautoescape %}
+            </div>
+            <div class="col-md-offset-4 col-md-4 form-horizontal wide">
+                <button class="btn btn-primary update_button jisc-btn" id="regenerate" type="submit" data-submit="api_key_reset" data-holding="Regenerating">
+                    Generate new API Key
+                </button>
+            </div>
+        </form>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-6">
+            {% if current_user.id != account.id %}
+                <h2>Permanently Delete This Account</h2>
+            {% else %}
+                <h2>Permanently Delete Your Account</h2>
+                <p class="help-block" style="margin-bottom: 10px">If you delete your account it will be gone forever</p>
+            {% endif %}
+
+            <form id="user_delete" class="form-inline" action="{{url_for('account.username', username=account.email)}}" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Enter password">
+                    <button type="submit" class="btn btn-danger jisc-btn jisc-btn-danger" id="delete" value="Delete" name="submit">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+{% else %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div style="padding-bottom: 10px; margin-bottom: 30px; padding-left: 30px; border-bottom: 3px dashed #aaaaaa">
+                <h1>{{account.email}}</h1>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <p>You are not logged in as this user. Use the <a href="/account/login">login page</a> if you want to change this</p>
+        </div>
+    </div>
+    
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js_bottom %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/account/userpage.js') }}"></script>
+{% endblock extra_js_bottom %}
+

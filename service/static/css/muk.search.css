@@ -1,0 +1,329 @@
+.edges-bs3-search-box-search {
+    text-align: center;
+}
+
+.edges-bs3-search-box-search .form-group {
+    width: 50%;
+}
+
+.edges-bs3-search-box-search .input-group {
+    width: 100%;
+}
+
+.edges-bs3-search-box-search .input-group-btn {
+    width: 1% !important;
+}
+
+.edges-bs3-search-box-search-button {
+    background-color: #1f5476;
+    border-color: #1f5476;
+}
+
+.muk-search-template-search {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.muk-search-template-panel {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #e3e9ec;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.muk-search-template-facets {
+    background-color: #d4dee4;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 0px;
+}
+
+.muk-search-template-refine {
+    font-size: 200%;
+}
+
+.muk-search-template-facet {
+    background-color: #d4dee4;
+    margin-bottom: 8px;
+}
+
+.edges-bs3-compact-selected-filters-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-compact-selected-filters-header {
+    padding-left: 10px;
+    background-color: #d4dee4;
+    font-size: 140%;
+    color: #ffffff;
+}
+
+.edges-bs3-compact-selected-filters-facet-selected-filters {
+    background-color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-header-selected-filters {
+    background-color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-header a {
+    color: #ffffff;
+}
+
+.edges-bs3-compact-selected-filters-body {
+    color: #ffffff;
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+.edges-bs3-compact-selected-filters-text {
+    background-color: #ffffff;
+    color: #3f8eba;
+    padding: 5px;
+    font-size: 80%;
+}
+
+.edges-bs3-compact-selected-filters-label {
+    font-size: 120%;
+}
+
+#edges-bs3-compact-selected-filters-body-selected-filters {
+    padding-bottom: 10px;
+}
+
+.edges-bs3-compact-selected-filters-filter-box {
+    background-color: #ffffff;
+    color: #3f8eba;
+    padding: 2px;
+    font-size: 80%;
+    display: inline-block;
+    margin: 2px 2px 2px 0px;
+}
+
+.edges-bs3-compact-selected-filters-remove {
+    color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-search-clear {
+    color: #3f8eba;
+}
+
+.edges-bs3-compact-selected-filters-filters {
+    padding-left: 0px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+
+.edges-bs3-compact-selected-filters-field {
+    margin-top: 5px;
+}
+
+.edges-bs3-compact-selected-filters-clear-all {
+    float: right;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.edges-bs3-compact-selected-filters-clear-all:hover {
+    color: #ffffff;
+}
+
+.edges-bs3-or-term-selector-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-or-term-selector-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-or-term-selector-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-or-term-selector-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-or-term-selector-selections {
+    max-height: 200px;
+}
+
+.edges-bs3-or-term-selector-result:nth-of-type(odd) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-or-term-selector-result:nth-of-type(even) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-or-term-selector-result {
+    padding-left: 0px;
+}
+
+.edges-bs3-or-term-selector-value {
+    color: #000000;
+}
+
+.edges-bs3-or-term-selector-value:hover {
+    color: #000000;
+}
+
+.edges-bs3-or-term-selector-count {
+    color: #666666;
+}
+
+.edges-bs3-numeric-range-entry-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-numeric-range-entry-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-numeric-range-entry-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-numeric-range-entry-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-facet-filter-setter-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-facet-filter-setter-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-facet-filter-setter-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-facet-filter-setter-filter:nth-of-type(odd) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-facet-filter-setter-filter:nth-of-type(even) {
+    background-color: #d4dee4;
+}
+
+.edges-bs3-facet-filter-setter-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-facet-filter-setter-filter {
+    padding-left: 0px;
+}
+
+.edges-bs3-facet-filter-setter-value {
+    color: #000000;
+}
+
+.edges-bs3-facet-filter-setter-value:hover {
+    color: #000000;
+}
+
+.edges-bs3-facet-filter-setter-intro {
+    font-weight: bold;
+}
+
+.edges-bs3-facet-filter-setter-count {
+    color: #666666;
+}
+
+.edges-bs3-result-count-container {
+    font-size: 200%;
+}
+
+.muk-search-template-sort {
+    float:right;
+    margin-bottom: 10px;
+}
+
+.muk-search-template-count {
+    margin-bottom: 10px;
+}
+
+.muk-search-apc-right {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.muk-search-apc-vat {
+    color: #666666;
+}
+
+.muk-search-apc-bib-row {
+    margin-bottom: 10px;
+}
+
+.edges-bs3-pager-container {
+    background: #e3e9ec;
+}
+
+.edges-bs3-bs-multi-date-range-facet-facet {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+
+.edges-bs3-bs-multi-date-range-facet-header {
+    background-color: #d4dee4;
+    padding-left: 10px;
+    font-size: 140%;
+}
+
+.edges-bs3-bs-multi-date-range-facet-body {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.edges-bs3-bs-multi-date-range-facet-icon {
+    float: right;
+    padding-right: 10px;
+}
+
+.edges-bs3-bs-multi-date-range-facet-form {
+    padding-left: 0px;
+}
+
+.edges-bs3-pager-container-results-size {
+    text-align: right;
+}
+
+.edges-bs3-pager-nav {
+    float: none !important;
+}
+
+.edges-bs3-pager-container-page-navigation {
+    text-align: center;
+}
+
+.edges-bs3-search-box-search-button {
+    border-radius: 0 3px 3px 0;
+}

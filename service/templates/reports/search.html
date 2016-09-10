@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block page_title %}Search{% endblock %}
+{% block page_h1 %}Search for APC data on UK academic outputs{%  endblock %}
+
+{% block extra_css_top %}
+
+    {# Development assets
+    <!-- datepicker styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/daterangepicker.css')}}">
+
+    <!-- edges styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.BSMultiDateRangeFacet.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.CompactSelectedFiltersRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.FacetFilterSetterRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.NumberedPager.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.NumericRangeEntryRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.ORTermSelectorRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.PagerRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.SearchBoxRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/css/bs3.SearchingNotificationRenderer.css')}}">
+
+    <!-- MUK specific styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.APCRenderer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.css')}}">
+    #}
+
+    {# Deployment assets #}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.min.css')}}?v={{ config.get("VERSION", "x") }}">
+    {# end Deployment assets #}
+{% endblock %}
+
+{% block content %}
+
+    <div class="inner">
+        <div class="article-full">
+            <div id="muk_search"></div>
+        </div>
+    </div>
+    <!-- .inner -->
+
+{% endblock %}
+
+{% block extra_js_bottom %}
+    {# Note that JQuery and JQuery UI are already loaded as standard by the base template #}
+
+    {# Development assets
+    <script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
+    <script data-main="{{ url_for("static", filename="js/search.load.dev") }}" src="{{ url_for("static", filename="vendor/edges/build/require.js") }}"></script>
+    #}
+
+    {# Deployment assets #}
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
+
+    <script type="application/javascript">
+        jQuery(document).ready(function($) {
+            muk.search.makeSearch();
+        });
+    </script>
+    {# end Deployment assets #}
+
+{% endblock%}

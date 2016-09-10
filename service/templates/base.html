@@ -1,0 +1,104 @@
+{% import 'nav.html' as nav with context %}
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Monitor UK {% block page_title %}{% endblock %}</title>
+
+    <meta name="description" content="Monitor UK - An aggregation of UK APC payments and related information">
+    <meta name="author" content="Cottage Labs">
+    <meta name="author" content="Jisc">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cleartype" content="on" >
+
+    <link href="{{ url_for('static', filename='images/favicon.ico') }}" rel="icon" type="image/x-icon" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- this is where we can incorporate any css files -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-jisc.7d6dc504.css')}}?v={{ config.get("VERSION", "x") }}">
+
+    {% block extra_css_top %}{% endblock extra_css_top %}
+
+    <!-- get the application's css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/service.css')}}?v={{ config.get("VERSION", "x") }}">
+
+</head>
+
+<body class="">
+<header class="site-header">
+    <div class="masthead" role="banner">
+        <div class="jiscbanner">
+            <div class="inner">
+                <a class="visuallyhidden" href="#main" tabindex="1">
+                    <span>Skip to main content</span>
+                </a>
+                <a class="logo" href="//jisc.ac.uk">
+                    <img alt="Jisc logo" src="{{url_for('static', filename='images/jisc-logo.png')}}">
+                </a>
+            </div>
+        </div>
+        <div class="inner">
+        <div class="row">
+            <div class="col-md-10">
+                <h1><a href="{{ url_for('index') }}">Monitor UK</a> <span class="badge">ALPHA</span></h1>
+            </div>
+            <div class="col-md-2">
+                <div class="login-bits">
+                    {% if current_user.is_anonymous() %}
+                        <a href="{{ url_for("account.login") }}" class="btn btn-primary jisc-btn jisc-btn-clear">Login</a>
+                    {%  else %}
+                        <a href="{{ url_for("account.logout") }}" class="btn btn-primary jisc-btn jisc-btn-clear">Log out</a>
+                    {%  endif %}
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="inner">
+            <div class="tab-nav" >
+                {{ nav.main_nav(config.get("PRIMARY_NAVIGATION", []), top_classes="nav nav-tabs navbar-left", sub_classes="subnav") }}
+                {{ nav.main_nav(config.get("SECONDARY_NAVIGATION", []), top_classes="nav nav-tabs navbar-right", sub_classes="subnav") }}
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<div class="inner mainpanel">
+    <main role="main" id="main" >
+        <div class="row">
+            <div class="col-md-12">
+                {{ nav.breadcrumb(config.get("SITE_NAVIGATION", [])) }}
+                <h1 class="report-header">{% block page_h1 %}{% endblock %}</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {% include "_flash.html" %}
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+    </main>
+    <!--/ main -->
+</div>
+<!--/ .inner -->
+
+
+{% include 'footer.html' %}
+{% include '_js_includes.html' %}
+
+{% block extra_js_bottom %}{% endblock extra_js_bottom %}
+
+</body>
+
+</html>

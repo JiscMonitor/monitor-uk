@@ -1,3 +1,8 @@
+"""
+Main web interface view, pulling together all the blueprints which make up the web component of the application
+
+This is the file you want to run if you want to start the front-end of the application
+"""
 from octopus.core import app, initialise, add_configuration
 
 if __name__ == "__main__":
@@ -23,8 +28,9 @@ if __name__ == "__main__":
     initialise()
 
 # most of the imports should be done here, after initialise()
-from flask import render_template
+from flask import render_template, redirect, url_for
 from octopus.lib.webapp import custom_static
+from flask_login import login_required
 
 @app.route("/")
 def index():
@@ -35,30 +41,51 @@ def index():
 def static(filename):
     return custom_static(filename)
 
+@app.route("/fonts/<path:filename>")
+def fonts(filename):
+    return redirect(url_for("static", filename=u"fonts/{x}".format(x=filename)))
+
 # this allows us to serve our standard javascript config
 from octopus.modules.clientjs.configjs import blueprint as configjs
 app.register_blueprint(configjs)
 
-# Autocomplete endpoint
-from octopus.modules.es.autocomplete import blueprint as autocomplete
-app.register_blueprint(autocomplete, url_prefix='/autocomplete')
-
 from octopus.modules.crud.api import blueprint as crud
-app.register_blueprint(crud, url_prefix="/api")
+app.register_blueprint(crud, url_prefix="/api/v1")
 
 from octopus.modules.es.query import blueprint as query
+app.register_blueprint(query, url_prefix="/account_query")
 app.register_blueprint(query, url_prefix="/query")
 
-# Sherpa Fact integration endpoint
-from octopus.modules.sherpafact.proxy import blueprint as fact
-app.register_blueprint(fact, url_prefix="/fact")
-
-from octopus.modules.clientjs.fragments import blueprint as fragments
-app.register_blueprint(fragments, url_prefix="/frag")
+from octopus.modules.es.searchapi import blueprint as search
+app.register_blueprint(search, url_prefix="/search/v1")
 
 # adding account management, which enables the login functionality
 from octopus.modules.account.account import blueprint as account
 app.register_blueprint(account, url_prefix="/account")
+
+# adding account management, which enables the login functionality
+from service.views.admin import blueprint as admin
+app.register_blueprint(admin, url_prefix="/admin")
+
+@app.route("/search")
+@login_required
+def search():
+    return render_template("/reports/search.html")
+
+@app.route("/publisher")
+@login_required
+def publisher():
+    return render_template("/reports/publisher.html")
+
+@app.route("/funder")
+@login_required
+def funder():
+    return render_template("/reports/funder.html")
+
+@app.route("/institution")
+@login_required
+def institution():
+    return render_template("/reports/institution.html")
 
 @app.errorhandler(404)
 def page_not_found(e):

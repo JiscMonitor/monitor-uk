@@ -1,0 +1,21 @@
+{
+	"opts": {
+		"destination": "./docs/js/",
+		"recurse": true,
+		"private" : true
+	},
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "source": {
+		"include" : ["./service/static/js-src"],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}
