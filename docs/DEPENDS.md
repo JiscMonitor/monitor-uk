@@ -1,4 +1,4 @@
-# All Dependencies for Monitor-UK
+# All Dependencies for Monitor UK
 
 All dependencies are gathered here for your convenience.
 
@@ -52,6 +52,7 @@ You will probably need to update the scripts referred by the documentation depen
 
 ## Deployment
 ```DEPLOY.md```
+
 * supervisor (optional) to run the application as a group with easy management
 * nginx to serve it
 * SSL certificates, etc.

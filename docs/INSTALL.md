@@ -39,9 +39,9 @@ Get all of the submodules:
     cd monitor-uk
     git submodule update --init --recursive
     
-This will initialise and clone the esprit and magnificent octopus libraries, and their submodules in turn.
+This will initialise and clone the esprit and magnificent-octopus libraries, and their submodules in turn.
 
-Create your virtualenv and activate it
+Create your virtualenv and activate it:
 
     virtualenv /path/to/venv
     source /path/tovenv/bin/activate
@@ -53,7 +53,7 @@ Install the dependencies and this app in the correct order:
     cd monitor-uk
     pip install -r requirements.txt
     
-Create your local config by copying the template local config
+Create your local config by copying the template local config:
 
     cp monitor-uk/template.local.cfg monitor-uk/local.cfg
 
@@ -61,7 +61,7 @@ Then open that file up for editing, and set any parameters for your local deploy
 
 ## Startup
 
-Ensure that Elasticsearch is running, the ```local.cfg``` points to the correct location, and your virtualenv is active.
+Ensure that ElasticSearch is running, the ```local.cfg``` points to the correct location, and your virtualenv is active.
 
 Start the web app with:
 
@@ -84,6 +84,6 @@ Then log in as this user in the running web app from:
 
 (The app will be accessible where configured in the ```local.cfg``` file, by default this is ```http://localhost:5000```)
 
-Then visit "Your Account" and populate the remaining required information
+Then visit "Your Account" and populate the remaining required information:
 
     /account/<your email>
