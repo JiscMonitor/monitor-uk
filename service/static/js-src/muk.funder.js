@@ -346,11 +346,123 @@ $.extend(muk, {
                     return;
                 }
 
-                // usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
+                var format = muk.toIntFormat();
+                var ae = muk.activeEdges["#muk_funder"];
+                var dateRange = ae.getComponent({id:"date_range"});
+                var instComponent = ae.getComponent({id:"institution"});
+                var apcComponent = ae.getComponent({id:"apc_count"});
+                var teComponent = ae.getComponent({id:"total_expenditure"})
+                var avgApcComponent = ae.getComponent({id:"mean"})
+                var funderComponent = ae.getComponent({id:"funder"})
+                var currentEarliest = dateRange.currentEarliest();
+                var currentLatest = dateRange.currentLatest();
+
+                function formatDate(date) {
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [day, month, year].join('/');
+                }
+
+                function getHighestAvgAPC(){
+                    var highestAvgAPC = avgApcComponent.dataSeries[0].values[0].value;
+                    var fundHighestAvgAPC = avgApcComponent.dataSeries[0].values[0].label;
+                    var temp = 0;
+
+                    for(i = 0; i < avgApcComponent.dataSeries.length; ++i){
+                        for(j = 0; j < avgApcComponent.dataSeries[i].values.length; ++j){
+                            temp = avgApcComponent.dataSeries[i].values[j].value;
+                            if(temp > highestAvgAPC) {
+                                highestAvgAPC = temp;
+                                fundHighestAvgAPC = avgApcComponent.dataSeries[i].values[j].label;
+                            }
+                        }
+
+                    }
+                    return {highestAvgAPC: highestAvgAPC, fundHighestAvgAPC: fundHighestAvgAPC};
+                }
+
+                function getLowestAvgAPC(){
+                    var lowestAvgAPC = avgApcComponent.dataSeries[0].values[0].value;
+                    var fundLowestAvgAPC = avgApcComponent.dataSeries[0].values[0].label;
+                    var temp = 0;
+
+                    for(i = 0; i < avgApcComponent.dataSeries.length; ++i){
+                        for(j = 0; j < avgApcComponent.dataSeries[i].values.length; ++j){
+                            temp = avgApcComponent.dataSeries[i].values[j].value;
+                            if(temp < lowestAvgAPC) {
+                                lowestAvgAPC = temp;
+                                fundLowestAvgAPC = avgApcComponent.dataSeries[i].values[j].label;
+                            }
+                        }
+
+                    }
+                    return {lowestAvgAPC: lowestAvgAPC, fundLowestAvgAPC: fundLowestAvgAPC};
+                }
+
+                function getOAtypePC(){
+                    var total = 0;
+                    var hybridCount = 0;
+                    var oaCount = 0;
+
+                    for(i=0; i < teComponent.dataSeries.length; ++i){
+                        for(j = 0; j < teComponent.dataSeries[i].values.length; ++j){
+                            temp = teComponent.dataSeries[i].values[j]
+                            c = temp.value
+                            total += c;
+                            if(temp.key == "Hybrid"){
+                               hybridCount += c;
+                            }
+                            if(temp.key == "Pure OA"){
+                               oaCount += c;
+                            }
+                        }
+                    }
+
+                    return {oaPC: Math.round((oaCount/total)*100), hybridPC: Math.round((hybridCount/total)*100)};
+                }
+
                 var story = "<p>On average, a funder pays for <strong>{{x}}</strong> APC payments in this period, with the average total expenditure on them being <strong>£{{y}}</strong> and the average UK APC cost being <strong>£{{z}}</strong></p>";
                 story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
                     .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
                     .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
+
+                if(instComponent.selected.length == 1){
+
+                    var apc_count = apcComponent.dataSeries[0].values[0].value
+                    var funder_selected = funderComponent.selected
+
+                    story +="<p>During the period <strong>"+formatDate(currentEarliest)+" - "+formatDate(currentLatest)+"</strong>, <strong>{{a}}</strong> spent <strong>£{{b}}</strong> on {{c}} for research "+
+                    "funded by {{d}}, compared to the UK average spend of <strong>£{{e}}</strong> on <strong>{{f}}</strong> APCs.</p>";
+                    story = story.replace(/{{a}}/g, instComponent.selected[0])
+                    .replace(/{{b}}/g, format(teComponent.dataSeries[0].values[0].value))
+                    .replace(/{{c}}/g, apc_count > 1 ? "<strong> " + format(apc_count) + "</strong> APCs" : "<strong>" + format(apc_count) + "</strong> APC")
+                    .replace(/{{d}}/g, funder_selected == 0 ? "<strong>all funders</strong>" : (funder_selected > 1 ? "these <strong>" + funder_selected + "funders </strong>" : "this <strong>" + funder_selected + "</strong> funder"))
+                    .replace(/{{e}}/g, format(this.avgExp))
+                    .replace(/{{f}}/g, format(this.avgCount))
+
+                    var getHapc = getHighestAvgAPC();
+                    var getLapc = getLowestAvgAPC();
+
+                    story +="<p>Among these institutions, <strong>{{a}}</strong> spent its highest average APC of <strong>£{{b}}</strong> on <strong>{{c}}</strong> research, while it spent its lowest average APC of <strong>£{{d}}</strong> on <strong>{{e}}</strong> research.</p>"
+                    story = story.replace(/{{a}}/g, instComponent.selected[0])
+                    .replace(/{{b}}/g, format(getHapc.highestAvgAPC))
+                    .replace(/{{c}}/g, getHapc.fundHighestAvgAPC)
+                    .replace(/{{d}}/g, format(getLapc.lowestAvgAPC))
+                    .replace(/{{e}}/g, getLapc.fundLowestAvgAPC)
+
+                    var oaType = getOAtypePC()
+
+                    story += "<p>Overall, <strong>{{a}}%</strong> of <strong>{{b}}’s</strong> spend with these funders went to Pure OA, and <strong>{{c}}%</strong> went to Hybrid.</p>"
+                    story = story.replace(/{{a}}/g, oaType.oaPC)
+                    .replace(/{{b}}/g, instComponent.selected[0])
+                    .replace(/{{c}}/g, oaType.hybridPC)
+                }
 
                 this.context.html(story);
             };
@@ -780,6 +892,7 @@ $.extend(muk, {
                 openingQuery : opening_query,
                 secondaryQueries : {
                     uk_mean : muk.funder.storyQuery
+
                 },
                 components: [
                     edges.newMultiDateRangeEntry({

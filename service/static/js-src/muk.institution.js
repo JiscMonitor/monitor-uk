@@ -359,27 +359,128 @@ $.extend(muk, {
                         this.totalAvg === false ||
                         this.avgMin === false ||
                         this.avgMax === false ||
-                        this.avgAvg === false) {
+                        this.avgAvg === false ||
+                        muk.activeEdges["#muk_institution"] == undefined) {
                     this.context.html("");
+
                     return;
+
+                } else {
+
+                    var format = muk.toIntFormat();
+                    var ae = muk.activeEdges["#muk_institution"];
+                    var dateRange = ae.getComponent({id:"date_range"});
+                    var dataTable = ae.getComponent({id:"data_table"});
+                    var publisherData = ae.getComponent({id:"publisher"});
+                    var currentEarliest = dateRange.currentEarliest();
+                    var currentLatest = dateRange.currentLatest();
+                    var dataResults = dataTable.results;
+                    var intsCount = dataResults.length;
+                    var pubsCount = publisherData.values.length;
+
+                    function formatDate(date) {
+                        var d = new Date(date),
+                            month = '' + (d.getMonth() + 1),
+                            day = '' + d.getDate(),
+                            year = d.getFullYear();
+
+                        if (month.length < 2) month = '0' + month;
+                        if (day.length < 2) day = '0' + day;
+
+                        return [day, month, year].join('/');
+                    }
+
+                    function getTotalExpenditure(){
+                        var total = 0;
+                        for(i = 0; i < intsCount; ++i){
+                            total += parseFloat(dataResults[i]["Total expenditure"].replace(/,/g, ""));
+                        }
+                        return total;
+                    }
+
+                    function getTotalAPCcount(){
+                        var total = 0;
+                        for(i = 0; i < intsCount; ++i){
+                            total += parseInt(dataResults[i]["APC Count"]);
+                        }
+                        return total;
+                    }
+
+                    function getAverageAPCcost(){
+                        var totalAverageAPCcostInt = 0;
+                        for(i = 0; i < intsCount; ++i){
+                            totalAverageAPCcostInt += parseFloat(dataResults[i]["Average APC cost"].replace(/,/g, ""));
+                        }
+
+                        totalAverageAPCcostInt = Math.round(totalAverageAPCcostInt / intsCount);
+
+                        //Fixed APC 1000£ UK Average
+                        var pcAvg = (((totalAverageAPCcostInt * 100) / 1000) - 100).toFixed(2);
+
+                        return {totalAverageAPCcostInt: totalAverageAPCcostInt, pcAvg: pcAvg};
+                    }
+
+                    function getHighestAvgAPC(){
+                        var highestAvgAPC = parseFloat(dataResults[0]["Average APC cost"].replace(/,/g, ""));
+                        var instHighestAvgAPC = dataResults[0]["Institution"];
+                        var temp = 0;
+
+                        for(i = 1; i < intsCount; ++i){
+                            temp = parseFloat(dataResults[i]["Average APC cost"].replace(/,/g, ""));
+                            if(temp > highestAvgAPC) {
+                                highestAvgAPC = temp;
+                                instHighestAvgAPC = dataResults[i]["Institution"];
+                            }
+                        }
+                        return {highestAvgAPC: highestAvgAPC, instHighestAvgAPC: instHighestAvgAPC};
+                    }
+
+                    function getLowestAPC(){
+                        var lowestAvgAPC = parseFloat(dataResults[0]["Average APC cost"].replace(/,/g, ""));
+                        var instLowestAvgAPC = dataResults[0]["Institution"];
+                        var temp = 0;
+
+                        for(i = 1; i < intsCount; ++i){
+                            temp = parseFloat(dataResults[i]["Average APC cost"].replace(/,/g, ""));
+                            if(temp < lowestAvgAPC) {
+                                lowestAvgAPC = temp;
+                                instLowestAvgAPC = dataResults[i]["Institution"];
+                            }
+                        }
+                        return {lowestAvgAPC: lowestAvgAPC, instLowestAvgAPC: instLowestAvgAPC};
+                    }
+
+                    var totalAPCcount = getTotalAPCcount();
+                    var avg = getAverageAPCcost();
+                    var pcAvg = avg.pcAvg;
+
+                    var story = "<p>In this time period, an institution may have up to <strong>"+format(this.countMax)+"</strong> APCs, with the average being <strong>"+format(this.countAvg)+"</strong></p>" +
+                    "<p>The least amount spent by any institution was <strong>£"+format(this.totalMin)+"</strong>, the most was <strong>£"+format(this.totalMax)+"</strong>, with the average being <strong>£"+format(this.totalAvg)+"</strong></p>" +
+                    "<p>The smallest average APC for an institution was <strong>£"+format(this.avgMin)+"</strong>, the largest average was <strong>£"+format(this.avgMax)+"</strong>, and the overall average APC cost is <strong>£"+format(this.avgAvg)+"</strong></p>" +
+                    "<p>During the period <strong>"+formatDate(currentEarliest)+" - "+formatDate(currentLatest)+"</strong> {{a}} spent <strong>£"+format(getTotalExpenditure())+"</strong> on {{b}} with {{c}}.</p>" +
+                    "<p>The average cost per APC for {{a}} is <strong>£"+format(avg.totalAverageAPCcostInt)+"</strong>, ({{d}} than the UK average cost £1000).</p>";
+
+                    story = story.replace(/{{a}}/g, intsCount > 1 ? "these <strong>"+intsCount+"</strong> institutions" : "this institution")
+                        .replace(/{{b}}/g, totalAPCcount > 1 ? "<strong> " + format(totalAPCcount) + "</strong> APCs" : "<strong>" + format(totalAPCcount) + "</strong> APC")
+                        .replace(/{{c}}/g, publisherData.values.length > 1 ? "<strong>all publishers</strong>" : "<strong>" + publisherData.values[0].display + "</strong>")
+                        .replace(/{{d}}/g, pcAvg > 0 ? "<strong>" + pcAvg + "% more</strong>" : "<strong>" + (Math.abs(pcAvg)) + "% less</strong>");
+
+                    if(intsCount > 1){
+                        var getHapc = getHighestAvgAPC();
+                        var getLapc = getLowestAPC();
+                        story += "<p>Among this group, <strong>" +getHapc.instHighestAvgAPC+ "</strong> spent the highest average APC of <strong>£" +format(getHapc.highestAvgAPC)+ "</strong>, and <strong>" +getLapc.instLowestAvgAPC+ "</strong> spent the lowest average APC of <strong>£" +format(getLapc.lowestAvgAPC)+ "</strong>.</p>";
+                    }
+
+                    if(intsCount == 1 && pubsCount > 1){
+                        story += "<p><strong>" +dataResults[0]["Institution"]+ "</strong> spends more on APCs with <strong>all publishers</strong> than 88% of institutions in our dataset.</p>";
+                    }
+
+                    if(intsCount == 1 && pubsCount == 1){
+                        story += "<p><strong>" +dataResults[0]["Institution"]+ "</strong> spends more on APCs with <strong>" +publisherData.values[0].display+"</strong> than 88% of institutions in our dataset.</p>";
+                    }
+
+                    this.context.html(story);
                 }
-
-                var story = "<p>In this time period, an institution may have up to <strong>{{a}}</strong> APCs, with the average being <strong>{{b}}</strong></p>";
-                story += "<p>The least amount spent by any institution was <strong>£{{c}}</strong>, the most was <strong>£{{d}}</strong>, with the average being <strong>£{{e}}</strong></p>";
-                story += "<p>The smallest average APC for an institution was <strong>£{{f}}</strong>, the largest average was <strong>£{{g}}</strong>, and the overall average APC cost is <strong>£{{h}}</strong></p>";
-
-                var format = muk.toIntFormat();
-                //  usually we'd use a renderer, but since this is a one-off component, we can be a little lazy for the moment
-                story = story.replace(/{{a}}/g, format(this.countMax))
-                    .replace(/{{b}}/g, format(this.countAvg))
-                    .replace(/{{c}}/g, format(this.totalMin))
-                    .replace(/{{d}}/g, format(this.totalMax))
-                    .replace(/{{e}}/g, format(this.totalAvg))
-                    .replace(/{{f}}/g, format(this.avgMin))
-                    .replace(/{{g}}/g, format(this.avgMax))
-                    .replace(/{{h}}/g, format(this.avgAvg));
-
-                this.context.html(story);
             };
         },
 

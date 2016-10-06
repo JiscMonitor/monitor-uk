@@ -1,3 +1,5 @@
+localStorage.setItem("_mukpub_flag", true);
+
 $.extend(muk, {
     /** @namespace muk.publisher */
     publisher: {
@@ -315,18 +317,156 @@ $.extend(muk, {
              * @type {Function}
              */
             this.draw = function() {
-                if (!this.avgCount || !this.avgExp || !this.avgAPC) {
+                if (!this.avgCount || !this.avgExp || !this.avgAPC || muk.activeEdges["#muk_publisher"] == undefined) {
                     this.context.html("");
                     return;
                 }
 
-                var story = "<p>In this time period, a publisher receives an average of <strong>{{x}}</strong> APCs, ";
-                story += "the average total expenditure on a publisher is <strong>£{{y}}</strong>, ";
-                story += "and the average cost UK cost for for an APC is <strong>£{{z}}</strong></p>";
+                var format = muk.toIntFormat();
+                var ae = muk.activeEdges["#muk_publisher"];
+                var dateRange = ae.getComponent({id:"date_range"});
+                var dataTable = ae.getComponent({id:"data_table"});
+                var apcComponent = ae.getComponent({id:"apc_count"})
+                var teComponent = ae.getComponent({id:"total_expenditure"})
+                var meanComponent = ae.getComponent({id:"mean"})
+                var publisherData = ae.getComponent({id:"publisher"});
+                var oaTypeData = ae.getComponent({id:"oa_type"});
+                var currentEarliest = dateRange.currentEarliest();
+                var currentLatest = dateRange.currentLatest();
+                var dataResults = dataTable.results;
+                var pubsSelected = publisherData.selected.length;
+
+                var teSerie0 = teComponent.dataSeries[0];
+                var teSerie1 = teComponent.dataSeries[1];
+
+                if(localStorage.getItem("_mukpub_flag") === "true" && teSerie0 != undefined && teSerie0.values.length == 10
+                    && teSerie1 != undefined && teSerie1.values.length == 10){
+                    var total0 = getTotal(teSerie0.values);
+                    var total1 = getTotal(teSerie1.values);
+                    localStorage.setItem("_teTotal0", total0);
+                    localStorage.setItem("_teTotal1", total1);
+                    localStorage.setItem("_mukpub_flag", false);
+                }
+
+                function formatDate(date) {
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [day, month, year].join('/');
+                }
+
+                function getTotal(values){
+                    var total = 0;
+                    for(i = 0; i < values.length; ++i){
+                        total += parseFloat(values[i].value);
+                    }
+                    return total;
+                }
+
+                function getPubExpenditurePC(values){
+                    var t1 = parseFloat(localStorage.getItem("_teTotal1"));
+                    var t2 = getTotal(values);
+
+                    return Math.round((t2/t1)*100);
+                }
+
+                function getUKExpenditurePC(values){
+                    var t1 = parseFloat(localStorage.getItem("_teTotal0"));
+                    var t2 = getTotal(values);
+
+                    return Math.round((t2/t1)*100);
+                }
+
+                function getHighestAvgAPC(){
+                    var highestAvgAPC = teSerie1.values[0].value;
+                    var pubHighestAvgAPC = teSerie1.values[0].label;
+                    var temp = 0;
+
+                    for(i = 1; i < teSerie1.values.length; ++i){
+                        temp = teSerie1.values[i].value;
+                        if(temp > highestAvgAPC) {
+                            highestAvgAPC = temp;
+                            pubHighestAvgAPC = teSerie1.values[i].label;
+                        }
+                    }
+                    return {highestAvgAPC: highestAvgAPC, pubHighestAvgAPC: pubHighestAvgAPC};
+                }
+
+                function getLowestAvgAPC(){
+                    var lowestAvgAPC = teSerie1.values[0].value;
+                    var pubLowestAvgAPC = teSerie1.values[0].label;
+                    var temp = 0;
+
+                    for(i = 1; i < teSerie1.values.length; ++i){
+                        temp = teSerie1.values[i].value;
+                        if(temp < lowestAvgAPC) {
+                            lowestAvgAPC = temp;
+                            pubLowestAvgAPC = teSerie1.values[i].label;
+                        }
+                    }
+                    return {lowestAvgAPC: lowestAvgAPC, pubLowestAvgAPC: pubLowestAvgAPC};
+                }
+
+                function getOAtypePC(){
+                    var total = 0;
+                    var hybridCount = 0;
+                    var oaCount = 0;
+
+                    for(i=0; i < oaTypeData.values.length; ++i){
+                       c = oaTypeData.values[i].count
+                       total += c;
+                       if(oaTypeData.values[i].term == "hybrid"){
+                           hybridCount = c;
+                       }
+                       if(oaTypeData.values[i].term == "oa"){
+                           oaCount = c;
+                       }
+                    }
+
+                    return {oaPC: Math.round((oaCount/total)*100), hybridPC: Math.round((hybridCount/total)*100)};
+                }
+
+                var story = "<p>In this time period, a publisher receives an average of <strong>{{x}}</strong> APCs, " +
+                "the average total expenditure on a publisher is <strong>£{{y}}</strong>, " +
+                "and the average cost UK cost for for an APC is <strong>£{{z}}</strong></p>";
 
                 story = story.replace(/{{x}}/g, Number(this.avgCount.toFixed(0)).toLocaleString())
                     .replace(/{{y}}/g, Number(this.avgExp.toFixed(0)).toLocaleString())
                     .replace(/{{z}}/g, Number(this.avgAPC.toFixed(0)).toLocaleString());
+
+                if(apcComponent.dataSeries.length > 1){
+                    var totalUkAPCcount = getTotal(apcComponent.dataSeries[0].values);
+                    var totalInstAPCcount = getTotal(apcComponent.dataSeries[1].values);
+
+                    story += "<p>During the period <strong>"+formatDate(currentEarliest)+" - "+formatDate(currentLatest)+"</strong>, <strong>"+apcComponent.dataSeries[1].key +
+                    "</strong> spent <strong>£"+format(getTotal(teSerie1.values))+"</strong> on {{a}} with {{b}}, compared to UK mean's spend of <strong>£"+format(getTotal(teSerie0.values))+
+                    "</strong> on {{c}}.</p>";
+                    story = story.replace(/{{a}}/g, totalInstAPCcount > 1 ? "<strong> " + format(totalInstAPCcount) + "</strong> APCs" : "<strong>" + totalInstAPCcount + "</strong> APC")
+                    .replace(/{{b}}/g, pubsSelected == 0 ? "<strong>all publishers</strong>" : (pubsSelected > 1 ? "these <strong>"+pubsSelected+"</strong> publishers" : "<strong>" + publisherData.selected[0] + "</strong> publisher"))
+                    .replace(/{{c}}/g, totalUkAPCcount > 1 ? "<strong> " + format(totalUkAPCcount) + "</strong> APCs" : "<strong>" + totalUkAPCcount + "</strong> APC");
+
+                    if(pubsSelected > 0){
+                        story += "<p>{{a}} make up <strong>"+getPubExpenditurePC(teSerie1.values)+"%</strong> of <strong>"+apcComponent.dataSeries[1].key+"'s</strong> total spend, compared to <strong>"+getUKExpenditurePC(teSerie0.values)+"%</strong> of UK mean's total spend.</p>"
+                        story = story.replace(/{{a}}/g, pubsSelected > 1 ? "These <strong>"+pubsSelected+"</strong> publishers together" : "<strong>" + publisherData.selected[0] + "</strong> publisher");
+                    }
+
+
+                    if(teSerie1.values[0] != undefined){
+                        var getHapc = getHighestAvgAPC();
+                        var getLapc = getLowestAvgAPC();
+                        story += "<p>Among these publishers, <strong>"+getHapc.pubHighestAvgAPC+"</strong> charges <strong>"+teSerie1.key+"</strong> the highest average APC of <strong>£"+format(getHapc.highestAvgAPC)+"</strong>, while <strong>"+getLapc.pubLowestAvgAPC+"</strong> charges the lowest average APC of <strong>£"+format(getLapc.lowestAvgAPC)+"</strong>.</p>";
+                    }
+
+                    var oatypePC = getOAtypePC();
+                    if(teSerie1 != undefined && oatypePC.oaPC != 0 && oatypePC.hybridPC != 0){
+                        story +="<p>Overall, <strong>"+oatypePC.hybridPC+"%</strong> of <strong>"+teSerie1.key+"'s</strong> spend with "+ (pubsSelected == 0 ? "<strong>all publishers</strong>" : (pubsSelected > 1 ? "these <strong>"+pubsSelected+"</strong> publishers" : "<strong>" + publisherData.selected[0] + "</strong> publisher")) +" went to Pure OA, and <strong>"+oatypePC.oaPC+"%</strong> went to Hybrid.</p>"
+                    }
+                }
 
                 this.context.html(story);
             };
@@ -661,9 +801,9 @@ $.extend(muk, {
          */
         tableData : function(charts) {
             var seriesNames = {
-                "apc_count" : "APC Count",
-                "total_expenditure" : "Total expenditure",
-                "mean" : "Average APC cost"
+                "apc_count" : "APC Count (UK Average)",
+                "total_expenditure" : "Total expenditure (UK Average)",
+                "mean" : "Average APC cost (UK Average)"
             };
 
             var formatter = muk.toIntFormat();
@@ -677,20 +817,19 @@ $.extend(muk, {
                 var dataSeries = chart.dataSeries;
                 for (var j = 0; j < dataSeries.length; j++) {
                     var ds = dataSeries[j];
-                    var inst = ds.key;
                     for (var k = 0; k < ds.values.length; k++) {
                         var val = ds.values[k];
-                        var pub = val.label;
+                        var inst = val.label;
                         var num = val.value;
 
-                        var rowId = pub + " - " + seriesNames[chart.id];
                         var row = {};
-                        if (rowId in rows) {
-                            row = rows[rowId];
+                        if (inst in rows) {
+                            row = rows[inst];
                         }
 
-                        row[inst] = formatter(num);
-                        rows[rowId] = row;
+                        var col = seriesNames[chart.id];
+                        row[col] = formatter(num);
+                        rows[inst] = row;
                     }
                 }
             }
@@ -701,7 +840,7 @@ $.extend(muk, {
             var table = [];
             for (var i = 0; i < rowNames.length; i++) {
                 var obj = rows[rowNames[i]];
-                obj["Metric"] = rowNames[i];
+                obj["Publisher"] = rowNames[i];
                 table.push(obj);
             }
 
@@ -931,8 +1070,7 @@ $.extend(muk, {
                         tabularise: muk.publisher.tableData,
                         renderer : edges.bs3.newTabularResultsRenderer({
                             fieldDisplay : [
-                                {field: "Metric", display: "Publisher"},
-                                {field: "UK Average", display: "UK Average"}
+                                {field: "Publisher", display: "Publisher"}
                             ],
                             displayListedOnly: false,
                             download: true,
