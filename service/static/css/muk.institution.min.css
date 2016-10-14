@@ -217,8 +217,8 @@
     border-bottom: 3px solid white;
 }
 .muk-institution-report-template-tab-container {
-    height: 750px;
-    width: 800px;
+    width: 100%;
+    height: auto;
 }
 .muk-institution-report-template-tab-container .muk-institution-report-template-tab {
     height: 700px;
