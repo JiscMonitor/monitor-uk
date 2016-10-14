@@ -286,6 +286,18 @@ MONITOR_ACCOUNT_REQUEST_EMAIL = "monitor+account@jisc.ac.uk"
 
 PRIMARY_NAVIGATION = [
     {
+        "label": "About",
+        "url": {
+            "url": "https://monitor.jisc.ac.uk/uk/about",
+        },
+        "visibility": {
+            "auth": True,
+            "anonymous": False
+        },
+        "main_nav": True,
+        "breadcrumb": False
+    },
+    {
         "label" : "Search",
         "url" : {
             "url_for" : "search",
@@ -343,6 +355,18 @@ PRIMARY_NAVIGATION = [
                 "breadcrumb": False
             }
         ]
+    },
+    {
+        "label": "Help and resources",
+        "url": {
+            "url": "https://monitor.jisc.ac.uk/uk/help",
+        },
+        "visibility": {
+            "auth": True,
+            "anonymous": False
+        },
+        "main_nav": True,
+        "breadcrumb": False
     }
 ]
 """ Definition for primary navigation, rendered on the left-hand side of the navigation bar """
