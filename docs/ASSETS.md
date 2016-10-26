@@ -1,12 +1,11 @@
 # JavaScript and CSS Asset Management
 
-JavaScript and CSS assets are available in their raw source form, and can then be compiled
- to a minified version for delivery in a production service.
+JavaScript and CSS assets are available in their raw source form, and can then be compiled to a minified version for delivery in a production service.
  
 The following directories are relevant:
 
-* service/static/css - both source and minified css files live in here.  Minified files have ".min." in their names
-* service/js - js which has been compiled, or will not be compiled, lives in here.  Files with ".dev." in them are requirejs loaders for the raw source.  Minified files have ".min." in their names
+* service/static/css - both source and minified css files live in here.  Minified files have ".min." in their names.
+* service/js - js which has been compiled, or will not be compiled, lives in here.  Files with ".dev." in them are requirejs loaders for the raw source.  Minified files have ".min." in their names.
 * service/js-src - js which will be compiled lives in here.  It can be served as-is for the purposes of development.
 
 ## Dependencies
@@ -89,7 +88,7 @@ you have a dependency such as jquery which is loaded everywhere by default anywa
 
 ## Development vs Deployment
 
-For the purposes of development, it is convenient for code inspection and debugging purposes to use the uncompiled versions of the assets.
+For the purposes of development, it is convenient for code inspection and debugging to use the uncompiled versions of the assets.
 
 In each of the template files for pages which contain javascript applications, there are two sections, one commented out (at the jinja template
 level), and one uncommented.

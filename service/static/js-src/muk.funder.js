@@ -485,7 +485,7 @@ $.extend(muk, {
             // Clean up some things in a data series that a stacked chart doesn't handle very well.
 
             // discard empty series and find a list of inner labels to sort
-            var labels = new Set();
+            var labels = [];
             var i = data_series.length;
             while (i--) {
                 var s = data_series[i];
@@ -493,12 +493,15 @@ $.extend(muk, {
                     data_series.splice(i, 1)
                 } else {
                     for (var j = 0; j < s.values.length; j++) {
-                        labels.add(s.values[j].label)
+                        var label = s.values[j].label;
+                        if ($.inArray(label, labels) == -1) {
+                            labels.push(label)
+                        }
                     }
                 }
             }
 
-            var sorted_labels = splice_for_brevity ? Array.from(labels).splice(0,10).sort() : Array.from(labels).sort();
+            var sorted_labels = splice_for_brevity ? labels.splice(0,10).sort() : labels.sort();
 
             // Construct a new series
             var clean_series = [];
