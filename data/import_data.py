@@ -36,4 +36,4 @@ do_import("Warwick-APC-2015.csv", "University of Warwick", "warwick@example.com"
 
 time.sleep(10)
 
-tasks.process_requests()
+tasks.process_updates()

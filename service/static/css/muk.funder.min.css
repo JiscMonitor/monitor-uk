@@ -180,8 +180,8 @@
     border-bottom: 3px solid white;
 }
 .muk-funder-report-template-tab-container {
-    height: 750px;
-    width: 800px;
+    width: 100%;
+    height: auto;
 }
 .muk-funder-report-template-tab-container .muk-funder-report-template-tab {
     height: 700px;

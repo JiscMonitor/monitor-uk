@@ -843,6 +843,7 @@ $.extend(muk, {
                         category: "compare",
                         renderer : edges.bs3.newNSeparateORTermSelectorRenderer({
                             n: 3,
+                            colMdWidth: 4,
                             properties : [
                                 {label: "Compare", unselected: "<choose an institution>"},
                                 {label : "with", unselected : "<add another>"},
