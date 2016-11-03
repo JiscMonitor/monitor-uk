@@ -73,8 +73,8 @@
 }
 
 .muk-funder-report-template-tab-container {
-    height: 750px;
-    width: 800px;
+    width: 100%;
+    height: auto;
 }
 
 .muk-funder-report-template-tab-container .muk-funder-report-template-tab {

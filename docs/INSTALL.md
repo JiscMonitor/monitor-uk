@@ -1,8 +1,8 @@
 # For Developers
 
-Information about the JS and CSS assets, is in ```ASSETS.md``` - you need to choose between development and minified production assets.
+Information about the JS and CSS assets, is in [ASSETS.md](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/ASSETS.md) - you need to choose between development and minified production assets.
 
-For production deployment guidance, see ```DEPLOY.md```.
+For production deployment guidance, see [DEPLOY.md](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/DEPOLOY.md).
 
 ## Dependencies
 
@@ -26,7 +26,7 @@ For production deployment guidance, see ```DEPLOY.md```.
 
 * ElasticSearch 1.x - the development has so far been done on ES 1.7.5, though any version on the 1.x branch should do.  Do not use 0.x.  2.x has not been tested, but may work.
 
-* Some non-essential functions depend on Node modules - see ```DEPENDS.md```.
+* Some non-essential functions depend on Node modules - see [DEPENDS.md](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/DEPENDS.md).
 
 ## Installation
 
@@ -87,3 +87,7 @@ Then log in as this user in the running web app from:
 Then visit "Your Account" and populate the remaining required information:
 
     /account/<your email>
+
+## Testing
+
+For information on running the system tests, see [Test Information](https://github.com/JiscMonitor/monitor-uk/blob/develop/service/tests/README.md)
