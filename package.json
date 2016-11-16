@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "APC aggregation and reporting interface.",
   "main": "Gruntfile.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "directories": {},
   "dependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-cssmin": "^1.0.2",
@@ -20,7 +18,7 @@
     "url": "git+https://github.com/JiscMonitor/monitor-uk.git"
   },
   "author": "JISC",
-  "license": "JISC",
+  "license": "",
   "bugs": {
     "url": "https://github.com/JiscMonitor/monitor-uk/issues"
   },
