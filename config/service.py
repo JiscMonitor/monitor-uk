@@ -292,7 +292,7 @@ PRIMARY_NAVIGATION = [
         },
         "visibility": {
             "auth": True,
-            "anonymous": False
+            "anonymous": True
         },
         "main_nav": True,
         "breadcrumb": False
@@ -363,7 +363,7 @@ PRIMARY_NAVIGATION = [
         },
         "visibility": {
             "auth": True,
-            "anonymous": False
+            "anonymous": True
         },
         "main_nav": True,
         "breadcrumb": False
