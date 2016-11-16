@@ -366,6 +366,7 @@ var es = {
                     }
                 }
             }
+
             function parseQuery(q, target) {
                 var keys = Object.keys(q);
                 for (var i = 0; i < keys.length; i++) {
@@ -503,13 +504,13 @@ var es = {
             return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")
         };
         this._replaceAll = function(string, find, replace) {
-            return string.replace(new RegExp(this._escapeRegExp(find),"g"), replace)
+            return string.replace(new RegExp(this._escapeRegExp(find), "g"), replace)
         };
         this._unReplaceAll = function(string, find) {
-            return string.replace(new RegExp("\\\\(" + this._escapeRegExp(find) + ")","g"), "$1")
+            return string.replace(new RegExp("\\\\(" + this._escapeRegExp(find) + ")", "g"), "$1")
         };
         this._paired = function(string, pair) {
-            var matches = string.match(new RegExp(this._escapeRegExp(pair),"g")) || [];
+            var matches = string.match(new RegExp(this._escapeRegExp(pair), "g")) || [];
             return matches.length % 2 === 0
         };
         this._escape = function(str) {
@@ -1066,6 +1067,7 @@ var es = {
             function endsWith(str, suffix) {
                 return str.indexOf(suffix, str.length - suffix.length) !== -1
             }
+
             function splitUnits(str) {
                 var unit = false;
                 for (var i = 0; i < es.distanceUnits.length; i++) {
@@ -1121,9 +1123,9 @@ var es = {
             if (this.data.hits && this.data.hits.hits) {
                 for (var i = 0; i < this.data.hits.hits.length; i++) {
                     var source = this.data.hits.hits[i];
-                    if ("_source"in source) {
+                    if ("_source" in source) {
                         res.push(source._source)
-                    } else if ("fields"in source) {
+                    } else if ("fields" in source) {
                         res.push(source.fields)
                     }
                 }
@@ -1169,7 +1171,7 @@ var es = {
 };
 (function($) {
     $.fn.bindWithDelay = function(type, data, fn, timeout, throttle) {
-        var wait = null ;
+        var wait = null;
         var that = this;
         if ($.isFunction(data)) {
             throttle = timeout;
@@ -1177,10 +1179,11 @@ var es = {
             fn = data;
             data = undefined
         }
+
         function cb() {
             var e = $.extend(true, {}, arguments[0]);
             var throttler = function() {
-                wait = null ;
+                wait = null;
                 fn.apply(that, [e])
             };
             if (!throttle) {
@@ -1612,7 +1615,7 @@ var edges = {
             return url
         };
         this.updateUrl = function() {
-            if ("pushState"in window.history) {
+            if ("pushState" in window.history) {
                 var qs = "?" + this.fullUrlQueryString();
                 window.history.pushState("", "", qs)
             }
@@ -1906,7 +1909,7 @@ var edges = {
         if (def === undefined) {
             def = ""
         }
-        if (unsafe === undefined || unsafe == null ) {
+        if (unsafe === undefined || unsafe == null) {
             return def
         }
         try {
@@ -2102,10 +2105,10 @@ $.extend(edges, {
                     var agg = this.edge.secondaryResults["multidaterange_" + this.id].aggregation(field);
                     var min = this.defaultEarliest;
                     var max = this.defaultLatest;
-                    if (agg.min !== null ) {
+                    if (agg.min !== null) {
                         min = new Date(agg.min)
                     }
-                    if (agg.max !== null ) {
+                    if (agg.max !== null) {
                         max = new Date(agg.max)
                     }
                     this.dateOptions[field] = {
@@ -4648,8 +4651,8 @@ $.extend(true, edges, {
                 if (ts.filters.length > 0 && this.showSelected) {
                     for (var i = 0; i < ts.filters.length; i++) {
                         var filt = ts.filters[i];
-                            filterFrag += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
-                            filterFrag += "</label></div></div>"
+                        filterFrag += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
+                        filterFrag += "</label></div></div>"
                     }
                 }
                 var tog = ts.display;
@@ -5128,9 +5131,9 @@ $.extend(edges, {
                     var filter = this.filters[i];
                     if (filter.type === "exact") {
                         if (!this._exactFilterMatch({
-                            filter: filter,
-                            record: record
-                        })) {
+                                filter: filter,
+                                record: record
+                            })) {
                             return false
                         }
                     } else {
@@ -5242,7 +5245,7 @@ $.extend(true, edges, {
                     return
                 }
                 var downloadInfo = this._downloadData();
-                var blob = new Blob([downloadInfo.data],{
+                var blob = new Blob([downloadInfo.data], {
                     type: downloadInfo.fileType
                 });
                 var url = window.URL.createObjectURL(blob);
@@ -5330,7 +5333,7 @@ $.extend(true, edges, {
                     for (var i = 0; i < results.length; i++) {
                         var ks = Object.keys(results[i]);
                         for (var j = 0; j < ks.length; j++) {
-                            if (!(ks[j]in keySet)) {
+                            if (!(ks[j] in keySet)) {
                                 keySet[ks[j]] = true
                             }
                         }
@@ -5423,7 +5426,7 @@ $.extend(true, edges, {
             this.updateDateRange = function(params) {
                 var start = params.start;
                 var end = params.end;
-                var date_type = null ;
+                var date_type = null;
                 if (this.useSelect2) {
                     date_type = this.selectJq.select2("val")
                 } else {
@@ -5439,7 +5442,7 @@ $.extend(true, edges, {
                 }
             };
             this.typeChanged = function(element) {
-                var date_type = null ;
+                var date_type = null;
                 if (this.useSelect2) {
                     date_type = this.selectJq.select2("val")
                 } else {
