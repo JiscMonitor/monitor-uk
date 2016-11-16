@@ -1,0 +1,26 @@
+{
+  "name": "monitor-uk",
+  "version": "1.0.0",
+  "description": "APC aggregation and reporting interface.",
+  "main": "Gruntfile.js",
+  "directories": {},
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiscMonitor/monitor-uk.git"
+  },
+  "author": "JISC",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/JiscMonitor/monitor-uk/issues"
+  },
+  "homepage": "https://github.com/JiscMonitor/monitor-uk#readme"
+}

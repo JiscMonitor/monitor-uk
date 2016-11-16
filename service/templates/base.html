@@ -44,12 +44,12 @@
     <![endif]-->
 
     <!-- this is where we can incorporate any css files -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-jisc.7d6dc504.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-jisc.min.css')}}">
 
     {% block extra_css_top %}{% endblock extra_css_top %}
 
     <!-- get the application's css -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/service.css')}}?v={{ config.get("VERSION", "x") }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/service.min.css')}}">
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
