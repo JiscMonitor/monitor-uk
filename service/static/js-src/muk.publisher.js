@@ -57,18 +57,21 @@ var es = {
                 return this.size
             }
             return 10
-        };
+        }
+        ;
         this.getFrom = function() {
             if (this.from) {
                 return this.from
             }
             return 0
-        };
+        }
+        ;
         this.addField = function(field) {
             if ($.inArray(field, this.fields) === -1) {
                 this.fields.push(field)
             }
-        };
+        }
+        ;
         this.setQueryString = function(params) {
             var qs = params;
             if (!(params instanceof es.QueryString)) {
@@ -81,13 +84,16 @@ var es = {
                 }
             }
             this.queryString = qs
-        };
+        }
+        ;
         this.getQueryString = function() {
             return this.queryString
-        };
+        }
+        ;
         this.removeQueryString = function() {
             this.queryString = false
-        };
+        }
+        ;
         this.setSortBy = function(params) {
             this.sort = [];
             var sorts = params;
@@ -97,7 +103,8 @@ var es = {
             for (var i = 0; i < sorts.length; i++) {
                 this.addSortBy(sorts[i])
             }
-        };
+        }
+        ;
         this.addSortBy = function(params) {
             var sort = params;
             if (!(params instanceof es.Sort)) {
@@ -110,7 +117,8 @@ var es = {
                 }
             }
             this.sort.push(sort)
-        };
+        }
+        ;
         this.prependSortBy = function(params) {
             var sort = params;
             if (!(params instanceof es.Sort)) {
@@ -118,7 +126,8 @@ var es = {
             }
             this.removeSortBy(sort);
             this.sort.unshift(sort)
-        };
+        }
+        ;
         this.removeSortBy = function(params) {
             var sort = params;
             if (!(params instanceof es.Sort)) {
@@ -135,14 +144,20 @@ var es = {
             for (var i = 0; i < removes.length; i++) {
                 this.sort.splice(removes[i], 1)
             }
-        };
+        }
+        ;
         this.getSortBy = function() {
             return this.sort
-        };
-        this.setSource = function(include, exclude) {};
-        this.addFacet = function() {};
-        this.removeFacet = function() {};
-        this.clearFacets = function() {};
+        }
+        ;
+        this.setSource = function(include, exclude) {}
+        ;
+        this.addFacet = function() {}
+        ;
+        this.removeFacet = function() {}
+        ;
+        this.clearFacets = function() {}
+        ;
         this.getAggregation = function(params) {
             var name = params.name;
             for (var i = 0; i < this.aggs.length; i++) {
@@ -151,7 +166,8 @@ var es = {
                     return a
                 }
             }
-        };
+        }
+        ;
         this.addAggregation = function(agg, overwrite) {
             if (overwrite) {
                 this.removeAggregation(agg.name)
@@ -163,7 +179,8 @@ var es = {
                 }
             }
             this.aggs.push(agg)
-        };
+        }
+        ;
         this.removeAggregation = function(name) {
             var removes = [];
             for (var i = 0; i < this.aggs.length; i++) {
@@ -175,25 +192,30 @@ var es = {
             for (var i = 0; i < removes.length; i++) {
                 this.aggs.splice(removes[i], 1)
             }
-        };
+        }
+        ;
         this.clearAggregations = function() {
             this.aggs = []
-        };
+        }
+        ;
         this.listAggregations = function() {
             return this.aggs
-        };
+        }
+        ;
         this.addMust = function(filter) {
             var existing = this.listMust(filter);
             if (existing.length === 0) {
                 this.must.push(filter)
             }
-        };
+        }
+        ;
         this.listMust = function(template) {
             return this.listFilters({
                 boolType: "must",
                 template: template
             })
-        };
+        }
+        ;
         this.removeMust = function(template) {
             var removes = [];
             for (var i = 0; i < this.must.length; i++) {
@@ -207,19 +229,30 @@ var es = {
                 this.must.splice(removes[i], 1)
             }
             return removes.length
-        };
-        this.clearMust = function() {};
-        this.addShould = function() {};
-        this.listShould = function() {};
-        this.removeShould = function() {};
-        this.clearShould = function() {};
-        this.addMustNot = function() {};
-        this.listMustNot = function() {};
-        this.removeMustNot = function() {};
-        this.removeMustNot = function() {};
+        }
+        ;
+        this.clearMust = function() {}
+        ;
+        this.addShould = function() {}
+        ;
+        this.listShould = function() {}
+        ;
+        this.removeShould = function() {}
+        ;
+        this.clearShould = function() {}
+        ;
+        this.addMustNot = function() {}
+        ;
+        this.listMustNot = function() {}
+        ;
+        this.removeMustNot = function() {}
+        ;
+        this.removeMustNot = function() {}
+        ;
         this.hasFilters = function() {
             return this.must.length > 0 || this.should.length > 0 || this.mustNot.length > 0
-        };
+        }
+        ;
         this.listFilters = function(params) {
             var boolType = params.boolType || "must";
             var template = params.template || false;
@@ -242,7 +275,8 @@ var es = {
                 }
             }
             return l
-        };
+        }
+        ;
         this.merge = function(source) {
             this.filtered = source.filtered;
             if (source.size) {
@@ -274,7 +308,8 @@ var es = {
                     this.prependSortBy(sorts[i])
                 }
             }
-        };
+        }
+        ;
         this.objectify = function(params) {
             if (!params) {
                 params = {}
@@ -348,10 +383,12 @@ var es = {
                 }
             }
             return q
-        };
+        }
+        ;
         es.Query.prototype.toString = function queryToString() {
             return JSON.stringify(this.objectify())
-        };
+        }
+        ;
         this.parse = function(obj) {
             function parseBool(bool, target) {
                 if (bool.must) {
@@ -366,7 +403,6 @@ var es = {
                     }
                 }
             }
-
             function parseQuery(q, target) {
                 var keys = Object.keys(q);
                 for (var i = 0; i < keys.length; i++) {
@@ -429,7 +465,8 @@ var es = {
                     }
                 }
             }
-        };
+        }
+        ;
         if (params.queryString) {
             this.setQueryString(params.queryString)
         }
@@ -468,7 +505,8 @@ var es = {
                 obj.query_string["default_field"] = this.defaultField
             }
             return obj
-        };
+        }
+        ;
         this.parse = function(obj) {
             if (obj.query_string) {
                 obj = obj.query_string
@@ -480,7 +518,8 @@ var es = {
             if (obj.default_field) {
                 this.defaultField = obj.default_field
             }
-        };
+        }
+        ;
         this._fuzzify = function(str) {
             if (!this.fuzzify || !(this.fuzzify === "*" || this.fuzzify === "~")) {
                 return str
@@ -499,20 +538,25 @@ var es = {
                 }
             }
             return pq
-        };
+        }
+        ;
         this._escapeRegExp = function(string) {
             return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")
-        };
+        }
+        ;
         this._replaceAll = function(string, find, replace) {
-            return string.replace(new RegExp(this._escapeRegExp(find), "g"), replace)
-        };
+            return string.replace(new RegExp(this._escapeRegExp(find),"g"), replace)
+        }
+        ;
         this._unReplaceAll = function(string, find) {
-            return string.replace(new RegExp("\\\\(" + this._escapeRegExp(find) + ")", "g"), "$1")
-        };
+            return string.replace(new RegExp("\\\\(" + this._escapeRegExp(find) + ")","g"), "$1")
+        }
+        ;
         this._paired = function(string, pair) {
-            var matches = string.match(new RegExp(this._escapeRegExp(pair), "g")) || [];
+            var matches = string.match(new RegExp(this._escapeRegExp(pair),"g")) || [];
             return matches.length % 2 === 0
-        };
+        }
+        ;
         this._escape = function(str) {
             var scs = this.escapeSet.slice(0);
             for (var i = 0; i < this.pairs.length; i++) {
@@ -526,14 +570,16 @@ var es = {
                 str = this._replaceAll(str, char, "\\" + char)
             }
             return str
-        };
+        }
+        ;
         this._unescape = function(str) {
             for (var i = 0; i < this.unEscapeSet.length; i++) {
                 var char = this.unEscapeSet[i];
                 str = this._unReplaceAll(str, char)
             }
             return str
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -553,13 +599,15 @@ var es = {
                 order: this.order
             };
             return obj
-        };
+        }
+        ;
         this.parse = function(obj) {
             this.field = Object.keys(obj)[0];
             if (obj[this.field].order) {
                 this.order = obj[this.field].order
             }
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -580,9 +628,12 @@ var es = {
                 }
             }
             this.aggs.push(agg)
-        };
-        this.removeAggregation = function() {};
-        this.clearAggregations = function() {};
+        }
+        ;
+        this.removeAggregation = function() {}
+        ;
+        this.clearAggregations = function() {}
+        ;
         this._make_aggregation = function(type, body) {
             var obj = {};
             obj[this.name] = {};
@@ -594,7 +645,8 @@ var es = {
                 }
             }
             return obj
-        };
+        }
+        ;
         this._parse_wrapper = function(obj, type) {
             this.name = Object.keys(obj)[0];
             var body = obj[this.name][type];
@@ -642,7 +694,8 @@ var es = {
                 this.orderBy = "_" + this.orderBy
             }
             this.orderDir = orderDir
-        };
+        }
+        ;
         this.objectify = function() {
             var body = {
                 field: this.field,
@@ -651,7 +704,8 @@ var es = {
             };
             body.order[this.orderBy] = this.orderDir;
             return this._make_aggregation("terms", body)
-        };
+        }
+        ;
         this.parse = function(obj) {
             var body = this._parse_wrapper(obj, "terms");
             this.field = body.field;
@@ -662,7 +716,8 @@ var es = {
                 this.orderBy = Object.keys(body.order)[0];
                 this.orderDir = body.order[this.orderBy]
             }
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -681,11 +736,13 @@ var es = {
                 field: this.field
             };
             return this._make_aggregation("cardinality", body)
-        };
+        }
+        ;
         this.parse = function(obj) {
             var body = this._parse_wrapper(obj, "cardinality");
             this.field = body.field
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -706,12 +763,14 @@ var es = {
                 ranges: this.ranges
             };
             return this._make_aggregation("range", body)
-        };
+        }
+        ;
         this.parse = function(obj) {
             var body = this._parse_wrapper(obj, "range");
             this.field = body.field;
             this.ranges = body.ranges
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -742,7 +801,8 @@ var es = {
                 ranges: this.ranges
             };
             return this._make_aggregation("geo_distance", body)
-        };
+        }
+        ;
         this.parse = function(obj) {
             var body = this._parse_wrapper(obj, "range");
             this.field = body.field;
@@ -760,7 +820,8 @@ var es = {
                 this.distance_type = body.distance_type
             }
             this.ranges = body.ranges
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -779,8 +840,10 @@ var es = {
                 field: this.field
             };
             return this._make_aggregation("stats", body)
-        };
-        this.parse = function(obj) {};
+        }
+        ;
+        this.parse = function(obj) {}
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -805,7 +868,8 @@ var es = {
                 body["format"] = this.format
             }
             return this._make_aggregation("date_histogram", body)
-        };
+        }
+        ;
         this.parse = function(obj) {
             var body = this._parse_wrapper(obj, "date_histogram");
             this.field = body.field;
@@ -815,7 +879,8 @@ var es = {
             if (body.format) {
                 this.format = body.format
             }
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -837,8 +902,10 @@ var es = {
                 return false
             }
             return true
-        };
-        this.objectify = function() {};
+        }
+        ;
+        this.objectify = function() {}
+        ;
         this.parse = function() {}
     },
     newTermFilter: function(params) {
@@ -860,21 +927,24 @@ var es = {
                 return false
             }
             return true
-        };
+        }
+        ;
         this.objectify = function() {
             var obj = {
                 term: {}
             };
             obj.term[this.field] = this.value;
             return obj
-        };
+        }
+        ;
         this.parse = function(obj) {
             if (obj.term) {
                 obj = obj.term
             }
             this.field = Object.keys(obj)[0];
             this.value = obj[this.field]
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -906,7 +976,8 @@ var es = {
                 }
             }
             return true
-        };
+        }
+        ;
         this.objectify = function() {
             var val = this.values || [];
             var obj = {
@@ -917,7 +988,8 @@ var es = {
                 obj.terms["execution"] = this.execution
             }
             return obj
-        };
+        }
+        ;
         this.parse = function(obj) {
             if (obj.terms) {
                 obj = obj.terms
@@ -927,7 +999,8 @@ var es = {
             if (obj.execution) {
                 this.execution = obj.execution
             }
-        };
+        }
+        ;
         this.add_term = function(term) {
             if (!this.values) {
                 this.values = []
@@ -935,13 +1008,15 @@ var es = {
             if ($.inArray(term, this.values) === -1) {
                 this.values.push(term)
             }
-        };
+        }
+        ;
         this.has_term = function(term) {
             if (!this.values) {
                 return false
             }
             return $.inArray(term, this.values) >= 0
-        };
+        }
+        ;
         this.remove_term = function(term) {
             if (!this.values) {
                 return
@@ -950,16 +1025,20 @@ var es = {
             if (idx >= 0) {
                 this.values.splice(idx, 1)
             }
-        };
+        }
+        ;
         this.has_terms = function() {
             return this.values !== false && this.values.length > 0
-        };
+        }
+        ;
         this.term_count = function() {
             return this.values === false ? 0 : this.values.length
-        };
+        }
+        ;
         this.clear_terms = function() {
             this.values = false
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -997,7 +1076,8 @@ var es = {
                 }
             }
             return true
-        };
+        }
+        ;
         this.objectify = function() {
             var obj = {
                 range: {}
@@ -1013,7 +1093,8 @@ var es = {
                 obj.range[this.field]["gte"] = this.gte
             }
             return obj
-        };
+        }
+        ;
         this.parse = function(obj) {
             if (obj.range) {
                 obj = obj.range
@@ -1028,7 +1109,8 @@ var es = {
             if (obj[this.field].gte !== undefined && obj[this.field].gte !== false) {
                 this.gte = obj[this.field].gte
             }
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -1062,12 +1144,12 @@ var es = {
                 obj.geo_distance_range["gte"] = this.gte + this.unit
             }
             return obj
-        };
+        }
+        ;
         this.parse = function(obj) {
             function endsWith(str, suffix) {
                 return str.indexOf(suffix, str.length - suffix.length) !== -1
             }
-
             function splitUnits(str) {
                 var unit = false;
                 for (var i = 0; i < es.distanceUnits.length; i++) {
@@ -1099,7 +1181,8 @@ var es = {
                 this.gte = parts[0];
                 this.unit = parts[1]
             }
-        };
+        }
+        ;
         if (params.raw) {
             this.parse(params.raw)
         }
@@ -1114,24 +1197,27 @@ var es = {
         this.data = params.raw;
         this.buckets = function(agg_name) {
             return this.data.aggregations[agg_name].buckets
-        };
+        }
+        ;
         this.aggregation = function(agg_name) {
             return this.data.aggregations[agg_name]
-        };
+        }
+        ;
         this.results = function() {
             var res = [];
             if (this.data.hits && this.data.hits.hits) {
                 for (var i = 0; i < this.data.hits.hits.length; i++) {
                     var source = this.data.hits.hits[i];
-                    if ("_source" in source) {
+                    if ("_source"in source) {
                         res.push(source._source)
-                    } else if ("fields" in source) {
+                    } else if ("fields"in source) {
                         res.push(source.fields)
                     }
                 }
             }
             return res
-        };
+        }
+        ;
         this.total = function() {
             if (this.data.hits && this.data.hits.total) {
                 return parseInt(this.data.hits.total)
@@ -1171,7 +1257,7 @@ var es = {
 };
 (function($) {
     $.fn.bindWithDelay = function(type, data, fn, timeout, throttle) {
-        var wait = null;
+        var wait = null ;
         var that = this;
         if ($.isFunction(data)) {
             throttle = timeout;
@@ -1179,11 +1265,10 @@ var es = {
             fn = data;
             data = undefined
         }
-
         function cb() {
             var e = $.extend(true, {}, arguments[0]);
             var throttler = function() {
-                wait = null;
+                wait = null ;
                 fn.apply(that, [e])
             };
             if (!throttle) {
@@ -1301,11 +1386,13 @@ var edges = {
             this.draw();
             var onward = edges.objClosure(this, "startupPart2");
             this.loadStaticsAsync(onward)
-        };
+        }
+        ;
         this.startupPart2 = function() {
             var onward = edges.objClosure(this, "startupPart3");
             this.runPreflightQueries(onward)
-        };
+        }
+        ;
         this.startupPart3 = function() {
             var requestedQuery = this.openingQuery;
             if (this.urlQuery) {
@@ -1319,10 +1406,12 @@ var edges = {
             this.pushQuery(requestedQuery);
             this.context.trigger("edges:post-init");
             this.cycle()
-        };
+        }
+        ;
         this.doQuery = function() {
             this.cycle()
-        };
+        }
+        ;
         this.cycle = function() {
             if (this.searching) {
                 return
@@ -1339,30 +1428,35 @@ var edges = {
             } else {
                 this.cyclePart2()
             }
-        };
+        }
+        ;
         this.cyclePart2 = function() {
             var onward = edges.objClosure(this, "cyclePart3");
             this.runSecondaryQueries(onward)
-        };
+        }
+        ;
         this.cyclePart3 = function() {
             this.synchronise();
             this.context.trigger("edges:pre-render");
             this.draw();
             this.context.trigger("edges:post-render");
             this.searching = false
-        };
+        }
+        ;
         this.synchronise = function() {
             for (var i = 0; i < this.components.length; i++) {
                 var component = this.components[i];
                 component.synchronise()
             }
-        };
+        }
+        ;
         this.draw = function() {
             for (var i = 0; i < this.components.length; i++) {
                 var component = this.components[i];
                 component.draw(this)
             }
-        };
+        }
+        ;
         this.reset = function() {
             this.context.trigger("edges:pre-reset");
             var requestedQuery = this.cloneOpeningQuery();
@@ -1373,31 +1467,36 @@ var edges = {
             this.pushQuery(requestedQuery);
             this.context.trigger("edges:post-reset");
             this.cycle()
-        };
+        }
+        ;
         this.cloneQuery = function() {
             if (this.currentQuery) {
                 return $.extend(true, {}, this.currentQuery)
             }
             return false
-        };
+        }
+        ;
         this.pushQuery = function(query) {
             if (this.baseQuery) {
                 query.merge(this.baseQuery)
             }
             this.currentQuery = query
-        };
+        }
+        ;
         this.cloneBaseQuery = function() {
             if (this.baseQuery) {
                 return $.extend(true, {}, this.baseQuery)
             }
             return es.newQuery()
-        };
+        }
+        ;
         this.cloneOpeningQuery = function() {
             if (this.openingQuery) {
                 return $.extend(true, {}, this.openingQuery)
             }
             return es.newQuery()
-        };
+        }
+        ;
         this.doPrimaryQuery = function(callback) {
             var context = {
                 callback: callback
@@ -1409,18 +1508,21 @@ var edges = {
                 success: edges.objClosure(this, "querySuccess", ["result"], context),
                 error: edges.objClosure(this, "queryFail", context)
             })
-        };
+        }
+        ;
         this.queryFail = function(params) {
             var callback = params.context;
             this.context.trigger("edges:query-fail");
             callback()
-        };
+        }
+        ;
         this.querySuccess = function(params) {
             this.result = params.result;
             var callback = params.callback;
             this.context.trigger("edges:query-success");
             callback()
-        };
+        }
+        ;
         this.runPreflightQueries = function(callback) {
             if (!this.preflightQueries || Object.keys(this.preflightQueries).length == 0) {
                 callback();
@@ -1467,7 +1569,8 @@ var edges = {
                 }
             });
             pg.process()
-        };
+        }
+        ;
         this.runSecondaryQueries = function(callback) {
             this.realisedSecondaryQueries = {};
             if (!this.secondaryQueries || Object.keys(this.secondaryQueries).length == 0) {
@@ -1510,7 +1613,8 @@ var edges = {
                 }
             });
             pg.process()
-        };
+        }
+        ;
         this.getComponent = function(params) {
             var id = params.id;
             for (var i = 0; i < this.components.length; i++) {
@@ -1520,7 +1624,8 @@ var edges = {
                 }
             }
             return false
-        };
+        }
+        ;
         this.category = function(cat) {
             var comps = [];
             for (var i = 0; i < this.components.length; i++) {
@@ -1530,7 +1635,8 @@ var edges = {
                 }
             }
             return comps
-        };
+        }
+        ;
         this.getRenderPackObject = function(oname, params) {
             for (var i = 0; i < this.renderPacks.length; i++) {
                 var rp = this.renderPacks[i];
@@ -1538,10 +1644,12 @@ var edges = {
                     return rp[oname](params)
                 }
             }
-        };
+        }
+        ;
         this.jq = function(selector) {
             return $(selector, this.context)
-        };
+        }
+        ;
         this.getUrlParams = function() {
             var params = {};
             var url = window.location.href;
@@ -1566,7 +1674,8 @@ var edges = {
                 params["#"] = fragment
             }
             return params
-        };
+        }
+        ;
         this.urlQueryArg = function(objectify_options) {
             if (!objectify_options) {
                 objectify_options = {
@@ -1583,15 +1692,18 @@ var edges = {
             var obj = {};
             obj[this.urlQuerySource] = encodeURIComponent(q);
             return obj
-        };
+        }
+        ;
         this.fullQueryArgs = function() {
             var args = $.extend(true, {}, this.urlParams);
             $.extend(args, this.urlQueryArg());
             return args
-        };
+        }
+        ;
         this.fullUrlQueryString = function() {
             return this._makeUrlQuery(this.fullQueryArgs())
-        };
+        }
+        ;
         this._makeUrlQuery = function(args) {
             var keys = Object.keys(args);
             var entries = [];
@@ -1601,7 +1713,8 @@ var edges = {
                 entries.push(key + "=" + val)
             }
             return entries.join("&")
-        };
+        }
+        ;
         this.fullUrl = function() {
             var args = this.fullQueryArgs();
             var fragment = "";
@@ -1613,13 +1726,15 @@ var edges = {
             var bits = wloc.split("?");
             var url = bits[0] + "?" + this._makeUrlQuery(args) + fragment;
             return url
-        };
+        }
+        ;
         this.updateUrl = function() {
-            if ("pushState" in window.history) {
+            if ("pushState"in window.history) {
                 var qs = "?" + this.fullUrlQueryString();
                 window.history.pushState("", "", qs)
             }
-        };
+        }
+        ;
         this.loadStaticsAsync = function(callback) {
             if (!this.staticFiles || this.staticFiles.length == 0) {
                 this.context.trigger("edges:post-load-static");
@@ -1672,7 +1787,8 @@ var edges = {
                 }
             });
             pg.process()
-        };
+        }
+        ;
         this.startup()
     },
     newAsyncGroup: function(params) {
@@ -1701,7 +1817,8 @@ var edges = {
             for (var i = 0; i < this.list.length; i++) {
                 this.checkList.push(0)
             }
-        };
+        }
+        ;
         this.process = function(params) {
             if (this.list.length == 0) {
                 this.functions.carryOn()
@@ -1720,7 +1837,8 @@ var edges = {
                     complete_callback: complete_callback
                 })
             }
-        };
+        }
+        ;
         this._actionSuccess = function(params) {
             var index = params.index;
             delete params.index;
@@ -1730,7 +1848,8 @@ var edges = {
             if (this._isComplete()) {
                 this._finalise()
             }
-        };
+        }
+        ;
         this._actionError = function(params) {
             var index = params.index;
             delete params.index;
@@ -1740,18 +1859,22 @@ var edges = {
             if (this._isComplete()) {
                 this._finalise()
             }
-        };
-        this._actionComplete = function(params) {};
+        }
+        ;
+        this._actionComplete = function(params) {}
+        ;
         this._isComplete = function() {
             return $.inArray(0, this.checkList) === -1
-        };
+        }
+        ;
         this._finalise = function() {
             if (this.finished) {
                 return
             }
             this.finished = true;
             this.functions.carryOn()
-        };
+        }
+        ;
         this.construct()
     },
     newRenderer: function(params) {
@@ -1764,7 +1887,8 @@ var edges = {
         this.component = params.component || false;
         this.init = function(component) {
             this.component = component
-        };
+        }
+        ;
         this.draw = function(component) {}
     },
     newComponent: function(params) {
@@ -1787,14 +1911,18 @@ var edges = {
             if (this.renderer) {
                 this.renderer.init(this)
             }
-        };
+        }
+        ;
         this.draw = function() {
             if (this.renderer) {
                 this.renderer.draw()
             }
-        };
-        this.contrib = function(query) {};
-        this.synchronise = function() {};
+        }
+        ;
+        this.contrib = function(query) {}
+        ;
+        this.synchronise = function() {}
+        ;
         this.jq = function(selector) {
             return this.edge.jq(selector)
         }
@@ -1909,7 +2037,7 @@ var edges = {
         if (def === undefined) {
             def = ""
         }
-        if (unsafe === undefined || unsafe == null) {
+        if (unsafe === undefined || unsafe == null ) {
             return def
         }
         try {
@@ -2010,7 +2138,8 @@ $.extend(edges, {
                     error: edges.objClosure(this, "queryFail")
                 })
             }
-        };
+        }
+        ;
         this.synchronise = function() {
             this.from = this.lower;
             this.to = this.upper;
@@ -2023,7 +2152,8 @@ $.extend(edges, {
                     this.from = filters[i].gte
                 }
             }
-        };
+        }
+        ;
         this.querySuccess = function(params) {
             var result = params.result;
             var agg = result.aggregation(this.id);
@@ -2034,7 +2164,8 @@ $.extend(edges, {
                 this.upper = agg.max
             }
             this.draw()
-        };
+        }
+        ;
         this.queryFail = function(params) {
             if (this.lower === false) {
                 this.lower = 0
@@ -2042,7 +2173,8 @@ $.extend(edges, {
             if (this.upper === false) {
                 this.upper = 0
             }
-        };
+        }
+        ;
         this.selectRange = function(from, to) {
             var nq = this.edge.cloneQuery();
             nq.removeMust(es.newRangeFilter({
@@ -2094,7 +2226,8 @@ $.extend(edges, {
                 }
                 edge.secondaryQueries["multidaterange_" + this.id] = this.getSecondaryQueryFunction()
             }
-        };
+        }
+        ;
         this.synchronise = function() {
             this.currentField = false;
             this.fromDate = false;
@@ -2105,10 +2238,10 @@ $.extend(edges, {
                     var agg = this.edge.secondaryResults["multidaterange_" + this.id].aggregation(field);
                     var min = this.defaultEarliest;
                     var max = this.defaultLatest;
-                    if (agg.min !== null) {
+                    if (agg.min !== null ) {
                         min = new Date(agg.min)
                     }
-                    if (agg.max !== null) {
+                    if (agg.max !== null ) {
                         max = new Date(agg.max)
                     }
                     this.dateOptions[field] = {
@@ -2132,7 +2265,8 @@ $.extend(edges, {
             if (!this.currentField && this.fields.length > 0) {
                 this.currentField = this.fields[0].field
             }
-        };
+        }
+        ;
         this.currentEarliest = function() {
             if (!this.currentField) {
                 return false
@@ -2140,7 +2274,8 @@ $.extend(edges, {
             if (this.dateOptions[this.currentField]) {
                 return this.dateOptions[this.currentField].earliest
             }
-        };
+        }
+        ;
         this.currentLatest = function() {
             if (!this.currentField) {
                 return false
@@ -2148,26 +2283,30 @@ $.extend(edges, {
             if (this.dateOptions[this.currentField]) {
                 return this.dateOptions[this.currentField].latest
             }
-        };
+        }
+        ;
         this.changeField = function(newField) {
             this.lastField = this.currentField;
             if (newField !== this.currentField) {
                 this.touched = true;
                 this.currentField = newField
             }
-        };
+        }
+        ;
         this.setFrom = function(from) {
             if (from !== this.fromDate) {
                 this.touched = true;
                 this.fromDate = from
             }
-        };
+        }
+        ;
         this.setTo = function(to) {
             if (to !== this.toDate) {
                 this.touched = true;
                 this.toDate = to
             }
-        };
+        }
+        ;
         this.triggerSearch = function() {
             if (this.touched) {
                 this.touched = false;
@@ -2200,7 +2339,8 @@ $.extend(edges, {
                 this.edge.doQuery();
                 return true
             }
-        };
+        }
+        ;
         this.loadDates = function() {
             for (var i = 0; i < this.fields.length; i++) {
                 var field = this.fields[i].field;
@@ -2219,7 +2359,8 @@ $.extend(edges, {
                     latest: late
                 }
             }
-        };
+        }
+        ;
         this.getSecondaryQueryFunction = function() {
             var that = this;
             return function(edge) {
@@ -2640,7 +2781,8 @@ $.extend(muk, {
                     var linkSelector = edges.css_id_selector(this.namespace, "link-" + this.tabIds[i]);
                     edges.on(linkSelector, "click", this, "tabClicked")
                 }
-            };
+            }
+            ;
             this.hideOffScreen = function(selector) {
                 if (selector in this.hidden) {
                     return
@@ -2651,7 +2793,8 @@ $.extend(muk, {
                     margin: el.css("margin-left")
                 };
                 el.css("position", "absolute").css("margin-left", -9999)
-            };
+            }
+            ;
             this.bringIn = function(selector) {
                 if (!this.hidden[selector]) {
                     return
@@ -2661,7 +2804,8 @@ $.extend(muk, {
                 var el = this.edge.jq(selector);
                 el.css("position", pos).css("margin-left", mar);
                 delete this.hidden[selector]
-            };
+            }
+            ;
             this.activateTab = function(activate) {
                 var tabs = this.edge.category("tab");
                 for (var i = 0; i < tabs.length; i++) {
@@ -2676,7 +2820,8 @@ $.extend(muk, {
                         this.edge.jq(linkSelector).parent().removeClass("active")
                     }
                 }
-            };
+            }
+            ;
             this.tabClicked = function(element) {
                 var id = $(element).attr("data-id");
                 this.activateTab(id)
@@ -2703,7 +2848,8 @@ $.extend(muk, {
                 this.avgCount = stats.count / pubs.value;
                 this.avgExp = stats.sum / pubs.value;
                 this.avgAPC = stats.avg
-            };
+            }
+            ;
             this.draw = function() {
                 if (!this.avgCount || !this.avgExp || !this.avgAPC) {
                     this.context.html("");
@@ -3183,7 +3329,8 @@ $.extend(edges, {
             for (var i = 0; i < this.aggregations.length; i++) {
                 query.addAggregation(this.aggregations[i])
             }
-        };
+        }
+        ;
         this.synchronise = function() {
             for (var i = 0; i < this.filters.length; i++) {
                 var filter_def = this.filters[i];
@@ -3227,7 +3374,8 @@ $.extend(edges, {
                     this.active_filters[filter_def.id] = false
                 }
             }
-        };
+        }
+        ;
         this.addFilter = function(filter_id) {
             var filter = false;
             for (var i = 0; i < this.filters.length; i++) {
@@ -3247,7 +3395,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.removeFilter = function(filter_id) {
             var filter = false;
             for (var i = 0; i < this.filters.length; i++) {
@@ -3305,7 +3454,8 @@ $.extend(edges, {
                     this.sortDir = sorts[0].order
                 }
             }
-        };
+        }
+        ;
         this.setSort = function(params) {
             var dir = params.dir;
             var field = params.field;
@@ -3320,7 +3470,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.changeSortDir = function() {
             var dir = this.sortDir === "asc" ? "desc" : "asc";
             var sort = this.sortBy ? this.sortBy : "_score";
@@ -3332,7 +3483,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.setSortBy = function(field) {
             var nq = this.edge.cloneQuery();
             if (!field || field === "") {
@@ -3345,7 +3497,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.setSearchField = function(field) {
             this.searchField = field;
             if (!this.searchString || this.searchString === "") {
@@ -3361,7 +3514,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.setSearchText = function(text) {
             var nq = this.edge.cloneQuery();
             if (text !== "") {
@@ -3380,7 +3534,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.clearSearch = function() {
             this.edge.reset()
         }
@@ -3426,7 +3581,8 @@ $.extend(edges, {
                 this.searchString = qs.queryString;
                 this.searchField = qs.defaultField
             }
-        };
+        }
+        ;
         this.removeFilter = function(boolType, filterType, field, value) {
             var nq = this.edge.cloneQuery();
             if (filterType === "term") {
@@ -3470,17 +3626,20 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.clearQueryString = function() {
             var nq = this.edge.cloneQuery();
             nq.removeQueryString();
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.clearSearch = function() {
             this.edge.reset()
-        };
+        }
+        ;
         this._synchronise_term = function(filter) {
             var display = this.fieldDisplays[filter.field] || filter.field;
             if (filter.field in this.mustFilters) {
@@ -3499,7 +3658,8 @@ $.extend(edges, {
                     rel: "AND"
                 }
             }
-        };
+        }
+        ;
         this._synchronise_terms = function(filter) {
             var display = this.fieldDisplays[filter.field] || filter.field;
             var values = [];
@@ -3517,7 +3677,8 @@ $.extend(edges, {
                 values: values,
                 rel: "OR"
             }
-        };
+        }
+        ;
         this._synchronise_range = function(filter) {
             var display = this.fieldDisplays[filter.field] || filter.field;
             var to = filter.lt;
@@ -3541,7 +3702,8 @@ $.extend(edges, {
                 display: display,
                 values: values
             }
-        };
+        }
+        ;
         this._translate = function(field, value) {
             if (field in this.valueMaps) {
                 if (value in this.valueMaps[field]) {
@@ -3551,7 +3713,8 @@ $.extend(edges, {
                 return this.valueFunctions[field](value)
             }
             return value
-        };
+        }
+        ;
         this._getRangeDef = function(field, from, to) {
             if (!this.rangeMaps[field] && !this.rangeFunctions[field]) {
                 return false
@@ -3586,7 +3749,8 @@ $.extend(edges, {
                 })
             }
             return false
-        };
+        }
+        ;
         this._formatUnknown = function(from, to) {
             if (this.formatUnknownRange) {
                 return this.formatUnknownRange(from, to)
@@ -3653,7 +3817,8 @@ $.extend(edges, {
                 this.page = Math.ceil((this.from - 1) / this.pageSize) + 1;
                 this.totalPages = Math.ceil(this.total / this.pageSize)
             }
-        };
+        }
+        ;
         this.setFrom = function(from) {
             var nq = this.edge.cloneQuery();
             from = from - 1;
@@ -3663,21 +3828,25 @@ $.extend(edges, {
             nq.from = from;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.setSize = function(size) {
             var nq = this.edge.cloneQuery();
             nq.size = size;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.decrementPage = function() {
             var from = this.from - this.pageSize;
             this.setFrom(from)
-        };
+        }
+        ;
         this.incrementPage = function() {
             var from = this.from + this.pageSize;
             this.setFrom(from)
-        };
+        }
+        ;
         this.goToPage = function(params) {
             var page = params.page;
             var nf = (page - 1) * this.pageSize + 1;
@@ -3699,12 +3868,15 @@ $.extend(edges, {
             edge.context.on("edges:pre-query", edges.eventClosure(this, "searchingBegan"));
             edge.context.on("edges:query-fail", edges.eventClosure(this, "searchingFinished"));
             edge.context.on("edges:query-success", edges.eventClosure(this, "searchingFinished"))
-        };
-        this.draw = function() {};
+        }
+        ;
+        this.draw = function() {}
+        ;
         this.searchingBegan = function() {
             this.searching = true;
             this.renderer.draw()
-        };
+        }
+        ;
         this.searchingFinished = function() {
             this.searching = false;
             this.renderer.draw()
@@ -3760,12 +3932,14 @@ $.extend(edges, {
             if (this.aggregations.length > 0 && this.dataFunctionClosure) {
                 this.dataFunction = this.dataFunctionClosure(this.dfArgs)
             }
-        };
+        }
+        ;
         this.contrib = function(query) {
             for (var i = 0; i < this.aggregations.length; i++) {
                 query.addAggregation(this.aggregations[i])
             }
-        };
+        }
+        ;
         this.synchronise = function() {
             if (this.dataFunction) {
                 this.dataSeries = this.dataFunction(this)
@@ -4045,7 +4219,8 @@ $.extend(edges, {
                 params["size"] = this.size
             }
             query.addAggregation(es.newTermsAggregation(params))
-        };
+        }
+        ;
         this.synchronise = function() {
             this.values = [];
             this.filters = [];
@@ -4105,7 +4280,8 @@ $.extend(edges, {
                     term: filters[i].value
                 })
             }
-        };
+        }
+        ;
         this.selectTerm = function(term) {
             var nq = this.edge.cloneQuery();
             var removeCount = nq.removeMust(es.newTermFilter({
@@ -4123,7 +4299,8 @@ $.extend(edges, {
             this.edge.pushQuery(nq);
             this.edge.doQuery();
             return true
-        };
+        }
+        ;
         this.removeFilter = function(term) {
             var nq = this.edge.cloneQuery();
             nq.removeMust(es.newTermFilter({
@@ -4133,7 +4310,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.changeSize = function(newSize) {
             this.size = newSize;
             var nq = this.edge.cloneQuery();
@@ -4143,7 +4321,8 @@ $.extend(edges, {
             agg.size = this.size;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.changeSort = function(orderBy, orderDir) {
             this.orderBy = orderBy;
             this.orderDir = orderDir;
@@ -4154,7 +4333,8 @@ $.extend(edges, {
             agg.setOrdering(this.orderBy, this.orderDir);
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this._translate = function(term) {
             if (this.valueMap) {
                 if (term in this.valueMap) {
@@ -4189,7 +4369,8 @@ $.extend(edges, {
             if (!this.terms) {
                 this.listAll()
             }
-        };
+        }
+        ;
         this.synchronise = function() {
             this.selected = [];
             var filters = this.edge.currentQuery.listMust(es.newTermsFilter({
@@ -4201,7 +4382,8 @@ $.extend(edges, {
                     this.selected.push(val)
                 }
             }
-        };
+        }
+        ;
         this.listAll = function() {
             var bq = this.edge.cloneBaseQuery();
             bq.clearAggregations();
@@ -4221,7 +4403,8 @@ $.extend(edges, {
                 success: edges.objClosure(this, "listAllQuerySuccess", ["result"]),
                 error: edges.objClosure(this, "listAllQueryFail")
             })
-        };
+        }
+        ;
         this.listAllQuerySuccess = function(params) {
             var result = params.result;
             this.terms = [];
@@ -4236,15 +4419,18 @@ $.extend(edges, {
             }
             this.setupEvent();
             this.draw()
-        };
+        }
+        ;
         this.listAllQueryFail = function() {
             this.terms = []
-        };
+        }
+        ;
         this.setupEvent = function() {
             if (this.lifecycle === "update") {
                 this.edge.context.on("edges:pre-query", edges.eventClosure(this, "doUpdate"))
             }
-        };
+        }
+        ;
         this.doUpdate = function() {
             if (this.updating) {
                 return
@@ -4271,7 +4457,8 @@ $.extend(edges, {
                 success: edges.objClosure(this, "doUpdateQuerySuccess", ["result"]),
                 error: edges.objClosure(this, "doUpdateQueryFail")
             })
-        };
+        }
+        ;
         this.doUpdateQuerySuccess = function(params) {
             var result = params.result;
             var buckets = result.buckets(this.id);
@@ -4292,8 +4479,10 @@ $.extend(edges, {
             }
             this.updating = false;
             this.draw()
-        };
-        this.doUpdateQueryFail = function() {};
+        }
+        ;
+        this.doUpdateQueryFail = function() {}
+        ;
         this.selectTerms = function(params) {
             var terms = params.terms;
             var clearOthers = edges.getParam(params.clearOthers, false);
@@ -4332,12 +4521,14 @@ $.extend(edges, {
             this.edge.pushQuery(nq);
             this.edge.doQuery();
             return true
-        };
+        }
+        ;
         this.selectTerm = function(term) {
             return this.selectTerms({
                 terms: [term]
             })
-        };
+        }
+        ;
         this.removeFilter = function(term) {
             var nq = this.edge.cloneQuery();
             var filters = nq.listMust(es.newTermsFilter({
@@ -4357,7 +4548,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this._translate = function(term) {
             if (this.valueMap) {
                 if (term in this.valueMap) {
@@ -4400,7 +4592,8 @@ $.extend(edges, {
                 field: this.field,
                 ranges: ranges
             }))
-        };
+        }
+        ;
         this.synchronise = function() {
             this.values = [];
             this.filters = [];
@@ -4433,7 +4626,8 @@ $.extend(edges, {
                     }
                 }
             }
-        };
+        }
+        ;
         this.selectRange = function(from, to) {
             var nq = this.edge.cloneQuery();
             var params = {
@@ -4449,7 +4643,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this.removeFilter = function(from, to) {
             var nq = this.edge.cloneQuery();
             var params = {
@@ -4465,7 +4660,8 @@ $.extend(edges, {
             nq.from = 0;
             this.edge.pushQuery(nq);
             this.edge.doQuery()
-        };
+        }
+        ;
         this._getRangeDef = function(from, to) {
             for (var i = 0; i < this.ranges.length; i++) {
                 var r = this.ranges[i];
@@ -4488,7 +4684,8 @@ $.extend(edges, {
                 }
             }
             return false
-        };
+        }
+        ;
         this._getRangeBucket = function(buckets, from, to) {
             for (var i = 0; i < buckets.length; i++) {
                 var r = buckets[i];
@@ -4511,7 +4708,8 @@ $.extend(edges, {
                 }
             }
             return false
-        };
+        }
+        ;
         this._formatUnknown = function(from, to) {
             if (this.formatUnknown) {
                 return this.formatUnknown(from, to)
@@ -4631,7 +4829,11 @@ $.extend(true, edges, {
                     for (var i = 0; i < ts.values.length; i++) {
                         var val = ts.values[i];
                         if ($.inArray(val.term.toString(), filterTerms) === -1) {
-                            results += '<div class="' + resultClass + '"><a href="#" class="' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '">' + edges.escapeHtml(val.display) + "</a> (" + val.count + ")</div>"
+                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" /> ' + edges.escapeHtml(val.display);
+                            if (this.showCount) {
+                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
+                            }
+                            results += "</label></div></div>"
                         }
                     }
                 }
@@ -4644,10 +4846,11 @@ $.extend(true, edges, {
                 if (ts.filters.length > 0 && this.showSelected) {
                     for (var i = 0; i < ts.filters.length; i++) {
                         var filt = ts.filters[i];
-                        filterFrag += '<div class="' + resultClass + '"><strong>' + edges.escapeHtml(filt.display) + "&nbsp;";
-                        filterFrag += '<a href="#" class="' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '">';
-                        filterFrag += '<i class="glyphicon glyphicon-black glyphicon-remove"></i></a>';
-                        filterFrag += "</strong></a></div>"
+                            filterFrag += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
+                            if (this.showCount) {
+                                filterFrag += ' <span class="' + countClass + '">(' + filt.count + ")</span>"
+                            }
+                            filterFrag += "</label></div></div>"
                     }
                 }
                 var tog = ts.display;
@@ -4670,7 +4873,8 @@ $.extend(true, edges, {
                 edges.on(filterRemoveSelector, "click", this, "removeFilter");
                 edges.on(sizeSelector, "click", this, "changeSize");
                 edges.on(orderSelector, "click", this, "changeSort")
-            };
+            }
+            ;
             this.setUIOpen = function() {
                 var resultsSelector = edges.css_id_selector(this.namespace, "results", this);
                 var controlsSelector = edges.css_id_selector(this.namespace, "controls", this);
@@ -4687,11 +4891,13 @@ $.extend(true, edges, {
                     controls.hide();
                     results.hide()
                 }
-            };
+            }
+            ;
             this.setUISize = function() {
                 var sizeSelector = edges.css_id_selector(this.namespace, "size", this);
                 this.component.jq(sizeSelector).html(this.component.size)
-            };
+            }
+            ;
             this.setUISort = function() {
                 var orderSelector = edges.css_id_selector(this.namespace, "order", this);
                 var el = this.component.jq(orderSelector);
@@ -4708,25 +4914,30 @@ $.extend(true, edges, {
                         el.html('a-z <i class="glyphicon glyphicon-arrow-up"></i>')
                     }
                 }
-            };
+            }
+            ;
             this.termSelected = function(element) {
                 var term = this.component.jq(element).attr("data-key");
                 this.component.selectTerm(term)
-            };
+            }
+            ;
             this.removeFilter = function(element) {
                 var term = this.component.jq(element).attr("data-key");
                 this.component.removeFilter(term)
-            };
+            }
+            ;
             this.toggleOpen = function(element) {
                 this.open = !this.open;
                 this.setUIOpen()
-            };
+            }
+            ;
             this.changeSize = function(element) {
                 var newSize = prompt("Currently displaying " + this.component.size + " results per page. How many would you like instead?");
                 if (newSize) {
                     this.component.changeSize(parseInt(newSize))
                 }
-            };
+            }
+            ;
             this.changeSort = function(element) {
                 var current = this.component.orderBy + " " + this.component.orderDir;
                 var idx = $.inArray(current, this.sortCycle);
@@ -4776,36 +4987,27 @@ $.extend(true, edges, {
                         if (val.count === 0 && this.hideEmpty) {
                             continue
                         }
-                        if ($.inArray(val.term.toString(), ts.selected) === -1) {
-                            results += '<div class="' + resultClass + '"><a href="#" class="' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '">' + edges.escapeHtml(val.display) + "</a>";
+                        if ($.inArray(val.term.toString(), ts.selected) !== -1) {
+                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(val.display);
                             if (this.showCount) {
                                 results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
                             }
-                            results += "</div>"
-                        }
-                    }
-                }
-                var filterFrag = "";
-                if (ts.selected.length > 0) {
-                    for (var i = 0; i < ts.selected.length; i++) {
-                        var filt = ts.selected[i];
-                        var def = this._getFilterDef(filt);
-                        if (def) {
-                            filterFrag += '<div class="' + resultClass + '"><strong>' + edges.escapeHtml(def.display);
+                            results += "</label></div></div>"
+                        } else {
+                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" /> ' + edges.escapeHtml(val.display);
                             if (this.showCount) {
-                                filterFrag += " (" + def.count + ")"
+                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
                             }
-                            filterFrag += '&nbsp;<a href="#" class="' + filterRemoveClass + '" data-key="' + edges.escapeHtml(def.term) + '">';
-                            filterFrag += '<i class="glyphicon glyphicon-black glyphicon-remove"></i></a>';
-                            filterFrag += "</strong></a></div>"
+                            results += "</label></div></div>"
                         }
                     }
                 }
+
                 var header = this.headerLayout({
                     toggleId: toggleId
                 });
-                var frag = '<div class="' + facetClass + '">                        <div class="' + headerClass + '"><div class="row">                             <div class="col-md-12">                                ' + header + '                            </div>                        </div></div>                        <div class="' + bodyClass + '">                            <div class="row" style="display:none" id="' + resultsId + '">                                <div class="col-md-12">                                    {{SELECTED}}                                </div>                                <div class="col-md-12"><div class="' + selectionsClass + '">                                    {{RESULTS}}                                </div>                            </div>                        </div>                        </div></div>';
-                frag = frag.replace(/{{RESULTS}}/g, results).replace(/{{SELECTED}}/g, filterFrag);
+                var frag = '<div class="' + facetClass + '"><div class="' + headerClass + '"><div class="row"><div class="col-md-12">' + header + '</div></div></div><div class="' + bodyClass + '"><div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectionsClass + '">{{RESULTS}}</div></div></div></div></div>';
+                frag = frag.replace(/{{RESULTS}}/g, results);
                 ts.context.html(frag);
                 this.setUIOpen();
                 var valueSelector = edges.css_class_selector(namespace, "value", this);
@@ -4814,7 +5016,8 @@ $.extend(true, edges, {
                 edges.on(valueSelector, "click", this, "termSelected");
                 edges.on(toggleSelector, "click", this, "toggleOpen");
                 edges.on(filterRemoveSelector, "click", this, "removeFilter")
-            };
+            }
+            ;
             this.headerLayout = function(params) {
                 var toggleId = params.toggleId;
                 var iconClass = edges.css_classes(this.namespace, "icon", this);
@@ -4833,7 +5036,8 @@ $.extend(true, edges, {
                     }
                     return tog
                 }
-            };
+            }
+            ;
             this.setUIOpen = function() {
                 var resultsSelector = edges.css_id_selector(this.namespace, "results", this);
                 var toggleSelector = edges.css_id_selector(this.namespace, "toggle", this);
@@ -4860,19 +5064,23 @@ $.extend(true, edges, {
                     }
                     results.hide()
                 }
-            };
+            }
+            ;
             this.termSelected = function(element) {
                 var term = this.component.jq(element).attr("data-key");
                 this.component.selectTerm(term)
-            };
+            }
+            ;
             this.removeFilter = function(element) {
                 var term = this.component.jq(element).attr("data-key");
                 this.component.removeFilter(term)
-            };
+            }
+            ;
             this.toggleOpen = function(element) {
                 this.open = !this.open;
                 this.setUIOpen()
-            };
+            }
+            ;
             this._getFilterDef = function(term) {
                 for (var i = 0; i < this.component.terms.length; i++) {
                     var t = this.component.terms[i];
@@ -4950,7 +5158,8 @@ $.extend(true, edges, {
                 }
                 this._setSelectors();
                 edges.on(selectSelector, "change", this, "selectorChanged")
-            };
+            }
+            ;
             this.selectorChanged = function(element) {
                 var vals = [];
                 for (var i = 0; i < this.n; i++) {
@@ -4970,7 +5179,8 @@ $.extend(true, edges, {
                 if (!triggered) {
                     this._setSelectors()
                 }
-            };
+            }
+            ;
             this._setSelectors = function() {
                 var terms = this.component.selected;
                 for (var i = 0; i < this.n; i++) {
@@ -4990,7 +5200,8 @@ $.extend(true, edges, {
                         }
                     }
                 }
-            };
+            }
+            ;
             this._setVal = function(params) {
                 var el = params.element;
                 var value = params.value;
@@ -4999,7 +5210,8 @@ $.extend(true, edges, {
                 } else {
                     el.select2("val", value)
                 }
-            };
+            }
+            ;
             this._getVal = function(params) {
                 var el = params.element;
                 if (!this.select2) {
@@ -5035,11 +5247,13 @@ $.extend(edges, {
                     newline: "\n",
                     skipEmptyLines: true
                 })
-            };
+            }
+            ;
             this.add_filter = function(params) {
                 var filter = params.filter;
                 this.filters.push(filter)
-            };
+            }
+            ;
             this.clear_filter = function(params) {
                 var filter = params.filter;
                 var remove = false;
@@ -5056,7 +5270,8 @@ $.extend(edges, {
                 if (remove !== false) {
                     this.filters.splice(remove, 1)
                 }
-            };
+            }
+            ;
             this.iterator = function(params) {
                 if (!params) {
                     params = {}
@@ -5087,7 +5302,8 @@ $.extend(edges, {
                         return false
                     }
                 }
-            };
+            }
+            ;
             this.aggregation = function(params) {
                 var agg = params.agg;
                 var type = Object.keys(agg)[0];
@@ -5100,7 +5316,8 @@ $.extend(edges, {
                     })
                 }
                 return []
-            };
+            }
+            ;
             this._termsAggregation = function(params) {
                 var field = params.field;
                 var filtered = edges.getParam(params.filtered, true);
@@ -5127,16 +5344,17 @@ $.extend(edges, {
                     res = iter.next()
                 }
                 return agg
-            };
+            }
+            ;
             this._filterMatch = function(params) {
                 var record = params.record;
                 for (var i = 0; i < this.filters.length; i++) {
                     var filter = this.filters[i];
                     if (filter.type === "exact") {
                         if (!this._exactFilterMatch({
-                                filter: filter,
-                                record: record
-                            })) {
+                            filter: filter,
+                            record: record
+                        })) {
                             return false
                         }
                     } else {
@@ -5144,7 +5362,8 @@ $.extend(edges, {
                     }
                 }
                 return true
-            };
+            }
+            ;
             this._exactFilterMatch = function(params) {
                 var filter = params.filter;
                 var record = params.record;
@@ -5154,7 +5373,8 @@ $.extend(edges, {
                     return false
                 }
                 return true
-            };
+            }
+            ;
             this.parse(params)
         }
     }
@@ -5242,13 +5462,14 @@ $.extend(true, edges, {
                     var downloadIdSelector = edges.css_id_selector(this.namespace, "download", this);
                     edges.on(downloadIdSelector, "click", this, "doDownload")
                 }
-            };
+            }
+            ;
             this.doDownload = function(element) {
                 if (!this.download) {
                     return
                 }
                 var downloadInfo = this._downloadData();
-                var blob = new Blob([downloadInfo.data], {
+                var blob = new Blob([downloadInfo.data],{
                     type: downloadInfo.fileType
                 });
                 var url = window.URL.createObjectURL(blob);
@@ -5259,7 +5480,8 @@ $.extend(true, edges, {
                 a.download = downloadInfo.fileName;
                 a.click();
                 window.URL.revokeObjectURL(url)
-            };
+            }
+            ;
             this._downloadData = function() {
                 if (!this.download) {
                     return false
@@ -5307,7 +5529,8 @@ $.extend(true, edges, {
                     fileType: fileType,
                     fileName: fileName
                 }
-            };
+            }
+            ;
             this._getFieldDisplay = function(field) {
                 for (var j = 0; j < this.fieldDisplay.length; j++) {
                     if (this.fieldDisplay[j].field == field) {
@@ -5315,7 +5538,8 @@ $.extend(true, edges, {
                     }
                 }
                 return false
-            };
+            }
+            ;
             this._getHeaderRow = function() {
                 if (this.headerOrderingFunction) {
                     return this.headerOrderingFunction(this)
@@ -5336,7 +5560,7 @@ $.extend(true, edges, {
                     for (var i = 0; i < results.length; i++) {
                         var ks = Object.keys(results[i]);
                         for (var j = 0; j < ks.length; j++) {
-                            if (!(ks[j] in keySet)) {
+                            if (!(ks[j]in keySet)) {
                                 keySet[ks[j]] = true
                             }
                         }
@@ -5420,16 +5644,18 @@ $.extend(true, edges, {
                     this.selectJq.select2()
                 }
                 edges.on(selectIdSelector, "change", this, "typeChanged")
-            };
+            }
+            ;
             this.dateRangeDisplay = function(params) {
                 var start = params.start;
                 var end = params.end;
                 this.rangeJq.find("span").html(start.utc().format(this.dateFormat) + " - " + end.utc().format(this.dateFormat))
-            };
+            }
+            ;
             this.updateDateRange = function(params) {
                 var start = params.start;
                 var end = params.end;
-                var date_type = null;
+                var date_type = null ;
                 if (this.useSelect2) {
                     date_type = this.selectJq.select2("val")
                 } else {
@@ -5443,9 +5669,10 @@ $.extend(true, edges, {
                 if (!triggered) {
                     this.prepDates()
                 }
-            };
+            }
+            ;
             this.typeChanged = function(element) {
-                var date_type = null;
+                var date_type = null ;
                 if (this.useSelect2) {
                     date_type = this.selectJq.select2("val")
                 } else {
@@ -5458,7 +5685,8 @@ $.extend(true, edges, {
                 if (!triggered) {
                     this.prepDates()
                 }
-            };
+            }
+            ;
             this.prepDates = function() {
                 var min = this.component.currentEarliest();
                 var max = this.component.currentLatest();

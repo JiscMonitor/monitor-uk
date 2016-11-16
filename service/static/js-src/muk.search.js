@@ -4683,36 +4683,29 @@ $.extend(true, edges, {
                         if (val.count === 0 && this.hideEmpty) {
                             continue
                         }
-                        if ($.inArray(val.term.toString(), ts.selected) === -1) {
-                            results += '<div class="' + resultClass + '"><a href="#" class="' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '">' + edges.escapeHtml(val.display) + "</a>";
+
+                        if ($.inArray(val.term.toString(), ts.selected) !== -1) {
+                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(val.display);
                             if (this.showCount) {
                                 results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
                             }
-                            results += "</div>"
-                        }
-                    }
-                }
-                var filterFrag = "";
-                if (ts.selected.length > 0) {
-                    for (var i = 0; i < ts.selected.length; i++) {
-                        var filt = ts.selected[i];
-                        var def = this._getFilterDef(filt);
-                        if (def) {
-                            filterFrag += '<div class="' + resultClass + '"><strong>' + edges.escapeHtml(def.display);
+                            results += "</label></div></div>"
+                        } else {
+                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" /> ' + edges.escapeHtml(val.display);
                             if (this.showCount) {
-                                filterFrag += " (" + def.count + ")"
+                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
                             }
-                            filterFrag += '&nbsp;<a href="#" class="' + filterRemoveClass + '" data-key="' + edges.escapeHtml(def.term) + '">';
-                            filterFrag += '<i class="glyphicon glyphicon-black glyphicon-remove"></i></a>';
-                            filterFrag += "</strong></a></div>"
+                            results += "</label></div></div>"
                         }
                     }
                 }
+
                 var header = this.headerLayout({
                     toggleId: toggleId
                 });
-                var frag = '<div class="' + facetClass + '">                        <div class="' + headerClass + '"><div class="row">                             <div class="col-md-12">                                ' + header + '                            </div>                        </div></div>                        <div class="' + bodyClass + '">                            <div class="row" style="display:none" id="' + resultsId + '">                                <div class="col-md-12">                                    {{SELECTED}}                                </div>                                <div class="col-md-12"><div class="' + selectionsClass + '">                                    {{RESULTS}}                                </div>                            </div>                        </div>                        </div></div>';
-                frag = frag.replace(/{{RESULTS}}/g, results).replace(/{{SELECTED}}/g, filterFrag);
+                var frag = '<div class="' + facetClass + '"><div class="' + headerClass + '"><div class="row"><div class="col-md-12">' + header + '</div></div></div><div class="' + bodyClass + '">'+
+                '<div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectionsClass + '">{{RESULTS}}</div></div></div></div></div>';
+                frag = frag.replace(/{{RESULTS}}/g, results);
                 ts.context.html(frag);
                 this.setUIOpen();
                 var valueSelector = edges.css_class_selector(namespace, "value", this);
