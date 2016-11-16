@@ -3244,6 +3244,7 @@ $.extend(muk, {
                     renderer: edges.bs3.newRefiningANDTermSelectorRenderer({
                         open: true,
                         togglable: false,
+                        showCount: true,
                         controls: false
                     })
                 }), edges.newHorizontalMultibar({
@@ -4800,6 +4801,7 @@ $.extend(true, edges, {
             this.showSelected = edges.getParam(params.showSelected, true);
             this.sortCycle = edges.getParam(params.sortCycle, ["count desc", "count asc", "term desc", "term asc"]);
             this.namespace = "edges-bs3-refiningand-term-selector";
+            this.showCount = edges.getParam(params.showCount, false);
             this.draw = function() {
                 var ts = this.component;
                 var namespace = this.namespace;
@@ -4816,6 +4818,7 @@ $.extend(true, edges, {
                 var orderId = edges.css_id(namespace, "order", this);
                 var toggleId = edges.css_id(namespace, "toggle", this);
                 var resultsId = edges.css_id(namespace, "results", this);
+                var countClass = edges.css_classes(namespace, "count", this);
                 var results = "Loading...";
                 if (ts.values !== false) {
                     results = "No data available"
@@ -4847,9 +4850,6 @@ $.extend(true, edges, {
                     for (var i = 0; i < ts.filters.length; i++) {
                         var filt = ts.filters[i];
                             filterFrag += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
-                            if (this.showCount) {
-                                filterFrag += ' <span class="' + countClass + '">(' + filt.count + ")</span>"
-                            }
                             filterFrag += "</label></div></div>"
                     }
                 }
@@ -4979,6 +4979,7 @@ $.extend(true, edges, {
                 var countClass = edges.css_classes(namespace, "count", this);
                 var toggleId = edges.css_id(namespace, "toggle", this);
                 var resultsId = edges.css_id(namespace, "results", this);
+                this.showCount = edges.getParam(params.showCount, false);
                 var results = "Loading...";
                 if (ts.terms.length > 0) {
                     results = "";
