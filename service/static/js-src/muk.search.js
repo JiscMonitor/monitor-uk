@@ -4677,27 +4677,20 @@ $.extend(true, edges, {
                 var resultsId = edges.css_id(namespace, "results", this);
                 var results = "Loading...";
                 if (ts.terms.length > 0) {
-                    results = "";
-                    for (var i = 0; i < ts.terms.length; i++) {
-                        var val = ts.terms[i];
-                        if (val.count === 0 && this.hideEmpty) {
-                            continue
-                        }
-
-                        if ($.inArray(val.term.toString(), ts.selected) !== -1) {
-                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(val.display);
-                            if (this.showCount) {
-                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
-                            }
-                            results += "</label></div></div>"
-                        } else {
-                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" /> ' + edges.escapeHtml(val.display);
-                            if (this.showCount) {
-                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
-                            }
-                            results += "</label></div></div>"
+                    var self = this;
+                    results = '<div class="form ' + resultClass + '">';
+                    for(i in ts.terms){
+                        val = ts.terms[i]
+                        if (val.count !==0 || !this.hideEmpty) {
+                            var sel = $.inArray(val.term.toString(), ts.selected)
+                            results += '<div class="form-fields__item-checkbox '
+                            results += sel !== -1 ? filterRemoveClass : valClass
+                            results += '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox"'+(sel !== -1 ? ' checked':'' )+'/> ' + edges.escapeHtml(val.display)
+                            results += this.showCount ? '<span class="' + countClass + '"> (' + val.count + ")</span>" : ''
+                            results += "</label></div>"
                         }
                     }
+                    results += '</div>';
                 }
 
                 var header = this.headerLayout({

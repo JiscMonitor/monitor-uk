@@ -4622,37 +4622,34 @@ $.extend(true, edges, {
                 var resultsId = edges.css_id(namespace, "results", this);
                 var countClass = edges.css_classes(namespace, "count", this);
                 var results = "Loading...";
-                if (ts.values !== false) {
-                    results = "No data available"
-                }
-                if (ts.values && ts.values.length > 0) {
-                    results = "";
-                    var filterTerms = [];
-                    for (var i = 0; i < ts.filters.length; i++) {
-                        filterTerms.push(ts.filters[i].term.toString())
-                    }
-                    for (var i = 0; i < ts.values.length; i++) {
-                        var val = ts.values[i];
-                        if ($.inArray(val.term.toString(), filterTerms) === -1) {
-                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" /> ' + edges.escapeHtml(val.display);
-                            if (this.showCount) {
-                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
+                if (ts.values.length > 0) {
+                    var self = this;
+                    results = '<div class="form ' + resultClass + '">';
+                    for(i in ts.values){
+                        val = ts.values[i]
+                        if (val.count !==0 || !this.hideEmpty) {
+                            if(($.inArray(val.term.toString(), ts.filters)) === -1 ) {
+                                results += '<div class="form-fields__item-checkbox ' + valClass
+                                results += '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox"/> ' + edges.escapeHtml(val.display)
+                                results += '<span class="' + countClass + '"> (' + val.count + ")</span>"
+                                results += "</label></div>"
                             }
-                            results += "</label></div></div>"
                         }
                     }
+                    results += '</div>';
                 }
+
                 var controlFrag = "";
                 if (this.controls) {
                     var ordering = '<a href="#" title=""><i class="glyphicon glyphicon-arrow-up"></i></a>';
-                    controlFrag = '<div class="' + controlClass + '" style="display:none" id="' + controlId + '"><div class="row">                         <div class="col-md-12">                            <div class="btn-group">                                <button type="button" class="btn btn-default btn-sm" id="' + sizeId + '" title="List Size" href="#">0</button>                                 <button type="button" class="btn btn-default btn-sm" id="' + orderId + '" title="List Order" href="#"></button>                             </div>                        </div>                    </div></div>'
+                    controlFrag = '<div class="' + controlClass + '" style="display:none" id="' + controlId + '"><div class="row"><div class="col-md-12"><div class="btn-group"><button type="button" class="btn btn-default btn-sm" id="' + sizeId + '" title="List Size" href="#">0</button><button type="button" class="btn btn-default btn-sm" id="' + orderId + '" title="List Order" href="#"></button></div></div></div></div>'
                 }
                 var filterFrag = "";
                 if (ts.filters.length > 0 && this.showSelected) {
                     for (var i = 0; i < ts.filters.length; i++) {
                         var filt = ts.filters[i];
-                        filterFrag += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
-                        filterFrag += "</label></div></div>"
+                            results = '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
+                            results += "</label></div></div>"
                     }
                 }
                 var tog = ts.display;
@@ -4776,26 +4773,20 @@ $.extend(true, edges, {
                 this.showCount = edges.getParam(params.showCount, false);
                 var results = "Loading...";
                 if (ts.terms.length > 0) {
-                    results = "";
-                    for (var i = 0; i < ts.terms.length; i++) {
-                        var val = ts.terms[i];
-                        if (val.count === 0 && this.hideEmpty) {
-                            continue
-                        }
-                        if ($.inArray(val.term.toString(), ts.selected) !== -1) {
-                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(val.display);
-                            if (this.showCount) {
-                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
-                            }
-                            results += "</label></div></div>"
-                        } else {
-                            results += '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + valClass + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox" /> ' + edges.escapeHtml(val.display);
-                            if (this.showCount) {
-                                results += ' <span class="' + countClass + '">(' + val.count + ")</span>"
-                            }
-                            results += "</label></div></div>"
+                    var self = this;
+                    results = '<div class="form ' + resultClass + '">';
+                    for(i in ts.terms){
+                        val = ts.terms[i]
+                        if (val.count !==0 || !this.hideEmpty) {
+                            var sel = $.inArray(val.term.toString(), ts.selected)
+                            results += '<div class="form-fields__item-checkbox '
+                            results += sel !== -1 ? filterRemoveClass : valClass
+                            results += '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox"'+(sel !== -1 ? ' checked':'' )+'/> ' + edges.escapeHtml(val.display)
+                            results += this.showCount ? '<span class="' + countClass + '"> (' + val.count + ")</span>" : ''
+                            results += "</label></div>"
                         }
                     }
+                    results += '</div>';
                 }
 
                 var header = this.headerLayout({

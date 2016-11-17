@@ -260,14 +260,14 @@
     padding-top: 2px;
     padding-bottom: 2px;
 }
-.edges-bs3-or-term-selector-result:nth-of-type(odd) {
-    background-color: #ffffff;
+.edges-bs3-or-term-selector-value:nth-of-type(odd) {
+
 }
-.edges-bs3-or-term-selector-result:nth-of-type(even) {
-    background-color: #f4f4f4;
+.edges-bs3-or-term-selector-value:nth-of-type(even) {
+
 }
-.edges-bs3-or-term-selector-result:hover {
-    background-color: #eeeeee;
+.edges-bs3-or-term-selector-value:hover {
+
 }
 .edges-bs3-or-term-selector-value {}
 .edges-bs3-or-term-selector-filter-remove {
