@@ -3220,7 +3220,7 @@ $.extend(muk, {
                 var searchingClass = edges.css_classes(this.namespace, "searching");
                 var panelClass = edges.css_classes(this.namespace, "panel");
                 var refineClass = edges.css_classes(this.namespace, "refine");
-                var frag = '<div class="' + containerClass + '">                    <div class="row"><div class="col-md-12"><div class="' + searchClass + '">{{SEARCH}}</div></div></div>                    <div class="row"><div class="col-md-12"><div class="' + searchingClass + '">{{SEARCHING}}</div></div></div>                    <div class="' + panelClass + '"><div class="row">                        <div class="col-md-3"><div class="' + facetsClass + '"><div class="' + refineClass + '">Refine</div>{{FACETS}}</div></div>                        <div class="col-md-9">                            <div class="row">                                <div class="col-md-6"><div class="' + countClass + '">{{RESULTCOUNT}}</div></div>                                <div class="col-md-6"><div class="' + sortClass + '">{{SORT}}</div></div>                            </div>                            <div class="row">                                <div class="col-md-12"><div class="' + resultsClass + '">{{RESULTS}}</div></div>                            </div>                            <div class="row">                                <div class="col-md-12"><div class="' + itemsClass + '">{{ITEMSPERPAGE}}</div></div>                            </div>                            <div class="row">                                <div class="col-md-12"><div class="' + pagerClass + '">{{PAGER}}</div></div>                            </div>                        </div>                    </div></div>                </div>';
+                var frag = '<div class="' + containerClass + '"><div class="row"><div class="col-md-12"><div class="' + searchClass + '">{{SEARCH}}</div></div></div><div class="row"><div class="col-md-12"><div class="' + searchingClass + '">{{SEARCHING}}</div></div></div><div class="' + panelClass + '"><div class="row"><div class="col-md-3"><div class="' + facetsClass + '"><div class="' + refineClass + '">Refine</div>{{FACETS}}</div></div><div class="col-md-9"><div class="row"><div class="col-md-6"><div class="' + countClass + '">{{RESULTCOUNT}}</div></div><div class="col-md-6"><div class="' + sortClass + '">{{SORT}}</div></div></div><div class="row"><div class="col-md-12"><div class="' + resultsClass + '">{{RESULTS}}</div></div>                            </div><div class="row"><div class="col-md-12"><div class="' + itemsClass + '">{{ITEMSPERPAGE}}</div></div></div><div class="row"><div class="col-md-12"><div class="' + pagerClass + '">{{PAGER}}</div></div></div></div></div></div></div>';
                 var searchFrag = "";
                 var searches = edge.category("search");
                 for (var i = 0; i < searches.length; i++) {
@@ -4704,8 +4704,8 @@ $.extend(true, edges, {
                     toggleId: toggleId
                 });
                 var frag = '<div class="' + facetClass + '"><div class="' + headerClass + '"><div class="row"><div class="col-md-12">' + header + '</div></div></div><div class="' + bodyClass + '">'+
-                '<div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectionsClass + '">{{RESULTS}}</div></div></div></div></div>';
-                frag = frag.replace(/{{RESULTS}}/g, results);
+                '<div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectionsClass + '">'+results+'</div></div></div></div></div>';
+
                 ts.context.html(frag);
                 this.setUIOpen();
                 var valueSelector = edges.css_class_selector(namespace, "value", this);

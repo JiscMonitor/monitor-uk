@@ -4570,7 +4570,7 @@ $.extend(true, edges, {
                 var controlFrag = "";
                 if (this.controls) {
                     var ordering = '<a href="#" title=""><i class="glyphicon glyphicon-arrow-up"></i></a>';
-                    controlFrag = '<div class="' + controlClass + '" style="display:none" id="' + controlId + '"><div class="row">                         <div class="col-md-12">                            <div class="btn-group">                                <button type="button" class="btn btn-default btn-sm" id="' + sizeId + '" title="List Size" href="#">0</button>                                 <button type="button" class="btn btn-default btn-sm" id="' + orderId + '" title="List Order" href="#"></button>                             </div>                        </div>                    </div></div>'
+                    controlFrag = '<div class="' + controlClass + '" style="display:none" id="' + controlId + '"><div class="row"><div class="col-md-12"><div class="btn-group"><button type="button" class="btn btn-default btn-sm" id="' + sizeId + '" title="List Size" href="#">0</button><button type="button" class="btn btn-default btn-sm" id="' + orderId + '" title="List Order" href="#"></button></div></div></div></div>'
                 }
                 var filterFrag = "";
                 if (ts.filters.length > 0 && this.showSelected) {
@@ -4584,8 +4584,7 @@ $.extend(true, edges, {
                 if (this.togglable) {
                     tog = '<a href="#" id="' + toggleId + '"><i class="glyphicon glyphicon-plus"></i>&nbsp;' + tog + "</a>"
                 }
-                var frag = '<div class="' + facetClass + '">                        <div class="' + headerClass + '"><div class="row">                             <div class="col-md-12">                                ' + tog + '                            </div>                        </div></div>                        {{CONTROLS}}                        <div class="row" style="display:none" id="' + resultsId + '">                            <div class="col-md-12">                                <div class="' + selectedClass + '">{{SELECTED}}</div>                                <div class="' + resultsListClass + '">{{RESULTS}}</div>                            </div>                        </div></div>';
-                frag = frag.replace(/{{RESULTS}}/g, results).replace(/{{CONTROLS}}/g, controlFrag).replace(/{{SELECTED}}/g, filterFrag);
+                var frag = '<div class="' + facetClass + '"><div class="' + headerClass + '"><div class="row"><div class="col-md-12">' + tog + '</div></div></div>'+controlFrag+'<div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectedClass + '">'+filterFrag+'</div><div class="' + resultsListClass + '">'+results+'</div></div></div></div>';
                 ts.context.html(frag);
                 this.setUISize();
                 this.setUISort();
@@ -4726,8 +4725,7 @@ $.extend(true, edges, {
                 var header = this.headerLayout({
                     toggleId: toggleId
                 });
-                var frag = '<div class="' + facetClass + '">                        <div class="' + headerClass + '"><div class="row">                             <div class="col-md-12">                                ' + header + '                            </div>                        </div></div>                        <div class="' + bodyClass + '">                            <div class="row" style="display:none" id="' + resultsId + '">                                                                <div class="col-md-12"><div class="' + selectionsClass + '">                                    {{RESULTS}}                                </div>                            </div>                        </div>                        </div></div>';
-                frag = frag.replace(/{{RESULTS}}/g, results);
+                var frag = '<div class="' + facetClass + '"><div class="' + headerClass + '"><div class="row"><div class="col-md-12">' + header + '</div></div></div><div class="' + bodyClass + '">                            <div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectionsClass + '">'+results+'</div></div></div></div></div>';
                 ts.context.html(frag);
                 this.setUIOpen();
                 var valueSelector = edges.css_class_selector(namespace, "value", this);

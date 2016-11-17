@@ -4023,8 +4023,8 @@ $.extend(true, edges, {
                 var header = this.headerLayout({
                     toggleId: toggleId
                 });
-                var frag = '<div class="' + facetClass + '">                        <div class="' + headerClass + '"><div class="row">                             <div class="col-md-12">                                ' + header + '                            </div>                        </div></div>                        <div class="' + bodyClass + '">                            <div class="row" style="display:none" id="' + resultsId + '">  <div class="col-md-12"><div class="' + selectionsClass + '">                                    {{RESULTS}}                                </div>                            </div>                        </div>                        </div></div>';
-                frag = frag.replace(/{{RESULTS}}/g, results);
+                var frag = '<div class="' + facetClass + '"><div class="' + headerClass + '"><div class="row"><div class="col-md-12">' + header + '</div></div></div><div class="' + bodyClass + '"><div class="row" style="display:none" id="' + resultsId + '"><div class="col-md-12"><div class="' + selectionsClass + '">'+results+'</div></div></div></div></div>';
+
                 ts.context.html(frag);
                 this.setUIOpen();
                 var valueSelector = edges.css_class_selector(namespace, "value", this);
@@ -4157,7 +4157,7 @@ $.extend(true, edges, {
                     } else {
                         options = "<option>Loading...</option>"
                     }
-                    selectorFrag += '<div class="col-md-' + this.colMdWidth + '"><div class="form-group">                         <label class="' + labelClass + '" for="' + selectId + '">' + edges.escapeHtml(label) + '</label><br>                        <select id="' + selectId + '" name="' + selectId + '" class="' + selectClass + ' form-control">' + options + "</select>                     </div></div>"
+                    selectorFrag += '<div class="col-md-' + this.colMdWidth + '"><div class="form-group"><label class="' + labelClass + '" for="' + selectId + '">' + edges.escapeHtml(label) + '</label><br><select id="' + selectId + '" name="' + selectId + '" class="' + selectClass + ' form-control">' + options + "</select></div></div>"
                 }
                 selectorFrag += "</div>";
                 var frag = '<div class="' + containerClass + '"><div class="form-inline">' + selectorFrag + "</div></div>";
@@ -4612,8 +4612,8 @@ $.extend(true, edges, {
                     frag += '<span class="' + prefixClass + '">' + dre.display + "</span>"
                 }
                 frag += '<div class="form-group"><select class="' + selectClass + ' form-control" name="' + this.selectId + '" id="' + this.selectId + '">' + options + "</select></div>";
-                frag += '<div id="' + this.rangeId + '" class="' + inputClass + ' form-control">                    <i class="glyphicon glyphicon-calendar"></i>&nbsp;                    <span></span> <b class="caret"></b>                </div>';
-                frag += "</div>";
+                frag += '<div id="' + this.rangeId + '" class="' + inputClass + ' form-control"><i class="glyphicon glyphicon-calendar"></i>&nbsp;<span></span> <b class="caret"></b></div></div>';
+
                 dre.context.html(frag);
                 var selectIdSelector = edges.css_id_selector(this.namespace, dre.id + "_date-type", this);
                 var rangeIdSelector = edges.css_id_selector(this.namespace, dre.id + "_range", this);
@@ -4739,7 +4739,7 @@ $.extend(true, edges, {
                 var frag = "";
                 if (this.component.searching) {
                     var barClasses = edges.css_classes(this.namespace, "bar", this);
-                    frag = '<div class="progress-bar progress-bar-info progress-bar-striped active ' + barClasses + '">                             ' + this.searchingMessage + "                         </div>"
+                    frag = '<div class="progress-bar progress-bar-info progress-bar-striped active ' + barClasses + '">' + this.searchingMessage + "</div>"
                 }
                 this.component.context.html(frag)
             }
@@ -4762,7 +4762,7 @@ $.extend(muk, {
             this.namespace = "muk-funder-report-template";
             this.draw = function(edge) {
                 this.edge = edge;
-                var intro = "See the amount of APCs, total APC expenditure, or average APC cost for several funders for a given period. Filter by institution or journal type. Use this report to:                <ul>                    <li>Compare number of APCs funded by funders</li>                    <li>See funding expenditure for a specific institution</li>                    <li>Break down how funds are spent by journal type</li>                </ul>";
+                var intro = "See the amount of APCs, total APC expenditure, or average APC cost for several funders for a given period. Filter by institution or journal type. Use this report to: <ul><li>Compare number of APCs funded by funders</li><li>See funding expenditure for a specific institution</li><li>Break down how funds are spent by journal type</li></ul>";
                 var panelClass = edges.css_classes(this.namespace, "panel");
                 var topClass = edges.css_classes(this.namespace, "top");
                 var filtersClass = edges.css_classes(this.namespace, "filters");
@@ -4809,7 +4809,7 @@ $.extend(muk, {
                     var linkId = edges.css_id(this.namespace, "link-" + tab.id);
                     this.tabIds.push(tab.id);
                     tabLabels += '<li><a href="#" id="' + linkId + '" data-id="' + tab.id + '">' + tab.display + "</a></li>";
-                    tabContents += '<div class="' + tabContainerClass + '" id="' + containerId + '">                            <div class="row">                                <div class="col-md-12">                                     <div class="' + tabClass + '" id="' + tab.id + '"></div>                                </div>                             </div>                        </div>'
+                    tabContents += '<div class="' + tabContainerClass + '" id="' + containerId + '"><div class="row"><div class="col-md-12"><div class="' + tabClass + '" id="' + tab.id + '"></div></div></div></div>'
                 }
                 tabLabels = 'Show:&nbsp;&nbsp;<ul class="nav nav-tabs navbar-right">' + tabLabels + "</ul>";
                 var stories = edge.category("story");
