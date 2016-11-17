@@ -4623,7 +4623,6 @@ $.extend(true, edges, {
                 var countClass = edges.css_classes(namespace, "count", this);
                 var results = "Loading...";
                 if (ts.values.length > 0) {
-                    var self = this;
                     results = '<div class="form ' + resultClass + '">';
                     for(i in ts.values){
                         val = ts.values[i]
@@ -4773,7 +4772,6 @@ $.extend(true, edges, {
                 this.showCount = edges.getParam(params.showCount, false);
                 var results = "Loading...";
                 if (ts.terms.length > 0) {
-                    var self = this;
                     results = '<div class="form ' + resultClass + '">';
                     for(i in ts.terms){
                         val = ts.terms[i]
