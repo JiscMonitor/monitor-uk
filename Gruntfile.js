@@ -3,6 +3,18 @@ module.exports = function(grunt) {
     grunt.initConfig({
         uglify : {
             minify : {
+                options: {
+
+                    /* OPTIONS FOR DEV-ENV
+                     * beautify: true - enables code auto-format
+                     * compress: false - disables code compression
+                     * mangle - false - disables the replacement of function and variable names */
+
+                    beautify: true,
+                    compress: false,
+                    mangle: false,
+                    preserveComments: 'all'
+                },
                 files : {
                     'service/static/js/muk.funder.min.js' : 'service/static/js-src/muk.funder.js',
                     'service/static/js/muk.institution.min.js' : 'service/static/js-src/muk.institution.js',
