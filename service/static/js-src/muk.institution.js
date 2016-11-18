@@ -4572,11 +4572,13 @@ $.extend(true, edges, {
                 }
                 var filterFrag = "";
                 if (ts.filters.length > 0 && this.showSelected) {
+                    results = '<div class="form ' + resultClass + '">'
                     for (var i = 0; i < ts.filters.length; i++) {
                         var filt = ts.filters[i];
-                            results = '<div class="form ' + resultClass + '"><div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
-                            results += "</label></div></div>"
+                            results += '<div class="form-fields__item-checkbox ' + filterRemoveClass + '" data-key="' + edges.escapeHtml(filt.term) + '"><label><input type="checkbox" checked/> ' + edges.escapeHtml(filt.display);
+                            results += "</label></div>"
                     }
+                    results += '</div>';
                 }
                 var tog = ts.display;
                 if (this.togglable) {
