@@ -5661,7 +5661,7 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
 }
 
 .breadcrumb>li+li:before {
-    content: "/ ";
+    content: "/ ";
     padding: 0 5px;
     color: #ccc
 }
@@ -8355,4 +8355,117 @@ body>.inner {
     margin-bottom: 20px;
     border: 1px solid #c3d1da;
     border-top: 0
+}
+
+.btn {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 3px 7px;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 20px;
+    line-height: 2rem;
+    color: #2c3841;
+    border: 0;
+    background: #fff
+}
+
+.btn:focus,
+.btn:hover,
+div.selector:focus,
+div.selector:hover {
+    opacity: .8
+}
+
+.btn strong {
+    font-weight: 400;
+    color: #00557f
+}
+
+.btn--red {
+    background: #d7224f
+}
+
+.btn--dark-blue {
+    background: #00557f
+}
+
+.btn--3d {
+    border: 1px solid #d5dee2;
+    background: #e4e9ec;
+    background-image: -webkit-linear-gradient(bottom, #e4e9ec 0, #fff 100%);
+    background-image: linear-gradient(to top, #e4e9ec 0, #fff 100%)
+}
+
+.btn--3d:focus,
+.btn--3d:hover {
+    color: #000;
+    border: 1px solid #d5dee2;
+    background-image: -webkit-linear-gradient(bottom, #d5dee2 0, #fff 100%);
+    background-image: linear-gradient(to top, #d5dee2 0, #fff 100%)
+}
+
+.btn--primary,
+.btn--primary:focus,
+.btn--primary:hover {
+    border: 0;
+    color: #fff
+}
+
+.btn--square {
+    height: 30px;
+    height: 3rem;
+    width: 30px;
+    width: 3rem;
+    padding: 0;
+    line-height: 30px;
+    line-height: 3rem;
+    text-align: center
+}
+
+button.btn--square {
+    line-height: 1
+}
+
+.btn--primary {
+    font-size: 15px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 24px;
+    line-height: 2.4rem;
+    -webkit-font-smoothing: auto;
+    padding: .4rem 1.6rem
+}
+
+.btn--primary.btn--large {
+    font-size: 18px;
+    font-size: 1.8rem;
+    padding: 4px 22px
+}
+
+.btn--primary.btn--3d,
+div.btn--primary.selector {
+    background: #095b83;
+    background-image: -webkit-linear-gradient(bottom, #095b83 0, #97b4c2 100%);
+    background-image: linear-gradient(to top, #095b83 0, #97b4c2 100%)
+}
+
+.btn--primary.btn--3d:focus,
+.btn--primary.btn--3d:hover,
+div.btn--primary.selector:focus,
+div.btn--primary.selector:hover {
+    background: #156791;
+    background-image: -webkit-linear-gradient(bottom, #00557f 0, #9bbccc 100%);
+    background-image: linear-gradient(to top, #00557f 0, #9bbccc 100%)
+}
+
+.btn--rounded--dblue {
+    color: #fff;
+    background: #12567d
+}
+
+.btn--rounded--dblue:hover {
+    color: #fff
 }
