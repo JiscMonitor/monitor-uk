@@ -1141,6 +1141,7 @@ var es = {
     },
     doQuery: function(params) {
         var success = params.success;
+        var error = params.error;
         var complete = params.complete;
         var search_url = params.search_url;
         var queryobj = params.queryobj;
@@ -1154,6 +1155,7 @@ var es = {
             },
             dataType: datatype,
             success: es.querySuccess(success),
+            error: es.queryFail(error),
             complete: complete
         })
     },
@@ -1162,7 +1164,12 @@ var es = {
             var result = es.newResult({
                 raw: data
             });
-            callback(result)
+            callback(result);
+        }
+    },
+    queryFail: function(callback) {
+        return function(data) {
+            callback(data);
         }
     },
     getParam: function(value, def) {
@@ -1363,6 +1370,15 @@ var edges = {
                 component.draw(this)
             }
         };
+        this.generateEmptyResult = function () {
+            var data = Object();
+            data.aggregations = Object();
+            var emptyResult = es.newResult({
+                raw: data
+            });
+            return emptyResult;
+        },
+        this.emptyResult = this.generateEmptyResult(),
         this.reset = function() {
             this.context.trigger("edges:pre-reset");
             var requestedQuery = this.cloneOpeningQuery();
@@ -1407,13 +1423,13 @@ var edges = {
                 queryobj: this.currentQuery.objectify(),
                 datatype: this.datatype,
                 success: edges.objClosure(this, "querySuccess", ["result"], context),
-                error: edges.objClosure(this, "queryFail", context)
+                error: edges.objClosure(this, "queryFail", ["result"], context)
             })
         };
         this.queryFail = function(params) {
-            var callback = params.context;
+            this.result = this.emptyResult;
             this.context.trigger("edges:query-fail");
-            callback()
+            params.callback();
         };
         this.querySuccess = function(params) {
             this.result = params.result;
@@ -1494,6 +1510,7 @@ var edges = {
                         queryobj: entry.query.objectify(),
                         datatype: that.datatype,
                         success: success,
+                        error: error,
                         complete: false
                     })
                 },
@@ -1504,7 +1521,9 @@ var edges = {
                     that.secondaryResults[entry.id] = result
                 },
                 errorCallbackArgs: ["result"],
-                error: function(params) {},
+                error: function(params) {
+                    that.secondaryResults[entry.id] = that.emptyResult;
+                },
                 carryOn: function() {
                     callback()
                 }
@@ -2217,11 +2236,13 @@ $.extend(edges, {
                     var agg = this.edge.secondaryResults["multidaterange_" + this.id].aggregation(field);
                     var min = this.defaultEarliest;
                     var max = this.defaultLatest;
-                    if (agg.min !== null) {
-                        min = new Date(agg.min)
-                    }
-                    if (agg.max !== null) {
-                        max = new Date(agg.max)
+                    if(agg != null) {
+                        if (agg.min !== null) {
+                            min = new Date(agg.min)
+                        }
+                        if (agg.max !== null) {
+                            max = new Date(agg.max)
+                        }
                     }
                     this.dateOptions[field] = {
                         earliest: min,
@@ -3997,6 +4018,7 @@ $.extend(edges, {
         this.setupEvent = function() {
             if (this.lifecycle === "update") {
                 this.edge.context.on("edges:pre-query", edges.eventClosure(this, "doUpdate"))
+                this.edge.context.on("edges:query-fail", edges.eventClosure(this, "doUpdate"))
             }
         };
         this.doUpdate = function() {
@@ -4047,7 +4069,15 @@ $.extend(edges, {
             this.updating = false;
             this.draw()
         };
-        this.doUpdateQueryFail = function() {};
+
+        this.doUpdateQueryFail = function(params) {
+            for (var i = 0; i < this.terms.length; i++) {
+                this.terms[i].count = 0;
+            }
+            this.updating = false;
+            this.draw()
+        };
+
         this.selectTerms = function(params) {
             var terms = params.terms;
             var clearOthers = edges.getParam(params.clearOthers, false);
