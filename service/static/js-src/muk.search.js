@@ -1,3 +1,5 @@
+var queryErr = false
+
 var es = {
     specialChars: ["\\", "+", "-", "=", "&&", "||", ">", "<", "!", "(", ")", "{", "}", "[", "]", "^", '"', "~", "*", "?", ":", "/"],
     specialCharsSubSet: ["\\", "+", "-", "=", "&&", "||", ">", "<", "!", "(", ")", "{", "}", "[", "]", "^", "~", "?", ":", "/"],
@@ -2417,7 +2419,7 @@ $.extend(true, edges, {
                     var display = filter.display;
                     var count = comp.filter_counts[id];
                     var active = comp.active_filters[id];
-                    if (count === undefined) {
+                    if (count === undefined || queryErr) {
                         count = 0
                     }
                     filters += '<div class="' + filterClass + '">';
@@ -4066,14 +4068,16 @@ $.extend(edges, {
                     t.count = 0
                 }
             }
+            queryErr = false;
             this.updating = false;
             this.draw()
         };
 
         this.doUpdateQueryFail = function(params) {
-            for (var i = 0; i < this.terms.length; i++) {
+            for (var i in this.terms) {
                 this.terms[i].count = 0;
             }
+            queryErr = true;
             this.updating = false;
             this.draw()
         };
