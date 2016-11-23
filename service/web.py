@@ -85,12 +85,16 @@ from service.views.admin import blueprint as admin
 
 app.register_blueprint(admin, url_prefix="/admin")
 
+@app.route("/result/<result_id>")
+@login_required
+def result(result_id):
+    #TODO: validate result_id | if result_id == null or is not valid we should redirect to a not found page
+    return render_template("/reports/result.html")
 
 @app.route("/search")
 @login_required
 def search():
     return render_template("/reports/search.html")
-
 
 @app.route("/publisher")
 @login_required

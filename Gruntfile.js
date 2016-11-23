@@ -20,7 +20,8 @@ module.exports = function(grunt) {
                     'service/static/js/muk.institution.min.js' : 'service/static/js-src/muk.institution.js',
                     'service/static/js/muk.min.js' : 'service/static/js-src/muk.js',
                     'service/static/js/muk.publisher.min.js' : 'service/static/js-src/muk.publisher.js',
-                    'service/static/js/muk.search.min.js' : 'service/static/js-src/muk.search.js'
+                    'service/static/js/muk.search.min.js' : 'service/static/js-src/muk.search.js',
+                    'service/static/js/muk.result.min.js' : 'service/static/js-src/muk.result.js'
                 }
             }
         },
