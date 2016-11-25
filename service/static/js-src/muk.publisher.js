@@ -1,3 +1,6 @@
+var setIntroText = true
+var clearIntroText = true
+
 var es = {
     specialChars: ["\\", "+", "-", "=", "&&", "||", ">", "<", "!", "(", ")", "{", "}", "[", "]", "^", '"', "~", "*", "?", ":", "/"],
     specialCharsSubSet: ["\\", "+", "-", "=", "&&", "||", ">", "<", "!", "(", ")", "{", "}", "[", "]", "^", "~", "?", ":", "/"],
@@ -1349,6 +1352,13 @@ var edges = {
             this.context.trigger("edges:pre-render");
             this.draw();
             this.context.trigger("edges:post-render");
+            if(setIntroText){
+                $('#introText').text('Currently showing the top 10');
+                setIntroText = false
+            } else if (clearIntroText){
+                $('#introText').text('');
+                clearIntroText = false
+            }
             this.searching = false
         };
         this.synchronise = function() {
@@ -2628,7 +2638,7 @@ $.extend(muk, {
                     }
                 }
                 var filterHeader = '<div class="' + filterHeaderClass + '"><div class="row"><div class="col-md-12"><span class="glyphicon glyphicon-filter"></span>&nbsp;FILTER</div></div></div>';
-                var template = '<div class="' + panelClass + '">                     <div class="' + loadingClass + '">' + loadContainers + '</div>                    <div class="' + topClass + '">' + topContainers + '</div>                    <div class="' + topClass + '">' + compareContainers + '</div>                    <div class="row">                        <div class="col-md-3">                            <div class="' + filtersClass + '">' + filterHeader + controlContainers + '</div>                        </div>                        <div class="col-md-9">                            <div class="' + tabViewClass + '">                                <div class="' + tabLabelBarClass + '"><div class="row"><div class="col-md-12">' + tabLabels + "</div></div></div>                                " + tabContents + '                            </div>                        </div>                    </div>                    <div class="' + storyClass + '">' + storyContainers + '</div>                    <div class="' + dataClass + '">' + dataContainers + "</div>                </div>";
+                var template = '<div class="' + panelClass + '">                     <div class="' + loadingClass + '">' + loadContainers + '</div>                    <div class="' + topClass + '">' + topContainers + '</div>                    <div class="' + topClass + '">' + compareContainers + '</div>                    <div class="row">                        <div class="col-md-3">                            <div class="' + filtersClass + '">' + filterHeader + controlContainers + '</div>                        </div>                        <div class="col-md-9">                            <div class="' + tabViewClass + '">                                <div class="' + tabLabelBarClass + '"><div class="row"><div class="col-md-12">' + tabLabels + "</div></div></div>                                " + tabContents + '                            </div><p id="introText" style="float: right;"></p></div>                    </div>                    <div class="' + storyClass + '">' + storyContainers + '</div>                    <div class="' + dataClass + '">' + dataContainers + "</div>                </div>";
                 edge.context.html(template);
                 for (var i = 0; i < this.tabIds.length; i++) {
                     var tabSelector = edges.css_id_selector(this.namespace, "tab-" + this.tabIds[i]);
