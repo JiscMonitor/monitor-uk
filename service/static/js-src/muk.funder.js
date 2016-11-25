@@ -4003,11 +4003,7 @@ $.extend(true, edges, {
                         val = ts.terms[i]
                         if (val.count !==0 || !this.hideEmpty) {
                             var sel = $.inArray(val.term.toString(), ts.selected)
-                            results += '<div class="form-fields__item-checkbox '
-                            results += sel !== -1 ? filterRemoveClass : valClass
-                            results += '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox"'+(sel !== -1 ? ' checked':'' )+'/> ' + edges.escapeHtml(val.display)
-                            results += this.showCount ? '<span class="' + countClass + '"> (' + val.count + ")</span>" : ''
-                            results += "</label></div>"
+                            results += '<div class="form-fields__item-checkbox ' + (sel !== -1 ? filterRemoveClass : valClass) + '" data-key="' + edges.escapeHtml(val.term) + '"><label><input type="checkbox"'+(sel !== -1 ? ' checked':'' )+'/> ' + edges.escapeHtml(val.display) + (this.showCount ? '<span class="' + countClass + '"> (' + val.count + ")</span>" : '') + "</label></div>"
                         }
                     }
                     results += '</div>';
