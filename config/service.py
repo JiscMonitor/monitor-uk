@@ -498,7 +498,7 @@ SECONDARY_NAVIGATION = [
             {"url_for" : "account.reset", "kwargs" : {"reset_token" : ""}, "type" : "startswith"}
         ],
         "main_nav" : False,
-        "breadcrumb" : True,
+        "breadcrumb" : False,
         "visibility" : {
             "auth" : False,
             "anonymous" : True

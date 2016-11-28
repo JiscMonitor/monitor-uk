@@ -1,31 +1,60 @@
 {% extends "base.html" %}
 
 {% block page_title %}Log In{% endblock %}
-{% block page_h1 %}Log in to your account{% endblock %}
 
 {% block content %}
 
-<form method="post" action="{{url_for('account.login')}}">
-    <div class="row">
-        <div class="col-md-offset-2 col-md-6 form-horizontal wide">
-            {% autoescape off %}
-            {{ form_context.render_field_group("login") }}
-            {% endautoescape %}
-        </div>
+<div class="row col-md-offset-1 col-md-6">
+    <div class="cms">
+        <p>&nbsp;</p>
     </div>
+    <fieldset class="form__fieldset">
+        <span class="legend-text">Log in to Monitor UK</span>
 
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <button class="btn btn-primary jisc-btn" id="login" type="submit">
-                log in
-            </button>
-            <br><br><p><a href="{{url_for('account.forgot')}}" style="text-decoration: underline">I forgot my username/password</a></p>
+        <form method="post" action="{{url_for('account.login')}}">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-8 form-horizontal wide">
+                    {% autoescape off %}
+                    {{ form_context.render_field_group("login") }}
+                    {% endautoescape %}
+                </div>
+            </div>
+            <div class="cms text-align-center">
+                <a href="{{url_for('account.forgot')}}">Forgot your password?</a>
+            </div>
+            <div class="row col-md-offset-7">
 
-            <p>Don't have an account? <a href="mailto:{{ config.get('MONITOR_ACCOUNT_REQUEST_EMAIL') }}" style="text-decoration: underline">Contact us</a> to request one.</p>
-
-        </div>
+                <button class="btn btn-primary jisc-btn" id="login" type="submit">
+                    log in
+                </button>
+            </div>
+        </form>
+    </fieldset>
+    <div class="cms">
+        <p>&nbsp;</p>
     </div>
-</form>
+</div>
 
+<div class="row col-md-8">
+    <div class="col cms">
+        <h2>Don't have an account?</h2>
+        <br>
+        <p>Monitor UK is a new service presenting APC (article processing charge) data from across the UK in the form of
+            a number of easy to use reports. </p>
+        <p>This enables institutions and funders to explore and evaluate UK cost and
+            compliance data relating to open access publishing.</p>
+    </div>
+    <div class="cms">
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+<div class="row col-md-8">
+    <article class="box box--padding-large box--brd-mgreyblue">
+        <div class="box__inner col-md-offset-2 form-horizontal wide">
+            <a href="#">Register for an account</a> or <a href="#">learn more about monitor UK</a>
+        </div>
+    </article>
+</div>
 {% endblock %}
 

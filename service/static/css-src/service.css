@@ -253,3 +253,121 @@ div.error input {
     margin-top: 29px;
     text-align: right;
 }
+
+.box--danger {
+    font-weight: 700;
+    font-size: 20px;
+    font-size: 2.0rem;
+    background: #f2dede;
+    color: #a94442;
+    border: 2px solid #ebccd1;
+}
+
+.box--padding-large {
+    padding: 2.3rem 3rem;
+}
+
+.box {
+    position: relative;
+    margin-bottom: 2rem;
+    zoom: 1;
+}
+
+.box--brd-mgreyblue {
+    border: 2px solid #c4d1d7;
+    font-size: 18px;
+    font-size: 1.8rem;
+}
+
+.box--padding-large {
+    padding: 2.3rem 3rem;
+}
+
+article {
+    display: block;
+}
+
+.form {
+    font-weight: 400;
+    font-family: "Stag Sans Web Book",HelveticaNeue,"Helvetica Neue",Arial,sans-serif;
+    font-size: 15px;
+    font-size: 1.5rem;
+}
+
+form {
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    font-style: inherit;
+}
+
+media screen and (min-width: 630px)
+.form__fieldset {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.form__fieldset {
+    border: 3px solid #d5dee2;
+    padding: 65px 15px 15px;
+    position: relative;
+    margin-bottom: 20px;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    vertical-align: baseline;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+@media screen and (min-width: 630px)
+.legend-text {
+    left: 25px;
+}
+
+.legend-text {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-weight: 400;
+    font-family: "Stag Sans Web Light",HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Arial,sans-serif;
+    font-size: 24px;
+    font-size: 2.4rem;
+}
+
+@media (min-width: 757px)
+.span-9 {
+    width: 75%;
+}
+
+@media (min-width: 757px)
+.block, .col {
+    float: left;
+    min-height: 1px;
+}
+
+.cms p {
+    font-size: 18px;
+    font-size: 1.8rem;
+    line-height: 27px;
+    line-height: 2.7rem;
+    font-weight: 400;
+    font-family: "Stag Sans Web Light",HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Arial,sans-serif;
+}
+
+.cms a {
+    font-size: 18px;
+    font-size: 1.8rem;
+    line-height: 27px;
+    line-height: 2.7rem;
+    font-weight: 400;
+    font-family: "Stag Sans Web Light",HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Arial,sans-serif;
+}
+
+.text-align-center {
+    text-align: center;
+}
