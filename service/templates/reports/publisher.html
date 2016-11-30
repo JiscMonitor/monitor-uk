@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2.css')}}?v={{ config.get("VERSION", "x") }}">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2-bootstrap.css')}}?v={{ config.get("VERSION", "x") }}">
 
-    {# Development assets
+    {# Development assets #}
     <!-- nvd3 styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/nvd3-1.8.1/nv.d3.css')}}">
 
@@ -26,12 +26,12 @@
 
     <!-- MUK specific styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.css')}}">
-    #}
+    {# #}
 
-    {# Deployment assets #}
+    {# Deployment assets
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.publisher.min.css')}}?v={{ config.get("VERSION", "x") }}">
-    {# end Deployment assets #}
+    end Deployment assets #}
 {% endblock %}
 
 {% block content %}
@@ -53,13 +53,13 @@
         var myInstituion = "{{ current_user.organisation }}";
     </script>
 
-    {# Development assets
+    {# Development assets #}
     <script type="text/javascript" src="/static/vendor/edges/vendor/PapaParse-4.1.2/papaparse.min.js"></script>
     <script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
     <script data-main="{{ url_for("static", filename="js/publisher.load.dev") }}" src="{{ url_for("static", filename="vendor/edges/build/require.js") }}"></script>
-    #}
+    {# #}
 
-    {# Deployment assets #}
+    {# Deployment assets
     <script type="text/javascript" src="{{ url_for("static", filename="js/muk.publisher.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
     <script type="text/javascript" src="{{ url_for("static", filename="js/muk.publisher.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
 
@@ -68,5 +68,5 @@
             muk.publisher.makePublisherReport();
         });
     </script>
-    {# end Deployment assets #}
+    end Deployment assets #}
 {% endblock%}
