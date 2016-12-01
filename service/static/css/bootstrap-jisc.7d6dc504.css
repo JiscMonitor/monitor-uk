@@ -5661,7 +5661,7 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
 }
 
 .breadcrumb>li+li:before {
-    content: "/ ";
+    content: "/ ";
     padding: 0 5px;
     color: #ccc
 }
@@ -8357,6 +8357,12 @@ body>.inner {
     border-top: 0
 }
 
+.btn,
+.btn strong,
+.btn--primary {
+    font-weight: 400
+}
+
 .btn {
     display: inline-block;
     cursor: pointer;
@@ -8364,7 +8370,6 @@ body>.inner {
     padding: 3px 7px;
     font-size: 13px;
     font-size: 1.3rem;
-    font-weight: 400;
     line-height: 20px;
     line-height: 2rem;
     color: #2c3841;
@@ -8380,7 +8385,6 @@ div.selector:hover {
 }
 
 .btn strong {
-    font-weight: 400;
     color: #00557f
 }
 
@@ -8432,7 +8436,6 @@ button.btn--square {
 .btn--primary {
     font-size: 15px;
     font-size: 1.5rem;
-    font-weight: 400;
     line-height: 24px;
     line-height: 2.4rem;
     -webkit-font-smoothing: auto;
