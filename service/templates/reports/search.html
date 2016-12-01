@@ -5,7 +5,10 @@
 
 {% block extra_css_top %}
 
-    {# Development assets
+    {% set DEV = config.get("DEVELOPMENT", False) %}
+
+    {% if DEV == True %}
+    {# Development assets #}
     <!-- datepicker styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/daterangepicker.css')}}">
 
@@ -23,12 +26,13 @@
     <!-- MUK specific styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.APCRenderer.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.css')}}">
-    #}
 
+    {% else %}
     {# Deployment assets #}
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.search.min.css')}}?v={{ config.get("VERSION", "x") }}">
-    {# end Deployment assets #}
+    {% endif %}
+
 {% endblock %}
 
 {% block content %}
@@ -45,11 +49,14 @@
 {% block extra_js_bottom %}
     {# Note that JQuery and JQuery UI are already loaded as standard by the base template #}
 
-    {# Development assets
+    {% set DEV = config.get("DEVELOPMENT", False) %}
+
+    {% if DEV == True %}
+    {# Development assets #}
     <script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
     <script data-main="{{ url_for("static", filename="js/search.load.dev") }}" src="{{ url_for("static", filename="vendor/edges/build/require.js") }}"></script>
-    #}
 
+    {% else %}
     {# Deployment assets #}
     <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
     <script type="text/javascript" src="{{ url_for("static", filename="js/muk.search.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
@@ -59,6 +66,6 @@
             muk.search.makeSearch();
         });
     </script>
-    {# end Deployment assets #}
+    {% endif %}
 
 {% endblock%}
