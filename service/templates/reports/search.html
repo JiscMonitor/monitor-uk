@@ -5,9 +5,7 @@
 
 {% block extra_css_top %}
 
-    {% set DEV = config.get("DEVELOPMENT", False) %}
-
-    {% if DEV == True %}
+    {% if config.get("DEVELOPMENT", False) == True %}
     {# Development assets #}
     <!-- datepicker styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/daterangepicker.css')}}">
@@ -49,9 +47,7 @@
 {% block extra_js_bottom %}
     {# Note that JQuery and JQuery UI are already loaded as standard by the base template #}
 
-    {% set DEV = config.get("DEVELOPMENT", False) %}
-
-    {% if DEV == True %}
+    {% if config.get("DEVELOPMENT", False) == True %}
     {# Development assets #}
     <script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
     <script data-main="{{ url_for("static", filename="js/search.load.dev") }}" src="{{ url_for("static", filename="vendor/edges/build/require.js") }}"></script>

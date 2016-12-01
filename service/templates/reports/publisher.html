@@ -9,9 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2.css')}}?v={{ config.get("VERSION", "x") }}">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2-3.5.1/select2-bootstrap.css')}}?v={{ config.get("VERSION", "x") }}">
 
-    {% set DEV = config.get("DEVELOPMENT", False) %}
-
-    {% if DEV == True %}
+    {% if config.get("DEVELOPMENT", False) == True %}
     {# Development assets #}
     <!-- nvd3 styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/nvd3-1.8.1/nv.d3.css')}}">
@@ -56,9 +54,7 @@
         var myInstituion = "{{ current_user.organisation }}";
     </script>
 
-    {% set DEV = config.get("DEVELOPMENT", False) %}
-
-    {% if DEV == True %}
+    {% if config.get("DEVELOPMENT", False) == True %}
     {# Development assets #}
     <script type="text/javascript" src="/static/vendor/edges/vendor/PapaParse-4.1.2/papaparse.min.js"></script>
     <script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
