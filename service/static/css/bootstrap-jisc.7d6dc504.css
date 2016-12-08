@@ -2053,7 +2053,6 @@ body>.inner,
 body>.inner .inner {
     margin-right: auto;
     margin-left: auto;
-    padding-left: 10px;
     padding-right: 10px
 }
 
@@ -2092,7 +2091,6 @@ pre code {
     margin-right: -10px
 }
 
-#main,
 .col-lg-1,
 .col-lg-10,
 .col-lg-11,
