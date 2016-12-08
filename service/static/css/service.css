@@ -256,3 +256,112 @@ div.error input {
     margin-top: 29px;
     text-align: right;
 }
+
+.inner.footer-wrap {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+.inner.bottom_background {
+    background: #2c3841;
+    width: 150%;
+    float: right;
+}
+
+.inner.middle_background {
+    background: #c2d1d6;
+    width: 150%;
+    float: right;
+}
+
+.inner.top_background {
+    background: #d4dfe1;
+    width: 150%;
+    float: right;
+}
+
+.inner.very_top_background {
+    background: #e4e9ec;
+    width: 150%;
+    float: right;
+}
+
+.inner.footer__inner__bottom {
+    padding: 3em 0;
+    width: 66%;
+    float: right;
+    color: #fff;
+}
+
+.inner.footer__inner__middle {
+    padding: 2em 0;
+    width: 66%;
+    float: right;
+}
+
+.inner.footer__inner__top {
+    padding: 2em 0;
+    width: 66%;
+    float: right;
+}
+
+.inner.footer__inner__very_top {
+    padding: 1em 0;
+    width: 66%;
+    float: right;
+}
+
+footer .linklist__title {
+    font-size: 18px;
+    font-size: 1.8rem;
+    line-height: 21px;
+    line-height: 2.1rem;
+    margin: 0 0 10px;
+    font-weight: 400;
+    font-family: "Stag Sans Web Light", HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", Arial, sans-serif
+}
+
+footer .cc__link {
+    color: #b9c9d5;
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 465px) {
+    footer .divisional-info {
+        display:table-row;
+        zoom:1}
+
+    footer .divisional-info__side {
+        display: table-cell;
+        float: left;
+        margin-right: 30px;
+        padding-bottom: 10px;
+        vertical-align: top;
+        zoom:1}
+
+    footer .divisional-info__body {
+        display: table-cell;
+        vertical-align: top
+    }
+}
+
+footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+footer li {
+   margin:0 0 5px 0;
+}
+
+footer .linklist--2col .linklist__item {
+    float: left;
+    width: 50%;
+}
+
+footer .linklist--2col .linklist__item:nth-child(odd) {
+    padding-right: 15px;
+    clear; left;
+}
