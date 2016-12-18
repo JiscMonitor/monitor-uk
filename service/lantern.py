@@ -45,6 +45,8 @@ class LanternApi(object):
             # now check the user's quota
             lc = client.Lantern(api_key=acc.lantern_api_key)
             quota = lc.get_quota(acc.lantern_email)
+            if quota is None:
+                continue
             available = quota.get("data", {}).get("available", 0)
             if available == 0:
                 continue
