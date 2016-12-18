@@ -90,6 +90,10 @@ EXPECTED_ENHANCEMENTS = {
             {
                 "funder_name" : u"Medical Research Council",
                 "grant_number" : u"MR/K026992/1"
+            },
+            {
+                'grant_number': u'HSRU1',
+                'funder_name': u'Chief Scientist Office'
             }
         ],
 
@@ -116,9 +120,12 @@ EXPECTED_ENHANCEMENTS = {
                 "repo_name" : u"Aberdeen University Research Archive",
                 "metadata" : "True",
                 "fulltext" : "Unknown",
-                "machine_readable_fulltext" : "Unknown"
+                "machine_readable_fulltext" : "Unknown",
+                "repo_url" : "http://aura.abdn.ac.uk/"
             }
-        ]
+        ],
+
+        "rioxxterms:publication_date" : u"2014-01-01T00:00:00Z"
     },
     "10.1097/sla.0000000000000894" : {
         "dc:identifier" : [
@@ -173,10 +180,16 @@ EXPECTED_ENHANCEMENTS = {
                 "grant_number" : u"T32 DK070555"
             },
             {
+                'grant_number': u'R01 HS020025',
+                'funder_name': u'AHRQ HHS'
+            },
+            {
                 "funder_name" : u"AHRQ HHS",
                 "grant_number" : u"HS20025"
             }
-        ]
+        ],
+
+        "rioxxterms:publication_date" : u'2014-09-01T00:00:00Z'
     }
 }
 
