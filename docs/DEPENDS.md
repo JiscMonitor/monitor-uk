@@ -26,8 +26,17 @@ All dependencies are gathered here for your convenience.
     sudo apt-get install zlib1g-dev
     
 ### Submodules
-* ElasticSearch 1.x - the development has so far been done on ES 1.7.5, though any version on the 1.x branch should do.  Do not use 0.x.  2.x has not been tested, but may work.
+* ElasticSearch 1.x - the development has so far been done on ES 1.7.5 and 5.1.1, though any version on the 1.x branch should do.  Do not use 0.x.
 
+    Note that due to limitations in deep paging on Elasticsearch, if you are using 5.1.1 (or any version from 2.3) you need to set
+    
+        index.max_result_window
+    
+    to a number sufficiently large to cover the potential size of the dataset, otherwise paging on the search interface may throw errors.
+    
+    See: https://www.elastic.co/guide/en/elasticsearch/reference/2.3//breaking_21_search_changes.html
+    and: https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
+    
 * esprit - installed via a submodule, this is a lightweight toolbox which handles communication with ElasticSearch. Mounted at ```esprit/```.
 
 * magnificent-octopus - this is the Cottage Labs web app framework, based on Flask, it contains useful modules for Python web apps which use ElasticSearch. 
