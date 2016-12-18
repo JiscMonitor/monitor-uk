@@ -30,8 +30,36 @@ ELASTIC_SEARCH_HOST = "http://localhost:9200"
 ELASTIC_SEARCH_INDEX = "muk"
 """ Application index name """
 
-ELASTIC_SEARCH_VERSION = "1.7.5"
-""" Elasticsearch version.   Do not use 0.x.  Code probably works with 2.x but has not been tested """
+ELASTIC_SEARCH_VERSION = "5.1.1"
+""" Elasticsearch version.   Do not use 0.x.  Code should work with 1.x and 5.x and probably everything in between"""
+
+ELASTIC_SEARCH_DEFAULT_MAPPING = {
+    'dynamic_templates': [
+        {
+            'default': {
+                'match': '*',
+                'match_mapping_type': 'string',
+
+                'mapping': {
+                    "type" : "{dynamic_type}",
+                    'index': True,
+                    'store': False,
+                    'fields': {
+                        'exact': {
+                            'index': True,
+                            'store': True,
+                            'type': 'keyword'
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    'properties': {
+        'location': {'type': 'geo_point'}
+    }
+}
+""" ES 5.x mapping override for the default mapping in Octopus (which is for < 5.x """
 
 # Classes from which to retrieve ES mappings to be used in this application
 # (note that if ELASTIC_SEARCH_DEFAULT_MAPPINGS is sufficient, you don't need to

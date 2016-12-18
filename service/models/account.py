@@ -59,6 +59,7 @@ class LanternAPIQuery(object):
         pass
 
     def query(self):
+        """
         return {
             "query" : {
                 "filtered" : {
@@ -71,6 +72,17 @@ class LanternAPIQuery(object):
                             ]
                         }
                     }
+                }
+            }
+        }
+        """
+        return {
+            "query" : {
+                "bool" : {
+                    "must" : [
+                        {"exists" : {"field" : "lantern_api_key"}},
+                        {"exists" : {"field" : "lantern_email"}}
+                    ]
                 }
             }
         }
