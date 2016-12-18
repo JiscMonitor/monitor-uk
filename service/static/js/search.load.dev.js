@@ -7,7 +7,7 @@ requirejs.config({
         moment : edges_base + "vendor/bootstrap-daterangepicker-2.1.22/moment",
         daterangepicker: edges_base + "vendor/bootstrap-daterangepicker-2.1.22/daterangepicker",
 
-        es : edges_base + "src/es",
+        es : edges_base + "src/es5x",
         edges : edges_base + "src/edges",
         "edges-jquery" : edges_base + "src/edges.jquery",
 
