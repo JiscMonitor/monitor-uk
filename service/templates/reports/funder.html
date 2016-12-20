@@ -5,7 +5,7 @@
 
 {% block extra_css_top %}
 
-    {# Development assets
+    {# Development assets #}
     <!-- nvd3 styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/edges/vendor/nvd3-1.8.1/nv.d3.css')}}">
 
@@ -21,9 +21,9 @@
 
     <!-- MUK specific styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.css')}}">
-    #}
+    {# end Development assets #}
 
-    {# Deployment assets #}
+    {# Deployment assets
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.dep.min.css')}}?v={{ config.get("VERSION", "x") }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/muk.funder.min.css')}}?v={{ config.get("VERSION", "x") }}">
     {# end Deployment assets #}
@@ -49,13 +49,13 @@
         var myInstituion = "{{ current_user.organisation }}";
     </script>
 
-    {# Development assets
+    {# Development assets #}
     <script type="text/javascript" src="/static/vendor/edges/vendor/PapaParse-4.1.2/papaparse.min.js"></script>
     <script type="text/javascript" src="/static/vendor/edges/vendor/bootstrap-daterangepicker-2.1.22/moment.min.js"></script>
     <script data-main="{{ url_for("static", filename="js/funder.load.dev") }}" src="{{ url_for("static", filename="vendor/edges/build/require.js") }}"></script>
-    #}
+    {# end Development assets #}
 
-    {# Deployment assets #}
+    {# Deployment assets
     <script type="text/javascript" src="{{ url_for("static", filename="js/muk.funder.dep.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
     <script type="text/javascript" src="{{ url_for("static", filename="js/muk.funder.min.js") }}?v={{ config.get("VERSION", "x") }}"></script>
 

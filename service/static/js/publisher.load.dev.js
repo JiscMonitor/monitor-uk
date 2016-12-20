@@ -12,7 +12,7 @@ requirejs.config({
         // FIXME: papaparse can't be loaded asynchronously
         // papa : edges_base + "vendor/PapaParse-4.1.2/papaparse",
 
-        es : edges_base + "src/es",
+        es : edges_base + "src/es5x",
         edges : edges_base + "src/edges",
         "edges-jquery" : edges_base + "src/edges.jquery",
         "edges.csv" : edges_base + "src/edges.csv",
