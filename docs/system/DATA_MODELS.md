@@ -1,5 +1,29 @@
 # Data Models
 
+## Relational Model
+
+Monitor UK does **not** use a relational database.  All of the models are expressed as documents
+represented in JSON (when used in either storage or memory).  Nonetheless, the documents do contain
+fields which express relationships with other kinds of document.  The diagram below shows the
+core system entities, and their relationships:
+
+![DataModelOverview](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/DataModelOverview.png)
+
+Key things to notice about these relationships:
+
+* There are essentially 3 kinds of object: Publishable objects, Public ones, and Accounts.  Enhancements and Requests are 
+just different kinds of Publishable object (in the code, their model objects extend from the Publishable object).
+
+* Publishable objects can be related to Public ones by either an explicit public_id (which refers to the PublicAPC's id field)
+or implicitly by a match between identifiers held in the bibliographic data (e.g. DOI, PMID, PMCID, URLs).
+
+* Requests can have exactly one owner
+
+* PublicAPCs can have as many owners as is necessary - each APC record in the PublicAPC may be "owned" by a different user.
+
+* Enhancements do not have owners, as they are created internally by the system (i.e. no external user can cause an Enhancement to come into existence)*[]: 
+
+
 ## General Structure
 
 The overall structure of the model documents at any point in the system is as follows:

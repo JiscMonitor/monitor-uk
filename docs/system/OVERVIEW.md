@@ -1,5 +1,9 @@
 # Monitor UK System Overview
 
+Monitor UK is an aggregation of article publication records, to which are attached one or more APC payments
+by individual institutions.  Data is stored in the system as JSON documents, see the [data models](https://github.com/JiscMonitor/monitor-uk/blob/develop/docs/system/DATA_MODELS.md) documentation
+for information about their structure.
+
 The application has a core public data set which forms the canonical information in the aggregation.
 It is available via various public view mechanisms, such as a search API, graphical reports, and data exports.
 It is constructed by data provided by individual institutions.  Each request from those institutions is stored 
@@ -12,7 +16,7 @@ administrator the ability to step through each institution’s contributions.
 
 ![ArchitectureOverview](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/Architecture.png)
 
-The diagram shows how Institutions contribute data via the Institutional CRUD API, and that data makes its way
+The diagram shows how organisations contribute data via the Contribution API, and that data makes its way
 through the Workflow Engine and into the public dataset, where it becomes accessible via the Public Search API.  This 
 public API then drives the Search interface and the Reports interface.
 

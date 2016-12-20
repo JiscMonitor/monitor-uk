@@ -17,13 +17,13 @@ the provided APC record:
 
 ![Create/Update](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/WorkflowCreate.png)
 
-Merging the new/updated record with an existing public record is as follows:
+Merging new/updated APC records with an existing public APC record is as follows:
 
 ![Merge](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/WorkflowMerge.png)
 
-The updated record contains APCs from one institution (who delivered the update), and the existing record contains APCs from one or more 
-institutions.  We remove any existing APCs from the institution doing the update, then replace them with the new APCs 
-we’ve been told about.  Finally some basic bibliographic metadata enhancement takes place.
+The incoming request contains APCs from one owner (e.g. an institution who delivered the update), and the existing record contains APCs from one or more 
+other owners (e.g. other institutions who supplied information about this APC record).  We remove any existing APCs owned by the account doing the update, then replace them with the new APCs 
+we've been told about.  Finally some basic bibliographic metadata enhancement takes place.
 
 **Note that this process means that it is not currently possible to replace incorrectly set bibliographic data via the 
 institutional API, when the record comprises of APCs from more than one institution.**
