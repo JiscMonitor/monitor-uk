@@ -7,7 +7,7 @@ represented in JSON (when used in either storage or memory).  Nonetheless, the d
 fields which express relationships with other kinds of document.  The diagram below shows the
 core system entities, and their relationships:
 
-![DataModelOverview](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/DataModelOverview.png)
+![DataModelOverview](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/feature/es5x/docs/system/DataModelOverview.png)
 
 Key things to notice about these relationships:
 

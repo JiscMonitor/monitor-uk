@@ -14,7 +14,7 @@ By taking this approach, we have a single canonical dataset, and a record of the
 that dataset, which may be important in any data quality questions that arise later, by giving an 
 administrator the ability to step through each institution’s contributions.
 
-![ArchitectureOverview](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/develop/docs/system/Architecture.png)
+![ArchitectureOverview](https://raw.githubusercontent.com/JiscMonitor/monitor-uk/feature/es5x/docs/system/Architecture.png)
 
 The diagram shows how organisations contribute data via the Contribution API, and that data makes its way
 through the Workflow Engine and into the public dataset, where it becomes accessible via the Public Search API.  This 
