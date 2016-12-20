@@ -21,7 +21,7 @@ or implicitly by a match between identifiers held in the bibliographic data (e.g
 
 * PublicAPCs can have as many owners as is necessary - each APC record in the PublicAPC may be "owned" by a different user.
 
-* Enhancements do not have owners, as they are created internally by the system (i.e. no external user can cause an Enhancement to come into existence)*[]: 
+* Enhancements do not have owners, as they are created internally by the system (i.e. no external user can cause an Enhancement to come into existence)
 
 
 ## General Structure
