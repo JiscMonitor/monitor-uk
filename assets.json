@@ -20,7 +20,7 @@
 		"edges.core" : ["edges_js", "edges.js"],
 		"edges.csv" : ["edges_js", "edges.csv.js"],
 		"edges.jquery" : ["edges_js", "edges.jquery.js"],
-		"es" : ["edges_js", "es.js"],
+		"es" : ["edges_js", "es5x.js"],
 		"edges.charts" : ["edges_js", "components/charts.js"],
 		"edges.ranges" : ["edges_js", "components/ranges.js"],
 		"edges.search" : ["edges_js", "components/search.js"],
